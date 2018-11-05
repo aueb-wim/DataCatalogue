@@ -1,0 +1,48 @@
+@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+p{
+  text-align: left;
+
+}
+
+
+.mat-tab-group {
+  background-color: lemonchiffon;
+  font-size: large;
+  color: black;
+  font-weight: bold;
+
+}
+
+
+.mat-tab-group p{
+  font-size: medium;
+  text-align: left;
+  font-weight: normal;
+
+}
+
+
+.mat-expansion-panel-header-title{
+  font-weight: bold;
+  font-size: medium;
+  color: green;
+}
+
+div input[type=text] {
+
+  padding: 6px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-right: 4px;
+  font-size: 15px;
+  border-color: #2196F3;
+}
+
+

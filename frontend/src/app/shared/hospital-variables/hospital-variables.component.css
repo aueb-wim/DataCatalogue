@@ -1,0 +1,21 @@
+@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+p{
+  text-align: left;
+
+}
+
+.mat-tab-group {
+  background-color: pink;
+  font-weight: bolder;
+  font-size: larger;
+  border-color: black;
+}
+
+
