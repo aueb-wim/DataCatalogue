@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/CDE")
 public class CDEVariableController {
+    ///ok
     
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
