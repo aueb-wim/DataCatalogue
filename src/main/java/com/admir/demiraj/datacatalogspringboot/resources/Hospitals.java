@@ -8,14 +8,7 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -42,6 +35,7 @@ public class Hospitals {
     private Long hospital_id;
     
     @NotBlank
+    @Column(length = 1024)
     private String name;
   
     @OneToMany(mappedBy="hospital",fetch = FetchType.LAZY)

@@ -8,18 +8,10 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
@@ -38,23 +30,24 @@ public class Functions {
 
     public Functions() {
     }
-    
-    
+
+
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long function_id;
     
-    @NotBlank
+    @Column(length = 1024)
     private String rule;
     
-    @NotBlank
+    @Column(length = 1024)
     private String description;
     
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "function")
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE},mappedBy = "function")
     @JsonManagedReference
     private List<Variables> variables;
     
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "function")
+    @JsonManagedReference
     private CDEVariables cdeVariable;
 
     public CDEVariables getCdeVariable() {

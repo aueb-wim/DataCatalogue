@@ -15,7 +15,7 @@ export class GetAllHospitalsComponent implements OnInit{
 
 hospitals: Array<any>;
 versions: Array<any>;
-versionsByVariableId: Array<any>;
+allCdeVersions: Array<any>;
 currentVersionId: number;
 currentHospitalId: number;
 variables: Array<any>;
@@ -36,8 +36,7 @@ searchTermVer: String;
     this.hospitalService.getAllHospitals().subscribe(data => {this.hospitals = data;});
     this.hospitalService.getAllVersions().subscribe(versions => {this.versions = versions});
     this.hospitalService.getAllVersionsPerHospital().subscribe(allVersions => {this.allVersionsPerHospital = allVersions});
-
-
+    this.hospitalService.getAllCdeVersions().subscribe(allVersions => {this.allCdeVersions = allVersions});
 
   }
 
@@ -63,17 +62,5 @@ this.currentVersionId = verId;
   public setCurrentHospitalId(hospId){
 this.currentHospitalId = hospId;
   }
-
-  /*
-  * ngOnChanges(changes: SimpleChanges) {
-    this.hospitalService.getVersionsByVariableId(this.variableId).subscribe(data => {this.versionsByVariableId = data;});
-
-  }
-  onSelect(variableId: number){
-    this.hospitalService.getVersionsByVariableId(variableId).subscribe(data => {this.versionsByVariableId = data;});
-
-  }
-  *
-  * */
 
 }

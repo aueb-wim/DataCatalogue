@@ -21,9 +21,9 @@ import java.io.IOException;
 import java.util.Iterator;
 
 @Service
-public class ReadExcelService {
+public class UploadVariables {
 
-    private static final String FOLDER_NAME = System.getProperty("user.dir") + "/src/main/resources/data/";
+    private static final String FOLDER_NAME = System.getProperty("user.dir") + "/src/main/resources/data/variables/";
 
 
     @Autowired
@@ -113,22 +113,28 @@ public class ReadExcelService {
                                 variable.setName(currentCell.getStringCellValue());
                                 break;
                             case 2:
-                                variable.setType(currentCell.getStringCellValue());
+                                variable.setCode(currentCell.getStringCellValue());
                                 break;
                             case 3:
-                                variable.setValues(currentCell.getStringCellValue());
+                                variable.setType(currentCell.getStringCellValue());
                                 break;
                             case 4:
-                                variable.setUnit(currentCell.getStringCellValue());
+                                variable.setValues(currentCell.getStringCellValue());
                                 break;
                             case 5:
-                                variable.setCanBeNull(currentCell.getStringCellValue());
+                                variable.setUnit(currentCell.getStringCellValue());
                                 break;
                             case 6:
-                                variable.setDescription(currentCell.getStringCellValue());
+                                variable.setCanBeNull(currentCell.getStringCellValue());
                                 break;
                             case 7:
+                                variable.setDescription(currentCell.getStringCellValue());
+                                break;
+                            case 8:
                                 variable.setComments(currentCell.getStringCellValue());
+                                break;
+                            case 9:
+                                variable.setConceptPath(currentCell.getStringCellValue());
                                 break;
                         }
 

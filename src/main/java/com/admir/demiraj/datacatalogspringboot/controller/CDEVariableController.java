@@ -12,14 +12,13 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
+import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import java.util.List;
 
+import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -28,35 +27,57 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/CDE")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CDEVariableController {
-    ///ok
-    
+
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
     
     @Autowired
     private VersionDAO versionDAO;
-    
-    
+
+    @Autowired
+    private UploadCdes uploadCdes;
+
+    @Autowired
+    CDEVariableController(UploadCdes uploadCdes) {
+        this.uploadCdes = uploadCdes;
+    }
+
+
+
+    @GetMapping("/readExcel")
+    public void readExcel(){
+        uploadCdes.readExcelFile();
+    }
+
+    @GetMapping("/allCdeVersions")
+    public List<Versions> allCdeVersions(){
+        return cdeVariableDAO.getAllCdeVersions();
+    }
+
+
     //get all cde-variables by version
     @GetMapping("/all_by_version/{version_id}")
     public List<CDEVariables> getAllCDEVariablesByVersion(@PathVariable(value="version_id") Long version_id){
         return cdeVariableDAO.findCDEVariablesByVersionId(version_id);
     }
-     //save a cde-hospital
+
    
     //save variables
     @GetMapping("/save")
     public CDEVariables saveVariable(){
         
-        CDEVariables cdevar = new CDEVariables("cd1", "file1", null, null, null, null, null, null,null,null);
+        CDEVariables cdevar = new CDEVariables("cd1", "file1", null, null, null, null, null, null,null,null,null);
         Versions ver = new Versions("version 1");
+        Functions func = new Functions("Same","Does not change");
        
         
         //save version
         versionDAO.saveVersion(ver);
         cdeVariableDAO.saveVersionToCDEVariable(cdevar, ver);
-        
+        cdeVariableDAO.saveFunctionToCDEVariable(cdevar, func);
+
 
         return cdeVariableDAO.save(cdevar);
     }

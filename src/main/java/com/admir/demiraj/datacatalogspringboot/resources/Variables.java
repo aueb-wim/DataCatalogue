@@ -26,15 +26,17 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Variables implements Serializable{
 
     public Variables(@NotBlank String name, @NotBlank String csvFile, String values, String type, String unit, String canBeNull,
-                     String description, String comments) {
+                     String description, String comments, String code, String conceptPath) {
         this.name = name;
         this.csvFile = csvFile;
+        this.code = code;
         this.values = values;
         this.type = type;
         this.unit = unit;
         this.canBeNull = canBeNull;
         this.description = description;
         this.comments = comments;
+        this.conceptPath = conceptPath;
 
     }
 
@@ -48,27 +50,35 @@ public class Variables implements Serializable{
     private Long variable_id;
     
     @NotBlank
+    @Column(length = 1024)
     private String name;
 
     @NotBlank
+    @Column(length = 1024)
     private String csvFile;
 
-    @Column
+    @Column(length = 1024)
     private String values;
 
-    @Column
+    @Column(length = 1024)
+    private String code;
+
+    @Column(length = 1024)
+    private String conceptPath;
+
+    @Column(length = 1024)
     private String type;
 
-    @Column
+    @Column(length = 1024)
     private String unit;
 
-    @Column
+    @Column(length = 1024)
     private String canBeNull;
     
-    @Column
+    @Column(length = 1024)
     private String description;
 
-    @Column
+    @Column(length = 1024)
     private String comments;
     
 
@@ -87,6 +97,21 @@ public class Variables implements Serializable{
     @JoinTable(name = "variables_versions",joinColumns = { @JoinColumn(name = "variable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
     private Set<Versions> versions = new HashSet<>();
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getConceptPath() {
+        return conceptPath;
+    }
+
+    public void setConceptPath(String conceptPath) {
+        this.conceptPath = conceptPath;
+    }
 
     public Set<Versions> getVersions() {
         return versions;

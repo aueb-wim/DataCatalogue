@@ -7,11 +7,14 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 
 import com.admir.demiraj.datacatalogspringboot.repository.VersionsRepository;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import jdk.nashorn.internal.runtime.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import javax.management.Query;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +27,23 @@ public class VersionDAO {
     @Autowired
     private VersionsRepository versionsRepository;
 
+    public List<Versions> getAllCdeVersions(){
+
+        List<Versions> allversions = versionsRepository.findAll();
+        List<Versions> allCdeVerions = new ArrayList<>();
+        for (Versions version : allversions){
+            if(!version.getCdevariables().isEmpty()){
+                allCdeVerions.add(version);
+            }
+        }
+        return allCdeVerions;
+
+    }
+
+    public List<Versions> getAllCdeVersions2(){
+        return versionsRepository.getAllCdeVersions();
+    }
+
     public Versions saveVersion(Versions ver) {
         return versionsRepository.save(ver);
     }
@@ -33,7 +53,7 @@ public class VersionDAO {
     }
 
     public List<Versions> getAllVersions() {
-        return versionsRepository.findAll();
+        return versionsRepository.getAllVersions();
     }
 
     public List<Versions> getAllVersionsByVariableId(Long variableId) {

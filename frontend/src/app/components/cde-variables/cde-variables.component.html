@@ -1,3 +1,36 @@
-<p>
-  cde-variables works!
-</p>
+<div class="form-group">
+
+  <input type="text" class="form-control"
+         placeholder="Filter By Version"
+         style="width: 200px" [(ngModel)]="searchTermVer">
+
+  <input type="text" class="form-control"
+         placeholder="Filter By Variable Code"
+         style="width: 200px" [(ngModel)]="searchTermVar">
+
+</div>
+
+    <mat-tab-group>
+        <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
+          <mat-accordion multi="true">
+            <mat-expansion-panel *ngFor="let cdevariable of version.cdevariables | versionFilter:searchTermVar">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <a> {{cdevariable.code}}</a>
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <p>Name :{{cdevariable.name}}</p>
+              <p>File :{{cdevariable.csvFile}}</p>
+              <p>Values :{{cdevariable.values}}</p>
+              <p>Type :{{cdevariable.type}}</p>
+              <p>Measure Unit:{{cdevariable.unit}}</p>
+              <p>Description :{{cdevariable.description}}</p>
+              <p>Comments :{{cdevariable.comments}}</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-tab>
+    </mat-tab-group>
+
+

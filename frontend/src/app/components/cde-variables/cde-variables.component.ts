@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {HospitalService} from "../../shared/hospital.service";
 
 @Component({
   selector: 'app-cde-variables',
@@ -8,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 
 export class CdeVariablesComponent implements OnInit {
 
-  constructor() { }
+  allCdeVersions: Array<any>;
+  searchTermVar: String;
+  searchTermVer: String;
+
+  constructor(private hospitalService: HospitalService) { }
 
   ngOnInit() {
+    this.hospitalService.getAllCdeVersions().subscribe(allVersions => {this.allCdeVersions = allVersions});
   }
 
 }

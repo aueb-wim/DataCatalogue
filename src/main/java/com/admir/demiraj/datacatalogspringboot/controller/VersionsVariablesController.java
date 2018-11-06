@@ -15,7 +15,7 @@ import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.admir.demiraj.datacatalogspringboot.service.ReadExcelService;
+import com.admir.demiraj.datacatalogspringboot.service.UploadVariables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,11 +37,11 @@ public class VersionsVariablesController {
     private HospitalDAO hospitalDAO;
 
     @Autowired
-    private ReadExcelService readExcelService;
+    private UploadVariables uploadVariables;
 
     @Autowired
-    VersionsVariablesController(ReadExcelService readExcelService) {
-        this.readExcelService = readExcelService;
+    VersionsVariablesController(UploadVariables uploadVariables) {
+        this.uploadVariables = uploadVariables;
     }
 
 
@@ -52,7 +52,7 @@ public class VersionsVariablesController {
     }
     @GetMapping("/readExcel")
     public void readExcel(){
-        readExcelService.readExcelFile();
+        uploadVariables.readExcelFile();
     }
 
     @GetMapping("/allVariables")
@@ -95,22 +95,22 @@ public class VersionsVariablesController {
         List<Variables> allVariablesf = new ArrayList<>();
 
         allVariablesf.add(new Variables("PID_PSEUDONYMOUS", "hbp", null, "text", null, "NOT NULL",
-                null, null));
+                null, null,null,null));
 
         allVariablesf.add(new Variables("SEX", "hbp", null, "numeric", null, null,
-                "Gender: '0' for 'M', '1' for 'F'", null));
+                "Gender: '0' for 'M', '1' for 'F'", null,null,null));
 
         allVariablesf.add(new Variables("EXAMINATION_DATE", "hbp", null, "date", null, null,
-                null, null));
+                null, null,null,null));
 
         allVariablesf.add(new Variables("YEAR_OF_BIRTH", "hbp", null, "numeric", null, null,
-                null, null));
+                null, null,null,null));
 
         allVariablesf.add(new Variables("MMSE", "hbp", null, "numeric", null, null,
-                "The Mini-Mental State Examination score", null));
+                "The Mini-Mental State Examination score", null,null,null));
 
         allVariablesf.add(new Variables("DIAGNOSIS", "hbp", null, "text", null, null,
-                "'AD', 'MCI', 'LBD', 'FTD', 'VD', 'AD + VD', 'other'", null));
+                "'AD', 'MCI', 'LBD', 'FTD', 'VD', 'AD + VD', 'other'", null,null,null));
 
         //save version
         Versions ver = new Versions("version 1");
@@ -133,22 +133,22 @@ public class VersionsVariablesController {
 //NIGUARDA
         List<Variables> allVariablesn = new ArrayList<>();
         allVariablesn.add(new Variables("ID_UNI_PAZIENTE", "CCE/RC", null, "NUMBER(20)", null, "NOT NULL",
-                "UNIVOCAL PATIENT IDENTIFIER", null));
+                "UNIVOCAL PATIENT IDENTIFIER", null,null,null));
 
         allVariablesn.add(new Variables("ID_UNI_NOSOLOGICO", "CCE/RC", null, "VARCHAR2(50)", null, "NOT NULL",
-                "UNIVOCAL NOSOLOGIC", "Clinical episode (hospital admission, outpatient episode or emergency access) univocal code"));
+                "UNIVOCAL NOSOLOGIC", "Clinical episode (hospital admission, outpatient episode or emergency access) univocal code",null,null));
 
         allVariablesn.add(new Variables("CODICE_PRESTAZIONE_ICD9", "CCE/RC", null, "VARCHAR2(10)", null, null,
-                "TREATMENT CODE", "Hospital treatment code (ICD9). If null, skip row"));
+                "TREATMENT CODE", "Hospital treatment code (ICD9). If null, skip row",null,null));
 
         allVariablesn.add(new Variables("MOTIVO_VISITA", "CCE/RC", null, "CLOB", null, null,
-                null, "null at present/ Not to be imported or imported as empty field (varchar) for future use"));
+                null, "null at present/ Not to be imported or imported as empty field (varchar) for future use",null,null));
 
         allVariablesn.add(new Variables("DIAGNOSI", "CCE/RC", null, "CLOB", null, null,
-                null, "null at present/ Not to be imported or imported as empty field (varchar) for future use"));
+                null, "null at present/ Not to be imported or imported as empty field (varchar) for future use",null,null));
 
         allVariablesn.add(new Variables("DATA_REFERTO", "CCE/RC", null, "DATE", null, null,
-                "DATE OF MEDICAL REPORT", "not always equal to date of visit. Not to be imported"));
+                "DATE OF MEDICAL REPORT", "not always equal to date of visit. Not to be imported",null,null));
 
 
         //save version

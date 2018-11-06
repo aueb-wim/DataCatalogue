@@ -28,6 +28,9 @@ public interface VersionsRepository extends JpaRepository<Versions, Long>{
             + "WHERE vv.variable_id = ?1",nativeQuery=true )
     public List<Versions> getAllVersionByVariableId(Long variableId);
 
+    @Query(value = "SELECT * FROM versions",nativeQuery=true )
+    public List<Versions> getAllVersions();
+
 
     @Query(value = "SELECT ver.version_id FROM versions ver "
             + "INNER JOIN variables_versions vv ON ver.version_id = vv.version_id "
@@ -46,6 +49,19 @@ public interface VersionsRepository extends JpaRepository<Versions, Long>{
             + "WHERE hosp.name=?1 ",nativeQuery=true )
     public List<String> getAllVersionNamesByHospitalName(String hospitalName);
 
+
+
     @Query(value = "SELECT * FROM versions ver WHERE ver.version_id=?1 ",nativeQuery=true )
     public Versions getVersionById(BigInteger versionId);
+
+
+    @Query(value = "SELECT * FROM versions ver " +
+            "INNER JOIN cdevariables_versions cdevv ON ver.version_id = cdevv.version_id " +
+            "INNER JOIN cdevariables cdevar ON cdevar.cdevariable_id = cdevv.cdevariable_id ",nativeQuery=true)
+    public List<Versions> getAllCdeVersions();
+
+    @Query(value = "SELECT * FROM versions ver WHERE ver.cdevariables IS NOT NULL",nativeQuery=true)
+    public List<Versions> getAllCdeVersions2();
+
+
 }

@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -24,11 +25,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class CDEVariables{
 
-    public CDEVariables(@NotBlank String name, @NotBlank String csvFile, String value, String type, String unit,
-                        String canBeNull, String description, String comments, String conceptPath, String label) {
+    public CDEVariables(@NotBlank String name, @NotBlank String csvFile, String values, String type, String unit,
+                        String canBeNull, String description, String comments, String conceptPath, String label, String code) {
         this.name = name;
         this.csvFile = csvFile;
-        this.value = value;
+        this.values = values;
         this.type = type;
         this.unit = unit;
         this.canBeNull = canBeNull;
@@ -36,6 +37,7 @@ public class CDEVariables{
         this.comments = comments;
         this.conceptPath = conceptPath;
         this.label = label;
+        this.code = code;
     }
 
     public CDEVariables() {
@@ -47,17 +49,23 @@ public class CDEVariables{
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long cdevariable_id;
 
-    @NotBlank
+    @Column
     private String name;
 
-    @NotBlank
+    @Column
     private String csvFile;
 
     @Column
-    private String value;
+    private String values;
 
     @Column
     private String type;
+
+    @Column
+    private String code;
+
+    @Column
+    private String conceptPath;
 
     @Column
     private String unit;
@@ -65,14 +73,12 @@ public class CDEVariables{
     @Column
     private String canBeNull;
 
-    @Column
+    @Column(length = 450)
+    @Size(max=500)
     private String description;
 
     @Column
     private String comments;
-
-    @Column
-    private String conceptPath;
 
     @Column
     private String label;
@@ -84,7 +90,17 @@ public class CDEVariables{
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "function_id", nullable = false)
+    @JsonBackReference
     private Functions function;
+
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public Functions getFunction() {
         return function;
@@ -134,12 +150,12 @@ public class CDEVariables{
         this.csvFile = csvFile;
     }
 
-    public String getValue() {
-        return value;
+    public String getValues() {
+        return values;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setValues(String value) {
+        this.values = value;
     }
 
     public String getUnit() {

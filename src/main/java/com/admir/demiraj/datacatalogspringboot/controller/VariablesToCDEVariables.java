@@ -17,7 +17,6 @@ import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import java.util.List;
 
-import com.admir.demiraj.datacatalogspringboot.service.ReadExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,7 +67,7 @@ public class VariablesToCDEVariables {
         
         ///// CASE 1: One function for multiple variables //////// 
         Functions function1 = new Functions("turn 0 to F, turn 1 to M","rule description 1");
-        CDEVariables cdeVariable = new CDEVariables("cd1", "file1", null, null, null, null, null, null,null,null);
+        CDEVariables cdeVariable = new CDEVariables("cd1", "file1", null, null, null, null, null, null,null,null,null);
         
         //function1.setCdeVariable(cdeVariable);
         functionsDAO.save(function1);
@@ -79,7 +78,7 @@ public class VariablesToCDEVariables {
         
         for(int i=0;i<3;i++){
         Variables var = new Variables("name"+i, "hbp", null, "text", null, "NOT NULL",
-                null, null);
+                null, null,null,null);
         variableDAO.saveVersionToVariable(var, ver);
         variableDAO.saveHospitalToVariable(var, hosp);
         variableDAO.saveFunctionToVariable(var, function1);
@@ -89,7 +88,7 @@ public class VariablesToCDEVariables {
         ///// CASE 2: Two functions for one hospital ////////
         
         Functions function2 = new Functions("turn 1 to 2","rule description 2");
-        CDEVariables cdeVariable2 = new CDEVariables("cd2", "file2", null, null, null, null, null, null,null,null);
+        CDEVariables cdeVariable2 = new CDEVariables("cd2", "file2", null, null, null, null, null, null,null,null,null);
         
         //function2.setCdeVariable(cdeVariable2);
         functionsDAO.save(function2);
@@ -98,7 +97,7 @@ public class VariablesToCDEVariables {
         
         
         Functions function3 = new Functions("turn 2 to 3","rule description 3");
-        CDEVariables cdeVariable3 = new CDEVariables("cd3", "file3", null, null, null, null, null, null,null,null);
+        CDEVariables cdeVariable3 = new CDEVariables("cd3", "file3", null, null, null, null, null, null,null,null,null);
         
         //function3.setCdeVariable(cdeVariable3);
         functionsDAO.save(function3);
@@ -107,7 +106,7 @@ public class VariablesToCDEVariables {
         
         
         Variables var2 = new Variables("name", "hbp", null, "text", null, "NOT NULL",
-                null, null);
+                null, null,null,null);
         variableDAO.saveVersionToVariable(var2, ver);
         variableDAO.saveHospitalToVariable(var2, hosp);
         variableDAO.saveFunctionToVariable(var2, function2);

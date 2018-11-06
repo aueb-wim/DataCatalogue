@@ -17,6 +17,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { CdeVariablesComponent } from './components/cde-variables/cde-variables.component';
 import { MappingsComponent } from './components/mappings/mappings.component';
 import { HospitalFilterPipe } from './components/hospital-filter.pipe';
+import { VersionFilterPipe } from './components/version-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { HospitalFilterPipe } from './components/hospital-filter.pipe';
     CdeVariablesComponent,
     MappingsComponent,
     HospitalFilterPipe,
+    VersionFilterPipe,
 
   ],
   imports: [

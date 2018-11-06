@@ -25,12 +25,15 @@ export class HospitalService {
 
     return this.http.get('//localhost:8086/versions/allVersionsPerHospital2');
 
-
-
   }
 
+  getAllCdes():Observable<any> {
+    return this.http.get('//localhost:8086/CDE/all');
+  }
 
-
+  getAllCdeVersions():Observable<any> {
+    return this.http.get('//localhost:8086/CDE/allCdeVersions');
+  }
 
 
 
