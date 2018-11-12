@@ -1,45 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a0a320f2-d2e3-4aad-879c-d7d61a7fa569" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/d3.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/directives/draggable.directive.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/directives/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/directives/zoomable.directive.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/models/force-directed-graph.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/models/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/models/link.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/models/node.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/graph/graph.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/graph/graph.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/link-visual/link-visual.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/link-visual/link-visual.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/node-visual/node-visual.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/node-visual/node-visual.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Variables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Variables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Versions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Versions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/cdes/cdes_v1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Variables.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Variables.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Versions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Versions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data/cdes/cdes_v1.xlsx" beforeDir="false" />
-    </list>
+    <list default="true" id="a0a320f2-d2e3-4aad-879c-d7d61a7fa569" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +57,7 @@
           <entry key="html" value="1470" />
           <entry key="java" value="2711" />
           <entry key="json" value="15" />
-          <entry key="ts" value="1775" />
+          <entry key="ts" value="1777" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -106,7 +68,7 @@
           <entry key="JSON" value="2" />
           <entry key="PLAIN_TEXT" value="16" />
           <entry key="SQL" value="6" />
-          <entry key="TypeScript" value="1775" />
+          <entry key="TypeScript" value="1777" />
           <entry key="tsconfig" value="13" />
         </counts>
       </usages-collector>
@@ -119,13 +81,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="49" column="14" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
+            <state relative-caret-position="470">
+              <caret line="1990" column="27" lean-forward="true" selection-start-line="1990" selection-start-column="27" selection-end-line="1990" selection-end-column="27" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
+                <element signature="e#1000#76505#0" />
                 <element signature="e#1203#10801#0" />
                 <element signature="e#66503#67607#0" />
                 <element signature="e#68963#76477#0" />
@@ -153,11 +116,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+            <state relative-caret-position="195">
+              <caret line="13" column="112" selection-start-line="13" selection-start-column="112" selection-end-line="13" selection-end-column="112" />
               <folding>
                 <element signature="n#style#0;n#input#1;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -263,9 +226,9 @@
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Versions.java" />
         <option value="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.html" />
         <option value="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts" />
-        <option value="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html" />
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java" />
         <option value="$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html" />
       </list>
     </option>
   </component>
@@ -1477,46 +1440,6 @@
               <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
               <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="datacatalogspringboot" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="datacatalogspringboot" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -1530,7 +1453,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542038401057" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542038641836" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -1579,12 +1502,12 @@
       <option name="presentableId" value="Default" />
       <updated>1541414672868</updated>
       <workItem from="1541414674194" duration="28396000" />
-      <workItem from="1541510643616" duration="92514000" />
+      <workItem from="1541510643616" duration="93517000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="120910000" />
+    <option name="totallyTimeSpent" value="121913000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1597,9 +1520,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25262576" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25262576" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -1609,14 +1531,14 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3294979" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3294979" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3294979" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3294979" />
       <window_info anchor="bottom" id="Spring" order="7" weight="0.3294979" />
       <window_info anchor="bottom" id="TypeScript" order="8" weight="0.3294979" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3294979" />
+      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3294979" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.3294979" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" weight="0.3294979" />
@@ -1993,16 +1915,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
-          <folding>
-            <element signature="n#style#0;n#input#1;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -2015,14 +1927,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="49" column="14" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
+        <state relative-caret-position="470">
+          <caret line="1990" column="27" lean-forward="true" selection-start-line="1990" selection-start-column="27" selection-end-line="1990" selection-end-column="27" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#1000#76505#0" />
             <element signature="e#1203#10801#0" />
             <element signature="e#66503#67607#0" />
             <element signature="e#68963#76477#0" />
             <element signature="e#72576#76467#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="112" selection-start-line="13" selection-start-column="112" selection-end-line="13" selection-end-column="112" />
+          <folding>
+            <element signature="n#style#0;n#input#1;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
