@@ -73,8 +73,7 @@ public class CDEVariables{
     @Column
     private String canBeNull;
 
-    @Column(length = 450)
-    @Size(max=500)
+    @Column(length = 700)
     private String description;
 
     @Column

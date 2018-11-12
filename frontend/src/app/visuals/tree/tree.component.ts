@@ -1,70 +1,53 @@
-import { Component, OnInit } from '@angular/core';
-import APP_CONFIG from '../../app.config';
-import { Node, Link } from '../../d3';
+import {Component, Input, OnInit} from '@angular/core';
+import * as d3 from 'd3';
 
 @Component({
-  selector: 'app-mappings',
-  templateUrl: './mappings.component.html',
-  styleUrls: ['./mappings.component.css']
-
-
+  selector: 'app-tree',
+  templateUrl: './tree.component.html',
+  styleUrls: ['./tree.component.css']
 })
-export class MappingsComponent implements OnInit {
-
+export class TreeComponent implements OnInit {
 
   ngOnInit() {
-
+this.setData();
   }
-  nodes: Node[] = [];
-  links: Link[] = [];
+  @Input('dataList') dataList;
+  margin: any;
+  width: number;
+  height: number;
+  svg: any;
+  duration: number;
+  root: any;
+  tree: any;
+  treeData: any;
+  nodes: any;
+  links: any;
 
-  constructor() {
-    const N = APP_CONFIG.N,
-      getIndex = number => number - 1;
-
-    /** constructing the nodes array */
-    for (let i = 1; i <= N; i++) {
-      this.nodes.push(new Node(i));
-    }
-
-    for (let i = 1; i <= N; i++) {
-      for (let m = 2; i * m <= N; m++) {
-        /** increasing connections toll on connecting nodes */
-        this.nodes[getIndex(i)].linkCount++;
-        this.nodes[getIndex(i * m)].linkCount++;
-
-        /** connecting the nodes before starting the simulation */
-        this.links.push(new Link(i, i * m));
-      }
-    }
-  }
-
-  nodes3 = [
-    {
-      id: 1,
-      name: 'root1',
-      children: [
-        { id: 2, name: 'child1' },
-        { id: 3, name: 'child2' }
-      ]
-    },
-    {
-      id: 4,
-      name: 'root2',
-      children: [
-        { id: 5, name: 'child2.1' },
+  dataList2  = {
+      "name": "Top Level",
+      "parent": "null",
+      "children": [
         {
-          id: 6,
-          name: 'child2.2',
-          children: [
-            { id: 7, name: 'subsub' }
+          "name": "Level 2: A",
+          "parent": "Top Level",
+          "children": [
+            {
+              "name": "Son of A",
+              "parent": "Level 2: A"
+            },
+            {
+              "name": "Daughter of A",
+              "parent": "Level 2: A"
+            }
           ]
+        },
+        {
+          "name": "Level 2: B",
+          "parent": "Top Level"
         }
       ]
-    }
-  ];
-  nodes2 = [
-    {
+    };
+  dataList3 = {
       "code": "root",
       "groups": [
         {
@@ -73,7 +56,7 @@ export class MappingsComponent implements OnInit {
             {
               "code": "polymorphism",
               "label": "polymorphism",
-              "variables": [
+              "groups": [
                 {
                   "code": "apoe4",
                   "description": "Apolipoprotein E (APOE) e4 allele: is the strongest risk factor for Late Onset Alzheimer Disease (LOAD). At least one copy of APOE-e4 ",
@@ -383,14 +366,15 @@ export class MappingsComponent implements OnInit {
                   "type": "polynominal"
                 }
               ]
-            }
+            },
+
           ],
           "label": "Genetic"
         },
         {
           "code": "pet",
           "label": "PET - Positron Emission Tomography",
-          "variables": [
+          "groups": [
             {
               "code": "fdg",
               "description": " Average FDG-PET of angular, temporal, and posterior cingulate. Most important hypometabolic regions that are indicative of pathological metabolic change in MCI and AD.",
@@ -422,7 +406,7 @@ export class MappingsComponent implements OnInit {
               "code": "csf_proteome",
               "description": "Protein content of the cerebrospinal fluid",
               "label": "Cerebrospinal fluid",
-              "variables": [
+              "groups": [
                 {
                   "code": "ab1_42",
                   "description": "A\u03b2 is the main component of amyloid plaques (extracellular deposits found in the brains of patients with Alzheimer''s disease). Similar plaques appear in some variants of Lewy body dementia and in inclusion body myositis (a muscle disease), while A\u03b2 can also form the aggregates that coat cerebral blood vessels in cerebral amyloid angiopathy. The plaques are composed of a tangle of regularly ordered fibrillar aggregates called amyloid fibers, a protein fold shared by other peptides such as the prions associated with protein misfolding diseases.",
@@ -466,7 +450,7 @@ export class MappingsComponent implements OnInit {
             {
               "code": "csf_volume",
               "label": "CSF volume",
-              "variables": [
+              "groups": [
                 {
                   "code": "rightinflatvent",
                   "description": "",
@@ -528,7 +512,7 @@ export class MappingsComponent implements OnInit {
             {
               "code": "white_matter_volume",
               "label": "White matter volume",
-              "variables": [
+              "groups": [
                 {
                   "code": "rightcerebellumwhitematter",
                   "description": "",
@@ -577,7 +561,7 @@ export class MappingsComponent implements OnInit {
                 {
                   "code": "cerebellum",
                   "label": "Cerebellum",
-                  "variables": [
+                  "groups": [
                     {
                       "code": "cerebellarvermallobulesviiix",
                       "description": "",
@@ -626,7 +610,7 @@ export class MappingsComponent implements OnInit {
                     {
                       "code": "basal_ganglia",
                       "label": "Basal Ganglia",
-                      "variables": [
+                      "groups": [
                         {
                           "code": "rightbasalforebrain",
                           "description": "",
@@ -712,7 +696,7 @@ export class MappingsComponent implements OnInit {
                     {
                       "code": "amygdala",
                       "label": "Amygdala",
-                      "variables": [
+                      "groups": [
                         {
                           "code": "rightamygdala",
                           "description": "",
@@ -737,7 +721,7 @@ export class MappingsComponent implements OnInit {
                 {
                   "code": "limbic",
                   "label": "Limbic",
-                  "variables": [
+                  "groups": [
                     {
                       "code": "righthippocampus",
                       "description": "",
@@ -855,7 +839,7 @@ export class MappingsComponent implements OnInit {
                 {
                   "code": "temporal",
                   "label": "Temporal",
-                  "variables": [
+                  "groups": [
                     {
                       "code": "rightfugfusiformgyrus",
                       "description": "",
@@ -989,7 +973,7 @@ export class MappingsComponent implements OnInit {
                 {
                   "code": "occipital",
                   "label": "Occipital",
-                  "variables": [
+                  "groups": [
                     {
                       "code": "rightcalccalcarinecortex",
                       "description": "",
@@ -1123,7 +1107,7 @@ export class MappingsComponent implements OnInit {
                 {
                   "code": "parietal",
                   "label": "Parietal",
-                  "variables": [
+                  "groups": [
                     {
                       "code": "rightangangulargyrus",
                       "description": "",
@@ -1225,7 +1209,7 @@ export class MappingsComponent implements OnInit {
                 {
                   "code": "frontal",
                   "label": "Frontal",
-                  "variables": [
+                  "groups": [
                     {
                       "code": "rightaorganteriororbitalgyrus",
                       "description": "",
@@ -1551,7 +1535,7 @@ export class MappingsComponent implements OnInit {
                 {
                   "code": "insula",
                   "label": "Insula",
-                  "variables": [
+                  "groups": [
                     {
                       "code": "rightainsanteriorinsula",
                       "description": "",
@@ -1589,7 +1573,7 @@ export class MappingsComponent implements OnInit {
                 {
                   "code": "diencephalon",
                   "label": "Diencephalon",
-                  "variables": [
+                  "groups": [
                     {
                       "code": "rightventraldc",
                       "description": "",
@@ -1735,7 +1719,7 @@ export class MappingsComponent implements OnInit {
             {
               "code": "updrs",
               "label": "UPDRS",
-              "variables": [
+              "groups": [
                 {
                   "code": "updrstotal",
                   "description": "The unified Parkinson''s disease rating scale (UPDRS) is used to follow the longitudinal course of Parkinson''s disease. The UPD rating scale is the most commonly used scale in the clinical study of Parkinson''s disease.",
@@ -1755,29 +1739,32 @@ export class MappingsComponent implements OnInit {
                   "type": "integer"
                 }
               ]
-            }
+            },
+
+
+                {
+                  "code": "minimentalstate",
+                  "description": "The Mini-Mental State Examination (MMSE) or Folstein test is a 30-point questionnaire that is used extensively in clinical and research settings to measure cognitive impairment. It is commonly used to screen for dementia.",
+                  "label": "MMSE - Mini Mental State Examination",
+                  "maxValue": 30,
+                  "methodology": "mip-cde",
+                  "minValue": 0,
+                  "type": "integer"
+                },
+                {
+                  "code": "montrealcognitiveassessment",
+                  "description": "The Montreal Cognitive Assessment (MoCA) was designed as a rapid screening instrument for mild cognitive dysfunction. It assesses different cognitive domains: attention and concentration, executive functions, memory, language, visuoconstructional skills, conceptual thinking, calculations, and orientation. MoCA Total Scores refer to the final count obtained by patients after the complete test is performed.",
+                  "label": "MoCA - Montreal Cognitive Assessment",
+                  "maxValue": 30,
+                  "methodology": "mip-cde",
+                  "minValue": 0,
+                  "type": "integer"
+                }
+
+
           ],
           "label": "Neuropsychology",
-          "variables": [
-            {
-              "code": "minimentalstate",
-              "description": "The Mini-Mental State Examination (MMSE) or Folstein test is a 30-point questionnaire that is used extensively in clinical and research settings to measure cognitive impairment. It is commonly used to screen for dementia.",
-              "label": "MMSE - Mini Mental State Examination",
-              "maxValue": 30,
-              "methodology": "mip-cde",
-              "minValue": 0,
-              "type": "integer"
-            },
-            {
-              "code": "montrealcognitiveassessment",
-              "description": "The Montreal Cognitive Assessment (MoCA) was designed as a rapid screening instrument for mild cognitive dysfunction. It assesses different cognitive domains: attention and concentration, executive functions, memory, language, visuoconstructional skills, conceptual thinking, calculations, and orientation. MoCA Total Scores refer to the final count obtained by patients after the complete test is performed.",
-              "label": "MoCA - Montreal Cognitive Assessment",
-              "maxValue": 30,
-              "methodology": "mip-cde",
-              "minValue": 0,
-              "type": "integer"
-            }
-          ]
+
         },
         {
           "code": "diagnosis",
@@ -1972,61 +1959,161 @@ export class MappingsComponent implements OnInit {
           ]
         }
       ],
-      "label": "/",
-      "variables": [
-        {
-          "code": "dataset",
-          "description": "Variable used to differentiate datasets.",
-          "enumerations": [
-            {
-              "code": "edsd",
-              "label": "EDSD"
-            },
-            {
-              "code": "adni",
-              "label": "ADNI"
-            },
-            {
-              "code": "ppmi",
-              "label": "PPMI"
+    };
+
+  setData() {
+    //////////////////////////
+    this.margin = { top: 20, right: 90, bottom: 30, left: 90 };
+    this.width = 1200 - this.margin.left - this.margin.right;
+    this.height = 1700 - this.margin.top - this.margin.bottom;
+
+    this.svg = d3.select('tbody').append('svg')
+      .attr('width', this.width + this.margin.right + this.margin.left)
+      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+
+    this.duration = 750;
+
+    // declares a tree layout and assigns the size
+    this.tree = d3.tree()
+      .size([this.height, this.width]);
+
+    // Assigns parent, children, height, depth
+    this.root = d3.hierarchy(this.dataList3, (d:any) => { return d["groups"]});/////changed from children to groups
+    this.root.x0 = this.height / 2;
+    this.root.y0 = 10;
+
+    // Collapse after the second level
+     //this.root.children.forEach(collapse);
+
+    this.updateChart(this.root);
+
+     function collapse(d) {
+       if (d.children) {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
             }
-          ],
-          "label": "Dataset",
-          "methodology": "mip-cde",
-          "type": "polynominal"
-        }
-      ]
+          }
+
+     }
+
+  click = (d) => {
+    console.log('click');
+    if (d.children) {
+      d._children = d.children;
+      d.children = null;
+    } else {
+      d.children = d._children;
+      d._children = null;
     }
-  ];
-  treeData = [
-    {
-      "name": "Top Level",
-      "parent": "null",
-      "children": [
-        {
-          "name": "Level 2: A",
-          "parent": "Top Level",
-          "children": [
-            {
-              "name": "Son of A",
-              "parent": "Level 2: A"
-            },
-            {
-              "name": "Daughter of A",
-              "parent": "Level 2: A"
-            }
-          ]
-        },
-        {
-          "name": "Level 2: B",
-          "parent": "Top Level"
-        }
-      ]
+    this.updateChart(d);
+  };
+
+  updateChart(source) {
+    let i = 0;
+    console.log(source);
+    this.treeData = this.tree(this.root);
+    this.nodes = this.treeData.descendants();
+    this.links = this.treeData.descendants().slice(1);
+    this.nodes.forEach((d) => { d.y = d.depth * 180 });
+
+    let node = this.svg.selectAll('g.node')
+      .data(this.nodes, (d) => { return d.id || (d.id = ++i); });
+
+    let nodeEnter = node.enter().append('g')
+      .attr('class', 'node')
+      .attr('transform', (d) => {
+        return 'translate(' + source.y0 + ',' + source.x0 + ')';
+      })
+      .on('click', this.click);
+
+    nodeEnter.append('circle')
+      .attr('class', 'node')
+      .attr('r', 1e-6)
+      .style('fill', (d) => {
+        return d._children ? 'lightsteelblue' : '#f5e4ff';
+      });
+
+    nodeEnter.append('text')
+      .attr('dy', '.35em')
+      .attr('x', (d) => {
+        return d.children || d._children ? -13 : 13;
+      })
+      .attr('text-anchor', (d) => {
+        return d.children || d._children ? 'end' : 'start';
+      })
+      .style('font', '12px sans-serif')
+      .text((d) => { return d.data.code; });//changed from 'd.data.name' to d.data.code
+
+    let nodeUpdate = nodeEnter.merge(node);
+
+    nodeUpdate.transition()
+      .duration(this.duration)
+      .attr('transform', (d) => {
+        return 'translate(' + d.y + ',' + d.x + ')';
+      });
+
+    nodeUpdate.select('circle.node')
+      .attr('r', 10)
+      .style('stroke-width', '3px')
+      .style('stroke', 'steelblue')
+      .style('fill', (d) => {
+        return d._children ? 'lightsteelblue' : '#fff';
+      })
+      .attr('cursor', 'pointer');
+
+    let nodeExit = node.exit().transition()
+      .duration(this.duration)
+      .attr('transform', (d) => {
+        return 'translate(' + source.y + ',' + source.x + ')';
+      })
+      .remove();
+
+    nodeExit.select('circle')
+      .attr('r', 1e-6);
+
+    nodeExit.select('text')
+      .style('fill-opacity', 1e-6);
+
+    let link = this.svg.selectAll('path.link')
+      .data(this.links, (d) => { return d.id; });
+
+    let linkEnter = link.enter().insert('path', 'g')
+      .attr('class', 'link')
+      .style('fill', 'none')
+      .style('stroke', '#ccc')
+      .style('stroke-width', '2px')
+      .attr('d', function (d) {
+        let o = { x: source.x0, y: source.y0 };
+        return diagonal(o, o);
+      });
+
+    let linkUpdate = linkEnter.merge(link);
+
+    linkUpdate.transition()
+      .duration(this.duration)
+      .attr('d', (d) => { return diagonal(d, d.parent); });
+
+    let linkExit = link.exit().transition()
+      .duration(this.duration)
+      .attr('d', function (d) {
+        let o = { x: source.x, y: source.y };
+        return diagonal(o, o);
+      })
+      .remove();
+
+    this.nodes.forEach((d) => {
+      d.x0 = d.x;
+      d.y0 = d.y;
+    });
+    function diagonal(s, d) {
+      let path = `M ${s.y} ${s.x}
+                    C ${(s.y + d.y) / 2} ${s.x},
+                    ${(s.y + d.y) / 2} ${d.x},
+                    ${d.y} ${d.x}`;
+      return path;
     }
-  ];
-
-
-  options = {};
-
+  }
 
 }

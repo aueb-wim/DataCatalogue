@@ -23,6 +23,7 @@ public class UploadCdes {
 
     private static final String FOLDER_NAME = System.getProperty("user.dir") + "/src/main/resources/data/cdes/";
 
+    private final String dataList = "";
 
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
@@ -52,6 +53,9 @@ public class UploadCdes {
                 //The cdeversion does not exist
                 }else{
                     Versions version = new Versions(versionName);
+                    /////////////////////////////////////////
+                    version.setJsonString(dataList);
+                    //////////////////////////////////
                     versionDAO.saveVersion(version);
 
                     String filePath = FOLDER_NAME + listOfFiles[i].getName();
@@ -79,7 +83,6 @@ public class UploadCdes {
                 Row currentRow = iterator.next();
                 System.out.println("Tab name: "+datatypeSheet.getSheetName());
                 while (iterator.hasNext()) {
-                    System.out.println("ITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
                     CDEVariables cdeVariables = new CDEVariables();
                     Functions function = new Functions("same","Does not change");
                     functionsDAO.save(function);
@@ -125,6 +128,7 @@ public class UploadCdes {
 
 
                     }
+
                     cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
                     cdeVariableDAO.save(cdeVariables);
 

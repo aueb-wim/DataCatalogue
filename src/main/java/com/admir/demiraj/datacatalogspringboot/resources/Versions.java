@@ -12,16 +12,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import netscape.javascript.JSObject;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -50,10 +44,13 @@ public class Versions implements Serializable{
     
     @NotBlank
     private String name;
-    
-    
+
+    @Column(length = 1000000)
+    private String jsonString;
+
     @LastModifiedDate
     private Date createdAt;
+
     
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
     @JsonManagedReference
@@ -64,8 +61,15 @@ public class Versions implements Serializable{
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
     @JsonManagedReference
     private Set<CDEVariables> cdevariables = new HashSet<>();
-    
-    
+
+    public String getJsonString() {
+        return jsonString;
+    }
+
+    public void setJsonString(String jsonString) {
+        this.jsonString = jsonString;
+    }
+
     public Set<Variables> getVariables() {
         return variables;
     }

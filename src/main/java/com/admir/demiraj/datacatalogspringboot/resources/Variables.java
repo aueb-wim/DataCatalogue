@@ -50,35 +50,35 @@ public class Variables implements Serializable{
     private Long variable_id;
     
     @NotBlank
-    @Column(length = 1024)
+    @Column
     private String name;
 
     @NotBlank
-    @Column(length = 1024)
+    @Column
     private String csvFile;
 
-    @Column(length = 1024)
+    @Column
     private String values;
 
-    @Column(length = 1024)
+    @Column
     private String code;
 
-    @Column(length = 1024)
+    @Column
     private String conceptPath;
 
-    @Column(length = 1024)
+    @Column
     private String type;
 
-    @Column(length = 1024)
+    @Column
     private String unit;
 
-    @Column(length = 1024)
+    @Column
     private String canBeNull;
-    
-    @Column(length = 1024)
+
+    @Column(length = 700)
     private String description;
 
-    @Column(length = 1024)
+    @Column
     private String comments;
     
 

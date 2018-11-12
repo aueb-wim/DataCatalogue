@@ -18,6 +18,13 @@ import { CdeVariablesComponent } from './components/cde-variables/cde-variables.
 import { MappingsComponent } from './components/mappings/mappings.component';
 import { HospitalFilterPipe } from './components/hospital-filter.pipe';
 import { VersionFilterPipe } from './components/version-filter.pipe';
+import { TreeModule } from 'angular-tree-component';
+import {PrettyJsonModule} from 'angular2-prettyjson';
+import { D3Service, D3_DIRECTIVES } from './d3';
+import { GraphComponent } from './visuals/graph/graph.component';
+import { SHARED_VISUALS } from './visuals/shared';
+import { TreeComponent } from './visuals/tree/tree.component';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +38,10 @@ import { VersionFilterPipe } from './components/version-filter.pipe';
     MappingsComponent,
     HospitalFilterPipe,
     VersionFilterPipe,
-
+    GraphComponent,
+    ...SHARED_VISUALS,
+    ...D3_DIRECTIVES,
+    TreeComponent,
   ],
   imports: [
 
@@ -48,10 +58,13 @@ import { VersionFilterPipe } from './components/version-filter.pipe';
     MatExpansionModule,
     MatIconModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    TreeModule,
+    PrettyJsonModule,
   ],
 
-  providers: [HospitalService, LogService],
+  providers: [HospitalService, LogService, D3Service],
   bootstrap: [AppComponent]
+
 })
-export class AppModule { }
+export class AppModule {  }

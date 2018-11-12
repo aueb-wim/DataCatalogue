@@ -2,53 +2,43 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a0a320f2-d2e3-4aad-879c-d7d61a7fa569" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/variables/Freiburg_v1.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/variables/Niguarda_v1.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/data/variables/Niguarda_v2.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/d3.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/directives/draggable.directive.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/directives/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/directives/zoomable.directive.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/models/force-directed-graph.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/models/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/models/link.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/d3/models/node.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/graph/graph.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/graph/graph.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/link-visual/link-visual.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/link-visual/link-visual.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/node-visual/node-visual.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/visuals/shared/node-visual/node-visual.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/shared/hospital.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/shared/hospital.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/CDEVariableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/CDEVariableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/VariablesToCDEVariables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/VariablesToCDEVariables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/VersionsVariablesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/VersionsVariablesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/CDEVariableDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/CDEVariableDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/FunctionsDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/FunctionsDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/VersionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/VersionDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/CDEVariablesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/CDEVariablesRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/FunctionsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/FunctionsRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/VersionsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/VersionsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Functions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Functions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Hospitals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Hospitals.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Variables.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Variables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/ReadExcelService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadVariables.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/.~lock.Freiburg_v1.xlsx#" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Freiburg_v1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Niguarda_v1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/data/Niguarda_v2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/controller/CDEVariableController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/controller/CDEVariableController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/controller/VariablesToCDEVariables.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/controller/VariablesToCDEVariables.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/controller/VersionsVariablesController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/controller/VersionsVariablesController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/dao/CDEVariableDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/dao/CDEVariableDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/dao/FunctionsDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/dao/FunctionsDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/dao/VersionDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/dao/VersionDAO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/repository/CDEVariablesRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/repository/CDEVariablesRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/repository/FunctionsRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/repository/FunctionsRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/repository/VersionsRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/repository/VersionsRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Versions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Versions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/cdes/cdes_v1.xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Functions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Functions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Hospitals.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Hospitals.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Variables.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Variables.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/service/ReadExcelService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data/.~lock.Freiburg_v1.xlsx#" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data/Freiburg_v1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data/Niguarda_v1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/data/Niguarda_v2.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Versions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/resources/Versions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/data/cdes/cdes_v1.xlsx" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -70,40 +60,54 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="1" />
-          <entry key="css" value="4" />
-          <entry key="html" value="12" />
+          <entry key="css" value="15" />
+          <entry key="html" value="33" />
           <entry key="iml" value="1" />
-          <entry key="java" value="83" />
-          <entry key="ts" value="14" />
+          <entry key="java" value="100" />
+          <entry key="js" value="3" />
+          <entry key="json" value="18" />
+          <entry key="md" value="3" />
+          <entry key="scss" value="3" />
+          <entry key="ts" value="94" />
           <entry key="xml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="1" />
-          <entry key="CSS" value="4" />
-          <entry key="HTML" value="12" />
+          <entry key="CSS" value="15" />
+          <entry key="HTML" value="33" />
           <entry key="IDEA_MODULE" value="1" />
-          <entry key="JAVA" value="83" />
-          <entry key="TypeScript" value="14" />
+          <entry key="JAVA" value="100" />
+          <entry key="JSON" value="14" />
+          <entry key="JavaScript" value="3" />
+          <entry key="Markdown" value="3" />
+          <entry key="SCSS" value="3" />
+          <entry key="TypeScript" value="94" />
           <entry key="XML" value="1" />
+          <entry key="tsconfig" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
+          <entry key="css" value="20" />
           <entry key="dummy" value="16" />
-          <entry key="html" value="236" />
-          <entry key="java" value="2260" />
-          <entry key="ts" value="197" />
+          <entry key="html" value="1470" />
+          <entry key="java" value="2711" />
+          <entry key="json" value="15" />
+          <entry key="ts" value="1775" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="236" />
-          <entry key="JAVA" value="2254" />
+          <entry key="CSS" value="20" />
+          <entry key="HTML" value="1470" />
+          <entry key="JAVA" value="2705" />
+          <entry key="JSON" value="2" />
           <entry key="PLAIN_TEXT" value="16" />
           <entry key="SQL" value="6" />
-          <entry key="TypeScript" value="197" />
+          <entry key="TypeScript" value="1775" />
+          <entry key="tsconfig" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -115,61 +119,59 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/shared/hospital.service.ts">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
+            <state relative-caret-position="437">
+              <caret line="49" column="14" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
               <folding>
-                <element signature="e#0#43#0" expanded="true" />
+                <element signature="e#0#50#0" expanded="true" />
+                <element signature="e#1203#10801#0" />
+                <element signature="e#66503#67607#0" />
+                <element signature="e#68963#76477#0" />
+                <element signature="e#72576#76467#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="110" selection-start-line="15" selection-start-column="110" selection-end-line="15" selection-end-column="110" />
+            <state relative-caret-position="210">
+              <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
               <folding>
                 <element signature="n#style#0;n#input#1;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#2;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.css">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="33" column="20" lean-forward="true" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="45" column="1" selection-start-line="45" selection-start-column="1" selection-end-line="45" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/components/search-bar/search-bar.component.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="22" lean-forward="true" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
+            <state relative-caret-position="285">
+              <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
               <folding>
-                <element signature="e#0#48#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -178,41 +180,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+            <state relative-caret-position="150">
+              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
+                <element signature="e#559#10157#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="16" lean-forward="true" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
-              <folding>
-                <element signature="n#style#0;n#input#2;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/components/hospital-filter.pipe.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/app/components/version-filter.pipe.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -229,6 +202,11 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>values</find>
+      <find>oni</find>
+      <find>cli</find>
+      <find>app</find>
+      <find>variables</find>
+      <find>neuro</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -249,18 +227,45 @@
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Employees.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/CDEVariableDAO.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/CDEVariableController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Variables.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Hospitals.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Functions.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/VersionsRepository.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java" />
         <option value="$PROJECT_DIR$/frontend/src/app/shared/hospital.service.ts" />
         <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/VersionDAO.java" />
-        <option value="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts" />
         <option value="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.css" />
         <option value="$PROJECT_DIR$/frontend/src/app/components/version-filter.pipe.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/app.component.html" />
+        <option value="$PROJECT_DIR$/frontend/node_modules/angular2-tree-diagram/node/node.component.html" />
+        <option value="$PROJECT_DIR$/frontend/node_modules/angular2-tree-diagram/tree.component.html" />
+        <option value="$PROJECT_DIR$/frontend/tsconfig.json" />
+        <option value="$PROJECT_DIR$/frontend/node_modules/angular2-tree-diagram/tree.component.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/styles.css" />
+        <option value="$PROJECT_DIR$/frontend/package.json" />
+        <option value="$PROJECT_DIR$/frontend/src/app/app.component.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.css" />
+        <option value="$PROJECT_DIR$/frontend/d3/models/index.ts" />
+        <option value="$PROJECT_DIR$/frontend/d3/models/link.ts" />
+        <option value="$PROJECT_DIR$/frontend/d3/models/node.ts" />
+        <option value="$PROJECT_DIR$/frontend/d3/models/force-directed-graph.ts" />
+        <option value="$PROJECT_DIR$/frontend/d3/d3.service.ts" />
+        <option value="$PROJECT_DIR$/frontend/visuals/shared/node-visual.component.ts" />
+        <option value="$PROJECT_DIR$/frontend/visuals/graph/graph.component.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/app.module.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/visuals/graph/graph.component.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/d3/models/tree-graph.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/d3/models/force-directed-graph.ts" />
+        <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.java" />
+        <option value="$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.css" />
+        <option value="$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.html" />
+        <option value="$PROJECT_DIR$/frontend/src/app/visuals/shared/link-visual/link-visual.component.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.ts" />
+        <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Variables.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Versions.java" />
+        <option value="$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.html" />
+        <option value="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts" />
         <option value="$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java" />
+        <option value="$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.ts" />
       </list>
     </option>
   </component>
@@ -417,8 +422,6 @@
       <path value="$PROJECT_DIR$/frontend/node_modules/@webassemblyjs/wasm-parser/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/@webassemblyjs/wast-parser/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/@webassemblyjs/wast-printer/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/@xtuc/ieee754/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/@xtuc/long/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/abbrev/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/accepts/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/acorn-dynamic-import/package.json" />
@@ -635,7 +638,6 @@
       <path value="$PROJECT_DIR$/frontend/node_modules/dns-equal/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/dns-packet/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/dns-txt/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/dom-converter/node_modules/utila/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/dom-converter/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/dom-serialize/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/dom-serializer/node_modules/domelementtype/package.json" />
@@ -701,8 +703,6 @@
       <path value="$PROJECT_DIR$/frontend/node_modules/expand-range/node_modules/kind-of/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/expand-range/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/express/node_modules/array-flatten/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/express/node_modules/qs/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/express/node_modules/safe-buffer/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/express/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/extend-shallow/node_modules/is-extendable/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/extend-shallow/package.json" />
@@ -1010,15 +1010,9 @@
       <path value="$PROJECT_DIR$/frontend/node_modules/node-gyp/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/node-libs-browser/node_modules/punycode/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/node-libs-browser/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/ajv/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/ansi-styles/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/chalk/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/har-validator/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/oauth-sign/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/punycode/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/request/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/supports-color/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/node_modules/tough-cookie/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/node-sass/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/nopt/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/normalize-package-data/package.json" />
@@ -1168,7 +1162,6 @@
       <path value="$PROJECT_DIR$/frontend/node_modules/regjsparser/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/relateurl/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/remove-trailing-separator/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/renderkid/node_modules/utila/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/renderkid/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/repeat-element/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/repeat-string/package.json" />
@@ -1401,9 +1394,6 @@
       <path value="$PROJECT_DIR$/frontend/node_modules/wbuf/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/webdriver-js-extender/built/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/webdriver-js-extender/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/webpack-core/node_modules/source-list-map/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/webpack-core/node_modules/source-map/package.json" />
-      <path value="$PROJECT_DIR$/frontend/node_modules/webpack-core/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/webpack-dev-middleware/node_modules/mime/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/webpack-dev-middleware/package.json" />
       <path value="$PROJECT_DIR$/frontend/node_modules/webpack-dev-server/node_modules/ansi-regex/package.json" />
@@ -1467,10 +1457,10 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1078" />
-    <option name="y" value="19" />
-    <option name="width" value="1394" />
-    <option name="height" value="1004" />
+    <option name="x" value="335" />
+    <option name="y" value="-4" />
+    <option name="width" value="1392" />
+    <option name="height" value="996" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -1495,32 +1485,37 @@
             <path>
               <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
               <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
               <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
               <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
               <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="cde-variables" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="datacatalogspringboot" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="springbootfuultutorial2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DataCatalogue" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="datacatalogspringboot" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1535,18 +1530,21 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541522795911" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542038401057" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/frontend/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/data/variables" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/data/cdes" />
+      <recent name="$PROJECT_DIR$/frontend/src/app" />
+      <recent name="$PROJECT_DIR$/frontend/src" />
+      <recent name="$PROJECT_DIR$/frontend/node_modules" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/data/variables" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -1581,15 +1579,25 @@
       <option name="presentableId" value="Default" />
       <updated>1541414672868</updated>
       <workItem from="1541414674194" duration="28396000" />
-      <workItem from="1541510643616" duration="11346000" />
+      <workItem from="1541510643616" duration="92514000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39742000" />
+    <option name="totallyTimeSpent" value="120910000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25262576" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1601,14 +1609,14 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3294979" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3294979" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3294979" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39958158" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3294979" />
       <window_info anchor="bottom" id="Spring" order="7" weight="0.3294979" />
-      <window_info anchor="bottom" id="TypeScript" order="8" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.3294979" />
+      <window_info anchor="bottom" id="TypeScript" order="8" weight="0.3294979" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.3294979" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.3294979" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" weight="0.3294979" />
@@ -1633,185 +1641,286 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/VariablesToCDEVariables.java">
+    <entry file="file://$PROJECT_DIR$/frontend/angular.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="94" column="44" lean-forward="true" selection-start-line="94" selection-start-column="44" selection-end-line="94" selection-end-column="44" />
+        <state relative-caret-position="-765" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/node_modules/integralui-web/bin/integralui/integralui.treeview.module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="465" lean-forward="true" selection-start-line="16" selection-start-column="465" selection-end-line="16" selection-end-column="489" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="51" column="26" selection-start-line="51" selection-start-column="26" selection-end-line="51" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="66" selection-start-line="1" selection-start-column="66" selection-end-line="1" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/app.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="51" selection-start-column="51" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="20" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/d3/models/node.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/d3/models/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="39" selection-start-line="6" selection-start-column="39" selection-end-line="6" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/d3/models/force-directed-graph.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1170">
+          <caret line="78" column="1" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="1" />
+          <folding>
+            <element signature="e#45#90#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/d3/models/link.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/visuals/graph/graph.component.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/d3/d3.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/visuals/shared/node-visual.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="37" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/visuals/graph/graph.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="36" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/node_modules/SVGTree-master/src/demo.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/d3/models/link.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/directives/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/graph/graph.component.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/app.config.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="21" lean-forward="true" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/shared/node-visual/node-visual.component.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/shared/link-visual/link-visual.component.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/shared/index.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/shared/node-visual/node-visual.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/directives/draggable.directive.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+          <folding>
+            <element signature="e#0#69#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/models/link.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/models/node.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/models/index.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/models/tree-graph.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/app.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="739">
+          <caret line="65" column="52" selection-start-line="65" selection-start-column="52" selection-end-line="65" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/models/force-directed-graph.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/d3.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/d3/index.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/shared/link-visual/link-visual.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/app/shared/log.service.ts">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/HospitalController.java">
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/shared/hospital.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/EmployeeDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/FunctionsDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="18" column="47" selection-start-line="18" selection-start-column="47" selection-end-line="18" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/HospitalDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/VariableDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/EmployeeRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/FunctionsRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/HospitalsRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/VariablesRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="19" column="17" selection-start-line="19" selection-start-column="17" selection-end-line="19" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadVariables.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-221">
-          <caret line="101" column="49" lean-forward="true" selection-start-line="101" selection-start-column="49" selection-end-line="101" selection-end-column="49" />
+        <state relative-caret-position="375">
+          <caret line="25" column="43" lean-forward="true" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="75" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#0#43#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Employees.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Functions.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="45" column="25" selection-start-line="45" selection-start-column="25" selection-end-line="45" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Hospitals.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="37" column="26" selection-start-line="37" selection-start-column="26" selection-end-line="37" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Variables.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="74" column="26" selection-start-line="74" selection-start-column="26" selection-end-line="74" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/VersionController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="26" column="79" selection-start-line="26" selection-start-column="79" selection-end-line="26" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/VersionsVariablesController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="27" column="42" lean-forward="true" selection-start-line="27" selection-start-column="42" selection-end-line="27" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/nbactions.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/springbootfuultutorial2.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1246" />
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/2.0.9.RELEASE/spring-data-commons-2.0.9.RELEASE.jar!/org/springframework/data/repository/CrudRepository.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#654#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Versions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/VersionsRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="59" column="94" selection-start-line="59" selection-start-column="94" selection-end-line="59" selection-end-column="94" />
+        <state relative-caret-position="195">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/CDEVariables.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="75" column="4" selection-start-line="75" selection-start-column="4" selection-end-line="76" selection-end-column="18" />
+        <state relative-caret-position="480">
+          <caret line="75" column="25" lean-forward="true" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2751#2752#0" expanded="true" />
-            <element signature="e#2778#2779#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/repository/CDEVariablesRepository.java">
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="20" column="47" selection-start-line="20" selection-start-column="47" selection-end-line="20" selection-end-column="47" />
+        <state relative-caret-position="424">
+          <caret line="2025" column="4" lean-forward="true" selection-start-line="2025" selection-start-column="4" selection-end-line="2025" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#964#1357#0" />
+            <element signature="e#1371#77463#0" />
+            <element signature="e#1417#76880#0" />
+            <element signature="e#76921#77453#0" />
+            <element signature="e#77476#77982#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/CDEVariableDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="48" column="47" lean-forward="true" selection-start-line="48" selection-start-column="47" selection-end-line="48" selection-end-column="47" />
+          <folding>
+            <element signature="e#1256#1257#0" expanded="true" />
+            <element signature="e#1314#1315#0" expanded="true" />
+            <element signature="e#1396#1397#0" expanded="true" />
+            <element signature="e#1435#1436#0" expanded="true" />
+            <element signature="e#1515#1516#0" expanded="true" />
+            <element signature="e#1556#1557#0" expanded="true" />
+            <element signature="e#1604#1605#0" expanded="true" />
+            <element signature="e#1658#1659#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/controller/CDEVariableController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
+        <state relative-caret-position="24">
           <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1821,119 +1930,99 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Variables.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="52" column="11" lean-forward="true" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/VersionDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/resources/Versions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="47" column="28" selection-start-line="47" selection-start-column="28" selection-end-line="47" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1730#1731#0" expanded="true" />
+            <element signature="e#1763#1764#0" expanded="true" />
+            <element signature="e#1815#1816#0" expanded="true" />
+            <element signature="e#1859#1860#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/graph/graph.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#130#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+            <element signature="e#559#10157#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/mappings/mappings.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="31" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
+          <folding>
+            <element signature="n#style#0;n#input#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/service/UploadCdes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="115" column="32" lean-forward="true" selection-start-line="115" selection-start-column="32" selection-end-line="115" selection-end-column="32" />
+        <state relative-caret-position="285">
+          <caret line="25" column="37" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/shared/hospital.service.ts">
+    <entry file="file://$PROJECT_DIR$/frontend/src/app/visuals/tree/tree.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="61" selection-start-line="34" selection-start-column="61" selection-end-line="34" selection-end-column="61" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/VersionDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/admir/demiraj/datacatalogspringboot/dao/CDEVariableDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="47" column="32" lean-forward="true" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
-          <folding>
-            <element signature="e#1256#1257#0" expanded="true" />
-            <element signature="e#1314#1315#0" expanded="true" />
-            <element signature="e#1396#1397#0" expanded="true" />
-            <element signature="e#1435#1436#0" expanded="true" />
-            <element signature="e#1515#1516#0" expanded="true" />
-            <element signature="e#1556#1557#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+        <state relative-caret-position="437">
+          <caret line="49" column="14" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="33" column="20" lean-forward="true" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="45" column="1" selection-start-line="45" selection-start-column="1" selection-end-line="45" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/search-bar/search-bar.component.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/search-bar/search-bar.component.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="22" lean-forward="true" selection-start-line="26" selection-start-column="22" selection-end-line="26" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/get-all-hospitals/get-all-hospitals.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="16" lean-forward="true" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
-          <folding>
-            <element signature="n#style#0;n#input#2;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/hospital-filter.pipe.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/version-filter.pipe.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="42" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/app/components/cde-variables/cde-variables.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="110" selection-start-line="15" selection-start-column="110" selection-end-line="15" selection-end-column="110" />
-          <folding>
-            <element signature="n#style#0;n#input#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#2;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#1203#10801#0" />
+            <element signature="e#66503#67607#0" />
+            <element signature="e#68963#76477#0" />
+            <element signature="e#72576#76467#0" />
           </folding>
         </state>
       </provider>

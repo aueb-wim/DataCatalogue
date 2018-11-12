@@ -7,16 +7,17 @@
   <input type="text" class="form-control"
          placeholder="Filter By Variable Code"
          style="width: 200px" [(ngModel)]="searchTermVar">
+  <button (click)="setHierarchical()"> HV</button>
 
 </div>
-
     <mat-tab-group>
         <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
-          <mat-accordion multi="true">
+          <app-tree *ngIf="hierarchical==true" [dataList]="version.jsonString"></app-tree>
+          <mat-accordion *ngIf="hierarchical==false" multi="true">
             <mat-expansion-panel *ngFor="let cdevariable of version.cdevariables | versionFilter:searchTermVar">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <a> {{cdevariable.code}}</a>
+                  <a> {{cdevariable.name}}</a>
                 </mat-panel-title>
                 <mat-panel-description>
                 </mat-panel-description>
