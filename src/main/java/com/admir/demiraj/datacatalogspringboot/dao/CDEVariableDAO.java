@@ -9,6 +9,8 @@ import com.admir.demiraj.datacatalogspringboot.repository.CDEVariablesRepository
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+
+import java.math.BigInteger;
 import java.util.List;
 
 import jdk.nashorn.internal.runtime.Version;
@@ -30,10 +32,10 @@ public class CDEVariableDAO {
     private VersionDAO versionDAO;
     
     
-     public List<CDEVariables> findCDEVariablesByVersionId(Long versionId){
+     public List<CDEVariables> findCDEVariablesByVersionId(BigInteger versionId){
          return cdeVariablesRepository.findCDEVariablesByVersion(versionId);
      } 
-    // save cdevariable in db
+
     public CDEVariables save(CDEVariables cdevar){
         return cdeVariablesRepository.save(cdevar);
     }
@@ -60,7 +62,6 @@ public class CDEVariableDAO {
     }
     
     //show all cdevariables
-    
     public List<CDEVariables> findAll(){
         return cdeVariablesRepository.findAll();
     }

@@ -7,6 +7,8 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -34,7 +36,7 @@ public class Functions {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long function_id;
+    private BigInteger function_id;
     
     @Column(length = 1024)
     private String rule;
@@ -58,12 +60,16 @@ public class Functions {
         this.cdeVariable = cdeVariable;
     }
 
-    public Long getFunction_id() {
+    public BigInteger getFunction_id() {
         return function_id;
     }
 
-    public void setFunction_id(Long function_id) {
+    public void setFunction_id(BigInteger function_id) {
         this.function_id = function_id;
+    }
+
+    public void setVariables(List<Variables> variables) {
+        this.variables = variables;
     }
 
     public String getRule() {

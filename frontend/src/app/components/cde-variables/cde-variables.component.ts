@@ -8,8 +8,7 @@ import {HospitalService} from "../../shared/hospital.service";
 })
 
 export class CdeVariablesComponent implements OnInit {
-data =
-  {
+data = {
     "code": "root",
     "groups": [
       {

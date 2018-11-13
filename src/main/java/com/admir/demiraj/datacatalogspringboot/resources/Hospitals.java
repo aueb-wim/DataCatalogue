@@ -7,6 +7,8 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -32,7 +34,7 @@ public class Hospitals {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long hospital_id;
+    private BigInteger hospital_id;
     
     @NotBlank
     @Column(length = 1024)
@@ -41,14 +43,6 @@ public class Hospitals {
     @OneToMany(mappedBy="hospital",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Variables> variables;
-    
-    public Long getId() {
-        return hospital_id;
-    }
-
-    public void setId(Long id) {
-        this.hospital_id = id;
-    }
 
     public String getName() {
         return name;
@@ -58,14 +52,14 @@ public class Hospitals {
         this.name = name;
     }
 
-    public Long getHospital_id() {
+    public BigInteger getHospital_id() {
         return hospital_id;
     }
 
-    public void setHospital_id(Long hospital_id) {
+    public void setHospital_id(BigInteger hospital_id) {
         this.hospital_id = hospital_id;
     }
- 
+
     public List<Variables> getVariables() {
         return variables;
     }

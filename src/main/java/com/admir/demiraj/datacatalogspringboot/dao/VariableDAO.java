@@ -10,6 +10,8 @@ import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class VariableDAO {
     private VersionDAO versionDao;
     
     
-    public List<Variables> findVariablesByVersionId(Long versionId){
+    public List<Variables> findVariablesByVersionId(BigInteger versionId){
         return variablesRepository.findVariablesByVersionId(versionId);
     }
 
@@ -50,32 +52,24 @@ public class VariableDAO {
      Method that given a variableId returns all the possible mappings that the 
      * hospital may have in the creation of CDEVariables
      */
-    public List<Variables> variablesToCdeVariables(Long variableId){
+    public List<Variables> variablesToCdeVariables(BigInteger variableId){
         return variablesRepository.variablesToCdeVariables(variableId);
     }
-    
-    //find hospital by hospital id
-   public List<Variables> getVariableByHospitalId(Long HospitalId){
-        return variablesRepository.findByHospitalid(HospitalId);
-   } 
+
  
-   public List<Variables> getVariablesByHospitalIdAndVersionId(Long hospitalId, Long versionId){
+   public List<Variables> getVariablesByHospitalIdAndVersionId(BigInteger hospitalId, BigInteger versionId){
        List<Variables> allVariables = variablesRepository.findByHospitalid(hospitalId);
        List<Variables> variablesByVersion = new ArrayList();
    
        for(Variables v : allVariables){
-           if(v.getVersions().contains(versionDao.getOne(versionId))){
+           if(v.getVersions().contains(versionDao.getVersionById(versionId))){
            variablesByVersion.add(v);
            }
        }
        return variablesByVersion;
        
    }
-   
-   public Long getHospitalId(Long variableId){
-       return variablesRepository.findHospitalIdByVariableId(variableId);
-   }
-   
+
     // save hospital in db
     public Variables save(Variables var){
         return variablesRepository.save(var);
@@ -88,13 +82,9 @@ public class VariableDAO {
     }
     
     //get an hospital by id
-    public Variables getVariable(Long id){
+    public Variables getVariable(BigInteger id){
         return variablesRepository.getOne(id);
     }
 
-    //delete a hospital given it's id
-    public void deleteVariable(long id){
-       variablesRepository.deleteById(id);
-   }
     
 }

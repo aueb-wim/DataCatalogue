@@ -26,33 +26,24 @@ public class HospitalDAO {
     @Autowired
     private HospitalsRepository hospitalsRepository;
 
-    
-    // save hospital in db
+
     public Hospitals save(Hospitals hosp){
         return hospitalsRepository.save(hosp);
     }
 
     public List<BigInteger> getAllHospitalIds(){return hospitalsRepository.getAllHospitalIds();}
-    //show all hospitals
     
     public List<Hospitals> findAll(){
         return hospitalsRepository.findAll();
     }
 
-    
-    //get an hospital by id
-    public Hospitals getHospital(Long id){
+    public Hospitals getHospital(BigInteger id){
         return hospitalsRepository.getOne(id);
     }
 
     public String getHospitalNameById(BigInteger hospId){return hospitalsRepository.getHospitalNameById(hospId);}
-    
-    //delete a hospital given it's id
-   public void deleteEmployee(long id){
-       hospitalsRepository.deleteById(id);
-   }
 
-   public Hospitals getHospitalByName(String name){
+    public Hospitals getHospitalByName(String name){
         return hospitalsRepository.getHospitalByName(name);
    }
     

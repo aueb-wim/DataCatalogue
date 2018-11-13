@@ -40,29 +40,30 @@ public class VersionDAO {
 
     }
 
-    public List<Versions> getAllCdeVersions2(){
-        return versionsRepository.getAllCdeVersions();
-    }
-
     public Versions saveVersion(Versions ver) {
         return versionsRepository.save(ver);
     }
 
-    public Versions getVersionById(BigInteger versionId) {
-        return versionsRepository.getVersionById(versionId);
-    }
-
     public List<Versions> getAllVersions() {
-        return versionsRepository.getAllVersions();
+        return versionsRepository.findAll();
     }
 
-    public List<Versions> getAllVersionsByVariableId(Long variableId) {
+    public List<Versions> getAllVersionsByVariableId(BigInteger variableId) {
         return versionsRepository.getAllVersionByVariableId(variableId);
     }
 
     public List<BigInteger> getAllVersionIdsByHospitalId(BigInteger hospitalId) {
-        return versionsRepository.getAllVersionByHospitalId(hospitalId);
+        List<Versions> allVersions = versionsRepository.findAll();
+        List<BigInteger> versionIdsByHospitalId = new ArrayList<>();
+        for(Versions version : allVersions){
+            if(!version.getVariables().isEmpty()){
+            if(version.getVariables().get(0).getHospital().getHospital_id() == hospitalId){
+                versionIdsByHospitalId.add(version.getVersion_id());
+            }}
+        }
+        return versionIdsByHospitalId;
     }
+
 
     public boolean isVersionNameInHospital(String versionName, String hospitalName) {
         List<String> allVersionNames = versionsRepository.getAllVersionNamesByHospitalName(hospitalName);
@@ -74,7 +75,7 @@ public class VersionDAO {
         return false;
     }
 
-    public Versions getOne(Long verId) {
+    public Versions getVersionById(BigInteger verId) {
         return versionsRepository.getOne(verId);
     }
 

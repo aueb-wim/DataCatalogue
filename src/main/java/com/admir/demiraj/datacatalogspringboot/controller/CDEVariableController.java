@@ -14,6 +14,8 @@ import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+
+import java.math.BigInteger;
 import java.util.List;
 
 import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;
@@ -32,9 +34,6 @@ public class CDEVariableController {
 
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
-    
-    @Autowired
-    private VersionDAO versionDAO;
 
     @Autowired
     private UploadCdes uploadCdes;
@@ -59,31 +58,10 @@ public class CDEVariableController {
 
     //get all cde-variables by version
     @GetMapping("/all_by_version/{version_id}")
-    public List<CDEVariables> getAllCDEVariablesByVersion(@PathVariable(value="version_id") Long version_id){
+    public List<CDEVariables> getAllCDEVariablesByVersion(@PathVariable(value="version_id") BigInteger version_id){
         return cdeVariableDAO.findCDEVariablesByVersionId(version_id);
     }
 
-   
-    //save variables
-    @GetMapping("/save")
-    public CDEVariables saveVariable(){
-        
-        CDEVariables cdevar = new CDEVariables("cd1", "file1", null, null, null, null, null, null,null,null,null);
-        Versions ver = new Versions("version 1");
-        Functions func = new Functions("Same","Does not change");
-       
-        
-        //save version
-        versionDAO.saveVersion(ver);
-        cdeVariableDAO.saveVersionToCDEVariable(cdevar, ver);
-        cdeVariableDAO.saveFunctionToCDEVariable(cdevar, func);
-
-
-        return cdeVariableDAO.save(cdevar);
-    }
-    
-    
-    
     //get all cde-variables
     @GetMapping("/all")
     public List<CDEVariables> getAllCDEVariables(){

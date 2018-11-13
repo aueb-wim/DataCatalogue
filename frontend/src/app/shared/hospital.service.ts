@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import {RequestOptions} from "@angular/http";
-import { map, catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -23,19 +21,13 @@ export class HospitalService {
   }
   getAllVersionsPerHospital():Observable<any>{
 
-    return this.http.get('//localhost:8086/versions/allVersionsPerHospital2');
+    return this.http.get('//localhost:8086/versions/allVersionsPerHospital');
 
-  }
-
-  getAllCdes():Observable<any> {
-    return this.http.get('//localhost:8086/CDE/all');
   }
 
   getAllCdeVersions():Observable<any> {
     return this.http.get('//localhost:8086/CDE/allCdeVersions');
   }
-
-
 
 
   getVariablesByHospitalAndVersionId(hospital_id: number, version_id: number):Observable<any>{
@@ -50,14 +42,6 @@ getVariablesByVersionId(version_id: number):Observable<any>{
 
   getAllVersions(): Observable<any>{
     return this.http.get('//localhost:8086/versions/allVersions')
-  }
-getVersionsByVariableId(variable_id):Observable<any>{
-    return this.http.get('//localhost:8086/hospital/versionsPerVariable/'+variable_id);
-}
-  getVariableById2(variableId: string): Observable<any> {
-    const params = new HttpParams().set('variable_id',variableId);
-    return this.http.get('//localhost:8086/hospital/allVariables/',{params})
-
   }
 
 

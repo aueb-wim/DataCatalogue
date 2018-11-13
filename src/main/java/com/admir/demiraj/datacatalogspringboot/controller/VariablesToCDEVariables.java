@@ -15,6 +15,8 @@ import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,7 @@ public class VariablesToCDEVariables {
    
    
    @PostMapping("/variables/{variable_id}")
-   public List<Variables> getVariablesForEachMapping(@PathVariable(value="variable_id") Long variableId){
+   public List<Variables> getVariablesForEachMapping(@PathVariable(value="variable_id") BigInteger variableId){
        return variableDAO.variablesToCdeVariables(variableId);
 
    }

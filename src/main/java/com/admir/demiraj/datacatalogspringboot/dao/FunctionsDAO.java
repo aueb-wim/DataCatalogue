@@ -21,9 +21,7 @@ public class FunctionsDAO {
     
     @Autowired
     FunctionsRepository functionsRepository;
-    
-    
-     // save function
+
     public Functions save(Functions function){
         return functionsRepository.save(function);
     }

@@ -28,48 +28,19 @@ public class VersionController {
 
 
     @GetMapping("/allVersionsPerHospital")
-    public List<List<Versions>>  getAllVersionsPerHospital(){
-        List<BigInteger> allHospitalIds = new ArrayList<>();
-        allHospitalIds = hospitalDAO.getAllHospitalIds();
-        List<List<Versions>> versionsPerHospital = new ArrayList<>();
-
-        for(BigInteger hospId : allHospitalIds){
-            List<BigInteger> allVersionIds = new ArrayList<>();
-            allVersionIds = versionDAO.getAllVersionIdsByHospitalId(hospId);
-            //System.out.println(hospId+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            List<Versions> versions = new ArrayList<>();
-             for(BigInteger versionId : allVersionIds){
-
-                 versions.add(versionDAO.getVersionById(versionId));
-                 //System.out.println(versionId +"ffffffffffffffffffffffffffffffff");
-             }
-            //System.out.println(versions.size()+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-              versionsPerHospital.add(versions);
-            //System.out.println(versionsPerHospital+"CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
-        }
-        return versionsPerHospital;
-        }
-
-    @GetMapping("/allVersionsPerHospital2")
-    public Map<String, List<Versions>>  getAllVersionsPerHospital2(){
-        List<BigInteger> allHospitalIds = new ArrayList<>();
-        allHospitalIds = hospitalDAO.getAllHospitalIds();
+    public Map<String, List<Versions>>  getAllVersionsPerHospital(){
+        List<BigInteger> allHospitalIds = hospitalDAO.getAllHospitalIds();
         Map<String, List<Versions>> versionsPerHospital = new HashMap<>();
-
         for(BigInteger hospId : allHospitalIds){
-            List<BigInteger> allVersionIds = new ArrayList<>();
-            allVersionIds = versionDAO.getAllVersionIdsByHospitalId(hospId);
-            //System.out.println(hospId+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            List<BigInteger> allVersionIds = versionDAO.getAllVersionIdsByHospitalId(hospId);
             List<Versions> versions = new ArrayList<>();
             for(BigInteger versionId : allVersionIds){
-
                 versions.add(versionDAO.getVersionById(versionId));
-                //System.out.println(versionId +"ffffffffffffffffffffffffffffffff");
             }
+
             String hospName = hospitalDAO.getHospitalNameById(hospId);
-            //System.out.println(versions.size()+"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
             versionsPerHospital.put(hospName, versions);
-            //System.out.println(versionsPerHospital+"CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
+
         }
         return versionsPerHospital;
     }
