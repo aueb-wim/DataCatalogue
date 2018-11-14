@@ -6,9 +6,6 @@ import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolb
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { HospitalVariablesComponent } from './shared/hospital-variables/hospital-variables.component';
-import {RouterModule, Routes} from "@angular/router";
-import {VariableByIdComponent} from "./components/variable-by-id/variable-by-id.component";
-import {AllVariablesComponent} from "./components/all-variables/all-variables.component";
 import {AppRoutingModule} from "./app-routing.module";
 import { GetAllHospitalsComponent } from './components/get-all-hospitals/get-all-hospitals.component';
 import { FormsModule } from '@angular/forms';
@@ -30,8 +27,6 @@ import { TreeComponent } from './visuals/tree/tree.component';
   declarations: [
     AppComponent,
     HospitalVariablesComponent,
-    VariableByIdComponent,
-    AllVariablesComponent,
     GetAllHospitalsComponent,
     SearchBarComponent,
     CdeVariablesComponent,

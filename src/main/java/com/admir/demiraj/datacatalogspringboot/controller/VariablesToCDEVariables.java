@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/mapping")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin(origins = "http://172.16.10.138:4200")
+//@CrossOrigin
 public class VariablesToCDEVariables {
 
     @Autowired

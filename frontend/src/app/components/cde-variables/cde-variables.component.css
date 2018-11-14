@@ -11,7 +11,9 @@ p{
 
 }
 
-
+.download{
+float: right ;
+}
 .mat-tab-group {
   background-color: lemonchiffon;
   font-size: large;

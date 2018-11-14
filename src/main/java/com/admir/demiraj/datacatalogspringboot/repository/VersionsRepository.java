@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -19,7 +20,9 @@ import java.util.List;
  *
  * @author root
  */
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin(origins = "http://172.16.10.138:4200")
+//@CrossOrigin
 public interface VersionsRepository extends JpaRepository<Versions, BigInteger>{
 
 
@@ -37,6 +40,9 @@ public interface VersionsRepository extends JpaRepository<Versions, BigInteger>{
             + "INNER JOIN hospitals hosp ON var.hospital_id = hosp.hospital_id "
             + "WHERE hosp.name=?1 ",nativeQuery=true )
     List<String> getAllVersionNamesByHospitalName(String hospitalName);
+
+    @Query(value = "select jsonString from Versions v where v.version_id = :versionId")
+    String getStringJsonByVersionId(@Param("versionId") BigInteger versionId);
 
 
 }

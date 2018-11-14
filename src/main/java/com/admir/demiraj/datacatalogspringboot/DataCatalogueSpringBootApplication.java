@@ -5,9 +5,11 @@ import java.text.ParseException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@RestController
 //@ComponentScan(basePackageClasses = EmployeeController.class)
 //@EnableJpaRepositories("com.admir.demiraj.dao")
 public class DataCatalogueSpringBootApplication {

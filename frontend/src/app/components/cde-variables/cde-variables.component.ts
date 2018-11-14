@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
+import { MatTabChangeEvent } from '@angular/material';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-cde-variables',
@@ -363,7 +365,9 @@ data = {
   searchTermVar: String;
   searchTermVer: String;
   hierarchical = false;
-  constructor(private hospitalService: HospitalService) { }
+  currentCdeVersionId = 1;
+  data2:any;
+  constructor(private hospitalService: HospitalService,private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.hospitalService.getAllCdeVersions().subscribe(allVersions => {this.allCdeVersions = allVersions});
@@ -377,4 +381,35 @@ data = {
     }
   }
 
+  onLinkClick( versionId) {
+   this.currentCdeVersionId = versionId;
+  }
+
+  getJsonStringByVersionId(){
+    return this.hospitalService.getJsonStringByVersionId(this.currentCdeVersionId).toString();
+  }
+
+   download(blob, filename) {
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+      window.navigator.msSaveOrOpenBlob(blob, filename);
+    else { // Others
+      var a = document.createElement("a"),
+        url = URL.createObjectURL(blob);
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function() {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 0);
+    }
+  }
+  exportJson(): void {
+    this.data2=this.getJsonStringByVersionId();
+    ///we need a proper request
+    const c = JSON.stringify(this.data);
+    const file = new Blob([c], {type: 'text/json'});
+    this.download(file,"cdes_v1.json");
+  }
 }

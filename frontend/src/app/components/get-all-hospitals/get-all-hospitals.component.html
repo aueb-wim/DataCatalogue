@@ -1,3 +1,6 @@
+
+
+
 <div class="form-group"> <input type="text" class="form-control"
                                 placeholder="Filter By Hospital Name"
 style="width: 200px" [(ngModel)]="searchTermHosp">
@@ -9,15 +12,19 @@ style="width: 200px" [(ngModel)]="searchTermHosp">
   <input type="text" class="form-control"
          placeholder="Filter By Variable Name"
          style="width: 200px" [(ngModel)]="searchTermVar">
+ <!-- <button (click)="setHierarchical()"> HV</button>-->
 
 </div>
 
 
 <mat-tab-group>
   <mat-tab class="hospitalName" *ngFor="let hospital of hospitals | hospitalFilter:searchTermHosp" label="{{hospital.name }}">
+
     <mat-tab-group>
       <a *ngFor="let versions of allVersionsPerHospital[hospital.name] | hospitalFilter:searchTermVer">
+
         <mat-tab label="{{versions.name}}">
+           <app-tree *ngIf="hierarchical==true" [dataList]="versions.jsonString"></app-tree>
           <mat-accordion multi="true">
             <mat-expansion-panel *ngFor="let variable of versions.variables | hospitalFilter:searchTermVar">
               <mat-expansion-panel-header>

@@ -21,7 +21,6 @@ import java.util.List;
  * @author root
  */
 @Service
-@CrossOrigin(origins = "http://localhost:4200")
 public class VersionDAO {
 
     @Autowired
@@ -38,6 +37,16 @@ public class VersionDAO {
         }
         return allCdeVerions;
 
+    }
+
+    public String getJsonStringByVersionId(Long versionId){
+        List<Versions> allversions = versionsRepository.findAll();
+        for(Versions ver : allversions){
+            if(ver.getVersion_id() == BigInteger.valueOf(versionId)) {
+                return ver.getJsonString();
+            }
+        }
+        return  null;
     }
 
     public Versions saveVersion(Versions ver) {

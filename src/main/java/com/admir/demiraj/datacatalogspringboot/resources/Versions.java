@@ -44,6 +44,7 @@ public class Versions implements Serializable{
     @NotBlank
     private String name;
 
+    @Basic(fetch=FetchType.EAGER)
     @Lob
     private String jsonString;
 

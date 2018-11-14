@@ -15,7 +15,8 @@ import java.math.BigInteger;
  *
  * @author root
  */
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin
 public interface FunctionsRepository extends JpaRepository<Functions, BigInteger>{
     
 }
