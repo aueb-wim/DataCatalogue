@@ -26,7 +26,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Variables implements Serializable{
 
     public Variables(@NotBlank String name, @NotBlank String csvFile, String values, String type, String unit, String canBeNull,
-                     String description, String comments, String code, String conceptPath) {
+                     String description, String comments, String code, String conceptPath, String methodology) {
         this.name = name;
         this.csvFile = csvFile;
         this.code = code;
@@ -37,7 +37,7 @@ public class Variables implements Serializable{
         this.description = description;
         this.comments = comments;
         this.conceptPath = conceptPath;
-
+        this.methodology = methodology;
     }
 
     public Variables() {
@@ -80,6 +80,9 @@ public class Variables implements Serializable{
 
     @Column
     private String comments;
+
+    @Column
+    private String methodology;
     
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -181,7 +184,7 @@ public class Variables implements Serializable{
         return values;
     }
 
-    public void setValues(String value) { this.values = values; }
+    public void setValues(String values) { this.values = values; }
 
     public String getUnit() {
         return unit;
@@ -213,5 +216,11 @@ public class Variables implements Serializable{
 
     public void setVersions(Set<Versions> versions) {
         this.versions = versions;
+    }
+
+    public String getMethodology() { return methodology; }
+
+    public void setMethodology(String methodology) {
+        this.methodology = methodology;
     }
 }
