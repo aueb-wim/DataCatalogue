@@ -8,6 +8,7 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +48,7 @@ public class Variables implements Serializable{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long variable_id;
+    private BigInteger variable_id;
     
     @NotBlank
     @Column
@@ -164,11 +165,11 @@ public class Variables implements Serializable{
         this.function.add(function);
     }
 
-    public Long getVariable_id() {
+    public BigInteger getVariable_id() {
         return variable_id;
     }
 
-    public void setVariable_id(Long variable_id) {
+    public void setVariable_id(BigInteger variable_id) {
         this.variable_id = variable_id;
     }
 

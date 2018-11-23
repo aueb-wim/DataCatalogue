@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VariableByIdComponent } from './variable-by-id.component';
+import { HospitalDetailsComponent } from './hospital-details.component';
 
-describe('VariableByIdComponent', () => {
-  let component: VariableByIdComponent;
-  let fixture: ComponentFixture<VariableByIdComponent>;
+describe('HospitalDetailsComponent', () => {
+  let component: HospitalDetailsComponent;
+  let fixture: ComponentFixture<HospitalDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VariableByIdComponent ]
+      declarations: [ HospitalDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VariableByIdComponent);
+    fixture = TestBed.createComponent(HospitalDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

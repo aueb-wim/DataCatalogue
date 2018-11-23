@@ -1,5 +1,6 @@
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+/*@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';*/
+
 
 body {
   margin: 0;
@@ -11,7 +12,9 @@ p{
 
 }
 
-
+.download{
+float: right ;
+}
 .mat-tab-group {
   background-color: lemonchiffon;
   font-size: large;

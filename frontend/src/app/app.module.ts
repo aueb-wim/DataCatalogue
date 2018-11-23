@@ -6,9 +6,6 @@ import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolb
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { HospitalVariablesComponent } from './shared/hospital-variables/hospital-variables.component';
-import {RouterModule, Routes} from "@angular/router";
-import {VariableByIdComponent} from "./components/variable-by-id/variable-by-id.component";
-import {AllVariablesComponent} from "./components/all-variables/all-variables.component";
 import {AppRoutingModule} from "./app-routing.module";
 import { GetAllHospitalsComponent } from './components/get-all-hospitals/get-all-hospitals.component';
 import { FormsModule } from '@angular/forms';
@@ -24,14 +21,16 @@ import { D3Service, D3_DIRECTIVES } from './d3';
 import { GraphComponent } from './visuals/graph/graph.component';
 import { SHARED_VISUALS } from './visuals/shared';
 import { TreeComponent } from './visuals/tree/tree.component';
+import { HospitalsComponent } from './components/hospitals/hospitals.component';
+import { HospitalDetailsComponent } from './components/hospital-details/hospital-details.component';
+import { VersionDetailsComponent } from './components/version-details/version-details.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HospitalVariablesComponent,
-    VariableByIdComponent,
-    AllVariablesComponent,
     GetAllHospitalsComponent,
     SearchBarComponent,
     CdeVariablesComponent,
@@ -42,6 +41,9 @@ import { TreeComponent } from './visuals/tree/tree.component';
     ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
     TreeComponent,
+    HospitalsComponent,
+    HospitalDetailsComponent,
+    VersionDetailsComponent,
   ],
   imports: [
 

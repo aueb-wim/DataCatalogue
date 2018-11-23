@@ -9,6 +9,8 @@ import com.admir.demiraj.datacatalogspringboot.repository.CDEVariablesRepository
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+
+import java.math.BigInteger;
 import java.util.List;
 
 import jdk.nashorn.internal.runtime.Version;
@@ -21,7 +23,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * @author root
  */
 @Service
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin(origins = "http://172.16.10.138:4200")
+//@CrossOrigin
 public class CDEVariableDAO {
     @Autowired
     private CDEVariablesRepository cdeVariablesRepository;
@@ -30,10 +34,10 @@ public class CDEVariableDAO {
     private VersionDAO versionDAO;
     
     
-     public List<CDEVariables> findCDEVariablesByVersionId(Long versionId){
+     public List<CDEVariables> findCDEVariablesByVersionId(BigInteger versionId){
          return cdeVariablesRepository.findCDEVariablesByVersion(versionId);
      } 
-    // save cdevariable in db
+
     public CDEVariables save(CDEVariables cdevar){
         return cdeVariablesRepository.save(cdevar);
     }
@@ -60,7 +64,6 @@ public class CDEVariableDAO {
     }
     
     //show all cdevariables
-    
     public List<CDEVariables> findAll(){
         return cdeVariablesRepository.findAll();
     }

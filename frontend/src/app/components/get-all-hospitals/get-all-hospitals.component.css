@@ -1,5 +1,28 @@
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+/*@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';*/
+
+
+.example-small-box, .example-large-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.example-small-box {
+  height: 100px;
+  width: 100px;
+}
+
+.example-large-box {
+  height: 300px;
+  width: 300px;
+}
+
+
+
 
 body {
   margin: 0;
@@ -12,8 +35,18 @@ p{
 }
 
 
-.mat-tab-group {
+.mat-tab-group.inner{
+  border: 1px solid black;
   background-color: lemonchiffon;
+  font-size: large;
+  color: black;
+  font-weight: bold;
+
+}
+
+.mat-tab-group.outer{
+  background-color: lightblue;
+  border: 4px solid #e8e8e8;
   font-size: large;
   color: black;
   font-weight: bold;

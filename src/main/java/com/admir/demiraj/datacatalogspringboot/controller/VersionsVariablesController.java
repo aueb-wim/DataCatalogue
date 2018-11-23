@@ -12,6 +12,7 @@ import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.*;
  * @author root
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin(origins = "http://172.16.10.138:4200")
+//@CrossOrigin
 @RequestMapping("/hospital")
 public class VersionsVariablesController {
 
@@ -46,8 +49,8 @@ public class VersionsVariablesController {
 
 
     @GetMapping("/{hospital_id}/variables/{version_id}")
-    public List<Variables> getVariableByHospitalIdAndVersionId(@PathVariable(value = "hospital_id") Long hospitalId,
-                                                               @PathVariable(value = "version_id") Long versionId) {
+    public List<Variables> getVariableByHospitalIdAndVersionId(@PathVariable(value = "hospital_id") BigInteger hospitalId,
+                                                               @PathVariable(value = "version_id") BigInteger versionId) {
         return variableDAO.getVariablesByHospitalIdAndVersionId(hospitalId, versionId);
     }
     @GetMapping("/readExcel")
@@ -61,26 +64,20 @@ public class VersionsVariablesController {
     }
 
     @GetMapping("/allVariables/{variable_id}")
-    public Variables getVariableById(@PathVariable(value="variable_id") Long variableId){return variableDAO.getVariable(variableId);}
+    public Variables getVariableById(@PathVariable(value="variable_id") BigInteger variableId){return variableDAO.getVariable(variableId);}
 
     @GetMapping("/variablesByVersion/{version_id}")
-    public List<Variables> getVariableByVersionId(@PathVariable(value="version_id") Long versionId){return variableDAO.findVariablesByVersionId(versionId);}
+    public List<Variables> getVariableByVersionId(@PathVariable(value="version_id") BigInteger versionId){return variableDAO.findVariablesByVersionId(versionId);}
 
     @GetMapping("/allVersions")
     public List<Versions> getAllVerions(){return versionDAO.getAllVersions();}
 
 
     @GetMapping("/versionsPerVariable/{variable_id}")
-    public List<Versions> getAllVersionsByVariableId(@PathVariable(value = "variable_id") Long variableId){
+    public List<Versions> getAllVersionsByVariableId(@PathVariable(value = "variable_id") BigInteger variableId){
         return versionDAO.getAllVersionsByVariableId(variableId);
     }
 
-    @GetMapping("/details")
-    public Long getVariableDetails() {
-        Long variableId = 24l;
-        Variables var = variableDAO.getVariable(variableId);
-        return var.getHospital().getId();
-    }
 
     /**
      * Method that inserts some variables (up to 10) from 2 different hospitals with 2-3 different versions

@@ -16,7 +16,6 @@ export class SearchBarComponent implements OnInit {
 
 
   listClick(event, newValue) {
-    console.log(newValue);
     this.selectedItem = newValue;
   }
 }

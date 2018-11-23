@@ -9,10 +9,16 @@
          style="width: 200px" [(ngModel)]="searchTermVar">
   <button (click)="setHierarchical()"> HV</button>
 
+  <button class="download" (click)="exportJson()">Donwload</button>
+
+
 </div>
+
+
+
     <mat-tab-group>
-        <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
-          <app-tree *ngIf="hierarchical==true" [dataList]="version.jsonString"></app-tree>
+        <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}" (selectedTabChange)="onLinkClick(version.version_id)">
+          <app-tree *ngIf="hierarchical==true" [dataList]="data3"></app-tree>
           <mat-accordion *ngIf="hierarchical==false" multi="true">
             <mat-expansion-panel *ngFor="let cdevariable of version.cdevariables | versionFilter:searchTermVar">
               <mat-expansion-panel-header>
@@ -23,6 +29,7 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <p>Name :{{cdevariable.name}}</p>
+              <p>Id :{{cdevariable.cdevariable_id}}</p>
               <p>File :{{cdevariable.csvFile}}</p>
               <p>Values :{{cdevariable.values}}</p>
               <p>Type :{{cdevariable.type}}</p>

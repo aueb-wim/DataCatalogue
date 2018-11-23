@@ -8,6 +8,8 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -47,7 +49,7 @@ public class CDEVariables{
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long cdevariable_id;
+    private BigInteger cdevariable_id;
 
     @Column
     private String name;
@@ -125,11 +127,11 @@ public class CDEVariables{
         this.label = label;
     }
 
-    public Long getCdevariable_id() {
+    public BigInteger getCdevariable_id() {
         return cdevariable_id;
     }
 
-    public void setCdevariable_id(Long cdevariable_id) {
+    public void setCdevariable_id(BigInteger cdevariable_id) {
         this.cdevariable_id = cdevariable_id;
     }
 

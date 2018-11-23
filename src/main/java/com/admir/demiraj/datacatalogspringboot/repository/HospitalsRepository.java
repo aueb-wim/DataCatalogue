@@ -8,6 +8,7 @@ package com.admir.demiraj.datacatalogspringboot.repository;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.math.BigInteger;
@@ -17,17 +18,19 @@ import java.util.List;
  *
  * @author root
  */
-@CrossOrigin(origins = "http://localhost:4200")
-public interface HospitalsRepository extends JpaRepository<Hospitals, Long>{
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin(origins = "http://172.16.10.138:4200")
+//@CrossOrigin
+public interface HospitalsRepository extends JpaRepository<Hospitals, BigInteger>{
 
-    @Query(value = "select hospital_id from hospitals", nativeQuery=true)
-    public List<BigInteger> getAllHospitalIds();
+    @Query(value = "SELECT hospital_id FROM Hospitals")
+    List<BigInteger> getAllHospitalIds();
 
-    @Query(value = "select name from hospitals where hospitals.hospital_id = ?1", nativeQuery=true)
-    public String getHospitalNameById(BigInteger hospId);
+    @Query(value = "select h.name from Hospitals h where h.hospital_id = :hospitalId")
+    String getHospitalNameById(@Param("hospitalId")BigInteger hospitalId);
 
     @Query(value = "select * from hospitals where hospitals.name = ?1", nativeQuery=true)
-    public Hospitals getHospitalByName(String name);
+    Hospitals getHospitalByName(String name);
 
 
 }

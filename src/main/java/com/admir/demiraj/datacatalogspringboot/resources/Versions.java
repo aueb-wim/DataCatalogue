@@ -9,9 +9,8 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigInteger;
+import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -40,12 +39,13 @@ public class Versions implements Serializable{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long version_id;
+    private BigInteger version_id;
     
     @NotBlank
     private String name;
 
-    @Column(length = 1000000)
+    @Basic(fetch=FetchType.EAGER)
+    @Lob
     private String jsonString;
 
     @LastModifiedDate
@@ -54,13 +54,13 @@ public class Versions implements Serializable{
     
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
     @JsonManagedReference
-    private Set<Variables> variables = new HashSet<>();
+    private List<Variables> variables = new ArrayList<>();
 
     
      
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
     @JsonManagedReference
-    private Set<CDEVariables> cdevariables = new HashSet<>();
+    private List<CDEVariables> cdevariables = new ArrayList<>();
 
     public String getJsonString() {
         return jsonString;
@@ -70,29 +70,30 @@ public class Versions implements Serializable{
         this.jsonString = jsonString;
     }
 
-    public Set<Variables> getVariables() {
+    public List<Variables> getVariables() {
         return variables;
     }
 
-    public void setVariables(Set<Variables> variables) {
+    public void setVariables(List<Variables> variables) {
         this.variables = variables;
     }
 
-    public Long getVersion_id() {
-        return version_id;
-    }
-
-    public void setVersion_id(Long version_id) {
-        this.version_id = version_id;
-    }
-
-    public Set<CDEVariables> getCdevariables() {
+    public List<CDEVariables> getCdevariables() {
         return cdevariables;
     }
 
-    public void setCdevariables(Set<CDEVariables> cdevariables) {
+    public void setCdevariables(List<CDEVariables> cdevariables) {
         this.cdevariables = cdevariables;
     }
+
+    public BigInteger getVersion_id() {
+        return version_id;
+    }
+
+    public void setVersion_id(BigInteger version_id) {
+        this.version_id = version_id;
+    }
+
 
     public String getName() {
         return name;

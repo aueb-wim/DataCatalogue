@@ -15,6 +15,8 @@ import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,9 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/mapping")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin(origins = "http://172.16.10.138:4200")
+//@CrossOrigin
 public class VariablesToCDEVariables {
 
     @Autowired
@@ -47,7 +51,7 @@ public class VariablesToCDEVariables {
    
    
    @PostMapping("/variables/{variable_id}")
-   public List<Variables> getVariablesForEachMapping(@PathVariable(value="variable_id") Long variableId){
+   public List<Variables> getVariablesForEachMapping(@PathVariable(value="variable_id") BigInteger variableId){
        return variableDAO.variablesToCdeVariables(variableId);
 
    }

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import {RequestOptions} from "@angular/http";
-import { map, catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -14,50 +12,40 @@ export class HospitalService {
   constructor(private http: HttpClient) { }
 
   getAllVariables(): Observable<any> {
-    return this.http.get('//localhost:8086/hospital/allVariables');
+    return this.http.get('//195.251.252.222:2443/hospital/allVariables');
   }
 
-  getVariableById(variable_id: number):Observable<any>{
 
-    return this.http.get('//localhost:8086/hospital/allVariables/'+variable_id)
-  }
   getAllVersionsPerHospital():Observable<any>{
 
-    return this.http.get('//localhost:8086/versions/allVersionsPerHospital2');
+    return this.http.get('//195.251.252.222:2443/versions/allVersionsPerHospital');
 
-  }
-
-  getAllCdes():Observable<any> {
-    return this.http.get('//localhost:8086/CDE/all');
   }
 
   getAllCdeVersions():Observable<any> {
-    return this.http.get('//localhost:8086/CDE/allCdeVersions');
+    return this.http.get('//195.251.252.222:2443/CDE/allCdeVersions');
   }
 
 
-
-
-  getVariablesByHospitalAndVersionId(hospital_id: number, version_id: number):Observable<any>{
-    return this.http.get('//localhost:8086/hospital/'+hospital_id+'/variables/'+version_id)
+  getAllHospitalsAndVariables(): Observable<any> {
+    return this.http.get('//195.251.252.222:2443/hospitals/hosp');
   }
-getVariablesByVersionId(version_id: number):Observable<any>{
-  return this.http.get('//localhost:8086/hospital/variablesByVersion/'+version_id)
-}
-  getAllHospitals(): Observable<any> {
-    return this.http.get('//localhost:8086/hospitals/hosp');
+
+  getVersionsByHospitalId(hospital_id: number):Observable<any>{
+    return this.http.get('//195.251.252.222:2443/versions/allVersionsPerHospital/'+hospital_id);
+
   }
 
   getAllVersions(): Observable<any>{
-    return this.http.get('//localhost:8086/versions/allVersions')
+    return this.http.get('//195.251.252.222:2443/versions/allVersions');
   }
-getVersionsByVariableId(variable_id):Observable<any>{
-    return this.http.get('//localhost:8086/hospital/versionsPerVariable/'+variable_id);
-}
-  getVariableById2(variableId: string): Observable<any> {
-    const params = new HttpParams().set('variable_id',variableId);
-    return this.http.get('//localhost:8086/hospital/allVariables/',{params})
 
+  getVersionById(version_id:number){
+    return this.http.get('//195.251.252.222:2443/versions/allVersions/'+version_id);
+  }
+
+  getJsonStringByVersionId(version_id:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2443/versions/jsonStringByVersionId/'+version_id)
   }
 
 

@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * @author root
  */
 @Service
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin(origins = "http://172.16.10.138:4200")
+//@CrossOrigin
 public class FunctionsDAO {
     
     @Autowired
     FunctionsRepository functionsRepository;
-    
-    
-     // save function
+
     public Functions save(Functions function){
         return functionsRepository.save(function);
     }

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
  * @author root
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://195.251.252.222:2442")
+//@CrossOrigin(origins = "http://172.16.10.138:4200")
+//@CrossOrigin
 @RequestMapping("/hospitals")
 public class HospitalController {
     
@@ -31,7 +33,6 @@ public class HospitalController {
         return hospitalDAO.findAll();
     }
 
-    
      //save a hospital to database
     @PostMapping("/hosp")
     public Hospitals createHospital(@Valid @RequestBody Hospitals hosp){
