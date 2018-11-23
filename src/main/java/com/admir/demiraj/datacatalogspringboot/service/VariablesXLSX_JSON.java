@@ -40,7 +40,7 @@ public class VariablesXLSX_JSON
      */
     public Node loadXLSXInMemory(String file)
     {
-        private Set<Variables> JSONcodes;
+        //private Set<Variables> JSONcodes;
         Set<Variables> XLSXcodes=null;
         try{
             XLSXcodes = Read_xlsx(file);

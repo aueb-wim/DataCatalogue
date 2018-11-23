@@ -82,7 +82,7 @@ public class VariablesToCDEVariables {
         
         for(int i=0;i<3;i++){
         Variables var = new Variables("name"+i, "hbp", null, "text", null, "NOT NULL",
-                null, null,null,null);
+                null, null,null,null,null);
         variableDAO.saveVersionToVariable(var, ver);
         variableDAO.saveHospitalToVariable(var, hosp);
         variableDAO.saveFunctionToVariable(var, function1);
@@ -110,7 +110,7 @@ public class VariablesToCDEVariables {
         
         
         Variables var2 = new Variables("name", "hbp", null, "text", null, "NOT NULL",
-                null, null,null,null);
+                null, null,null,null,null);
         variableDAO.saveVersionToVariable(var2, ver);
         variableDAO.saveHospitalToVariable(var2, hosp);
         variableDAO.saveFunctionToVariable(var2, function2);
