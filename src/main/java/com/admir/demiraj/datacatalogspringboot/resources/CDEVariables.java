@@ -27,8 +27,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class CDEVariables{
 
-    public CDEVariables(@NotBlank String name, @NotBlank String csvFile, String values, String type, String unit,
-                        String canBeNull, String description, String comments, String conceptPath, String label, String code) {
+    public CDEVariables(@NotBlank String name, @NotBlank String csvFile, String values, String type, String unit, String canBeNull,
+                        String description, String comments, String code, String conceptPath, String methodology) {
         this.name = name;
         this.csvFile = csvFile;
         this.values = values;
@@ -38,8 +38,8 @@ public class CDEVariables{
         this.description = description;
         this.comments = comments;
         this.conceptPath = conceptPath;
-        this.label = label;
         this.code = code;
+        this.methodology = methodology;
     }
 
     public CDEVariables() {
@@ -57,7 +57,7 @@ public class CDEVariables{
     @Column
     private String csvFile;
 
-    @Column
+    @Column(length = 500)
     private String values;
 
     @Column
@@ -75,14 +75,14 @@ public class CDEVariables{
     @Column
     private String canBeNull;
 
-    @Column(length = 700)
+    @Column(length = 1000)
     private String description;
 
     @Column
     private String comments;
 
     @Column
-    private String label;
+    private String methodology;
 
     @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
@@ -119,12 +119,12 @@ public class CDEVariables{
         this.conceptPath = conceptPath;
     }
 
-    public String getLabel() {
-        return label;
+    public String getMethodology() {
+        return methodology;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setMethodology(String methodology) {
+        this.methodology = methodology;
     }
 
     public BigInteger getCdevariable_id() {

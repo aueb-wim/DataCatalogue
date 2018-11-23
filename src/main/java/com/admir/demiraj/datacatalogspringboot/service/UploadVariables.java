@@ -23,358 +23,6 @@ import java.util.Iterator;
 @Service
 public class UploadVariables {
 
-
-    private final String dataList = "{\n" +
-            "    \"code\": \"root\",\n" +
-            "    \"groups\": [\n" +
-            "      {\n" +
-            "        \"code\": \"genetic\",\n" +
-            "        \"groups\": [\n" +
-            "          {\n" +
-            "            \"code\": \"polymorphism\",\n" +
-            "            \"label\": \"polymorphism\",\n" +
-            "            \"groups\": [\n" +
-            "              {\n" +
-            "                \"code\": \"apoe4\",\n" +
-            "                \"description\": \"Apolipoprotein E (APOE) e4 allele: is the strongest risk factor for Late Onset Alzheimer Disease (LOAD). At least one copy of APOE-e4 \",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"ApoE4\",\n" +
-            "                \"methodology\": \"adni-merge\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs3818361_t\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs3818361_T\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs744373_c\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs744373_C\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs190982_g\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs190982_G\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs1476679_c\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs1476679_C\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs11767557_c\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs11767557_C\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs11136000_t\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs11136000_T\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs610932_a\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs610932_A\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs3851179_a\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs3851179_A\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs17125944_c\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs17125944_C\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs10498633_t\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs10498633_T\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs3764650_g\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs3764650_G\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs3865444_t\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs3865444_T\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              },\n" +
-            "              {\n" +
-            "                \"code\": \"rs2718058_g\",\n" +
-            "                \"description\": \"\",\n" +
-            "                \"enumerations\": [\n" +
-            "                  {\n" +
-            "                    \"code\": 0,\n" +
-            "                    \"label\": 0\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 1,\n" +
-            "                    \"label\": 1\n" +
-            "                  },\n" +
-            "                  {\n" +
-            "                    \"code\": 2,\n" +
-            "                    \"label\": 2\n" +
-            "                  }\n" +
-            "                ],\n" +
-            "                \"label\": \"rs2718058_G\",\n" +
-            "                \"methodology\": \"lren-nmm-volumes\",\n" +
-            "                \"sql_type\": \"int\",\n" +
-            "                \"type\": \"polynominal\"\n" +
-            "              }\n" +
-            "            ]\n" +
-            "          },\n" +
-            "\n" +
-            "        ],\n" +
-            "        \"label\": \"Genetic\"\n" +
-            "      },\n" +
-            "      {\n" +
-            "        \"code\": \"pet\",\n" +
-            "        \"label\": \"PET - Positron Emission Tomography\",\n" +
-            "        \"groups\": [\n" +
-            "          {\n" +
-            "            \"code\": \"fdg\",\n" +
-            "            \"description\": \" Average FDG-PET of angular, temporal, and posterior cingulate. Most important hypometabolic regions that are indicative of pathological metabolic change in MCI and AD.\",\n" +
-            "            \"label\": \"FDG-PET\",\n" +
-            "            \"methodology\": \"adni-merge\",\n" +
-            "            \"type\": \"real\"\n" +
-            "          },\n" +
-            "          {\n" +
-            "            \"code\": \"pib\",\n" +
-            "            \"description\": \"Average PIB SUVR of frontal cortex, anterior cingulate, precuneus cortex, and parietal cortex.\",\n" +
-            "            \"label\": \"PIB\",\n" +
-            "            \"methodology\": \"adni-merge\",\n" +
-            "            \"type\": \"real\"\n" +
-            "          },\n" +
-            "          {\n" +
-            "            \"code\": \"av45\",\n" +
-            "            \"description\": \"AV45 Average AV45 SUVR of frontal, anterior cingulate, precuneus, and parietal cortex relative to the cerebellum\",\n" +
-            "            \"label\": \"AV45\",\n" +
-            "            \"methodology\": \"adni-merge\",\n" +
-            "            \"type\": \"real\"\n" +
-            "          }\n" +
-            "        ]\n" +
-            "      }]}";
     private static final String FOLDER_NAME = System.getProperty("user.dir") + "/src/main/resources/data/variables/";
 
 
@@ -387,6 +35,9 @@ public class UploadVariables {
     @Autowired
     private VariableDAO variableDAO;
 
+    @Autowired
+    private VariablesXLSX_JSON variablesXLSX_json;
+
 
     public void readExcelFile(){
         File folder = new File(FOLDER_NAME);
@@ -396,7 +47,9 @@ public class UploadVariables {
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile()) {
                 //Split the file name in hospital_name and version_name
-                String[] parts = listOfFiles[i].getName().split("_");
+                String fileName = listOfFiles[i].getName();
+                String filePath = FOLDER_NAME + fileName;
+                String[] parts = fileName.split("_");
                 String hospitalName = parts[0];
                 String[] parts2 = parts[1].toString().split("\\.");
                 String versionName = parts2[0];
@@ -411,11 +64,14 @@ public class UploadVariables {
                    //The version isn't present at hospital
                    }else{
                        Versions version = new Versions(versionName);
-                       //////////////////////////////////////////// added to test the vizualization
-                       version.setJsonString(dataList);
-                       //////////////////////////////////////////////////////////////
+                       System.out.println("Retrieving node from file");
+                       VariablesXLSX_JSON.Node node = variablesXLSX_json.loadXLSXInMemory(filePath);
+                       System.out.println("Retrieving jsonString from file");
+                       version.setJsonString(variablesXLSX_json.createJSONMetadata(node).toString());
+                       System.out.println("Retrieving jsonStringVisualizable from file");
+                       version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(node).toString());
+                       System.out.println("Saving Version");
                        versionDAO.saveVersion(version);
-                       String filePath = FOLDER_NAME + listOfFiles[i].getName();
                        readExcelSaveToVariabe(filePath, version, currentHospital);
 
                    }
@@ -425,12 +81,15 @@ public class UploadVariables {
                     hospitalDAO.save(createdHospital);
 
                     Versions version = new Versions(versionName);
-                    /////////////////////////////////// added to test the vizualization
-                    version.setJsonString(dataList);
-                    /////////////////////////////////////////
+                    System.out.println("Retrieving node from file");
+                    VariablesXLSX_JSON.Node node = variablesXLSX_json.loadXLSXInMemory(filePath);
+                    System.out.println("Retrieving jsonString from file");
+                    version.setJsonString(variablesXLSX_json.createJSONMetadata(node).toString());
+                    System.out.println("Retrieving jsonStringVisualizable from file");
+                    version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(node).toString());
+                    System.out.println("Saving Version");
                     versionDAO.saveVersion(version);
 
-                    String filePath = FOLDER_NAME + listOfFiles[i].getName();
                     readExcelSaveToVariabe(filePath, version, createdHospital);
 
                 }
@@ -493,6 +152,9 @@ public class UploadVariables {
                                 break;
                             case 9:
                                 variable.setConceptPath(currentCell.getStringCellValue());
+                                break;
+                            case 10:
+                                variable.setMethodology(currentCell.getStringCellValue());
                                 break;
                         }
 

@@ -50,7 +50,7 @@ public class VariablesXLSX_JSON_tests
     @Test
     public void testVariablesXLSX_JSON_v1_1()
     {
-        String file_path = FOLDER_NAME + "cdes_v1.1.xlsx";
+        String file_path = FOLDER_NAME + "cdes_v1.xlsx";
         System.out.println(file_path);
         try{
             XLSXcodes1 = xlsx_json.Read_xlsx(file_path);
@@ -63,7 +63,7 @@ public class VariablesXLSX_JSON_tests
         Assert.assertEquals(XLSXcodes1.size(), 172);
         Node testTree = xlsx_json.createTree(XLSXcodes1);
         //xlsx_json.printVariablesTree(testTree);
-        JSONArray testJSONVis = xlsx_json.createJSONVisualization(testTree);
+        JSONObject testJSONVis = xlsx_json.createJSONVisualization(testTree);
         System.out.println("---1.1-- Here comes the visualization JSON ---------");
         System.out.println(testJSONVis.toString());
         System.out.println("--------- --------- --------- --------- ---------");
@@ -75,7 +75,7 @@ public class VariablesXLSX_JSON_tests
     @Test
     public void testVariablesXLSX_JSON_v1_2()
     {
-        String file_path = FOLDER_NAME + "cdes_v1.2.xlsx";
+        String file_path = FOLDER_NAME + "cdes_v2.xlsx";
         System.out.println(file_path);
         try{
             XLSXcodes2 = xlsx_json.Read_xlsx(file_path);
@@ -88,7 +88,7 @@ public class VariablesXLSX_JSON_tests
         Assert.assertEquals(XLSXcodes2.size(), 197);//172 variables + 25 variables' categories
         Node testTree = xlsx_json.createTree(XLSXcodes2);
         //xlsx_json.printVariablesTree(testTree);
-        JSONArray testJSONVis = xlsx_json.createJSONVisualization(testTree);
+        JSONObject testJSONVis = xlsx_json.createJSONVisualization(testTree);
         System.out.println("---2.1-- Here comes the visualization JSON ---------");
         System.out.println(testJSONVis.toString());
         System.out.println("--------- --------- --------- --------- ---------");

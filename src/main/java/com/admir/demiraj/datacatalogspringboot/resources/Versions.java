@@ -48,6 +48,10 @@ public class Versions implements Serializable{
     @Lob
     private String jsonString;
 
+    @Basic(fetch=FetchType.EAGER)
+    @Lob
+    private String jsonStringVisualizable;
+
     @LastModifiedDate
     private Date createdAt;
 
@@ -94,6 +98,13 @@ public class Versions implements Serializable{
         this.version_id = version_id;
     }
 
+    public String getJsonStringVisualizable() {
+        return jsonStringVisualizable;
+    }
+
+    public void setJsonStringVisualizable(String jsonStringVisualizable) {
+        this.jsonStringVisualizable = jsonStringVisualizable;
+    }
 
     public String getName() {
         return name;

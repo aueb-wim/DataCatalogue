@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import {HospitalService} from "../../shared/hospital.service";
 import {D3Service} from "../../d3";
@@ -12,23 +7,27 @@ import {D3Service} from "../../d3";
 
 @Component({
   selector: 'app-tree',
-  template:`
+  //templateUrl: './tree.component.html',
+ //hangeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <svg #svg [attr.width]="this.width" [attr.height]="this.height">
-      <g>
-       
+      <g [zoomableOf]="svg">
+        
       </g>
     </svg>
   `,
   styleUrls: ['./tree.component.css']
 })
 export class TreeComponent implements OnInit {
+
   constructor(){
-    this.setData();
+
+
+
   }
 
-
-
   ngOnInit(){
+    this.setData();
   }
 
   @Input('dataList') dataList;///change to dataList
@@ -3585,8 +3584,10 @@ export class TreeComponent implements OnInit {
 
   setData() {
     this.margin = { top: 20, right: 90, bottom: 30, left: 90 };
-    this.width = 1400 - this.margin.left - this.margin.right;
-    this.height = 1800 - this.margin.top - this.margin.bottom;
+    //this.width = 1400 - this.margin.left - this.margin.right;
+    this.width = 400 - this.margin.left - this.margin.right;
+   // this.height = 1800 - this.margin.top - this.margin.bottom;
+    this.height = 400 - this.margin.top - this.margin.bottom;
 
 
 

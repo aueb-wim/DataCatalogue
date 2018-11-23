@@ -211,20 +211,20 @@ public class VariablesXLSX_JSON
      * @param root: the root of the Variables Tree
      * @return
      */
-    public JSONArray createJSONVisualization(Node root)
+    public JSONObject createJSONVisualization(Node root)
     {
-        JSONArray visTree = new JSONArray();
+        //JSONObject visTree = new JSONObject();
         JSONObject outerNode = new JSONObject();//the visualisation JSON wants the outer JSONObject to be inside a JSONArray
         /*System.out.println("____________ root has code "+root.code+", "+root.children.size()+" children_________");
         for (int jj=0; jj<root.children.size(); jj++)
             System.out.println("_____"+jj+"."+root.children.get(jj).code+"___"+root.children.get(jj).getConceptPath()+"____");*/
         root.fillJSONVisObject(outerNode);
-        visTree.put(outerNode);
+        //visTree.put(outerNode);
         if (root.children != null)
         {
             addVisChildren(root, outerNode);
         }
-        return visTree;
+        return outerNode;
     }
 
     /**

@@ -69,8 +69,5 @@ public class CDEVariableController {
     public List<CDEVariables> getAllCDEVariables(){
         return cdeVariableDAO.findAll();
     }
-    
-    
-    
-    
+
 }

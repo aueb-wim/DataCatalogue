@@ -13,12 +13,13 @@ style="width: 200px" [(ngModel)]="searchTermHosp">
  <button (click)="setHierarchical()"> HV</button>
 
 </div>
-<app-tree [dataList]="dataList" *ngIf="hierarchical==true"></app-tree>
+
 <div *ngFor="let hospital of hospitals">
   <!--<a> {{hospital.name}}<graph [links]="links" [nodes]="nodes"></graph></a>-->
 
-  <a>{{hospital.name}} <app-tree [dataList]="dataList" *ngIf="hierarchical==true"></app-tree></a>
+  <div>{{hospital.name}} <app-tree [dataList]="dataList" *ngIf="hierarchical==true"></app-tree></div>
 </div>
+
 
 
 <mat-tab-group class="outer">
