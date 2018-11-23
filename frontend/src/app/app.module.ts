@@ -21,6 +21,10 @@ import { D3Service, D3_DIRECTIVES } from './d3';
 import { GraphComponent } from './visuals/graph/graph.component';
 import { SHARED_VISUALS } from './visuals/shared';
 import { TreeComponent } from './visuals/tree/tree.component';
+import { HospitalsComponent } from './components/hospitals/hospitals.component';
+import { HospitalDetailsComponent } from './components/hospital-details/hospital-details.component';
+import { VersionDetailsComponent } from './components/version-details/version-details.component';
+
 
 
 @NgModule({
@@ -37,6 +41,9 @@ import { TreeComponent } from './visuals/tree/tree.component';
     ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
     TreeComponent,
+    HospitalsComponent,
+    HospitalDetailsComponent,
+    VersionDetailsComponent,
   ],
   imports: [
 

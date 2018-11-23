@@ -1,0 +1,24 @@
+
+div{
+  display: inline-block;
+}
+
+div mat-card{
+  margin-left: 20px;
+
+}
+
+div mat-card mat-card-title{
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 17px;
+  font-weight: bolder;
+}
+
+.thumbnail:hover {
+  position:relative;
+  width:130px;
+  height: 160px;
+  display:block;
+  z-index:999;
+}

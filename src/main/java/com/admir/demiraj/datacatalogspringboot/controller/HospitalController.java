@@ -33,7 +33,6 @@ public class HospitalController {
         return hospitalDAO.findAll();
     }
 
-    
      //save a hospital to database
     @PostMapping("/hosp")
     public Hospitals createHospital(@Valid @RequestBody Hospitals hosp){

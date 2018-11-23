@@ -3,6 +3,7 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import jdk.nashorn.internal.runtime.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,11 @@ public class VersionController {
     @GetMapping("/allVersions")
     public List<Versions>  getAllVerions(){return versionDAO.getAllVersions();}
 
+    @GetMapping("/allVersions/{version_id}")
+    public Versions  getVersionById(@PathVariable("version_id") Long versionId){
+        BigInteger verId = BigInteger.valueOf(versionId);
+        return versionDAO.getOne(verId);}
+
     @GetMapping("/jsonStringByVersionId/{version_id}")
     public String  getJsonStringByVersionId(@PathVariable(value="version_id") Long version_id){return versionDAO.getJsonStringByVersionId(version_id);}
 
@@ -48,5 +54,18 @@ public class VersionController {
 
         }
         return versionsPerHospital;
+    }
+
+    @GetMapping("/allVersionsPerHospital/{hospital_id}")
+    public List<Versions>  getAllVersionsPerHospital(@PathVariable(value = "hospital_id") Long hospitalId){
+
+
+        BigInteger hospId = BigInteger.valueOf(hospitalId);
+            List<BigInteger> allVersionIds = versionDAO.getAllVersionIdsByHospitalId(hospId);
+            List<Versions> versions = new ArrayList<>();
+            for(BigInteger versionId : allVersionIds){
+                versions.add(versionDAO.getVersionById(versionId));
+            }
+        return versions;
     }
 }

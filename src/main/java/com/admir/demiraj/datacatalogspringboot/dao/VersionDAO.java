@@ -57,6 +57,19 @@ public class VersionDAO {
         return versionsRepository.findAll();
     }
 
+    public Versions getOne(BigInteger verId){
+        List<Versions> allVersions = versionsRepository.findAll();
+        for(Versions version:allVersions){
+            if(version.getVersion_id() == verId){
+                return version;
+            }
+        }
+        return null;
+
+    }
+
+
+
     public List<Versions> getAllVersionsByVariableId(BigInteger variableId) {
         return versionsRepository.getAllVersionByVariableId(variableId);
     }
