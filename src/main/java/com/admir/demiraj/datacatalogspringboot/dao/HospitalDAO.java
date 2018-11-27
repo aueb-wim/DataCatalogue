@@ -42,7 +42,9 @@ public class HospitalDAO {
         return hospitalsRepository.getOne(id);
     }
 
-    public String getHospitalNameById(BigInteger hospId){return hospitalsRepository.getHospitalNameById(hospId);}
+    public String getHospitalNameById(BigInteger hospId){
+
+        return hospitalsRepository.getHospitalNameById(hospId);}
 
     public Hospitals getHospitalByName(String name){
         return hospitalsRepository.getHospitalByName(name);

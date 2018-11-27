@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HospitalService } from './shared/hospital.service';
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule} from '@angular/material';
+import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { HospitalVariablesComponent } from './shared/hospital-variables/hospital-variables.component';
@@ -24,6 +24,8 @@ import { TreeComponent } from './visuals/tree/tree.component';
 import { HospitalsComponent } from './components/hospitals/hospitals.component';
 import { HospitalDetailsComponent } from './components/hospital-details/hospital-details.component';
 import { VersionDetailsComponent } from './components/version-details/version-details.component';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 
 
 
@@ -59,10 +61,13 @@ import { VersionDetailsComponent } from './components/version-details/version-de
     MatTabsModule,
     MatExpansionModule,
     MatIconModule,
+    MatSelectModule,
+    MatOptionModule,
     AppRoutingModule,
     FormsModule,
     TreeModule,
     PrettyJsonModule,
+    AngularFontAwesomeModule
   ],
 
   providers: [HospitalService, LogService, D3Service],

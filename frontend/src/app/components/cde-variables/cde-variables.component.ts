@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import { MatTabChangeEvent } from '@angular/material';
 import {DomSanitizer} from "@angular/platform-browser";
@@ -9,7 +9,7 @@ import {DomSanitizer} from "@angular/platform-browser";
   styleUrls: ['./cde-variables.component.css']
 })
 
-export class CdeVariablesComponent implements OnInit {
+export class CdeVariablesComponent implements OnInit,OnChanges {
   dataList2 = {
     "code": "root",
     "children": [{
@@ -1617,11 +1617,28 @@ export class CdeVariablesComponent implements OnInit {
   searchTermVer: String;
   hierarchical = false;
   currentCdeVersionId = 1;
-  data2:any;
-  constructor(private hospitalService: HospitalService,private sanitizer: DomSanitizer) { }
+  jsonMetadata:any;
+  jsonVisualizable:any;
+
+
+  constructor(private hospitalService: HospitalService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.hospitalService.getAllCdeVersions().subscribe(allVersions => {this.allCdeVersions = allVersions});
+    ///change
+    this.hospitalService.getjsonStringVisualizableByVersionId(this.currentCdeVersionId).subscribe(json=>{this.jsonVisualizable=json});
+    //this.hospitalService.getJsonStringByVersionId(this.currentCdeVersionId).subscribe(json=>{this.jsonMetadata=json});
+  }
+  ngOnChanges(changes: SimpleChanges){
+    this.currentCdeVersionId = 3;
+    if (changes['currentCdeVersionId']) {
+      //if(this.detailSubscription) {
+        //this.detailSubscription.unsubscribe();
+     // }
+      //call your service here
+      this.hospitalService.getJsonStringByVersionId(this.currentCdeVersionId).subscribe(json=>{this.jsonMetadata=json});
+    }
+
   }
 
   setHierarchical(){
@@ -1637,9 +1654,41 @@ export class CdeVariablesComponent implements OnInit {
   }
 
   getJsonStringByVersionId(){
-    return this.hospitalService.getJsonStringByVersionId(this.currentCdeVersionId).toString();
+    return this.hospitalService.getJsonStringByVersionId(this.currentCdeVersionId);
+  }
+  getJsonStringVisualizableByVersionId(){
+    return this.hospitalService.getjsonStringVisualizableByVersionId(this.currentCdeVersionId);
+  }
+////////////////////////////////////////////////
+  downloadSampleCSVFiles() {
+    var nameOfFileToDownload = "SampleFileToDownload.csv";
+    var result = this.downloadSampleCSV(nameOfFileToDownload);
+    result.subscribe(
+      success => {
+        var blob = new Blob([success._body], { type: 'text/csv' });
+
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveOrOpenBlob(blob, nameOfFileToDownload);
+        } else {
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = nameOfFileToDownload;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      },
+      err => {
+        alert("Server error while downloading file.");
+      }
+    );
   }
 
+  downloadSampleCSV(fileNameToDownload) {
+    //return this._http.post("scheduler/downloadSampleCSV", fileNameToDownload, this.options);
+    return this.hospitalService.getJsonStringByVersionId(1);
+  }
+  //////////////////////////////////////////////
    download(blob, filename) {
     if (window.navigator.msSaveOrOpenBlob) // IE10+
       window.navigator.msSaveOrOpenBlob(blob, filename);
@@ -1656,11 +1705,15 @@ export class CdeVariablesComponent implements OnInit {
       }, 0);
     }
   }
-  exportJson(): void {
-    this.data2=this.getJsonStringByVersionId();
+  exportJson(versioId): void {
+   //var obj =  this.hospitalService.getJsonStringByVersionId(1);
+
+    //var myArray = [];
+    //myArray.push(this.jsonMetadata);
     ///we need a proper request
-    const c = JSON.stringify(this.dataList2);
+    this.currentCdeVersionId = versioId;
+    const c = JSON.stringify(this.jsonMetadata);
     const file = new Blob([c], {type: 'text/json'});
-    this.download(file,"cdes_v1.json");
+    this.download(file,"cdes_v"+versioId+".json");
   }
 }

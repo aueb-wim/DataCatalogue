@@ -11,14 +11,19 @@
 
   <button class="download" (click)="exportJson()">Donwload</button>
 
-
+  <a class="btn btn-primary" (click)="downloadSampleCSVFiles()">
+    Download File
+  </a>
 </div>
 
+<a>The current version id is: {{currentCdeVersionId}} </a>
+<a>The metadata : {{jsonMetadata}} </a>
 
-<app-tree *ngIf="hierarchical==true" [dataList]="dataList2"></app-tree>
+
     <mat-tab-group>
-        <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}" (selectedTabChange)="onLinkClick(version.version_id)">
-          <app-tree *ngIf="hierarchical==true" [dataList]="dataList2"></app-tree>
+        <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
+          <button class="download" (click)="exportJson(version.version_id)">Donwload</button>
+         <!--<app-tree *ngIf="hierarchical==true" [dataList]="dataList2"></app-tree>-->
           <mat-accordion *ngIf="hierarchical==false" multi="true">
             <mat-expansion-panel *ngFor="let cdevariable of version.cdevariables | versionFilter:searchTermVar">
               <mat-expansion-panel-header>

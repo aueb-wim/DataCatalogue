@@ -1,19 +1,30 @@
 
-<a>
-    <mat-expansion-panel *ngFor="let variable of version.variables">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <a> <b>{{variable.name}}</b></a>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <p><b>Name :</b>{{variable.name}}</p>
-      <p><b>File :</b>{{variable.csvFile}}</p>
-      <p><b>Values :</b>{{variable.values}}</p>
-      <p><b>Type :</b>{{variable.type}}</p>
-      <p><b>Measure Unit:</b>{{variable.unit}}</p>
-      <p><b>Description :</b>{{variable.description}}</p>
-      <p><b>Comments :</b>{{variable.comments}}</p>
-    </mat-expansion-panel>
+<div class="form-group">
 
-</a>
+  <input type="text" class="form-control"
+         placeholder="Filter By Variable Name"
+         style="width: 200px" [(ngModel)]="searchTermVar">
+  <button class="download" (click)="exportJson()">Download</button>
+</div>
+
+
+
+<div>
+  <mat-expansion-panel *ngFor="let variable of version.variables | hospitalFilter:searchTermVar">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <a> <b>{{variable.name}}</b></a>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p><b>Name :</b>{{variable.name}}</p>
+    <p><b>File :</b>{{variable.csvFile}}</p>
+    <p><b>Values :</b>{{variable.values}}</p>
+    <p><b>Type :</b>{{variable.type}}</p>
+    <p><b>Measure Unit:</b>{{variable.unit}}</p>
+    <p><b>Description :</b>{{variable.description}}</p>
+    <p><b>Comments :</b>{{variable.comments}}</p>
+  </mat-expansion-panel>
+</div>
+
+
 

@@ -3,20 +3,19 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
-import jdk.nashorn.internal.runtime.Version;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.web.bind.annotation.*;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 @RestController
-//@CrossOrigin(origins = "http://195.251.252.222:2442")
-//@CrossOrigin(origins = "http://172.16.10.138:4200")
-//@CrossOrigin
 @RequestMapping("/versions")
 public class VersionController {
 
@@ -35,7 +34,14 @@ public class VersionController {
         return versionDAO.getOne(verId);}
 
     @GetMapping("/jsonStringByVersionId/{version_id}")
-    public String  getJsonStringByVersionId(@PathVariable(value="version_id") Long version_id){return versionDAO.getJsonStringByVersionId(version_id);}
+    public String getJsonStringByVersionId(@PathVariable(value="version_id") Long version_id){
+        //JSONObject jsonObj = new JSONObject(versionDAO.getJsonStringByVersionId(version_id));
+        //JsonObject obj = new JsonParser().parse(jsonString).getAsJsonObject();
+        return versionDAO.getJsonStringByVersionId(version_id);
+    }
+
+    @GetMapping("/jsonStringVisualizableByVersionId/{version_id}")
+    public String  getJsonStringVisualizableByVersionId(@PathVariable(value="version_id") Long version_id){return versionDAO.getJsonStringVisualizableByVersionId(version_id);}
 
 
     @GetMapping("/allVersionsPerHospital")

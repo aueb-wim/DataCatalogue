@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 export class HospitalService {
   customMap:Array<any> = new Array<any>();
 
+
   constructor(private http: HttpClient) { }
 
   getAllVariables(): Observable<any> {
@@ -45,8 +46,17 @@ export class HospitalService {
   }
 
   getJsonStringByVersionId(version_id:number):Observable<any>{
-    return this.http.get('//195.251.252.222:2443/versions/jsonStringByVersionId/'+version_id)
+    return this.http.get('//195.251.252.222:2443/versions/jsonStringByVersionId/'+version_id);
   }
 
+  getjsonStringVisualizableByVersionId(version_id:number):Observable<any>{
+
+    return this.http.get('//195.251.252.222:2443/versions/jsonStringVisualizableByVersionId/'+version_id);
+
+  }
+
+  getHospitalById(hospital_id:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2443/hospitals/hosp/'+hospital_id);
+  }
 
 }

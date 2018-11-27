@@ -1,27 +1,13 @@
-<button (click)="goBack()">Back</button>
-
-<a>{{url}}</a>
-
-<app-tree [dataList]="null"></app-tree>
-
-
-<mat-tab-group *ngIf="hierarchical==false" class="inner">
-  <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}">
+<!--<button (click)="goBack()">Back</button>-->
+<a *ngFor="let name of hospital">{{name}}</a>
+<mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
+  <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id">
     <mat-accordion multi="true">
-      <app-version-details [version_id]="version.version_id"></app-version-details>
+      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName"></app-version-details>
     </mat-accordion>
+    <app-tree [versionId]="currentVersionId"></app-tree>
   </mat-tab>
 </mat-tab-group>
-
-
-<div *ngFor="let version of hospitalVersions" class="topnav">
-  <a>"{{url}}/{{version.version_idid}}/flat"</a>
-  <a  *ngIf="hierarchical==false" [ngClass]="{'active': selectedItem == 1}" routerLink="{{url}}/{{version.version_id}}/flat">{{version.name}}</a>
-  <a  *ngIf="hierarchical==true" [ngClass]="{'active': selectedItem == 1}" routerLink="{{url}}/{{version.version_id}}/hierarchical">{{version.name}}</a>
-</div>
-
-
-
 
 
 

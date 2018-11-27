@@ -17,7 +17,7 @@ style="width: 200px" [(ngModel)]="searchTermHosp">
 <div *ngFor="let hospital of hospitals">
   <!--<a> {{hospital.name}}<graph [links]="links" [nodes]="nodes"></graph></a>-->
 
-  <div>{{hospital.name}} <app-tree [dataList]="dataList" *ngIf="hierarchical==true"></app-tree></div>
+ <!-- <div>{{hospital.name}} <app-tree [dataList]="dataList" *ngIf="hierarchical==true"></app-tree></div>-->
 </div>
 
 
@@ -27,7 +27,7 @@ style="width: 200px" [(ngModel)]="searchTermHosp">
     <mat-tab-group class="inner">
       <mat-tab *ngFor="let versions of allVersionsPerHospital[hospital.name] | hospitalFilter:searchTermVer" label="{{versions.name}}">
         <mat-tab-group>
-          <mat-tab label="one"> <app-tree [dataList]="dataList" *ngIf="hierarchical==true"></app-tree> </mat-tab>
+          <mat-tab label="one"><!-- <app-tree [dataList]="dataList" *ngIf="hierarchical==true"></app-tree> --></mat-tab>
           <mat-tab label="two"> <!--<graph [nodes]="nodes" [links]="links"></graph>-->
             <mat-accordion *ngIf="hierarchical==false" multi="true">
               <mat-expansion-panel *ngFor="let variable of versions.variables | hospitalFilter:searchTermVar">

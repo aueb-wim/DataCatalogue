@@ -22,3 +22,8 @@ div mat-card mat-card-title{
   display:block;
   z-index:999;
 }
+
+mat-form-field{
+  margin-bottom: 50px;
+  alignment: center;
+}

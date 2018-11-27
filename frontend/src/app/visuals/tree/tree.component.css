@@ -1,27 +1,18 @@
-/*/deep/ div.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 60px;
-  height: 12px;
-  padding: 8px;
-  margin-top: -20px;
-  font: 10px sans-serif;
-  background: #ddd;
-  pointer-events: none;
-}*/
+button {
+  line-height: 12px;
+  margin-top: 15px;
+  margin-right: 2px;
+  margin-bottom: 20px;
 
+  border-radius: 50%;
+  background-color: wheat;
 
-/*
-/deep/  div.tooltip {
-  position: absolute;
-  text-align: right;
-  padding: 4px;
-  background: #fff;
-  border: 1px;
-  pointer-events: none;
 }
 
-*/
+
+i{
+  font-size: 24px;
+}
 
 /deep/ .node text {
   font: 19px sans-serif;

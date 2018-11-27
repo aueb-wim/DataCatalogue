@@ -49,6 +49,16 @@ public class VersionDAO {
         return  null;
     }
 
+    public String getJsonStringVisualizableByVersionId(Long versionId){
+        List<Versions> allversions = versionsRepository.findAll();
+        for(Versions ver : allversions){
+            if(ver.getVersion_id() == BigInteger.valueOf(versionId)) {
+                return ver.getJsonStringVisualizable();
+            }
+        }
+        return  null;
+    }
+
     public Versions saveVersion(Versions ver) {
         return versionsRepository.save(ver);
     }

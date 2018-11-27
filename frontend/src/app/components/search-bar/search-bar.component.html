@@ -1,6 +1,5 @@
 <div class="topnav">
-  <a  [ngClass]="{'active': selectedItem == 1}" (click)="listClick($event, 1)" routerLink="/hospitals/variables">Variables</a>
+  <a  [ngClass]="{'active': selectedItem == 1}" (click)="listClick($event, 1)" routerLink="/hospitals/">Hospitals</a>
   <a  [ngClass]="{'active': selectedItem == 2}" (click)="listClick($event, 2)" routerLink="/hospitals/cde-variables">CDE Variables</a>
   <a  [ngClass]="{'active': selectedItem == 3}" (click)="listClick($event, 3)" routerLink="/hospitals/mappings">Mappings</a>
-  <input type="button" name="Export to json">
 </div>

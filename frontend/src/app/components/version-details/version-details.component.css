@@ -1,3 +1,47 @@
 div{
-  display: inline-block;
+margin-top:10px;
+  display: flex;
+  align-items: center;
+}
+
+button{
+  line-height: 12px;
+  font-family: tahoma;
+  margin-top: 1px;
+  margin-right: 2px;
+  position:absolute;
+  top:0;
+  right:0;
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+
+/* Darker background on mouse-over */
+button:hover {
+  background-color: RoyalBlue;
+}
+
+mat-expansion-panel{
+  margin-top: 10px;
+}
+
+div input[type=text] {
+
+  padding: 6px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-right: 4px;
+  font-size: 15px;
+  border-color: #2196F3;
+}
+
+.mat-expansion-panel-header-title{
+  font-weight: bold;
+  font-size: medium;
+  color: green;
 }
