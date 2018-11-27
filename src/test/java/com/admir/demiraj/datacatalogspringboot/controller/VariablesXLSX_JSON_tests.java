@@ -98,6 +98,20 @@ public class VariablesXLSX_JSON_tests
         System.out.println("--------- --------- --------- --------- ---------");
     }
     @Test
+    public void testVariablesXLSX_JSON_test()
+    {
+        String file_path = FOLDER_NAME + "cdes_v3_test.xlsx";
+        Node testTree = xlsx_json.loadXLSXInMemory(file_path);
+        JSONObject testJSONVis = xlsx_json.createJSONVisualization(testTree);
+        System.out.println("---TESTIN CDEs-- Here comes the visualization JSON ---------");
+        System.out.println(testJSONVis.toString());
+        System.out.println("--------- --------- --------- --------- ---------");
+        System.out.println("---TESTIN CDEs-- And now the Metadata JSON ---------");
+        JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
+        System.out.println(testJSONMeta.toString());
+        System.out.println("--------- --------- --------- --------- ---------");
+    }
+    @Test
     public void testQuotesRemoval()
     {
         String message = "{\"edsd\",\"EDSD\"}";
