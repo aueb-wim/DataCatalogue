@@ -13,13 +13,12 @@ import 'rxjs/add/operator/switchMap';
 export class HospitalDetailsComponent implements OnInit {
 
   hospitalVersions:Array<any>;
-  hospital:Array<any>;
-  hospitalId:number;
+  hospital:any;
   hierarchical=false;
   url=this.location.path();
-  currentVersionId=5;
+  currentVersionId=1; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionName;
-
+  downloadName = "variables_";
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {

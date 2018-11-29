@@ -15,7 +15,8 @@ const routes: Routes = [
   {path:'hospitals/mappings', component: MappingsComponent},
   {path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/:hospital_id', component: HospitalDetailsComponent},
-  {path:'hospitals/:hospital_id/:version_id/flat', component: VersionDetailsComponent},
+  //{path:'hospitals/:hospital_id/', component: VersionDetailsComponent},
+  //{path:'hospitals/:hospital_id/:version_id/flat', component: VersionDetailsComponent},
   //{path:'hospitals/:hospital_id/:version_id/hierarchical', component: TreeComponent},
 ];
 

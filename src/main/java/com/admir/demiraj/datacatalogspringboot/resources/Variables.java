@@ -49,12 +49,10 @@ public class Variables implements Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private BigInteger variable_id;
-    
-    @NotBlank
+
     @Column
     private String name;
 
-    @NotBlank
     @Column
     private String csvFile;
 

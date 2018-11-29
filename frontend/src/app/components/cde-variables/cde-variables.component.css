@@ -1,51 +1,24 @@
-/*@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';*/
-
-
-body {
-  margin: 0;
-  font-family: Roboto, sans-serif;
+/deep/.mat-tab-label.mat-tab-label-active {
+  min-width: 25px !important;
+  padding: 5px;
+  background-color: transparent;
+  color: blue;
+  font-weight: 700;
+  font-size: x-large;
 }
 
-p{
-  text-align: left;
 
-}
-
-.download{
-float: right ;
-}
-.mat-tab-group {
-  background-color: lemonchiffon;
-  font-size: large;
+/deep/.mat-tab-label{
   color: black;
-  font-weight: bold;
-
+  font-size: large;
 }
 
 
-.mat-tab-group p{
-  font-size: medium;
-  text-align: left;
-  font-weight: normal;
+
+
+h1{
+  font-size: xx-large;
+  color: #2196F3;
+  margin-left: 40%;
 
 }
-
-
-.mat-expansion-panel-header-title{
-  font-weight: bold;
-  font-size: medium;
-  color: green;
-}
-
-div input[type=text] {
-
-  padding: 6px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-right: 4px;
-  font-size: 15px;
-  border-color: #2196F3;
-}
-
-

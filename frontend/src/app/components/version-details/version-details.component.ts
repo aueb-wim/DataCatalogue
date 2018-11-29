@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
@@ -12,10 +12,10 @@ import 'rxjs/add/operator/switchMap';
 export class VersionDetailsComponent implements OnInit,OnChanges {
   @Input('versionId') versionId;
   @Input('versionName') versionName;
+  @Input('downloadFileName') downloadName;
   version:any;
   jsonMetadata:any;
   searchTermVar: String;
-  searchTermVer: String;
 
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
 
@@ -55,14 +55,9 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
   }
 
   exportJson(): void {
-    //var obj =  this.hospitalService.getJsonStringByVersionId(1);
-
-    //var myArray = [];
-    //myArray.push(this.jsonMetadata);
-    ///we need a proper request
     const c = JSON.stringify(this.jsonMetadata);
     const file = new Blob([c], {type: 'text/json'});
-    this.download(file,"variables_"+this.versionName+".json");
+    this.download(file,this.downloadName+this.versionName+".json");
   }
 }
 

@@ -63,8 +63,8 @@ export class TreeComponent implements OnInit,OnChanges {
     this.margin = { top: 20, right: 90, bottom: 30, left: 90 };
     //this.width = 1400 - this.margin.left - this.margin.right;
     this.width = 2400 - this.margin.left - this.margin.right;
-    //this.height = 1800 - this.margin.top - this.margin.bottom;
-    this.height = 400 - this.margin.top - this.margin.bottom;
+    this.height = 2000- this.margin.top - this.margin.bottom;
+    //this.height = 400 - this.margin.top - this.margin.bottom;
 
 ////first clear previous component
 

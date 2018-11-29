@@ -1,4 +1,4 @@
-<div class="form-group">
+<!--<div class="form-group">
 
   <input type="text" class="form-control"
          placeholder="Filter By Version"
@@ -7,23 +7,22 @@
   <input type="text" class="form-control"
          placeholder="Filter By Variable Code"
          style="width: 200px" [(ngModel)]="searchTermVar">
-  <button (click)="setHierarchical()"> HV</button>
-
-  <button class="download" (click)="exportJson()">Donwload</button>
-
-  <a class="btn btn-primary" (click)="downloadSampleCSVFiles()">
-    Download File
-  </a>
 </div>
+-->
 
-<a>The current version id is: {{currentCdeVersionId}} </a>
-<a>The metadata : {{jsonMetadata}} </a>
+<h1><i class="fa fa-gg-circle">Common Data Elements</i></h1>
+<mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
+  <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
+    <mat-accordion *ngIf="hierarchical==false" multi="true">
+      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName"></app-version-details>
+    </mat-accordion>
+    <app-tree [versionId]="currentVersionId"></app-tree>
+  </mat-tab>
+</mat-tab-group>
 
-
-    <mat-tab-group>
+<!--------------------------------------------------------------------------------------------------------------
+    <mat-tab-group >
         <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
-          <button class="download" (click)="exportJson(version.version_id)">Donwload</button>
-         <!--<app-tree *ngIf="hierarchical==true" [dataList]="dataList2"></app-tree>-->
           <mat-accordion *ngIf="hierarchical==false" multi="true">
             <mat-expansion-panel *ngFor="let cdevariable of version.cdevariables | versionFilter:searchTermVar">
               <mat-expansion-panel-header>
@@ -47,3 +46,4 @@
     </mat-tab-group>
 
 
+------->

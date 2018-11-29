@@ -1,9 +1,11 @@
 <!--<button (click)="goBack()">Back</button>-->
-<a *ngFor="let name of hospital">{{name}}</a>
+
+<h1><i class="fa fa-hospital-o">{{hospital.name}}</i></h1>
+
 <mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id">
     <mat-accordion multi="true">
-      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName"></app-version-details>
+      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName"></app-version-details>
     </mat-accordion>
     <app-tree [versionId]="currentVersionId"></app-tree>
   </mat-tab>
