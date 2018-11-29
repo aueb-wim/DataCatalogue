@@ -25,7 +25,7 @@ import { HospitalsComponent } from './components/hospitals/hospitals.component';
 import { HospitalDetailsComponent } from './components/hospital-details/hospital-details.component';
 import { VersionDetailsComponent } from './components/version-details/version-details.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { CdeVariablesDetailsComponent } from './components/cde-variables-details/cde-variables-details.component';
+
 
 
 
@@ -47,7 +47,6 @@ import { CdeVariablesDetailsComponent } from './components/cde-variables-details
     HospitalsComponent,
     HospitalDetailsComponent,
     VersionDetailsComponent,
-    CdeVariablesDetailsComponent,
   ],
   imports: [
 
