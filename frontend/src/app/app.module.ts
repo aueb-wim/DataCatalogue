@@ -25,6 +25,10 @@ import { HospitalsComponent } from './components/hospitals/hospitals.component';
 import { HospitalDetailsComponent } from './components/hospital-details/hospital-details.component';
 import { VersionDetailsComponent } from './components/version-details/version-details.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { UploadExcelComponent } from './components/upload-excel/upload-excel.component';
+import { ListUploadComponent } from './components/list-upload/list-upload.component';
+import { DetailsUploadComponent } from './components/details-upload/details-upload.component';
+import { FormUploadComponent } from './components/form-upload/form-upload.component';
 
 
 
@@ -47,6 +51,10 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     HospitalsComponent,
     HospitalDetailsComponent,
     VersionDetailsComponent,
+    UploadExcelComponent,
+    ListUploadComponent,
+    DetailsUploadComponent,
+    FormUploadComponent,
   ],
   imports: [
 

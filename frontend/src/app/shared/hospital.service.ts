@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -54,9 +54,30 @@ export class HospitalService {
     return this.http.get('//195.251.252.222:2443/versions/jsonStringVisualizableByVersionId/'+version_id);
 
   }
+  getExcelSample():Observable<any>{
+    return this.http.get('//195.251.252.222:2443/mapping/down');
+  }
 
   getHospitalById(hospital_id:number):Observable<any>{
     return this.http.get('//195.251.252.222:2443/hospitals/hosp/'+hospital_id);
   }
+  ///////////////////////////UPLOAD RELATED
+  pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
+    const formdata: FormData = new FormData();
+
+    formdata.append('file', file);
+
+    const req = new HttpRequest('POST', '//195.251.252.222:2443//mapping/post', formdata, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
+
+  getFiles(): Observable<any> {
+    return this.http.get('//195.251.252.222:2443//mapping/getallfiles');
+  }
+  ////////////////////////////////////////
 
 }
