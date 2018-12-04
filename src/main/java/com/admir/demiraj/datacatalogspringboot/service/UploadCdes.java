@@ -53,7 +53,9 @@ public class UploadCdes {
                     System.out.println("This version already exists");
                 //The cdeversion does not exist
                 }else{
+
                     Versions version = new Versions(versionName);
+                    readExcelSaveToVariabe(filePath, version);
                     System.out.println("Retrieving node from file");
                     VariablesXLSX_JSON.Node node = variablesXLSX_json.loadXLSXInMemory(filePath);
                     System.out.println("Retrieving jsonString from file");
@@ -62,7 +64,6 @@ public class UploadCdes {
                     version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(node).toString());
                     System.out.println("Saving Version");
                     versionDAO.saveVersion(version);
-                    readExcelSaveToVariabe(filePath, version);
 
                 }
 
@@ -87,9 +88,9 @@ public class UploadCdes {
                 System.out.println("Tab name: "+datatypeSheet.getSheetName());
                 while (iterator.hasNext()) {
                     CDEVariables cdeVariables = new CDEVariables();
-                    Functions function = new Functions("same","Does not change");
-                    functionsDAO.save(function);
-                    cdeVariableDAO.saveFunctionToCDEVariable(cdeVariables, function);
+                    //Functions function = new Functions("","");
+                    //functionsDAO.save(function);
+                    //cdeVariableDAO.saveFunctionToCDEVariable(cdeVariables, function);
                     currentRow = iterator.next();
                     Iterator<Cell> cellIterator = currentRow.iterator();
                     while (cellIterator.hasNext()) {

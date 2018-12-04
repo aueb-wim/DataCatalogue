@@ -6,9 +6,9 @@
   <button class="download" (click)="exportJson()">Download</button>
 </div>
 
+<a>version is:{{versionId}}</a>
 
-
-<div>
+<div *ngIf="cdeData==false">
   <mat-expansion-panel *ngFor="let variable of version.variables | hospitalFilter:searchTermVar">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -26,4 +26,19 @@
 </div>
 
 
-
+<div *ngIf="cdeData==true">
+  <mat-expansion-panel *ngFor="let variable of version.cdevariables | hospitalFilter:searchTermVar">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <a> <b>{{variable.name}}</b></a>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p><b>Name :</b>{{variable.name}}</p>
+    <p><b>File :</b>{{variable.csvFile}}</p>
+    <p><b>Values :</b>{{variable.values}}</p>
+    <p><b>Type :</b>{{variable.type}}</p>
+    <p><b>Measure Unit:</b>{{variable.unit}}</p>
+    <p><b>Description :</b>{{variable.description}}</p>
+    <p><b>Comments :</b>{{variable.comments}}</p>
+  </mat-expansion-panel>
+</div>

@@ -89,8 +89,8 @@ public class CDEVariables{
     @JoinTable(name = "cdevariables_versions",joinColumns = { @JoinColumn(name = "cdevariable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
     private Set<Versions> versions = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "function_id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "function_id", nullable = true)
     @JsonBackReference
     private Functions function;
 

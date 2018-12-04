@@ -5,7 +5,7 @@
 <mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id">
     <mat-accordion multi="true">
-      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName"></app-version-details>
+      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="false"></app-version-details>
     </mat-accordion>
     <app-tree [versionId]="currentVersionId"></app-tree>
   </mat-tab>
@@ -13,7 +13,7 @@
 
     <div class="container" style="width:400px">
 
-      <form-upload></form-upload>
+      <form-upload [sampleNameVersion]="createSampleFileName()"></form-upload>
 
       <br/>
       <br/>

@@ -11,14 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.List;
+
 /**
  *
  * @author root
  */
 @Service
-//@CrossOrigin(origins = "http://195.251.252.222:2442")
-//@CrossOrigin(origins = "http://172.16.10.138:4200")
-//@CrossOrigin
 public class FunctionsDAO {
     
     @Autowired
@@ -28,6 +27,8 @@ public class FunctionsDAO {
         return functionsRepository.save(function);
     }
     
-    
+    public List<Functions> findAll(){
+        return this.functionsRepository.findAll();
+    }
     
 }

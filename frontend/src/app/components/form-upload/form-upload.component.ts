@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
 import {HospitalService} from "../../shared/hospital.service";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -10,13 +11,16 @@ import {HospitalService} from "../../shared/hospital.service";
 })
 export class FormUploadComponent implements OnInit {
 
+  @Input("sampleNameVersion") sampleNameVersion;
   selectedFiles: FileList;
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
+  sampleFile: Observable<string>;
 
   constructor(private hospitalService: HospitalService) { }
 
   ngOnInit() {
+    this.sampleFile = this.hospitalService.getSample();
   }
 
   selectFile(event) {

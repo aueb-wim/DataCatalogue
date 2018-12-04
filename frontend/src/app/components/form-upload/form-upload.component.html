@@ -1,6 +1,10 @@
-<p>
-  form-upload works!
-</p>
+
+<div class="first"><a class="instuctions"> In order to create a new version the data have to be provided in a specific file format.
+  The columns and the file name have to be kep unchanged. Download the file provided below and fill in
+  the appropriate information and afterwards upload it in this platform.</a>
+<a class="donwloadsample" href="http://195.251.252.222:2443/mapping/getsample/{{sampleNameVersion}}">Download Sample File</a>
+</div>
+
 
 <div *ngIf="currentFileUpload" class="progress">
   <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
@@ -8,8 +12,11 @@
     {{progress.percentage}}%</div>
 </div>
 
-<label class="btn btn-default">
+
+<label class="btn2 btn-default">
   <input type="file" (change)="selectFile($event)">
 </label>
 
 <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
+
+
