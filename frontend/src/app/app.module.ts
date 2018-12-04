@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HospitalService } from './shared/hospital.service';
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
+import { MatButtonModule, MatCardModule, MatProgressBarModule, MatInputModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { HospitalVariablesComponent } from './shared/hospital-variables/hospital-variables.component';
@@ -67,6 +67,7 @@ import { FormUploadComponent } from './components/form-upload/form-upload.compon
     MatInputModule,
     MatListModule,
     MatToolbarModule,
+    MatProgressBarModule,
     MatTabsModule,
     MatExpansionModule,
     MatIconModule,

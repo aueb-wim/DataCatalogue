@@ -78,6 +78,10 @@ export class HospitalService {
   getFiles(): Observable<any> {
     return this.http.get('//195.251.252.222:2443//mapping/getallfiles');
   }
-  ////////////////////////////////////////
+  //////////////////////////////////////// GET SAMPLE FILE
+  getSample():Observable<any>{
+    return this.http.get('//195.251.252.222:2443//mapping/getsample');
+  }
+  /////////////////////////////////////////////////
 
 }

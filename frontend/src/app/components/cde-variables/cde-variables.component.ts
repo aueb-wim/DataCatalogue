@@ -15,7 +15,7 @@ export class CdeVariablesComponent implements OnInit,OnChanges {
   hierarchical = false;
   jsonMetadata:any;
   jsonVisualizable:any;
-  currentVersionId=1; /// be careful when changing the database , it should be assigned to an existing id
+  currentVersionId=2; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionName;
   downloadName = "cdes_";
 
@@ -27,7 +27,7 @@ export class CdeVariablesComponent implements OnInit,OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges){
-    if (changes['currentCdeVersionId']) {
+    if (changes['currentVersionId']) {
       this.hospitalService.getJsonStringByVersionId(this.currentVersionId).subscribe(json=>{this.jsonMetadata=json});
     }
   }

@@ -107,6 +107,7 @@ public class VariablesXLSX_JSON
                     newVar.setConceptPath(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 10)
                     newVar.setMethodology(cell.getStringCellValue());
+
             }
             xlsxVars.add(newVar);
         }
@@ -151,7 +152,9 @@ public class VariablesXLSX_JSON
                    // System.out.println("~~~~~~~~ IT HAD "+node2Add+"~~~~~~");
                     node2Add.var = nextVar;//adding all Variables' stuff to the pre-existing Node...
                    // System.out.println("~~~~~~~~ NOW IT S "+node2Add+"~~~~~");
-                    parent = findNodeByCode(conceptPath[i - 1], root);//find the parent
+
+                        parent = findNodeByCode(conceptPath[i - 1], root);//find the parent
+
                 }
             else
             {//lets create a new Node

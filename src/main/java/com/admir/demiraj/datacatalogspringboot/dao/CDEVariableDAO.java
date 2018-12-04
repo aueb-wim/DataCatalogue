@@ -41,6 +41,16 @@ public class CDEVariableDAO {
     public CDEVariables save(CDEVariables cdevar){
         return cdeVariablesRepository.save(cdevar);
     }
+
+    public CDEVariables getCDEVariableByName(String CDEName){
+         List<CDEVariables> allCDEVariables = cdeVariablesRepository.findAll();
+         for(CDEVariables cde : allCDEVariables){
+             if(cde.getName().equals(CDEName)){
+                 return cde;
+             }
+         }
+         return null;
+    }
     
     public void saveVersionToCDEVariable(CDEVariables cdevar, Versions ver){
         cdevar.setVersions(ver);

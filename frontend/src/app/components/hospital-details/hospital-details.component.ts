@@ -10,29 +10,47 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./hospital-details.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HospitalDetailsComponent implements OnInit {
+export class HospitalDetailsComponent implements OnInit,OnChanges {
 
   hospitalVersions:Array<any>;
   hospital:any;
   hierarchical=false;
   url=this.location.path();
-  currentVersionId=1; /// be careful when changing the database , it should be assigned to an existing id
+  currentVersionId=5; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionName;
   downloadName = "variables_";
+  sampleName:string;
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {
+
     this.route.params
       .switchMap((params: Params) => this.hospitalService.getVersionsByHospitalId(+params['hospital_id']))
       .subscribe(versions => {this.hospitalVersions = versions});
 
     this.route.params.switchMap((params: Params) => this.hospitalService.
     getHospitalById(+params['hospital_id'])).subscribe(hosp=>{this.hospital = hosp});
-
-
-
+    this.currentVersionId = 4; //check this
   }
 
+
+
+  ngOnChanges(changes: SimpleChanges){
+    if (changes['currentVersionId']) {
+      this.route.params
+        .switchMap((params: Params) => this.hospitalService.getVersionsByHospitalId(+params['hospital_id']))
+        .subscribe(versions => {this.hospitalVersions = versions});
+
+      this.route.params.switchMap((params: Params) => this.hospitalService.
+      getHospitalById(+params['hospital_id'])).subscribe(hosp=>{this.hospital = hosp});
+
+    }}
+
+  createSampleFileName(){
+    var oldName = parseInt(this.hospitalVersions[this.hospitalVersions.length-1].name.replace('v', ''));
+    oldName = oldName + 1;
+    return this.hospital.name+"_"+"v"+oldName.toString()+".xlsx";
+  }
 
   changeVersionId(verId){
     this.currentVersionId = verId;
@@ -47,13 +65,7 @@ export class HospitalDetailsComponent implements OnInit {
     this.changeVersionName(event.tab.textLabel);
   }
 
-setHierarchical(){
-    if(this.hierarchical){
-      this.hierarchical = false;
-    }else{
-      this.hierarchical = true;
-    }
-}
+
   goBack(): void {
     this.location.back();
   }

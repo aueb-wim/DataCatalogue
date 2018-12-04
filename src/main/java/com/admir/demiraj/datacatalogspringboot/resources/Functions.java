@@ -47,7 +47,7 @@ public class Functions {
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE},mappedBy = "function")
     @JsonManagedReference
     private List<Variables> variables;
-    
+
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "function")
     @JsonManagedReference
     private CDEVariables cdeVariable;
@@ -96,10 +96,5 @@ public class Functions {
     public void setVariables(Variables variables) {
         this.variables.add(variables);
     }
-    
-    
-    
-    
-    
-    
+
 }

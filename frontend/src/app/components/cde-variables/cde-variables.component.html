@@ -14,7 +14,7 @@
 <mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
     <mat-accordion *ngIf="hierarchical==false" multi="true">
-      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName"></app-version-details>
+      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="true"></app-version-details>
     </mat-accordion>
     <app-tree [versionId]="currentVersionId"></app-tree>
   </mat-tab>

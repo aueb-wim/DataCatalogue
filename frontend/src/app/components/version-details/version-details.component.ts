@@ -13,14 +13,17 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
   @Input('versionId') versionId;
   @Input('versionName') versionName;
   @Input('downloadFileName') downloadName;
+  @Input('cdeData') cdeData;
+
   version:any;
   jsonMetadata:any;
   searchTermVar: String;
 
+
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {
-    this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
+    //this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
     //this.route.params
     //.switchMap((params: Params) => this.hospitalService.getVersionById(+params['versionId']))
      // .subscribe(ver => this.version = ver);
@@ -29,6 +32,8 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
   ngOnChanges(changes: SimpleChanges){
     if (changes['versionId']) {
       this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
+      this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
+
     }
 
   }

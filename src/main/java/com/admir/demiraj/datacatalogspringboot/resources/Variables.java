@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -82,7 +83,6 @@ public class Variables implements Serializable{
 
     @Column
     private String methodology;
-    
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hospital_id", nullable = false) 
@@ -92,7 +92,7 @@ public class Variables implements Serializable{
     @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "variables_functions",joinColumns = { @JoinColumn(name = "variable_id") },inverseJoinColumns = { @JoinColumn(name = "function_id") })
-    private Set<Functions> function = new HashSet<>();
+    private List<Functions> function = new ArrayList<>();
     
     @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
@@ -155,7 +155,7 @@ public class Variables implements Serializable{
         this.hospital = hospital;
     }
 
-    public Set<Functions> getFunction() {
+    public List<Functions> getFunction() {
         return function;
     }
 
@@ -209,7 +209,7 @@ public class Variables implements Serializable{
         this.comments = comments;
     }
 
-    public void setFunction(Set<Functions> function) {
+    public void setFunction(List<Functions> function) {
         this.function = function;
     }
 
