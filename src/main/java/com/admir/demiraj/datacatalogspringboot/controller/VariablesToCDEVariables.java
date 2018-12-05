@@ -71,6 +71,9 @@ public class VariablesToCDEVariables {
     @Autowired
     UploadVariables uploadVariables;
 
+    @Autowired
+    UploadCdes uploadCdes;
+
     List<String> files = new ArrayList<String>();
 
     /** Method that handle the upload of multipart file (excel file in our case)*/
@@ -82,7 +85,13 @@ public class VariablesToCDEVariables {
             files.add(file.getOriginalFilename());
 
             message = "You successfully uploaded " + file.getOriginalFilename() + "!";
-            uploadVariables.readExcelFile();
+
+            if(file.getOriginalFilename().contains("cde")){
+                uploadCdes.readExcelFile();
+            }else{
+                uploadVariables.readExcelFile();
+            }
+
             return ResponseEntity.status(HttpStatus.OK).body(message);
         } catch (Exception e) {
             message = "FAIL to upload " + file.getOriginalFilename() + "!";

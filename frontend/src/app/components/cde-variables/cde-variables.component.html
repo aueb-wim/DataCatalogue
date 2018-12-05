@@ -13,10 +13,20 @@
 <h1><i class="fa fa-gg-circle">Common Data Elements</i></h1>
 <mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
-    <mat-accordion *ngIf="hierarchical==false" multi="true">
-      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="true"></app-version-details>
-    </mat-accordion>
-    <app-tree [versionId]="currentVersionId"></app-tree>
+    <app-version-details [versionId]="version.version_id" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="true"></app-version-details>
+    <app-tree [versionId]="version.version_id"></app-tree>
+  </mat-tab>
+  <mat-tab label="Create new Version">
+
+    <div class="container" style="width:400px">
+
+      <form-upload [sampleNameVersion]="createSampleFileName()"></form-upload>
+
+      <br/>
+      <br/>
+
+      <list-upload></list-upload>
+    </div>
   </mat-tab>
 </mat-tab-group>
 

@@ -27,7 +27,8 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
     //this.route.params
     //.switchMap((params: Params) => this.hospitalService.getVersionById(+params['versionId']))
      // .subscribe(ver => this.version = ver);
-
+    //this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
+    //this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
   }
   ngOnChanges(changes: SimpleChanges){
     if (changes['versionId']) {

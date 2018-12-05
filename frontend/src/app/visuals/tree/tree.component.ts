@@ -31,12 +31,7 @@ export class TreeComponent implements OnInit,OnChanges {
 
   }
 
-  ngOnChanges(changes: SimpleChanges){
-    if (changes['versionId']) {
-      this.hospitalService.getjsonStringVisualizableByVersionId(this.versionId).subscribe(viz => {this.dataList = viz});
-    }
 
-  }
   @Input('versionId') versionId;
   hierarchical = true;
   margin: any;
@@ -50,7 +45,12 @@ export class TreeComponent implements OnInit,OnChanges {
   nodes: any;
   links: any;
 
+  ngOnChanges(changes: SimpleChanges){
+    if (changes['versionId']) {
+      this.hospitalService.getjsonStringVisualizableByVersionId(this.versionId).subscribe(viz => {this.dataList = viz});
+    }
 
+  }
 
   setData() {
     if(d3.select('svg').size()){

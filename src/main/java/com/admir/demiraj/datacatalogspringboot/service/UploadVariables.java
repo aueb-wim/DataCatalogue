@@ -34,11 +34,13 @@ public class UploadVariables {
     @Autowired
     private VariablesXLSX_JSON variablesXLSX_json;
 
+    @Autowired
+    private FunctionsDAO functionsDAO;
+
 public void createVersion(String versionName, String filePath, Hospitals currentHospital){
     //generateConceptPathFromMapping(filePath);
     Versions version = new Versions(versionName);
     System.out.println("Saving Version");
-    versionDAO.saveVersion(version);
     Set<Variables> allVar = new HashSet<>();
     try {
         allVar = Read_xlsx(filePath, version, currentHospital);
@@ -48,11 +50,17 @@ public void createVersion(String versionName, String filePath, Hospitals current
         System.err.println("Problem with the xlsx...");
     }
 
+    for(Variables var : allVar){
+        System.out.println("Code : "+var.getCode()+ " Cocept path : "+var.getConceptPath());
+    }
+
+
     VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
     System.out.println("Retrieving jsonString from file");
     version.setJsonString(variablesXLSX_json.createJSONMetadata(testTree).toString());
     System.out.println("Retrieving jsonStringVisualizable from file");
     version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
+    versionDAO.saveVersion(version);
 
 }
 
@@ -155,13 +163,14 @@ public void createVersion(String versionName, String filePath, Hospitals current
                     if(cc12 != ""){
                         CDEVariables cde = cdeVariableDAO.getCDEVariableByName(cc12);
                         if(cde != null){ //the cde variable exists
-                            //System.out.println("The cdevariable has been retrieved");
+                            System.out.println("The cdevariable has been retrieved and has concept path of:"+cde.getConceptPath());
                             Functions functions = new Functions();
 
                             //make the variable have the same coceptPath as the cde equivalent
                             newVar.setConceptPath(cde.getConceptPath());
+                            System.out.println("The variable has been retrieved and has concept path of:"+newVar.getConceptPath());
                             //append in the excel cell the concept path
-                            row.getCell(9, Row.CREATE_NULL_AS_BLANK).setCellValue(cde.getConceptPath());
+                            //row.getCell(9, Row.CREATE_NULL_AS_BLANK).setCellValue(cde.getConceptPath());
                             List<Variables> allVariables = new ArrayList<>();
                             List<Functions> allFunctions = new ArrayList<>();
                             // functions takes a list of variables to express the many-2-many relationship
@@ -174,16 +183,34 @@ public void createVersion(String versionName, String filePath, Hospitals current
                             // variables takes a list of functions to express the many-2-many relationship
                             allFunctions.add(functions);
                             newVar.setFunction(allFunctions);
+                            //variableDAO.saveVersionToVariable(newVar, version);
+                           // variableDAO.saveHospitalToVariable(newVar, hospital);
+                           // variableDAO.save(newVar);
+
+                            variableDAO.saveVersionToVariable(newVar, version);
+                            variableDAO.saveHospitalToVariable(newVar, hospital);
+                            variableDAO.save(newVar);
+                            functionsDAO.save(functions);
+                            cdeVariableDAO.save(cde);
                         }else{
                             System.out.println("The cdevariable with name: "+ cc12 +"does no exist.We cannot create a mapping function");
+                            variableDAO.saveVersionToVariable(newVar, version);
+                            variableDAO.saveHospitalToVariable(newVar, hospital);
+                            variableDAO.save(newVar);
                         }
-                    }}
+                    }else{
+                        variableDAO.saveVersionToVariable(newVar, version);
+                        variableDAO.saveHospitalToVariable(newVar, hospital);
+                        variableDAO.save(newVar);
+                    }
+
+                }
+
 
             }
             xlsxVars.add(newVar);
-            variableDAO.saveVersionToVariable(newVar, version);
-            variableDAO.saveHospitalToVariable(newVar, hospital);
-            variableDAO.save(newVar);
+
+
         }
         System.out.println("********* Total of "+xlsxVars.size()+" XLSX elements **********");
         return xlsxVars;

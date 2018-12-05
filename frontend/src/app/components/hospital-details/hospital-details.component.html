@@ -5,9 +5,9 @@
 <mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id">
     <mat-accordion multi="true">
-      <app-version-details [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="false"></app-version-details>
+      <app-version-details [versionId]="version.version_id" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="false"></app-version-details>
     </mat-accordion>
-    <app-tree [versionId]="currentVersionId"></app-tree>
+    <app-tree [versionId]="version.version_id"></app-tree>
   </mat-tab>
   <mat-tab label="Create new Version">
 
