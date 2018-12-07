@@ -45,4 +45,10 @@ export class CdeVariablesComponent implements OnInit,OnChanges {
     this.changeVersionName(event.tab.textLabel);
   }
 
+  createSampleFileName(){
+    var oldName = parseInt(this.allCdeVersions[this.allCdeVersions.length-1].name.replace('v', ''));
+    oldName = oldName + 1;
+    return "v"+oldName.toString()+".xlsx";
+  }
+
 }

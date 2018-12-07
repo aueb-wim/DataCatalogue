@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigInteger;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -89,10 +90,13 @@ public class CDEVariables{
     @JoinTable(name = "cdevariables_versions",joinColumns = { @JoinColumn(name = "cdevariable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
     private Set<Versions> versions = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "function_id", nullable = true)
+    //@OneToOne(fetch = FetchType.LAZY, optional = true)
+    //@JoinColumn(name = "function_id", nullable = true)
+    //@JsonBackReference
     @JsonBackReference
-    private Functions function;
+    @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
+    @JoinTable(name = "cdevariables_functions",joinColumns = { @JoinColumn(name = "cdevariable_id") },inverseJoinColumns = { @JoinColumn(name = "function_id") })
+    private List<Functions> function;
 
 
     public String getCode() {
@@ -103,13 +107,9 @@ public class CDEVariables{
         this.code = code;
     }
 
-    public Functions getFunction() {
-        return function;
-    }
+    public List<Functions> getFunction() { return function; }
 
-    public void setFunction(Functions function) {
-        this.function = function;
-    }
+    public void setFunction(List<Functions> function) { this.function = function; }
 
     public String getConceptPath() {
         return conceptPath;

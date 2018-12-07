@@ -19,16 +19,23 @@ public class StorageService {
 
 
     private static final String FOLDER_VARIABLES = System.getProperty("user.dir") + "/src/main/resources/data/variables/";
+    private static final String FOLDER_CDES = System.getProperty("user.dir") + "/src/main/resources/data/cdes/";
     private static final String FOLDER_SAMPLES = System.getProperty("user.dir") + "/src/main/resources/data/samples/";
 
     Logger log = LoggerFactory.getLogger(this.getClass().getName());
     //private final Path rootLocation = Paths.get("upload-dir");//// note I have to provide a proper location
     private final Path variableLocation = Paths.get(FOLDER_VARIABLES);
+    private final Path cdeLocation = Paths.get(FOLDER_CDES);
     private final Path sampleLocation = Paths.get(FOLDER_SAMPLES);
 
     public void store(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.variableLocation.resolve(file.getOriginalFilename()));
+            if(file.getOriginalFilename().contains("cde")){
+                Files.copy(file.getInputStream(), this.cdeLocation.resolve(file.getOriginalFilename()));
+            }else{
+                Files.copy(file.getInputStream(), this.variableLocation.resolve(file.getOriginalFilename()));
+            }
+
         } catch (Exception e) {
             throw new RuntimeException("FAIL!");
         }

@@ -16,7 +16,7 @@ export class HospitalDetailsComponent implements OnInit,OnChanges {
   hospital:any;
   hierarchical=false;
   url=this.location.path();
-  currentVersionId=5; /// be careful when changing the database , it should be assigned to an existing id
+  currentVersionId=3; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionName;
   downloadName = "variables_";
   sampleName:string;
@@ -30,7 +30,7 @@ export class HospitalDetailsComponent implements OnInit,OnChanges {
 
     this.route.params.switchMap((params: Params) => this.hospitalService.
     getHospitalById(+params['hospital_id'])).subscribe(hosp=>{this.hospital = hosp});
-    this.currentVersionId = 4; //check this
+    this.currentVersionId = 3; //check this
   }
 
 

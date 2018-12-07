@@ -61,6 +61,10 @@ export class HospitalService {
   getHospitalById(hospital_id:number):Observable<any>{
     return this.http.get('//195.251.252.222:2443/hospitals/hosp/'+hospital_id);
   }
+
+  getAllFunctions():Observable<any>{
+    return this.http.get('//195.251.252.222:2443/mapping/functions/');
+  }
   ///////////////////////////UPLOAD RELATED
   pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
