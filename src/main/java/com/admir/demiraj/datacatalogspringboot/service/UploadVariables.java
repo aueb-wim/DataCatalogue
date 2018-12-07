@@ -51,7 +51,7 @@ public void createVersion(String versionName, String filePath, Hospitals current
     }
 
     for(Variables var : allVar){
-        System.out.println("Code : "+var.getCode()+ " Cocept path : "+var.getConceptPath());
+        System.out.println("Code : "+var.getCode()+ " Concept path : "+var.getConceptPath());
     }
 
 
@@ -88,7 +88,6 @@ public void createVersion(String versionName, String filePath, Hospitals current
                         //The version isn't present at hospital
                     } else {
                         createVersion(versionName,filePath,currentHospital);
-
                     }
 
 
@@ -163,35 +162,39 @@ public void createVersion(String versionName, String filePath, Hospitals current
                     if(cc12 != ""){
                         CDEVariables cde = cdeVariableDAO.getCDEVariableByName(cc12);
                         if(cde != null){ //the cde variable exists
-                            System.out.println("The cdevariable has been retrieved and has concept path of:"+cde.getConceptPath());
+                            System.out.println("The cdevariable has been retrieved "+cde+"and has concept path of:"+cde.getConceptPath());
                             Functions functions = new Functions();
 
-                            //make the variable have the same coceptPath as the cde equivalent
-                            newVar.setConceptPath(cde.getConceptPath());
-                            System.out.println("The variable has been retrieved and has concept path of:"+newVar.getConceptPath());
                             //append in the excel cell the concept path
                             //row.getCell(9, Row.CREATE_NULL_AS_BLANK).setCellValue(cde.getConceptPath());
                             List<Variables> allVariables = new ArrayList<>();
                             List<Functions> allFunctions = new ArrayList<>();
+                            List<CDEVariables> allCdeVariables = new ArrayList<>();
+
                             // functions takes a list of variables to express the many-2-many relationship
                             allVariables.add(newVar);
+                            allCdeVariables.add(cde);
+
                             functions.setVariables(allVariables);
                             functions.setRule(mapFunction);
-                            functions.setCdeVariable(cde);
-                            // cde takes only on function to express the one-2-one relationship
-                            cde.setFunction(functions);
+                            functions.setCdeVariable(allCdeVariables);
                             // variables takes a list of functions to express the many-2-many relationship
                             allFunctions.add(functions);
+
                             newVar.setFunction(allFunctions);
-                            //variableDAO.saveVersionToVariable(newVar, version);
-                           // variableDAO.saveHospitalToVariable(newVar, hospital);
-                           // variableDAO.save(newVar);
+                            //make the variable have the same conceptPath as the cde equivalent
+                            newVar.setConceptPath(cde.getConceptPath());
+
+                            List <Functions> cdeFunctions = cde.getFunction();
+                            cdeFunctions.add(functions);
+                            cde.setFunction(cdeFunctions);
 
                             variableDAO.saveVersionToVariable(newVar, version);
                             variableDAO.saveHospitalToVariable(newVar, hospital);
                             variableDAO.save(newVar);
-                            functionsDAO.save(functions);
                             cdeVariableDAO.save(cde);
+                            functionsDAO.save(functions);
+
                         }else{
                             System.out.println("The cdevariable with name: "+ cc12 +"does no exist.We cannot create a mapping function");
                             variableDAO.saveVersionToVariable(newVar, version);

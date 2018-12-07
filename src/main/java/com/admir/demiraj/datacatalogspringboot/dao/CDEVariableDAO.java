@@ -55,9 +55,7 @@ public class CDEVariableDAO {
     public void saveVersionToCDEVariable(CDEVariables cdevar, Versions ver){
         cdevar.setVersions(ver);
     }
-    public void saveFunctionToCDEVariable(CDEVariables cdevar, Functions func){
-         cdevar.setFunction(func);
-    }
+
 
     public List<Versions> getAllCdeVersions(){
          return versionDAO.getAllCdeVersions();
