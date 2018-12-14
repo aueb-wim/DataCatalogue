@@ -49,7 +49,6 @@ export class TreeComponent implements OnInit,OnChanges {
     if (changes['versionId']) {
       this.hospitalService.getjsonStringVisualizableByVersionId(this.versionId).subscribe(viz => {this.dataList = viz});
     }
-
   }
 
   setData() {
@@ -58,7 +57,7 @@ export class TreeComponent implements OnInit,OnChanges {
     }else{
       this.hierarchical = true;
     }
-
+////first clear previous component
     d3.select('svg').remove();
     this.margin = { top: 20, right: 90, bottom: 30, left: 90 };
     //this.width = 1400 - this.margin.left - this.margin.right;
@@ -66,7 +65,7 @@ export class TreeComponent implements OnInit,OnChanges {
     this.height = 2000- this.margin.top - this.margin.bottom;
     //this.height = 400 - this.margin.top - this.margin.bottom;
 
-////first clear previous component
+
 
 
     this.svg = d3.select('a.tree').append('svg')///////////////////////////////////////////tbody
@@ -131,7 +130,7 @@ export class TreeComponent implements OnInit,OnChanges {
       .attr('transform', (d) => {
         return 'translate(' + source.y0 + ',' + source.x0 + ')';
       })
-      .on('click', this.click)
+      .on('click', this.click);
 
     nodeEnter.append('circle')
       .attr('class', 'node')

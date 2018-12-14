@@ -7,7 +7,11 @@
     <mat-accordion multi="true">
       <app-version-details [versionId]="version.version_id" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="false"></app-version-details>
     </mat-accordion>
-    <app-tree [versionId]="version.version_id"></app-tree>
+    <div>
+      <app-tree [versionId]="version.version_id"></app-tree>
+      <app-mapping-visual [allFunctions]="allFunctions"></app-mapping-visual>
+    </div>
+
   </mat-tab>
   <mat-tab label="Create new Version">
 

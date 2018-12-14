@@ -29,6 +29,8 @@ import { UploadExcelComponent } from './components/upload-excel/upload-excel.com
 import { ListUploadComponent } from './components/list-upload/list-upload.component';
 import { DetailsUploadComponent } from './components/details-upload/details-upload.component';
 import { FormUploadComponent } from './components/form-upload/form-upload.component';
+import { MappingVisualComponent } from './visuals/mapping-visual/mapping-visual.component';
+
 
 
 
@@ -55,6 +57,8 @@ import { FormUploadComponent } from './components/form-upload/form-upload.compon
     ListUploadComponent,
     DetailsUploadComponent,
     FormUploadComponent,
+    MappingVisualComponent,
+
   ],
   imports: [
 

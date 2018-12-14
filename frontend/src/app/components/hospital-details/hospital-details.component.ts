@@ -20,6 +20,7 @@ export class HospitalDetailsComponent implements OnInit,OnChanges {
   currentVersionName;
   downloadName = "variables_";
   sampleName:string;
+  allFunctions:Array<any>;
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {
@@ -31,6 +32,10 @@ export class HospitalDetailsComponent implements OnInit,OnChanges {
     this.route.params.switchMap((params: Params) => this.hospitalService.
     getHospitalById(+params['hospital_id'])).subscribe(hosp=>{this.hospital = hosp});
     this.currentVersionId = 3; //check this
+
+    this.hospitalService.getAllFunctions().subscribe(functions => {
+      this.allFunctions = functions
+    });
   }
 
 
