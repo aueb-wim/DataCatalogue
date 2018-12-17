@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import * as d3 from 'd3';
 import * as d3Sankey from 'd3-sankey';
@@ -9,19 +9,28 @@ import * as d3Sankey from 'd3-sankey';
   templateUrl: './mapping-visual.component.html',
   styleUrls: ['./mapping-visual.component.css']
 })
-export class MappingVisualComponent implements OnInit {
+export class MappingVisualComponent implements OnInit, OnChanges {
 
   constructor(private hospitalService: HospitalService) {
   }
 
-  @Input("allFunctions") allFunctions: Array<any>;
+
+  @Input("versionId") versionId:number;
+
   mapView = true;
   margin: any;
   width: number;
   height: number;
+  functionsByVariableVersion: Array<any>;
 
   ngOnInit() {
 
+  }
+
+  ngOnChanges(changes: SimpleChanges){
+    if (changes['versionId']) {
+      this.hospitalService.getFunctionsByVariableVersionId(this.versionId).subscribe(functions => {this.functionsByVariableVersion = functions});
+    }
   }
 
 
@@ -79,7 +88,7 @@ export class MappingVisualComponent implements OnInit {
     };
 
 
-for(let f of this.allFunctions){
+for(let f of this.functionsByVariableVersion){
   let v = f.variables[0];
   let c = f.cdeVariable[0];
 

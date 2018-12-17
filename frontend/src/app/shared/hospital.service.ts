@@ -65,6 +65,10 @@ export class HospitalService {
   getAllFunctions():Observable<any>{
     return this.http.get('//195.251.252.222:2443/mapping/functions/');
   }
+
+  getFunctionsByVariableVersionId(version_id:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2443/mapping/functionsByVersionId/'+version_id);
+  }
   ///////////////////////////UPLOAD RELATED
   pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();

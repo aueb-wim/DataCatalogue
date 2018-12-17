@@ -25,9 +25,7 @@ export class CdeVariablesComponent implements OnInit,OnChanges {
   ngOnInit() {
     this.hospitalService.getAllCdeVersions().subscribe(allVersions => {this.allCdeVersions = allVersions});
     this.hospitalService.getjsonStringVisualizableByVersionId(this.currentVersionId).subscribe(json=>{this.jsonVisualizable=json});
-    this.hospitalService.getAllFunctions().subscribe(functions => {
-      this.allFunctions = functions
-    });
+
   }
 
   ngOnChanges(changes: SimpleChanges){
