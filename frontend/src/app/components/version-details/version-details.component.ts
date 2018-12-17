@@ -14,10 +14,11 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
   @Input('versionName') versionName;
   @Input('downloadFileName') downloadName;
   @Input('cdeData') cdeData;
+  searchTermVar: String;
 
   version:any;
   jsonMetadata:any;
-  searchTermVar: String;
+
 
 
 

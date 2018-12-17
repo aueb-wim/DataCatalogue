@@ -57,7 +57,8 @@ public void createVersion(String versionName, String filePath, Hospitals current
 
     VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
     System.out.println("Retrieving jsonString from file");
-    version.setJsonString(variablesXLSX_json.createJSONMetadata(testTree).toString());
+    //version.setJsonString(variablesXLSX_json.createJSONMetadata(testTree).toString());
+    version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
     System.out.println("Retrieving jsonStringVisualizable from file");
     version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
     versionDAO.saveVersion(version);

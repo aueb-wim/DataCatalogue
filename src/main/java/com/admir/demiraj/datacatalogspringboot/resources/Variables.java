@@ -44,7 +44,19 @@ public class Variables implements Serializable{
 
     public Variables() {
     }
-    
+    public Variables(CDEVariables cde) {
+        this.name = cde.getName();
+        this.csvFile = cde.getCsvFile();
+        this.code = cde.getCode();
+        this.values = cde.getValues();
+        this.type = cde.getType();
+        this.unit = cde.getUnit();
+        this.canBeNull = cde.getCanBeNull();
+        this.description = cde.getDescription();
+        this.comments = cde.getComments();
+        this.conceptPath = cde.getConceptPath();
+        this.methodology = cde.getMethodology();
+    }
     
     
     @Id
@@ -97,7 +109,7 @@ public class Variables implements Serializable{
     @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "variables_versions",joinColumns = { @JoinColumn(name = "variable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
-    private Set<Versions> versions = new HashSet<>();
+    private List<Versions> versions = new ArrayList<>();
 
     public String getCode() {
         return code;
@@ -115,8 +127,12 @@ public class Variables implements Serializable{
         this.conceptPath = conceptPath;
     }
 
-    public Set<Versions> getVersions() {
+    public List<Versions> getVersions() {
         return versions;
+    }
+
+    public void setVersions(List<Versions> versions) {
+        this.versions = versions;
     }
 
     public void setVersions(Versions version) {
@@ -211,10 +227,6 @@ public class Variables implements Serializable{
 
     public void setFunction(List<Functions> function) {
         this.function = function;
-    }
-
-    public void setVersions(Set<Versions> versions) {
-        this.versions = versions;
     }
 
     public String getMethodology() { return methodology; }

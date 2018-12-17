@@ -10,12 +10,14 @@
 </div>
 -->
 
+
+
 <h1><i class="fa fa-gg-circle">Common Data Elements</i></h1>
 <mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
-    <app-version-details [versionId]="version.version_id" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="true"></app-version-details>
     <app-tree [versionId]="version.version_id"></app-tree>
     <app-mapping-visual [allFunctions]="allFunctions"></app-mapping-visual>
+    <app-version-details [versionId]="version.version_id" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="true"></app-version-details>
   </mat-tab>
   <mat-tab label="Create new Version">
 
