@@ -45,7 +45,19 @@ public class Variables implements Serializable{
     public Variables() {
     }
     
-    
+    public Variables(CDEVariables cde) {
+        this.name = cde.getName();
+        this.csvFile = cde.getCsvFile();
+        this.code = cde.getCode();
+        this.values = cde.getValues();
+        this.type = cde.getType();
+        this.unit = cde.getUnit();
+        this.canBeNull = cde.getCanBeNull();
+        this.description = cde.getDescription();
+        this.comments = cde.getComments();
+        this.conceptPath = cde.getConceptPath();
+        this.methodology = cde.getMethodology();
+    }
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

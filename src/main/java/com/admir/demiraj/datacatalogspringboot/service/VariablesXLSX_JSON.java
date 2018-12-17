@@ -11,6 +11,9 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
+import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
+import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.EncryptedDocumentException;
@@ -23,7 +26,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
 /**
  * VariablesXLSX_JSON class creates 2 different JSONs from an XLSX file which contains info about hospitals' variables.
@@ -34,6 +39,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class VariablesXLSX_JSON
 {
+    @Autowired
+    private CDEVariableDAO cdeVariableDAO;
+    @Autowired
+    private VersionDAO versionDAO;
     /**
      * @param file: the path of the input XLSX file
      * @return the tree of the variables
@@ -275,6 +284,21 @@ public class VariablesXLSX_JSON
         return outerNode;
     }
 
+    /**
+     *
+     * @param xlsxVars: Set of the Variables parsed from the input XLSX
+     * @return the Metadata JSON which contains the xlsxVars plus the last version CDEs
+     */
+    public JSONObject createJSONMetadataWithCDEs(Set<Variables> xlsxVars)
+    {
+        Versions lastVersion = versionDAO.getLastCdeVersion();
+        List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
+        List<Variables> varsThatRCdes = new ArrayList<>();
+        for (CDEVariables cde : cdeVars)
+            varsThatRCdes.add(new Variables(cde));
+        xlsxVars.addAll(varsThatRCdes);//to the xlsxVars add the Variables that actually are the CDEs
+        return createJSONMetadata(createTree(xlsxVars));//return the full Metadata JSON
+    }
     /**
      * used by createJSONMetadata to fill in all levels recursively
      * @param root
