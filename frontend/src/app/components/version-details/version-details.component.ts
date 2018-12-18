@@ -14,7 +14,8 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
   @Input('versionName') versionName;
   @Input('downloadFileName') downloadName;
   @Input('cdeData') cdeData;
-  searchTermVar: String;
+  @Input('searchTermVar') searchTermVar;
+  //searchTermVar: String;
 
   version:any;
   jsonMetadata:any;

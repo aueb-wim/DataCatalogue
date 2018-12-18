@@ -12,14 +12,14 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class CdeVariablesComponent implements OnInit,OnChanges {
   allCdeVersions: Array<any>;
   searchTermVer: String;
-  hierarchical = false;
+  diagramOpen=false;
   jsonMetadata:any;
   jsonVisualizable:any;
   currentVersionId=2; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionName;
   downloadName = "cdes_";
   allFunctions:Array<any>;
-
+searchTermVar:String;
   constructor(private hospitalService: HospitalService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {

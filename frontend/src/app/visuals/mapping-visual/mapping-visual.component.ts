@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import * as d3 from 'd3';
 import * as d3Sankey from 'd3-sankey';
@@ -16,8 +16,9 @@ export class MappingVisualComponent implements OnInit, OnChanges {
 
 
   @Input("versionId") versionId:number;
+  @Input("diagramOpen") diagramOpen;
+  @Output() diagramOpenChange = new EventEmitter<boolean>();
 
-  mapView = true;
   margin: any;
   width: number;
   height: number;
@@ -33,14 +34,31 @@ export class MappingVisualComponent implements OnInit, OnChanges {
     }
   }
 
+  changediagramOpen(){
+    if(this.diagramOpen){
+      this.diagramOpen = false;
+      this.diagramOpenChange.emit(this.diagramOpen);
+    }else{
+      this.diagramOpen = true;
+      this.diagramOpenChange.emit(this.diagramOpen);
+    }
+  }
+
+
+  private handleChart(){
+    if(this.diagramOpen){
+      d3.select('svg').remove();
+      this.changediagramOpen();
+
+    }else{
+      this.DrawChart();
+    }
+  }
 
   private DrawChart() {
 
-    if(d3.select('svg').size()){
-      this.mapView = false;
-    }else{
-      this.mapView = true;
-    }
+    this.changediagramOpen();
+
     d3.select('svg').remove();
     this.margin = { top: 100, right: 90, bottom: 30, left: 90 };
     //this.width = 1400 - this.margin.left - this.margin.right;

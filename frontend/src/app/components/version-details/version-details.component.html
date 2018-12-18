@@ -1,12 +1,6 @@
 
-<div class="form-group">
+<button class="download" (click)="exportJson()">Download</button>
 
-  <input type="text" class="form-control"
-         placeholder="Filter By Variable Name"
-         style="width: 200px" [(ngModel)]="searchTermVar">
-  <button class="download" (click)="exportJson()">Download</button>
-</div>
-<a>version is:{{versionId}}</a>
 
 <div *ngIf="cdeData==false">
   <mat-expansion-panel *ngFor="let variable of version.variables | hospitalFilter:searchTermVar">

@@ -2,17 +2,18 @@
 
 <h1><i class="fa fa-hospital-o">{{hospital.name}}</i></h1>
 
+  <input type="text" class="form-control"
+         placeholder="Filter By Variable Name"
+         style="width: 200px" [(ngModel)]="searchTermVar">
+
 <mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id">
     <div>
-      <app-tree [versionId]="version.version_id"></app-tree>
-      <!--<app-mapping-visual [allFunctions]="allFunctions"></app-mapping-visual>-->
-     <!-- <app-mapping-visual [allFunctions]="allFunctions" [versionId]="version.version_id"></app-mapping-visual>-->
-      <app-mapping-visual [versionId]="version.version_id"></app-mapping-visual>
-
+      <app-tree [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-tree>
+      <app-mapping-visual [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
     </div>
     <mat-accordion multi="true">
-      <app-version-details  [versionId]="version.version_id" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="false"></app-version-details>
+      <app-version-details  *ngIf="diagramOpen==false" [searchTermVar]="searchTermVar" [versionId]="version.version_id" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="false" ></app-version-details>
     </mat-accordion>
 
 

@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, EventEmitter,
   Input,
   OnChanges,
-  OnInit,
+  OnInit, Output,
   SimpleChanges,
   ViewContainerRef
 } from '@angular/core';
@@ -33,7 +33,8 @@ export class TreeComponent implements OnInit,OnChanges {
 
 
   @Input('versionId') versionId;
-  hierarchical = true;
+  @Input('diagramOpen') diagramOpen;
+  @Output() diagramOpenChange = new EventEmitter<boolean>();
   margin: any;
   width: number;
   height: number;
@@ -51,12 +52,31 @@ export class TreeComponent implements OnInit,OnChanges {
     }
   }
 
-  setData() {
-    if(d3.select('svg').size()){
-      this.hierarchical = false;
+  chagediagramOpen(){
+    if(this.diagramOpen){
+      this.diagramOpen = false;
+      this.diagramOpenChange.emit(this.diagramOpen);
     }else{
-      this.hierarchical = true;
+      this.diagramOpen = true;
+      this.diagramOpenChange.emit(this.diagramOpen);
     }
+  }
+
+  private handleChart(){
+    if(this.diagramOpen){
+      d3.select('svg').remove();
+      this.chagediagramOpen();
+
+    }else{
+      this.setData();
+    }
+  }
+
+  setData() {
+    this.chagediagramOpen();
+
+
+
 ////first clear previous component
     d3.select('svg').remove();
     this.margin = { top: 20, right: 90, bottom: 30, left: 90 };
