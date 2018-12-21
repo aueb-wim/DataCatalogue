@@ -28,9 +28,6 @@
   </select>
 </div>
 
-
-
-
     <div>
       <app-tree [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-tree>
       <app-mapping-visual [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
@@ -41,9 +38,9 @@
 
 
   </mat-tab>
-  <mat-tab label="Create new Version">
+  <mat-tab class="upload" label="Create new Version">
 
-    <div class="container" style="width:400px">
+    <div class="container" style="width:1000px">
 
       <form-upload [sampleNameVersion]="createSampleFileName()"></form-upload>
 

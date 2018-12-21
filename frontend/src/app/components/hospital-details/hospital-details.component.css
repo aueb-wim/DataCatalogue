@@ -1,4 +1,8 @@
 
+/deep/div.container{
+  align-items: center;
+  alignment: center;
+}
 
 .mat-tab-label.mat-tab-label-active {
   min-width: 25px !important;
@@ -29,9 +33,14 @@ input[type=text] {
   margin-right: 4px;
   font-size: 15px;
   border-color: #2196F3;
+
 }
 
 
 .holder{
   horiz-align: left;
+}
+
+/deep/mat-tab.upload{
+  width: 100%;
 }
