@@ -12,7 +12,10 @@ import {HospitalService} from "../../shared/hospital.service";
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
-import {MappingVisualComponent} from "../../visuals/mapping-visual/mapping-visual.component";
+import {FormControl, FormGroup} from "@angular/forms";
+import {Observable} from "rxjs";
+import {map, startWith} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-hospital-details',
@@ -20,8 +23,11 @@ import {MappingVisualComponent} from "../../visuals/mapping-visual/mapping-visua
   styleUrls: ['./hospital-details.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HospitalDetailsComponent implements OnInit,OnChanges{
-
+export class HospitalDetailsComponent implements OnInit,OnChanges,AfterViewInit{
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
+  usersForm: FormGroup;
 
   diagramOpen=false;
   hospitalVersions:Array<any>;
@@ -31,8 +37,14 @@ export class HospitalDetailsComponent implements OnInit,OnChanges{
   currentVersionName;
   downloadName = "variables_";
   searchTermVar:String;
-  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
+  viewInitialized:boolean;
+  filterDisabled = true;
+  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
 
+  }
+  ngAfterViewInit(){
+    this.viewInitialized = true;
+  }
   ngOnInit() {
 
     this.route.params
@@ -43,10 +55,20 @@ export class HospitalDetailsComponent implements OnInit,OnChanges{
     getHospitalById(+params['hospital_id'])).subscribe(hosp=>{this.hospital = hosp});
     this.currentVersionId = 3; //check this
 
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
 
   }
 
 
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  }
 
 
  // ngAfterViewInit() {
@@ -68,7 +90,14 @@ export class HospitalDetailsComponent implements OnInit,OnChanges{
      // this.hierarchical = this.child.hierarchical;
     //}
   }
+enableFilter(){
+    this.filterDisabled = false;
+}
 
+ changeSearchTermVar(event){
+   this.filterDisabled = true;
+    this.searchTermVar = event.target.value;
+  }
   createSampleFileName(){
     var oldName = parseInt(this.hospitalVersions[this.hospitalVersions.length-1].name.replace('v', ''));
     oldName = oldName + 1;
@@ -86,6 +115,7 @@ export class HospitalDetailsComponent implements OnInit,OnChanges{
   tabChanged(event) {
     this.changeVersionId(this.hospitalVersions[event.index].version_id);
     this.changeVersionName(event.tab.textLabel);
+    this.searchTermVar = "";
   }
 
 

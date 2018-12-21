@@ -30,6 +30,7 @@
     "d3": "^5.7.0",
     "d3-sankey": "^0.7.1",
     "font-awesome": "^4.7.0",
+    "ng2-select2": "^1.0.0-beta.16",
     "ngx-treeview": "^6.0.1",
     "rxjs": "~6.2.0",
     "rxjs-compat": "^6.3.3",

@@ -30,3 +30,8 @@ input[type=text] {
   font-size: 15px;
   border-color: #2196F3;
 }
+
+
+.holder{
+  horiz-align: left;
+}

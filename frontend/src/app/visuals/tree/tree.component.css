@@ -1,4 +1,4 @@
-button {
+button.toogleChart {
   line-height: 12px;
   margin-top: 15px;
   margin-right: 2px;
@@ -14,23 +14,33 @@ i{
 }
 
 /deep/ .node text {
-  font: 19px sans-serif;
+  font: 19% sans-serif;
   font-weight: bolder;
 }
 
 
 /deep/ div.tooltip {
-  font: 25px sans-serif;
+  font: 17px sans-serif;
   position: fixed;
   top:280px;
   right: 50px;
   text-align: center;
-  height: 28px;
+  height: 60px;
   padding: 2px;
   background: lightsteelblue;
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
+  word-wrap: break-word;
 }
+
+
+/deep/.found {
+  fill: #ff4136;
+  stroke: #ff4136;
+}
+
+
+
 
 

@@ -16,6 +16,7 @@ export class MappingVisualComponent implements OnInit, OnChanges {
 
 
   @Input("versionId") versionId:number;
+  @Input("searchTermVar") searchTermVar:string;
   @Input("diagramOpen") diagramOpen;
   @Output() diagramOpenChange = new EventEmitter<boolean>();
 
