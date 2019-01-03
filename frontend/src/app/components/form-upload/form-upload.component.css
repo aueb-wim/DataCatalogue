@@ -1,5 +1,5 @@
 
-/*
+
 .upload-btn-wrapper {
   position: relative;
   overflow: hidden;
@@ -26,23 +26,32 @@
 
 .first{
   border: 2px solid red;
-  border-radius: 25px;
+  border-radius: 10px;
   align-items: center;
-  margin-left: 100px;
-  width: 100%;
+  margin-left: 100%;
+  margin-top: 10%;
+width: 100%;
+  alignment: center;
 }
 
 .instuctions{
   font-size: large;
   color: #2196F3;
+  width: 100%;
 
 }
 
 .donwloadsample{
 
 }
-*/
+
 
 .first{
   margin-bottom: 50px;
+}
+
+
+textarea{
+  width: 100%;
+  height: 100%;
 }

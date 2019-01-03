@@ -15,6 +15,7 @@ import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
+import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -36,13 +37,23 @@ import com.admir.demiraj.datacatalogspringboot.resources.Versions;
  * To generate the Visualisation JSON run createJSONVisualization(). Give the tree as input.
  * To generate the Metadata JSON run createJSONMetadata(). Give the tree as input.
  */
+
 @Service
 public class VariablesXLSX_JSON
 {
+<<<<<<< HEAD
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
     @Autowired
     private VersionDAO versionDAO;
+=======
+@Autowired
+VersionDAO versionDAO;
+
+@Autowired
+CDEVariableDAO cdeVariableDAO;
+
+>>>>>>> 7dec5fd569e5d0b362c182eee8b187361e6e79f8
     /**
      * @param file: the path of the input XLSX file
      * @return the tree of the variables
@@ -69,6 +80,7 @@ public class VariablesXLSX_JSON
      * @param ff
      * @return A HashSet with all Variables
      */
+
     public Set<Variables> Read_xlsx(String ff) throws IOException
     {
         Set<Variables> xlsxVars = new HashSet<>();//<Variables>
@@ -123,7 +135,19 @@ public class VariablesXLSX_JSON
         System.out.println("********* Total of "+xlsxVars.size()+" XLSX elements **********");
         return xlsxVars;
     }
+    public JSONObject createJSONMetadataWithCDEs(Set<Variables> xlsxVars)
+    {
+        Versions lastVersion = versionDAO.getLastCdeVersion();
+        System.out.println("cde variables found : "+ cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id()).size());
+        List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
+        List<Variables> varsThatRCdes = new ArrayList<>();
+        for (CDEVariables cde : cdeVars){
+            varsThatRCdes.add(new Variables(cde));
+        }
 
+        xlsxVars.addAll(varsThatRCdes);//to the xlsxVars add the Variables that actually are the CDEs
+        return createJSONMetadata(createTree(xlsxVars));//return the full Metadata JSON
+    }
     /**
      * Creates the Variables Tree from the Set of Variables
      * @param xlsxVars
@@ -191,6 +215,7 @@ public class VariablesXLSX_JSON
         node.parent.children.add(node);
        // System.out.println("---$$$$$ Added "+node.code+" under "+node.parent.code+" which has concept_path: "+node.var.getConceptPath()+" $$$$$---");
     }
+
     public Node findNodeByCode(String NodeCode,Node node)
     {
         if (node.code.equals(NodeCode))

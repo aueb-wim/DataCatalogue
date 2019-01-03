@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -88,7 +89,7 @@ public class CDEVariables{
     @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "cdevariables_versions",joinColumns = { @JoinColumn(name = "cdevariable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
-    private Set<Versions> versions = new HashSet<>();
+    private List<Versions> versions = new ArrayList<>();
 
     //@OneToOne(fetch = FetchType.LAZY, optional = true)
     //@JoinColumn(name = "function_id", nullable = true)
@@ -135,8 +136,12 @@ public class CDEVariables{
         this.cdevariable_id = cdevariable_id;
     }
 
-    public Set<Versions> getVersions() {
+    public List<Versions> getVersions() {
         return versions;
+    }
+
+    public void setVersions(List<Versions> versions) {
+        this.versions = versions;
     }
 
     public void setVersions(Versions versions) {
@@ -181,10 +186,6 @@ public class CDEVariables{
 
     public void setComments(String comments) {
         this.comments = comments;
-    }
-
-    public void setVersions(Set<Versions> versions) {
-        this.versions = versions;
     }
 
     public String getName() {

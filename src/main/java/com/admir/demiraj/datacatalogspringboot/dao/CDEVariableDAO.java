@@ -11,6 +11,7 @@ import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import jdk.nashorn.internal.runtime.Version;
@@ -33,11 +34,27 @@ public class CDEVariableDAO {
 
     @Autowired
     private VersionDAO versionDAO;
+<<<<<<< HEAD
     
     
     public List<CDEVariables> findCDEVariablesByVersionId(BigInteger versionId){
          return cdeVariablesRepository.findCDEVariablesByVersion(versionId);
     }
+=======
+
+
+     public List<CDEVariables> findCDEVariablesByVersionId(BigInteger versionId){
+        List<Versions> allVersions = versionDAO.getAllVersions();
+        for(Versions v : allVersions){
+            System.out.println("version is : "+v.getVersion_id()+" looking for : "+versionId);
+            if(v.getVersion_id().equals(versionId)){
+                System.out.println("inside ifis : ");
+                return v.getCdevariables();
+            }
+        }
+        return null;
+     } 
+>>>>>>> 7dec5fd569e5d0b362c182eee8b187361e6e79f8
 
     public CDEVariables save(CDEVariables cdevar){
         return cdeVariablesRepository.save(cdevar);

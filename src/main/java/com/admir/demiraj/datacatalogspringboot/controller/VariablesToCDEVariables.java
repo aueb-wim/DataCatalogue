@@ -142,6 +142,11 @@ public class VariablesToCDEVariables {
         return this.functionsDAO.findAll();
    }
 
+   @GetMapping("/functionsByVersionId/{version_id}")
+    public List<Functions> getFunctionsByVariableId(@PathVariable(value = "version_id") Long versionId) {
+       BigInteger vId = BigInteger.valueOf(versionId);
+        return this.functionsDAO.findByVariableVersionId(vId);}
+
 
     
 }

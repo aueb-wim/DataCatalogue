@@ -1,23 +1,24 @@
 import {
   ChangeDetectionStrategy,
-  Component,
+  Component, EventEmitter,
   Input,
   OnChanges,
-  OnInit,
+  OnInit, Output,
   SimpleChanges,
-  ViewContainerRef
+  ViewContainerRef, ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
 import {HospitalService} from "../../shared/hospital.service";
-import {D3Service} from "../../d3";
-import {element} from "protractor";
+import {FormControl} from '@angular/forms';
+import { Select2OptionData} from 'ng2-select2';
 
 
 
 @Component({
   selector: 'app-tree',
   templateUrl:'./tree.component.html',
-  styleUrls: ['./tree.component.css']
+  styleUrls: ['./tree.component.css'],
+  //encapsulation: ViewEncapsulation.None
 })
 export class TreeComponent implements OnInit,OnChanges {
 
@@ -27,13 +28,11 @@ export class TreeComponent implements OnInit,OnChanges {
 
   dataList:any;
 
-  ngOnInit(){
-
-  }
 
 
   @Input('versionId') versionId;
-  hierarchical = true;
+  @Input('diagramOpen') diagramOpen;
+  @Output() diagramOpenChange = new EventEmitter<boolean>();
   margin: any;
   width: number;
   height: number;
@@ -44,29 +43,117 @@ export class TreeComponent implements OnInit,OnChanges {
   treeData: any;
   nodes: any;
   links: any;
+  data = ["Option 1", "Option 2", "Option 3","AV45","insula"];
+
+  ngOnInit(){
+    /* var data = ["Option 1", "Option 2", "Option 3","AV45","insula"];
+
+    var select = d3.select('.trial')
+      .append('select')
+      .attr('class','select')
+      .on('change',onchange);
+
+    var options = select
+      .selectAll('option')
+      .data(data).enter()
+      .append('option')
+      .text(function (d) { return d; });
+    * */
+
+
+  }
+
+
 
   ngOnChanges(changes: SimpleChanges){
     if (changes['versionId']) {
       this.hospitalService.getjsonStringVisualizableByVersionId(this.versionId).subscribe(viz => {this.dataList = viz});
     }
+  }
 
+  chagediagramOpen(){
+    if(this.diagramOpen){
+      this.diagramOpen = false;
+      this.diagramOpenChange.emit(this.diagramOpen);
+    }else{
+      this.diagramOpen = true;
+      this.diagramOpenChange.emit(this.diagramOpen);
+    }
+  }
+
+  private handleChart(){
+    if(this.diagramOpen){
+      d3.select('svg').remove();
+      this.chagediagramOpen();
+
+    }else{
+      this.setData();
+    }
   }
 
   setData() {
-    if(d3.select('svg').size()){
-      this.hierarchical = false;
-    }else{
-      this.hierarchical = true;
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    //basically a way to get the path to an object
+    function searchTree(obj,search,path){
+      console.log("serach found 0 : object code "+obj.data.code);
+      console.log("children of obj: "+obj["children"]);
+      if(obj.data.code === search){ //if search is found return, add the object to the path and return it
+        path.push(obj);
+        console.log("serach found 1");
+        return path;
+      }
+      else if(obj.children || obj._children){ //if children are collapsed d3 object will have them instantiated as _children
+        console.log("serach found 2");
+        var children = (obj["children"]) ? obj.children : obj["_children"];
+        for(var i=0;i<children.length;i++){
+          console.log("serach found 3");
+          path.push(obj);// we assume this path is the right one
+          var found = searchTree(children[i],search,path);
+          if(found){// we were right, this should return the bubbled-up path from the first if statement
+            console.log("serach found 4");
+            return found;
+          }
+          else{//we were wrong, remove this parent from the path and continue iterating
+            console.log("serach found 5");
+            path.pop();
+          }
+        }
+      }
+      else{//not the right object, return false so it will continue to iterate in the loop
+        console.log("serach found 6");
+        return false;
+      }
     }
 
+    function extract_select2_data(node,leaves,index){
+      if (node.children){
+        for(var i = 0;i<node.children.length;i++){
+          index = extract_select2_data(node.children[i],leaves,index)[0];
+        }
+      }
+      else {
+        leaves.push({id:++index,text:node.data.code});
+      }
+      return [index,leaves];
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+
+
+    this.chagediagramOpen();
+
+////first clearprevious component
     d3.select('svg').remove();
     this.margin = { top: 20, right: 90, bottom: 30, left: 90 };
     //this.width = 1400 - this.margin.left - this.margin.right;
-    this.width = 2400 - this.margin.left - this.margin.right;
+    this.width = 2000 - this.margin.left - this.margin.right;
     this.height = 2000- this.margin.top - this.margin.bottom;
     //this.height = 400 - this.margin.top - this.margin.bottom;
 
-////first clear previous component
+
 
 
     this.svg = d3.select('a.tree').append('svg')///////////////////////////////////////////tbody
@@ -85,8 +172,83 @@ export class TreeComponent implements OnInit,OnChanges {
     this.root.x0 = this.height / 2;
     this.root.y0 = 10;
 
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+    function openPaths2(paths){
+      for(var i =0;i<paths.length;i++){
+        if(paths[i].id !== "1"){//i.e. not root
+          paths[i].class = 'found';
+          if(paths[i]._children){ //if children are hidden: open them, otherwise: don't do anything
+            paths[i].children = paths[i]._children;
+            paths[i]._children = null;
+          }
+          this.updateChart(paths[i]).bind(this);
+          console.log("Open Paths works");
+        }
+      }
+    }
+
+   let openPaths = (paths) => {
+      console.log('click');
+     for(var i =0;i<paths.length;i++){
+       if(paths[i].id !== "1"){//i.e. not root
+         paths[i].class = 'found';
+         if(paths[i]._children){ //if children are hidden: open them, otherwise: don't do anything
+           paths[i].children = paths[i]._children;
+           paths[i]._children = null;
+         }
+         this.updateChart(paths[i]);
+         console.log("Open Paths works");
+       }
+     }
+    };
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+
+
+console.log("Root outside onChange"+this.root);
+    function onchange2() {
+      let selectValue = d3.select('select').property('value');
+      //alert("The selected value is : "+selectValue);
+      console.log("selected value : "+selectValue);
+      //this.root.children.forEach(collapse);
+      console.log("Root inside onChange: "+this.root);
+      var paths = searchTree(function (d) {
+        return d;
+      },selectValue,[]);
+      if(typeof(paths) !== "undefined"){
+        openPaths(paths);
+      }
+      else{
+        console.log(selectValue+" not found!");
+      }
+    };
+
+
+    onchange = (d) => {
+      let selectValue = d3.select('select').property('value');
+      //alert("The selected value is : "+selectValue);
+      console.log("selected value : "+selectValue);
+      //this.root.children.forEach(collapse);
+      console.log("Root inside onChange: "+this.root);
+      var paths = searchTree(this.root, selectValue,[]);
+      if(typeof(paths) !== "undefined"){
+        openPaths(paths);
+      }
+      else{
+        console.log(selectValue+" not found!");
+      }
+    };
+
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+
     // Collapse after the second level
-     //this.root.children.forEach(collapse);
+    // this.root.children.forEach(collapse);
 
     this.updateChart(this.root);
 
@@ -131,7 +293,7 @@ export class TreeComponent implements OnInit,OnChanges {
       .attr('transform', (d) => {
         return 'translate(' + source.y0 + ',' + source.x0 + ')';
       })
-      .on('click', this.click)
+      .on('click', this.click);
 
     nodeEnter.append('circle')
       .attr('class', 'node')
@@ -163,7 +325,8 @@ export class TreeComponent implements OnInit,OnChanges {
         div.transition()
           .duration(200)
           .style("opacity", .9);
-        div	.html(d.data.description)
+        div	.html("<b>Name: </b>"+d.data.code+"<br/>"+"<font size=\"-1\"> <b>Description: </b>"+d.data.description+"</font>"
+          +"<br/><font size=\"-1\"> <b>Cocept Path: </b>"+d.data.conceptPath+"</font>")
           .style("left", d3.select(this).attr("cx") + "px")
           .style("top", d3.select(this).attr("cy") + "px");
           //.style("left", (d3.event.pageX) + "px")
@@ -174,22 +337,7 @@ export class TreeComponent implements OnInit,OnChanges {
           .duration(500)
           .style("opacity", 0);
       });
-/*
-    nodeEnter.on("mouseover", function(d) {
-      let g = d3.select(this); // The node
-      // The class is used to remove the additional text later
-      let info = g.append('text')
-        .classed('info', true)
-        .attr('x', 20)
-        .attr('y', 10)
-        .text(d.data.name);
-    })
-      .on("mouseout", function() {
-        // Remove the info text on mouse out.
-        d3.select(this).select('text.info').remove()
-      });
 
-*/
     let nodeUpdate = nodeEnter.merge(node);
 
     nodeUpdate.transition()
@@ -201,10 +349,28 @@ export class TreeComponent implements OnInit,OnChanges {
     nodeUpdate.select('circle.node')
       .attr('r', 10)
       .style('stroke-width', '3px')
-      .style('stroke', 'steelblue')
-      .style('fill', (d) => {
-        return d._children ? 'lightsteelblue' : '#fff';
+      .style("stroke", function(d) {
+        if(d.class === "found"){
+          return "#ff4136"; //red
+        }else{
+          return 'steelblue';
+        }
       })
+      //.style('stroke', 'steelblue')///////////////changed
+      .style("fill", function(d) {
+        if(d.class === "found3"){//// change to found if you want it red when it is found
+          return "#ff4136"; //red
+        }
+        else if(d._children){
+          return "lightsteelblue";
+        }
+        else{
+          return "#fff";
+        }
+      })
+      //.style('fill', (d) => {
+      //  return d._children ? 'lightsteelblue' : '#fff';
+     // })
       .attr('cursor', 'pointer');
 
     let nodeExit = node.exit().transition()
@@ -237,7 +403,14 @@ export class TreeComponent implements OnInit,OnChanges {
 
     linkUpdate.transition()
       .duration(this.duration)
-      .attr('d', (d) => { return diagonal(d, d.parent); });
+      .attr('d', (d) => { return diagonal(d, d.parent); })////added style
+  .style("stroke",function(d){
+      if(d.class==="found"){
+        return "#ff4136";
+      }else{
+        return '#ccc';
+      }
+    });
 
     let linkExit = link.exit().transition()
       .duration(this.duration)
