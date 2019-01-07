@@ -30,7 +30,12 @@ import { ListUploadComponent } from './components/list-upload/list-upload.compon
 import { DetailsUploadComponent } from './components/details-upload/details-upload.component';
 import { FormUploadComponent } from './components/form-upload/form-upload.component';
 import { MappingVisualComponent } from './visuals/mapping-visual/mapping-visual.component';
-import { Select2Module } from 'ng2-select2';
+//import {SelectModule} from 'ng2-select';
+import {SelectModule} from 'ng-select';
+
+
+
+
 
 
 
@@ -87,7 +92,7 @@ import { Select2Module } from 'ng2-select2';
     TreeModule,
     PrettyJsonModule,
     AngularFontAwesomeModule,
-    Select2Module
+    SelectModule
   ],
 
   providers: [HospitalService, LogService, D3Service],

@@ -1,7 +1,6 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
-import { MatTabChangeEvent } from '@angular/material';
-import {DomSanitizer} from "@angular/platform-browser";
+import {IOption} from "ng-select";
 
 @Component({
   selector: 'app-cde-variables',
@@ -18,10 +17,10 @@ export class CdeVariablesComponent implements OnInit,OnChanges {
   currentVersionId=2; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionName;
   downloadName = "cdes_";
-  allFunctions:Array<any>;
 searchTermVar:String;
-  filterDisabled = true;
-  constructor(private hospitalService: HospitalService, private sanitizer: DomSanitizer) { }
+  disabled = false;
+  myOptions2: Array<IOption> = [{label: '', value: ''}];
+  constructor(private hospitalService: HospitalService) { }
 
   ngOnInit() {
     this.hospitalService.getAllCdeVersions().subscribe(allVersions => {this.allCdeVersions = allVersions});
@@ -54,13 +53,25 @@ searchTermVar:String;
     oldName = oldName + 1;
     return "v"+oldName.toString()+".xlsx";
   }
-  enableFilter(){
-    this.filterDisabled = false;
+  public selected(option: IOption): void {
+    this.searchTermVar = option.label;
+
   }
 
-  changeSearchTermVar(event){
-    this.filterDisabled = true;
-    this.searchTermVar = event.target.value;
+
+  public deselected(option: IOption): void {
+    this.searchTermVar = "";
+
+  }
+  public filterInputChanged(option: IOption): void{
+    this.searchTermVar = option.label;
+  }
+
+  public arrayIterationByLabel(originalArray) {
+    for (let obj of originalArray) {
+      this.myOptions2.push({label: obj['name'].toLowerCase().toString(), value: obj['cdevariable_id'].toString()});
+    }
+    return this.myOptions2;
   }
 
 }

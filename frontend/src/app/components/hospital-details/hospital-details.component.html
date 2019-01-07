@@ -2,40 +2,33 @@
 
 <h1><i class="fa fa-hospital-o">{{hospital.name}}</i></h1>
 
-<!--
-<input type="text" class="form-control"
-       placeholder="Filter By Variable Name"
-       style="width: 200px" [(ngModel)]="searchTermVar">
-
--->
-
-
-
-
-
 <mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id">
 
+    <br>
+    <div style="width: 300px; margin-bottom: 20px;">
+      <ng-select class="select"
+                 [allowClear]="true"
+                 [options]="arrayIterationByLabel(version.variables)"
+                 [disabled]="disabled"
+                 (selected)="selected($event)"
+                 (filterInputChanged)="filterInputChanged($event)"
+                 (deselected)="deselected($event)"
+                 placeholder="Search...">
+      </ng-select>
+    </div>
 
-<div>
-  <input type="text" class="form-control"
-         placeholder="Search.."
-         style="width: 200px" [(ngModel)]="searchTermVar" (change)="enableFilter()">
-</div>
-    <div>
-  <select class="select" multiple="multiple" (change)="changeSearchTermVar($event)">
-    <option *ngFor="let variable of version.variables | hospitalFilter:searchTermVar :filterDisabled" [value]="variable.code">{{variable.code}}</option>
-  </select>
-</div>
 
     <div>
-      <app-tree [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-tree>
+      <app-tree [versionId]="version.version_id" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
       <app-mapping-visual [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
     </div>
-    <mat-accordion multi="true">
-      <app-version-details  *ngIf="diagramOpen==false" [searchTermVar]="searchTermVar" [versionId]="version.version_id" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="false" ></app-version-details>
-    </mat-accordion>
 
+    <mat-accordion multi="true">
+      <app-version-details *ngIf="diagramOpen==false" [searchTermVar]="searchTermVar" [versionId]="version.version_id"
+                           [versionName]="currentVersionName" [downloadFileName]="downloadName"
+                           [cdeData]="false"></app-version-details>
+    </mat-accordion>
 
   </mat-tab>
   <mat-tab class="upload" label="Create new Version">
