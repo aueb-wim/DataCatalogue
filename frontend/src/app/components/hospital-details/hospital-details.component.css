@@ -44,3 +44,15 @@ input[type=text] {
 /deep/mat-tab.upload{
   width: 100%;
 }
+
+
+
+/deep/.searcher{
+  color: #D44950;
+  font-size: xx-large;
+  border-color: #262626;
+  opacity: 0.9%;
+}
+
+
+

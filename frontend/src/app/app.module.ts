@@ -7,12 +7,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { HospitalVariablesComponent } from './shared/hospital-variables/hospital-variables.component';
 import {AppRoutingModule} from "./app-routing.module";
-import { GetAllHospitalsComponent } from './components/get-all-hospitals/get-all-hospitals.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {LogService} from "./shared/log.service";
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { CdeVariablesComponent } from './components/cde-variables/cde-variables.component';
-import { MappingsComponent } from './components/mappings/mappings.component';
 import { HospitalFilterPipe } from './components/hospital-filter.pipe';
 import { VersionFilterPipe } from './components/version-filter.pipe';
 import { TreeModule } from 'angular-tree-component';
@@ -25,12 +23,15 @@ import { HospitalsComponent } from './components/hospitals/hospitals.component';
 import { HospitalDetailsComponent } from './components/hospital-details/hospital-details.component';
 import { VersionDetailsComponent } from './components/version-details/version-details.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { UploadExcelComponent } from './components/upload-excel/upload-excel.component';
 import { ListUploadComponent } from './components/list-upload/list-upload.component';
 import { DetailsUploadComponent } from './components/details-upload/details-upload.component';
 import { FormUploadComponent } from './components/form-upload/form-upload.component';
 import { MappingVisualComponent } from './visuals/mapping-visual/mapping-visual.component';
-import { Select2Module } from 'ng2-select2';
+import {SelectModule} from 'ng-select';
+
+
+
+
 
 
 
@@ -41,10 +42,8 @@ import { Select2Module } from 'ng2-select2';
   declarations: [
     AppComponent,
     HospitalVariablesComponent,
-    GetAllHospitalsComponent,
     SearchBarComponent,
     CdeVariablesComponent,
-    MappingsComponent,
     HospitalFilterPipe,
     VersionFilterPipe,
     GraphComponent,
@@ -54,7 +53,6 @@ import { Select2Module } from 'ng2-select2';
     HospitalsComponent,
     HospitalDetailsComponent,
     VersionDetailsComponent,
-    UploadExcelComponent,
     ListUploadComponent,
     DetailsUploadComponent,
     FormUploadComponent,
@@ -87,7 +85,7 @@ import { Select2Module } from 'ng2-select2';
     TreeModule,
     PrettyJsonModule,
     AngularFontAwesomeModule,
-    Select2Module
+    SelectModule
   ],
 
   providers: [HospitalService, LogService, D3Service],

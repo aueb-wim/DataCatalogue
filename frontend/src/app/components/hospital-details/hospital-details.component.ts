@@ -1,20 +1,13 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import {AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
-import { ActivatedRoute, Params } from '@angular/router';
-import { Location } from '@angular/common';
+import {ActivatedRoute, Params} from '@angular/router';
+import {Location} from '@angular/common';
 import 'rxjs/add/operator/switchMap';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
 import {map, startWith} from 'rxjs/operators';
+import {IOption,} from "ng-select";
+import * as d3 from 'd3';
 
 
 @Component({
@@ -23,92 +16,95 @@ import {map, startWith} from 'rxjs/operators';
   styleUrls: ['./hospital-details.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class HospitalDetailsComponent implements OnInit,OnChanges,AfterViewInit{
-  myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
-  usersForm: FormGroup;
 
-  diagramOpen=false;
-  hospitalVersions:Array<any>;
-  hospital:any;
-  url=this.location.path();
-  currentVersionId=3; /// be careful when changing the database , it should be assigned to an existing id
+export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewInit {
+
+  myOptions2: Array<IOption> = [{label: '', value: ''}];
+  value: any = {};
+  disabled = false;
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
+  diagramOpen = false;
+  hospitalVersions: Array<any>;
+  hospital: any;
+  url = this.location.path();
+  currentVersionId = 3; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionName;
   downloadName = "variables_";
-  searchTermVar:String;
-  viewInitialized:boolean;
+  searchTermVar: String = "";
+  viewInitialized: boolean;
   filterDisabled = true;
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
 
   }
-  ngAfterViewInit(){
-    this.viewInitialized = true;
-  }
-  ngOnInit() {
 
+  ngOnInit() {
     this.route.params
       .switchMap((params: Params) => this.hospitalService.getVersionsByHospitalId(+params['hospital_id']))
-      .subscribe(versions => {this.hospitalVersions = versions});
+      .subscribe(versions => {
+        this.hospitalVersions = versions
+      });
 
-    this.route.params.switchMap((params: Params) => this.hospitalService.
-    getHospitalById(+params['hospital_id'])).subscribe(hosp=>{this.hospital = hosp});
+    this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
+      this.hospital = hosp
+    });
     this.currentVersionId = 3; //check this
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
-
   }
 
-
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  ngAfterViewInit() {
+    this.viewInitialized = true;
   }
 
-
- // ngAfterViewInit() {
-  //  this.hierarchical = this.child.hierarchical;
- // }
-
-  ngOnChanges(changes: SimpleChanges){
+  ngOnChanges(changes: SimpleChanges) {
     if (changes['currentVersionId']) {
       this.route.params
         .switchMap((params: Params) => this.hospitalService.getVersionsByHospitalId(+params['hospital_id']))
-        .subscribe(versions => {this.hospitalVersions = versions});
+        .subscribe(versions => {
+          this.hospitalVersions = versions
+        });
 
-      this.route.params.switchMap((params: Params) => this.hospitalService.
-      getHospitalById(+params['hospital_id'])).subscribe(hosp=>{this.hospital = hosp});
+      this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
+        this.hospital = hosp
+      });
 
 
     }
-    //if (changes['hierarchical']) {
-     // this.hierarchical = this.child.hierarchical;
-    //}
-  }
-enableFilter(){
-    this.filterDisabled = false;
-}
 
- changeSearchTermVar(event){
-   this.filterDisabled = true;
-    this.searchTermVar = event.target.value;
   }
-  createSampleFileName(){
-    var oldName = parseInt(this.hospitalVersions[this.hospitalVersions.length-1].name.replace('v', ''));
+  public selected(option: IOption): void {
+    this.searchTermVar = option.label;
+  }
+
+
+  public deselected(option: IOption): void {
+    this.searchTermVar = "";
+  }
+  public filterInputChanged(option: IOption): void{
+    this.searchTermVar = option.label;
+  }
+
+  public arrayIterationByLabel(originalArray) {
+    for (let obj of originalArray) {
+      this.myOptions2.push({label: obj['name'].toString(), value: obj['variable_id'].toString()});
+    }
+    return this.myOptions2;
+  }
+
+
+
+
+  createSampleFileName() {
+    var oldName = parseInt(this.hospitalVersions[this.hospitalVersions.length - 1].name.replace('v', ''));
     oldName = oldName + 1;
-    return this.hospital.name+"_"+"v"+oldName.toString()+".xlsx";
+    return this.hospital.name + "_" + "v" + oldName.toString() + ".xlsx";
   }
 
-  changeVersionId(verId){
+  changeVersionId(verId) {
     this.currentVersionId = verId;
   }
 
-  changeVersionName(verName){
+  changeVersionName(verName) {
     this.currentVersionName = verName;
   }
 
