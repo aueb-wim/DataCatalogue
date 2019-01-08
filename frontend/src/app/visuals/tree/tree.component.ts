@@ -1,4 +1,9 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter,  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import * as d3 from 'd3';
 import {HospitalService} from "../../shared/hospital.service";
 
@@ -9,6 +14,7 @@ import {HospitalService} from "../../shared/hospital.service";
   selector: 'app-tree',
   templateUrl:'./tree.component.html',
   styleUrls: ['./tree.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TreeComponent implements OnInit,OnChanges {
 
@@ -128,7 +134,6 @@ export class TreeComponent implements OnInit,OnChanges {
            paths[i]._children = null;
          }
          this.updateChart(paths[i]);
-         console.log("Open Paths works");
        }
      }
     };

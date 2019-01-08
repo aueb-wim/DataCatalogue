@@ -1,5 +1,13 @@
 
-div{
+div.inactive{
+  display: inline-block;
+  margin-top: 50px;
+  cursor: not-allowed;
+  pointer-events: none;
+
+}
+
+div.active{
   display: inline-block;
   margin-top: 50px;
 }

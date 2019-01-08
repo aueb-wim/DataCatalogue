@@ -28,6 +28,7 @@ import { DetailsUploadComponent } from './components/details-upload/details-uplo
 import { FormUploadComponent } from './components/form-upload/form-upload.component';
 import { MappingVisualComponent } from './visuals/mapping-visual/mapping-visual.component';
 import {SelectModule} from 'ng-select';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 
 
@@ -85,7 +86,8 @@ import {SelectModule} from 'ng-select';
     TreeModule,
     PrettyJsonModule,
     AngularFontAwesomeModule,
-    SelectModule
+    SelectModule,
+    DeviceDetectorModule.forRoot()
   ],
 
   providers: [HospitalService, LogService, D3Service],

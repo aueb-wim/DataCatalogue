@@ -1,20 +1,26 @@
-import {AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewEncapsulation
+} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import {ActivatedRoute, Params} from '@angular/router';
 import {Location} from '@angular/common';
 import 'rxjs/add/operator/switchMap';
-import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs";
-import {map, startWith} from 'rxjs/operators';
 import {IOption,} from "ng-select";
-import * as d3 from 'd3';
+
 
 
 @Component({
   selector: 'app-hospital-details',
   templateUrl: './hospital-details.component.html',
   styleUrls: ['./hospital-details.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewInit {
@@ -22,8 +28,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   myOptions2: Array<IOption> = [{label: '', value: ''}];
   value: any = {};
   disabled = false;
-  myControl = new FormControl();
-  filteredOptions: Observable<string[]>;
+
   diagramOpen = false;
   hospitalVersions: Array<any>;
   hospital: any;
@@ -33,7 +38,6 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   downloadName = "variables_";
   searchTermVar: String = "";
   viewInitialized: boolean;
-  filterDisabled = true;
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
 
   }
@@ -86,7 +90,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
   public arrayIterationByLabel(originalArray) {
     for (let obj of originalArray) {
-      this.myOptions2.push({label: obj['name'].toString(), value: obj['variable_id'].toString()});
+      this.myOptions2.push({label: obj['code'].toString(), value: obj['variable_id'].toString()});
     }
     return this.myOptions2;
   }

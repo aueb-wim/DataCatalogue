@@ -1,5 +1,5 @@
 
-<div *ngFor="let hospital of hospitals">
+<div ngClass="{{enabled}}" *ngFor="let hospital of hospitals">
 
  <mat-card  class="thumbnail" routerLink="/hospitals/{{hospital.hospital_id}}">
     <mat-card-title>{{hospital.name}}</mat-card-title>

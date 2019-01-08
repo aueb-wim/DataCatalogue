@@ -13,7 +13,9 @@
   font-size: large;
 }
 
-
+mat-tab-group.inactive{
+  pointer-events: none;
+}
 
 
 h1{
