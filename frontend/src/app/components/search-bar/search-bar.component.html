@@ -1,7 +1,6 @@
 <div class="topnav">
   <a  [ngClass]="{'active': selectedItem == 1}" (click)="listClick($event, 1)" routerLink="/hospitals/">Hospitals</a>
   <a  [ngClass]="{'active': selectedItem == 2}" (click)="listClick($event, 2)" routerLink="/hospitals/cde-variables">CDE Variables</a>
-  <a  [ngClass]="{'active': selectedItem == 3}" (click)="listClick($event, 3)" routerLink="/hospitals/mappings">Mappings</a>
   <a  [ngClass]="{'active': selectedItem == 4}" (click)="listClick($event, 4)" routerLink="/hospitals/about">About</a>
 
 </div>
