@@ -34,13 +34,11 @@ public class CDEVariableDAO {
 
     @Autowired
     private VersionDAO versionDAO;
-<<<<<<< HEAD
-    
-    
+/*
     public List<CDEVariables> findCDEVariablesByVersionId(BigInteger versionId){
          return cdeVariablesRepository.findCDEVariablesByVersion(versionId);
     }
-=======
+*/
 
 
      public List<CDEVariables> findCDEVariablesByVersionId(BigInteger versionId){
@@ -54,7 +52,7 @@ public class CDEVariableDAO {
         }
         return null;
      } 
->>>>>>> 7dec5fd569e5d0b362c182eee8b187361e6e79f8
+
 
     public CDEVariables save(CDEVariables cdevar){
         return cdeVariablesRepository.save(cdevar);

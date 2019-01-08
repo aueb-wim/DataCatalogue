@@ -41,19 +41,11 @@ import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 @Service
 public class VariablesXLSX_JSON
 {
-<<<<<<< HEAD
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
     @Autowired
     private VersionDAO versionDAO;
-=======
-@Autowired
-VersionDAO versionDAO;
 
-@Autowired
-CDEVariableDAO cdeVariableDAO;
-
->>>>>>> 7dec5fd569e5d0b362c182eee8b187361e6e79f8
     /**
      * @param file: the path of the input XLSX file
      * @return the tree of the variables
@@ -135,6 +127,11 @@ CDEVariableDAO cdeVariableDAO;
         System.out.println("********* Total of "+xlsxVars.size()+" XLSX elements **********");
         return xlsxVars;
     }
+    /**
+     *
+     * @param xlsxVars: Set of the Variables parsed from the input XLSX
+     * @return the Metadata JSON which contains the xlsxVars plus the last version CDEs
+     */
     public JSONObject createJSONMetadataWithCDEs(Set<Variables> xlsxVars)
     {
         Versions lastVersion = versionDAO.getLastCdeVersion();
@@ -309,21 +306,7 @@ CDEVariableDAO cdeVariableDAO;
         return outerNode;
     }
 
-    /**
-     *
-     * @param xlsxVars: Set of the Variables parsed from the input XLSX
-     * @return the Metadata JSON which contains the xlsxVars plus the last version CDEs
-     */
-    public JSONObject createJSONMetadataWithCDEs(Set<Variables> xlsxVars)
-    {
-        Versions lastVersion = versionDAO.getLastCdeVersion();
-        List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
-        List<Variables> varsThatRCdes = new ArrayList<>();
-        for (CDEVariables cde : cdeVars)
-            varsThatRCdes.add(new Variables(cde));
-        xlsxVars.addAll(varsThatRCdes);//to the xlsxVars add the Variables that actually are the CDEs
-        return createJSONMetadata(createTree(xlsxVars));//return the full Metadata JSON
-    }
+
     /**
      * used by createJSONMetadata to fill in all levels recursively
      * @param root

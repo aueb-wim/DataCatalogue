@@ -1,10 +1,10 @@
-
+/*
 /deep/div.container{
   align-items: center;
   alignment: center;
-}
+}*/
 
-.mat-tab-label.mat-tab-label-active {
+/deep/.mat-tab-label.mat-tab-label-active {
   min-width: 25px !important;
   padding: 5px;
   background-color: transparent;

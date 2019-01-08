@@ -135,11 +135,6 @@ public class UploadCdes {
 
 
                     }
-                    /*if (cdeVariableDAO == null)
-                    {
-                        System.err.println("### NULL cdeVariableDAO although @Autowired... ###");
-                        System.exit(-1);
-                    }*/
                     cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
                     cdeVariableDAO.save(cdeVariables);
 
