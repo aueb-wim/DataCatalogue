@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
 /**
  * VariablesXLSX_JSON class creates 2 different JSONs from an XLSX file which contains info about hospitals' variables.
@@ -40,11 +41,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class VariablesXLSX_JSON
 {
-@Autowired
-VersionDAO versionDAO;
-
-@Autowired
-CDEVariableDAO cdeVariableDAO;
+    @Autowired
+    private CDEVariableDAO cdeVariableDAO;
+    @Autowired
+    private VersionDAO versionDAO;
 
     /**
      * @param file: the path of the input XLSX file
@@ -127,6 +127,11 @@ CDEVariableDAO cdeVariableDAO;
         System.out.println("********* Total of "+xlsxVars.size()+" XLSX elements **********");
         return xlsxVars;
     }
+    /**
+     *
+     * @param xlsxVars: Set of the Variables parsed from the input XLSX
+     * @return the Metadata JSON which contains the xlsxVars plus the last version CDEs
+     */
     public JSONObject createJSONMetadataWithCDEs(Set<Variables> xlsxVars)
     {
         Versions lastVersion = versionDAO.getLastCdeVersion();
@@ -300,6 +305,7 @@ CDEVariableDAO cdeVariableDAO;
         }
         return outerNode;
     }
+
 
     /**
      * used by createJSONMetadata to fill in all levels recursively

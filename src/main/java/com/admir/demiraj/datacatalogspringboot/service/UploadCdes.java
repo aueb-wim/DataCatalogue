@@ -22,11 +22,11 @@ public class UploadCdes {
     private static final String FOLDER_NAME = System.getProperty("user.dir") + "/src/main/resources/data/cdes/";
 
     @Autowired
-    private CDEVariableDAO cdeVariableDAO;
+    private CDEVariableDAO cdeVariableDAO; //= new CDEVariableDAO();
 
 
     @Autowired
-    private VersionDAO versionDAO;
+    private VersionDAO versionDAO;// = new VersionDAO();
 
     @Autowired
     private FunctionsDAO functionsDAO;
@@ -135,7 +135,6 @@ public class UploadCdes {
 
 
                     }
-
                     cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
                     cdeVariableDAO.save(cdeVariables);
 

@@ -29,14 +29,27 @@ public class VersionDAO {
     public List<Versions> getAllCdeVersions(){
 
         List<Versions> allversions = versionsRepository.findAll();
-        List<Versions> allCdeVerions = new ArrayList<>();
+        List<Versions> allCdeVersions = new ArrayList<>();
         for (Versions version : allversions){
             if(!version.getCdevariables().isEmpty()){
-                allCdeVerions.add(version);
+                allCdeVersions.add(version);
             }
         }
-        return allCdeVerions;
+        return allCdeVersions;
 
+    }
+
+    public Versions getLastCdeVersion(){
+        List<Versions> allCdeVersions = getAllCdeVersions();
+        if (allCdeVersions.isEmpty())
+            return null;
+        Versions lastOne = allCdeVersions.get(0);
+        for (int i=0; i<allCdeVersions.size(); i++)
+        {
+            if (allCdeVersions.get(i).getVersion_id().compareTo(lastOne.getVersion_id()) == 1)
+                lastOne = allCdeVersions.get(i);
+        }
+        return lastOne;
     }
 
     public String getJsonStringByVersionId(Long versionId){
@@ -63,19 +76,6 @@ public class VersionDAO {
         return versionsRepository.save(ver);
     }
 
-
-    public Versions getLastCdeVersion(){
-        List<Versions> allCdeVersions = getAllCdeVersions();
-        if (allCdeVersions.isEmpty())
-            return null;
-        Versions lastOne = allCdeVersions.get(0);
-        for (int i=0; i<allCdeVersions.size(); i++)
-        {
-            if (allCdeVersions.get(i).getVersion_id().compareTo(lastOne.getVersion_id()) == 1)
-                lastOne = allCdeVersions.get(i);
-        }
-        return lastOne;
-    }
 
     public List<Versions> getAllVersions() {
         return versionsRepository.findAll();

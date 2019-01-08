@@ -1,42 +1,39 @@
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="first">
-  <a class="instuctions"> In order to create a new version the data have to be provided in a specific file format.
-  The columns and the file name have to be kep unchanged. Download the XLSX template provided below and fill in
-  the appropriate information and afterwards upload it in this platform.
-  <br>
+  <a class="instructions"> In order to create a new version the data have to be provided in a specific file format. The columns and the file name have to be kept unchanged. Download the XLSX template provided <a href="http://195.251.252.222:2443/mapping/getsample/{{sampleNameVersion}}"> below</a> and fill in  the appropriate information and afterwards upload it in this platform.
 
     Fill in the rows with the variables' information as explained above and upload the file:
    <br><b>1. csvFile: </b>     The name of the dataset file the variable is in
-    <br><b></b>        The name of the variable
-    <br><b>2. name: </b>
-    <br><b> 3. code:  </b>      The variable’s code
+    <br><b>2. name: </b>       The name of the variable
+    <br><b>3. code:  </b>      The variable’s code
     <br><b>4. type:  </b>       The variable’s type
-    <br><b>5. values: </b>      The variable’s values. It may have an enumeration or a range of values.
-    For enumerations, for every value please provide code and label in brackets.
-    Example(for ADNI category): {{"{“AD”,”Alzheimer’s Disease”},{”MCI”,”Mild Cognitive Impairment”},{”CN”,”Cognitively Normal”}"}}
-    For range of values simply state the min and max values with '-' in between. Example(for MMSE Total scores): 0-30
+    <br><b>5. values: </b>      The variable’s values. It may have an enumeration or a range of values. For enumerations, for every value please provide code and label in brackets.
+    <br>Example (for ADNI category): {{"{“AD”,”Alzheimer’s Disease”},{”MCI”,”Mild Cognitive Impairment”},{”CN”,”Cognitively Normal”}"}}
+    <br>For range of values simply state the min and max values with '-' in between. Example (for MMSE Total scores): 0-30
     <br><b>6. unit: </b>         The variable’s measurement unit
     <br><b>7. canBeNull:</b>     Whether the variable is allowed to be null or not: Y/N
     <br><b>8. description:</b>  The variable’s description
     <br><b>9. comments: </b>     Comments about the variable’s nature
-    <br><b>10. conceptPath:</b>    The variable’ concept path. Example(for ApoE4): /root/genetic/polymorphism/apoe4
-    <br><b>11. methodology:</b>   The methodology the variable has come from. Example(for rs10498633_T): lren-nmm-volumes
-    <br><b>12. mapFunction: </b>  The function that transforms the variable’s value into the value of its corresponding CDE. Use a simple way to express values transformations. Example(for Handedness): 1->'R' 2->'L' When value stays the same fill in with "stays the same".
+    <br><b>10. conceptPath:</b>    The variable’s concept path. Example (for ApoE4): /root/genetic/polymorphism/apoe4
+    <br><b>11. methodology:</b>   The methodology the variable has come from. Example (for rs10498633_T): lren-nmm-volumes
+    <br><b>12. mapFunction: </b>  The function that transforms the variable’s value into the value of its corresponding CDE. Use a simple way to express values transformations.
+    <br>Example (for Handedness): 1->'R' 2->'L' When value stays the same fill in with "stays the same".
     <br><b>13. mapCDE:</b>       	The corresponding CDE's code
   </a>
 
-
 <br>
-<a class="donwloadsample" href="http://195.251.252.222:2443/mapping/getsample/{{sampleNameVersion}}">Download Sample File</a>
 </div>
-
-
+<div>
+<!--<a class="donwloadsample" href="http://195.251.252.222:2443/mapping/getsample/{{sampleNameVersion}}">Download Sample File</a>-->
+  XLSX template <button class="btn btn-success"  value="Download" (click)="download()">Download</button>
+</div>
+<br><br><br><br>
 <div *ngIf="currentFileUpload" class="progress">
   <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
        aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-    {{progress.percentage}}%</div>
+    {{progress.percentage}}%
+  </div>
 </div>
-
 
 <label class="btn2 btn-default">
   <input type="file" (change)="selectFile($event)">

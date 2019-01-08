@@ -41,4 +41,9 @@ export class FormUploadComponent implements OnInit {
 
     this.selectedFiles = undefined;
   }
+
+  download() {
+    window.open("http://195.251.252.222:2443/mapping/getsample/"+this.sampleNameVersion);
+    console.log('XLSX template downloaded...');
+  }
 }
