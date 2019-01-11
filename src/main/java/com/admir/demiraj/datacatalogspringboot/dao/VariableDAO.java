@@ -14,6 +14,8 @@ import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.sun.org.apache.xpath.internal.operations.Variable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -72,10 +74,22 @@ public class VariableDAO {
        
    }
 
+
+
     // save hospital in db
     public Variables save(Variables var){
         return variablesRepository.save(var);
     }
+
+public void deletePreviousSaveNew(Variables var){
+        List<Variables> allVariables = variablesRepository.findAll();
+        for(Variables v : allVariables){
+            if(v.getVariable_id() == var.getVariable_id()){
+                variablesRepository.delete(v);
+                variablesRepository.save(var);
+            }
+        }
+}
     
     
     //show all variables
@@ -86,6 +100,10 @@ public class VariableDAO {
     //get an hospital by id
     public Variables getVariable(BigInteger id){
         return variablesRepository.getOne(id);
+    }
+
+    public boolean variableExists(Variables variable){
+        return variablesRepository.existsById(variable.getVariable_id());
     }
 
     

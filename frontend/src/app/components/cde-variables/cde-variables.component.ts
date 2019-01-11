@@ -90,6 +90,8 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public arrayIterationByLabel(originalArray) {
+    //empty the array first
+    this.myOptions2.length = 0;
     for (let obj of originalArray) {
       this.myOptions2.push({label: obj['code'].toLowerCase().toString(), value: obj['cdevariable_id'].toString()});
     }

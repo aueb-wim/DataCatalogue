@@ -67,7 +67,16 @@ public class CDEVariableDAO {
          }
          return null;
     }
-    
+
+    public CDEVariables getCDEVariableByCode(String CDECode){
+        List<CDEVariables> allCDEVariables = cdeVariablesRepository.findAll();
+        for(CDEVariables cde : allCDEVariables){
+            if(cde.getCode().equals(CDECode)){
+                return cde;
+            }
+        }
+        return null;
+    }
     public void saveVersionToCDEVariable(CDEVariables cdevar, Versions ver){
         cdevar.setVersions(ver);
     }

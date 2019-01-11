@@ -17,35 +17,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author root
  */
 @Service
 public class FunctionsDAO {
-    
+
     @Autowired
     FunctionsRepository functionsRepository;
 
-    public Functions save(Functions function){
-        return functionsRepository.save(function);
+    public Functions save(Functions function) {
+        Functions f = functionsRepository.save(function);
+        functionsRepository.flush();
+        return f;
     }
-    
-    public List<Functions> findAll(){
+
+    public List<Functions> findAll() {
         return this.functionsRepository.findAll();
     }
 
-    public List<Functions> findByVariableVersionId(BigInteger variableVersion){
+    public List<Functions> findByVariableVersionId(BigInteger variableVersion) {
         List<Functions> allFunctions = functionsRepository.findAll();
         List<Functions> functionByVariableId = new ArrayList<>();
-        for(Functions f : allFunctions){
+        for (Functions f : allFunctions) {
             List<Variables> allVariables = f.getVariables();
-            for(Variables v : allVariables){
-                if(v.getVersions().get(0).getVersion_id() == variableVersion){
+            for (Variables v : allVariables) {
+                if (v.getVersions().get(0).getVersion_id() == variableVersion) {
                     functionByVariableId.add(f);
                 }
             }
         }
         return functionByVariableId;
     }
-    
+
+    public Functions findFunctionById(Functions fun) {
+        List<Functions> allFunctions = functionsRepository.findAll();
+        for (Functions f : allFunctions) {
+            if (f.getFunction_id() == fun.getFunction_id()) {
+                return f;
+            }
+        }
+        return null;
+    }
+
 }

@@ -13,7 +13,7 @@ export class HospitalFilterPipe implements PipeTransform {
       disable=false;
     }
 if(!disable){
-  return hospitals.filter(hospital => hospital.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
+  return hospitals.filter(hospital => hospital.code.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
 
 }else{
   return hospitals;
