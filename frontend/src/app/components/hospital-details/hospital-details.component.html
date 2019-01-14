@@ -2,8 +2,8 @@
 
 <h1><i class="fa fa-hospital-o">{{hospital.name}}</i></h1>
 
-<mat-tab-group class="inner" (selectedTabChange)="tabChanged($event)">
-  <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id">
+<mat-tab-group class="inner" [selectedIndex]="hospitalVersions.length-1" (selectedTabChange)="tabChanged($event)">
+  <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name+' ('+version.createdAt.slice(0,10)+')'}}" id="version.version_id">
 
     <br>
     <div style="width: 300px; margin-bottom: 20px;">

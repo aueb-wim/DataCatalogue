@@ -69,20 +69,20 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   createSampleFileName() {
-    var oldName = parseInt(this.allCdeVersions[this.allCdeVersions.length - 1].name.replace('v', ''));
-    oldName = oldName + 1;
-    return "v" + oldName.toString() + ".xlsx";
+    if(typeof this.allCdeVersions == 'undefined'){
+      console.log("allcdeversions is undefined");
+    }
+      var oldName = parseInt(this.allCdeVersions[this.allCdeVersions.length - 1].name.replace('v', ''));
+      oldName = oldName + 1;
+      return "v" + oldName.toString() + ".xlsx";
   }
 
   public selected(option: IOption): void {
     this.searchTermVar = option.label;
-
   }
-
 
   public deselected(option: IOption): void {
     this.searchTermVar = "";
-
   }
 
   public filterInputChanged(option: IOption): void {

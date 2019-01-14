@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchBarComponent implements OnInit {
 
-  selectedItem: string;
+  selectedItem: number;
   constructor() { }
 
   ngOnInit() {

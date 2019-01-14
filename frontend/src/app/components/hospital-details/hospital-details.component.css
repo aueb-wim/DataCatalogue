@@ -4,13 +4,14 @@
   alignment: center;
 }*/
 
-/deep/.mat-tab-label.mat-tab-label-active {
+
+.mat-tab-label.mat-tab-label-active {
   min-width: 25px !important;
   padding: 5px;
   background-color: transparent;
   color: blue;
-  font-weight: 700;
-  font-size: x-large;
+  font-weight: 400;
+  font-size: large;
 }
 
 

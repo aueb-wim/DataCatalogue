@@ -46,7 +46,7 @@ export class MappingVisualComponent implements OnInit, OnChanges {
   }
 
 
-  private handleChart(){
+   handleChart(){
     if(this.diagramOpen){
       d3.select('svg').remove();
       this.changediagramOpen();
@@ -62,9 +62,12 @@ export class MappingVisualComponent implements OnInit, OnChanges {
 
     d3.select('svg').remove();
     this.margin = { top: 100, right: 90, bottom: 30, left: 90 };
+    var numberMappingFunctions = this.functionsByVariableVersion.length;
     //this.width = 1400 - this.margin.left - this.margin.right;
+    //this.width = 1100 - this.margin.left - this.margin.right;
     this.width = 1100 - this.margin.left - this.margin.right;
-    this.height = 1500- this.margin.top - this.margin.bottom;
+    this.height = numberMappingFunctions*150- this.margin.top - this.margin.bottom;
+    //this.height = 1500- this.margin.top - this.margin.bottom;
 
     d3.select('a.mappings').append('svg')
       .attr('width', this.width + this.margin.right + this.margin.left)

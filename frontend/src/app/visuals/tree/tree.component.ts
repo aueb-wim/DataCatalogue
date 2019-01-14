@@ -60,7 +60,7 @@ export class TreeComponent implements OnInit,OnChanges {
     }
   }
 
-  private handleChart(){
+  handleChart(){
     if(this.diagramOpen){
       d3.select('svg').remove();
       this.chagediagramOpen();

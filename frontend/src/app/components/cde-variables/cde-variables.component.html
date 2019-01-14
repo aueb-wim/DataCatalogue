@@ -2,8 +2,8 @@
 <h1><i class="fa fa-gg-circle">Common Data Elements</i></h1>
 
 
-<mat-tab-group ngClass="{{enabled}}"  (selectedTabChange)="tabChanged($event)">
-  <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}">
+<mat-tab-group ngClass="{{enabled}}" [selectedIndex]="allCdeVersions.length-1" (selectedTabChange)="tabChanged($event)">
+  <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name+' ('+version.createdAt.slice(0,10)+')'}}">
 
     <br>
     <div style="width: 300px; margin-bottom: 20px;">
@@ -24,12 +24,9 @@
   <mat-tab label="Create new Version">
 
     <div class="container" style="width:500px">
-
       <form-upload [sampleNameVersion]="createSampleFileName()"></form-upload>
-
       <br/>
       <br/>
-
       <list-upload></list-upload>
     </div>
   </mat-tab>
