@@ -169,4 +169,11 @@ public class VariablesXLSX_JSON_tests
         System.out.println("--------- --------- --------- --------- --------- --------- --------- --------- --------- --------- ---------");
     }
   */
+  @Test
+    public void testStringProcessinStuff()
+    {
+        String cpath = "/root/oneTwo/threeFour/iAmAtYoDo";////////////////////////////two
+        cpath = cpath.substring(0, cpath.lastIndexOf("/"))+"/"+"knockKnock";
+        Assert.assertEquals("/root/oneTwo/threeFour/knockKnock", cpath);
+    }
 }

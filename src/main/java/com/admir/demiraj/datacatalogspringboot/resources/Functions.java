@@ -55,9 +55,7 @@ public class Functions {
     @JsonManagedReference
     private List<CDEVariables> cdeVariable;
 
-    public List<CDEVariables> getCdeVariable() {
-        return cdeVariable;
-    }
+    public List<CDEVariables> getCdeVariables() { return cdeVariable; }
 
     public void setCdeVariable(List<CDEVariables> cdeVariable) {
         this.cdeVariable = cdeVariable;

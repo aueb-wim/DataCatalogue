@@ -219,7 +219,9 @@ public class UploadVariables {
             System.out.println("THE SIZE OF THE ALLCDEVARIABLES IS : " + allCdeVariables.size());
             if (allCdeVariables.size() > 0) {
                 newVar.setFunction(allFunctions);
-                newVar.setConceptPath(allCdeVariables.get(0).getConceptPath());
+                String cpath = allCdeVariables.get(0).getConceptPath();////////////////////////////one
+                cpath = cpath.substring(0, cpath.lastIndexOf("/"))+"/"+newVar.getCode();
+                newVar.setConceptPath(cpath);
                 newVar.setVersions(version);
                 newVar.setHospital(hospital);
                 variableDAO.save(newVar);
@@ -287,7 +289,9 @@ public class UploadVariables {
 
             newVar.setFunction(allFunctions);
 
-            newVar.setConceptPath(cde.getConceptPath());
+            String cpath = cde.getConceptPath();////////////////////////////two
+            cpath = cpath.substring(0, cpath.lastIndexOf("/"))+"/"+newVar.getCode();
+            newVar.setConceptPath(cpath);
 
             List<Functions> cdeFunctions = cde.getFunction();
             cdeFunctions.add(functions);

@@ -13,9 +13,7 @@ import java.util.regex.Matcher;
 
 import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
-import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
-import com.admir.demiraj.datacatalogspringboot.resources.Variables;
-import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import com.admir.demiraj.datacatalogspringboot.resources.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -178,13 +176,9 @@ public class VariablesXLSX_JSON
                 if (i < conceptPath.length - 1)
                     continue;//this node has already been added and this time we are not in an xlsx row dedicated to it, so we have nothing more to offer... movin on
                 else
-                {  // System.out.println("~~~~~~~~~~ FOUND NODE "+node2Add.code+" N WE UPDATING ITS STUFF!!! ~~~~~~~~");
-                   // System.out.println("~~~~~~~~ IT HAD "+node2Add+"~~~~~~");
+                {
                     node2Add.var = nextVar;//adding all Variables' stuff to the pre-existing Node...
-                   // System.out.println("~~~~~~~~ NOW IT S "+node2Add+"~~~~~");
-
-                        parent = findNodeByCode(conceptPath[i - 1], root);//find the parent
-
+                    parent = findNodeByCode(conceptPath[i - 1], root);//find the parent
                 }
             else
             {//lets create a new Node
@@ -253,13 +247,8 @@ public class VariablesXLSX_JSON
      */
     public JSONObject createJSONVisualization(Node root)
     {
-        //JSONObject visTree = new JSONObject();
         JSONObject outerNode = new JSONObject();//the visualisation JSON wants the outer JSONObject to be inside a JSONArray
-        /*System.out.println("____________ root has code "+root.code+", "+root.children.size()+" children_________");
-        for (int jj=0; jj<root.children.size(); jj++)
-            System.out.println("_____"+jj+"."+root.children.get(jj).code+"___"+root.children.get(jj).getConceptPath()+"____");*/
         root.fillJSONVisObject(outerNode);
-        //visTree.put(outerNode);
         if (root.children != null)
         {
             addVisChildren(root, outerNode);
@@ -377,6 +366,27 @@ public class VariablesXLSX_JSON
         {   return this.var.getConceptPath()!=null ? this.var.getConceptPath() : null;}
         public String getMethodology()
         {   return this.var.getMethodology()!=null ? this.var.getMethodology() : null;}
+        public List<String> getMapfunctions()
+        {
+            List<String> functions = null;
+            if (this.var.getFunction() != null)
+                functions = new ArrayList<String>();
+            else return null;
+            for (Functions s : this.var.getFunction())
+                functions.add(s.getRule());
+            return functions;
+        }
+        public List<String> getMapCDEs()
+        {
+            List<String> cdes = null;
+            if (this.var.getFunction() != null)
+                cdes = new ArrayList<String>();
+            else return null;
+            for (Functions s : this.var.getFunction())
+                if (s.getCdeVariables()!=null && s.getCdeVariables().size()==1)
+                    cdes.add(s.getCdeVariables().get(0).getCode());//we said it makes no sense for Functions class to have a List of CDEs n not one CDE...
+            return cdes;
+        }
 
         /**
          * Function to fill in a JSONObject of the Visualisation JSON from the current Node's attributes
@@ -396,7 +406,10 @@ public class VariablesXLSX_JSON
                 if (this.getCanBeNull()!=null) varNode.put("canBeNull", this.getCanBeNull());
                 if (this.getDescription()!=null) varNode.put("description", this.getDescription());
                 if (this.getComments()!=null) varNode.put("comments", this.getComments());
-                if (this.getConceptPath()!=null) varNode.put("conceptPath", this.getConceptPath());
+                if (this.getConceptPath()!=null)
+                {
+                    varNode.put("conceptPath", this.getConceptPath());
+                }
                 if (this.getMethodology()!=null) varNode.put("methodology", this.getMethodology());
             }
         }
