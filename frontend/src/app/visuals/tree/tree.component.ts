@@ -234,7 +234,7 @@ var thisOutside = this;
           .duration(200)
           .style("opacity", .9);
         div	.html("<b>Name: </b>"+d.data.code+"<br/>"+"<font size=\"-1\"> <b>Description: </b>"+d.data.description+"</font>"
-          +"<br/><font size=\"-1\"> <b>Cocept Path: </b>"+d.data.conceptPath+"</font>")
+          +"<br/><font size=\"-1\"> <b>Concept Path: </b>"+d.data.conceptPath+"</font>")
           .style("left", d3.select(this).attr("cx") + "px")
           .style("top", d3.select(this).attr("cy") + "px");
           //.style("left", (d3.event.pageX) + "px")

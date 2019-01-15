@@ -1,5 +1,4 @@
 
-
 .upload-btn-wrapper {
   position: relative;
   overflow: hidden;
@@ -36,23 +35,40 @@
 }
 
 .first{
+  box-sizing: border-box;
+  /*float: left;*/
   border-style: solid ;
   border-color: #504949;
   border-radius: 10px;
   background: #e9e9e9;
-  align-items: stretch;
+  /*align-items: stretch;*/
   /*margin-left: 100%;*/
-  margin-top: 10%;
-  width: 300%;
+  /*margin-top: 10%;*/
   alignment: left;
-   display: flex;
+  display: inline-block;
+  position: relative;
+  width: 300%;
+  /*background: url('https://s20.postimg.org/o09gf7fvx/bag.jpg') no-repeat center top;*/
+  /*background-size: contain;*/
+  /*padding-top:29%;*/
 }
-
+@media (max-width: 1500px)
+{ .first {
+     width: 200%;}
+}
+@media (max-width: 1024px)
+{ .first {
+  width: 129%;}
+}
+@media (max-width: 500px)
+{ .first {
+  background: 80%;}
+}
 .instructions{
   font-size: large;
   font-family: "Courier New";
   color: #2196F3;
-  width: 100%;
+  width: 200%;
 
 }
 
