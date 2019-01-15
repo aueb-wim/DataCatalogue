@@ -290,8 +290,14 @@ public class UploadVariables {
             newVar.setFunction(allFunctions);
 
             String cpath = cde.getConceptPath();////////////////////////////two
-            cpath = cpath.substring(0, cpath.lastIndexOf("/"))+"/"+newVar.getCode();
-            newVar.setConceptPath(cpath);
+            if(cpath != null){
+                cpath = cpath.substring(0, cpath.lastIndexOf("/"))+"/"+newVar.getCode();
+                newVar.setConceptPath(cpath);
+            }else{
+                System.out.println("The cde withou concept path is: "+cde.getCode());
+            }
+
+
 
             List<Functions> cdeFunctions = cde.getFunction();
             cdeFunctions.add(functions);
