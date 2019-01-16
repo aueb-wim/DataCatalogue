@@ -29,6 +29,7 @@ import { FormUploadComponent } from './components/form-upload/form-upload.compon
 import { MappingVisualComponent } from './visuals/mapping-visual/mapping-visual.component';
 import {SelectModule} from 'ng-select';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { AllHospitalsComponent } from './components/all-hospitals/all-hospitals.component';
 
 
 
@@ -58,6 +59,7 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     DetailsUploadComponent,
     FormUploadComponent,
     MappingVisualComponent,
+    AllHospitalsComponent,
 
   ],
   imports: [

@@ -1,0 +1,35 @@
+<br>
+<h1><i class="fa fa-hospital-o">All Hospital Variables</i></h1>
+<br>
+<div style="width: 300px; margin-bottom: 20px;">
+  <ng-select class="select"
+             [allowClear]="true"
+             [options]="arrayIterationByLabel(allVariables)"
+             [disabled]="disabled"
+             (selected)="selected($event)"
+             (filterInputChanged)="filterInputChanged($event)"
+             (deselected)="deselected($event)"
+             placeholder="Search...">
+  </ng-select>
+</div>
+
+<mat-accordion *ngFor="let hospital of allHospitalVariables" multi="true">
+  <mat-expansion-panel *ngFor="let variable of hospital.variables | hospitalFilter:searchTermVar" >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <a> <b>{{variable.name+' ('+hospital.name+')'}}</b></a>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p><b>Name :</b>{{variable.name}}</p>
+      <p><b>File :</b>{{variable.csvFile}}</p>
+      <p><b>Values :</b>{{variable.values}}</p>
+      <p><b>Type :</b>{{variable.type}}</p>
+      <p><b>Measure Unit:</b>{{variable.unit}}</p>
+      <p><b>Description :</b>{{variable.description}}</p>
+      <p><b>Comments :</b>{{variable.comments}}</p>
+      <p><b>Concept Path :</b>{{variable.conceptPath}}</p>
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+
