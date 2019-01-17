@@ -96,6 +96,23 @@ public void deletePreviousSaveNew(Variables var){
     public List<Variables> findAll(){
         return variablesRepository.findAll();
     }
+
+    public List<Variables> findAllUnique(){
+        List<Variables> allVar = variablesRepository.findAll();
+        List<Variables> uniqueVar = new ArrayList<>();
+        for(int i=0;i<allVar.size();i++){
+            boolean found = false;
+            for(int j = i+1;j<allVar.size();j++){
+                if(allVar.get(i).getCode().equals(allVar.get(j).getCode())){
+                    found = true;
+                }
+            }
+            if(!found){
+                uniqueVar.add(allVar.get(i));
+            }
+        }
+        return  uniqueVar;
+    }
     
     //get an hospital by id
     public Variables getVariable(BigInteger id){

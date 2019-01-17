@@ -4,13 +4,13 @@ import {IOption} from "ng-select";
 
 @Component({
   selector: 'app-all-hospitals',
-  templateUrl: './all-hospitals.component.html',
-  styleUrls: ['./all-hospitals.component.css']
+  templateUrl: './all-variables.component.html',
+  styleUrls: ['./all-variables.component.css']
 })
-export class AllHospitalsComponent implements OnInit {
+export class AllVariablesComponent implements OnInit {
 
-  allHospitalVariables:Array<any>;
-  allVariables:Array<any>;
+  allHospitalWithUniqueVariables:Array<any>;
+  allUniqueVariables:Array<any>;
   myOptions2: Array<IOption> = [{label: '', value: ''}];
   disabled = false;
   searchTermVar: String = "";
@@ -20,8 +20,8 @@ export class AllHospitalsComponent implements OnInit {
   constructor(private hospitalService: HospitalService) { }
 
   ngOnInit() {
-    this.hospitalService.getAllHospitalsAndVariables().subscribe(data => {this.allHospitalVariables = data;});
-    this.hospitalService.getAllVariables().subscribe(all=>{this.allVariables = all});
+    this.hospitalService.getAllHospitalsAndUniqueVariables().subscribe(data => {this.allHospitalWithUniqueVariables = data;});
+    this.hospitalService.getAllUniqueVariables().subscribe(all=>{this.allUniqueVariables = all});
   }
 
   public selected(option: IOption): void {

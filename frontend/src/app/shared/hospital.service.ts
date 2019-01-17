@@ -15,7 +15,9 @@ export class HospitalService {
   getAllVariables(): Observable<any> {
     return this.http.get('//195.251.252.222:2443/hospital/allVariables');
   }
-
+  getAllUniqueVariables(): Observable<any> {
+    return this.http.get('//195.251.252.222:2443/hospital/allUniqueVariables');
+  }
 
   getAllVersionsPerHospital():Observable<any>{
 
@@ -31,6 +33,10 @@ export class HospitalService {
   getAllHospitalsAndVariables(): Observable<any> {
     return this.http.get('//195.251.252.222:2443/hospitals/hosp');
   }
+  getAllHospitalsAndUniqueVariables(): Observable<any> {
+    return this.http.get('//195.251.252.222:2443/hospitals/allWithUniqueVariables');
+  }
+
 
   getVersionsByHospitalId(hospital_id: number):Observable<any>{
     return this.http.get('//195.251.252.222:2443/versions/allVersionsPerHospital/'+hospital_id);

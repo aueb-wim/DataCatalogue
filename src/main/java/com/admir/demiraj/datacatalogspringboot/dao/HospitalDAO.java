@@ -9,19 +9,18 @@ import com.admir.demiraj.datacatalogspringboot.repository.HospitalsRepository;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
  * @author root
  */
 @Service
-//@CrossOrigin(origins = "http://195.251.252.222:2442")
-//@CrossOrigin
 public class HospitalDAO {
       
     @Autowired
@@ -36,6 +35,29 @@ public class HospitalDAO {
     
     public List<Hospitals> findAll(){
         return hospitalsRepository.findAll();
+    }
+
+    public List<Hospitals> findAllWithUniqueVariables(){
+        List<Hospitals> allHosp = hospitalsRepository.findAll();
+        List<Hospitals> allHospUniqVar = new ArrayList<>();
+        for (Hospitals hosp: allHosp){
+            List<Variables> allVar = hosp.getVariables();
+            List<Variables> uniqueVar = new ArrayList<>();
+            for(int i=0;i<allVar.size();i++){
+                boolean found = false;
+                for(int j = i+1;j<allVar.size();j++){
+                    if(allVar.get(i).getCode().equals(allVar.get(j).getCode())){
+                        found = true;
+                    }
+                }
+                if(!found){
+                    uniqueVar.add(allVar.get(i));
+                }
+            }
+            hosp.setVariables(uniqueVar);
+            allHospUniqVar.add(hosp);
+        }
+        return allHospUniqVar;
     }
 
     public Hospitals getHospital(BigInteger id){
