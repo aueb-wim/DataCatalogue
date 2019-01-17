@@ -14,7 +14,6 @@ import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import netscape.javascript.JSObject;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -55,13 +54,14 @@ public class Versions implements Serializable{
     @LastModifiedDate
     private Date createdAt;
 
+    @OneToMany(mappedBy="version",fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<TotalReport> totalReports;
     
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
     @JsonManagedReference
     private List<Variables> variables = new ArrayList<>();
 
-    
-     
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
     @JsonManagedReference
     private List<CDEVariables> cdevariables = new ArrayList<>();

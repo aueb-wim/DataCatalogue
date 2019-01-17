@@ -8,9 +8,7 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
-import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
-import com.admir.demiraj.datacatalogspringboot.resources.Variables;
-import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import com.admir.demiraj.datacatalogspringboot.resources.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

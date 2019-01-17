@@ -10,11 +10,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -111,6 +111,10 @@ public class Variables implements Serializable{
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "variables_versions",joinColumns = { @JoinColumn(name = "variable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
     private List<Versions> versions = new ArrayList<>();
+
+    @OneToMany(mappedBy="variable",fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<VariableReport> variableReports;
 
     public String getCode() {
         return code;
@@ -234,5 +238,13 @@ public class Variables implements Serializable{
 
     public void setMethodology(String methodology) {
         this.methodology = methodology;
+    }
+
+    public List<VariableReport> getVariableReports() {
+        return variableReports;
+    }
+
+    public void setVariableReports(List<VariableReport> variableReports) {
+        this.variableReports = variableReports;
     }
 }
