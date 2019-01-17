@@ -157,7 +157,7 @@ public class VariablesXLSX_JSON
         return root;
     }
     private void addPathNodes(Variables nextVar, Node root)
-    {
+    {   System.out.println("----> nextVar is "+nextVar+" <----");
         String thisConceptPath = nextVar.getConceptPath();
         if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/"))
         {
