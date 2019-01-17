@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
@@ -23,7 +24,7 @@ import {IOption,} from "ng-select";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewInit {
+export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewInit{
 
   myOptions2: Array<IOption> = [{label: '', value: ''}];
   value: any = {};
@@ -33,7 +34,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   hospitalVersions: Array<any>;
   hospital: any;
   url = this.location.path();
-  currentVersionId = 3; /// be careful when changing the database , it should be assigned to an existing id
+  currentVersionId = 4; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionName;
   downloadName = "variables_";
   searchTermVar: String = "";
@@ -52,8 +53,6 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
       this.hospital = hosp
     });
-    this.currentVersionId = 3; //check this
-
   }
 
   ngAfterViewInit() {
@@ -98,8 +97,6 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   }
 
 
-
-
   createSampleFileName() {
     var oldName = parseInt(this.hospitalVersions[this.hospitalVersions.length - 1].name.replace('v', ''));
     oldName = oldName + 1;
@@ -119,6 +116,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     this.changeVersionName(event.tab.textLabel);
     this.searchTermVar = "";
   }
+
 
 
   goBack(): void {

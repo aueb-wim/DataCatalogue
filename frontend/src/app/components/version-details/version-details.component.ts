@@ -20,9 +20,6 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
   version:any;
   jsonMetadata:any;
 
-
-
-
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {

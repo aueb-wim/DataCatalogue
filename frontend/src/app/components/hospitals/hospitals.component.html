@@ -1,5 +1,15 @@
 
-<div ngClass="{{enabled}}" *ngFor="let hospital of hospitals">
+
+<div ngClass="{{enabled}}">
+  <mat-card  class="thumbnail" routerLink="/hospitals/all">
+    <mat-card-title>AllHospitals</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+    <mat-card-content></mat-card-content>
+    <img mat-card-md-image="hospital_image" src="assets/images/hosp2.png">
+    <mat-card-actions></mat-card-actions>
+    <mat-card-footer></mat-card-footer>
+  </mat-card>
+<div  *ngFor="let hospital of hospitals">
 
  <mat-card  class="thumbnail" routerLink="/hospitals/{{hospital.hospital_id}}">
     <mat-card-title>{{hospital.name}}</mat-card-title>
@@ -12,3 +22,4 @@
 
 </div>
 
+</div>
