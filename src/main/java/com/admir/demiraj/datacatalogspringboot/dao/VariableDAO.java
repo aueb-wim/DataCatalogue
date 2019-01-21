@@ -15,10 +15,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.org.apache.xpath.internal.operations.Variable;
+import javassist.compiler.ast.Variable;
+import org.apache.tomcat.util.descriptor.tld.TldRuleSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 /**
@@ -26,9 +26,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * @author root
  */
 @Service
-//@CrossOrigin(origins = "http://195.251.252.222:2442")
-//@CrossOrigin(origins = "http://172.16.10.138:4200")
-//@CrossOrigin
 public class VariableDAO {
     
     @Autowired
@@ -121,6 +118,16 @@ public void deletePreviousSaveNew(Variables var){
 
     public boolean variableExists(Variables variable){
         return variablesRepository.existsById(variable.getVariable_id());
+    }
+
+    public Variables findByCode(String vCode){
+        List<Variables> allVar = variablesRepository.findAll();
+        for (Variables var : allVar){
+            if(var.getCode().equals(vCode)){
+                return var;
+            }
+        }
+        return null;
     }
 
     

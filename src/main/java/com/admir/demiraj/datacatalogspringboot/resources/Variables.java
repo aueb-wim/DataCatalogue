@@ -116,6 +116,7 @@ public class Variables implements Serializable{
     @JsonManagedReference
     private List<VariableReport> variableReports;
 
+
     public String getCode() {
         return code;
     }

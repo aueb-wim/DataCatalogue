@@ -54,9 +54,13 @@ public class Versions implements Serializable{
     @LastModifiedDate
     private Date createdAt;
 
+    //@OneToMany(mappedBy="version",fetch = FetchType.LAZY)
+    //@JsonManagedReference
+    //private List<TotalReport> totalReports;
+
     @OneToMany(mappedBy="version",fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<TotalReport> totalReports;
+    private List<BatchReport> batchReports;
     
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
     @JsonManagedReference
@@ -121,7 +125,12 @@ public class Versions implements Serializable{
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-    
-    
-    
+
+    public List<BatchReport> getBatchReports() {
+        return batchReports;
+    }
+
+    public void setBatchReports(List<BatchReport> batchReports) {
+        this.batchReports = batchReports;
+    }
 }

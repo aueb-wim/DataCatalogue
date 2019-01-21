@@ -3,6 +3,7 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import com.admir.demiraj.datacatalogspringboot.service.UploadReports;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParser;
@@ -24,6 +25,8 @@ public class VersionController {
 
     @Autowired
     private HospitalDAO hospitalDAO;
+
+
 
     @GetMapping("/allVersions")
     public List<Versions>  getAllVerions(){return versionDAO.getAllVersions();}

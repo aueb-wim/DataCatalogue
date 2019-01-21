@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.List;
 
 
 
@@ -24,19 +25,21 @@ import java.math.BigInteger;
  * @author root
  */
 @Entity
-@Table(name="TotalReport")
+@Table(name="VariableReport")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EntityListeners(AuditingEntityListener.class)
 public class VariableReport implements Serializable {
 
-    public VariableReport(String typeDeclared, String typeEstimated, String listOfCategoryValues,
-                          String numberOfCategoryValues, String countOfUniqueValues, String mostFrequentValue,
-                          String numberOfOccurrencesForMostFrequentValue, String countOfRecordsFilled,
+    public VariableReport(String variableReportName, String variableReportNumber, String typeDeclared, String typeEstimated,
+                          String listOfCategoryValues, String numberOfCategoryValues, String countOfUniqueValues,
+                          String mostFrequentValue, String numberOfOccurrencesForMostFrequentValue, String countOfRecordsFilled,
                           String percentageOfNonNullRows, String mean, String std, String min, String max,
                           String the25PercebtOfRecordsBelowThisValue, String the50PercebtOfRecordsBelowThisValue,
-                          String the75PercebtOfRecordsBelowThisValue, String numberOfOutliersOutside3Std,
-                          String the5LeastFrequestValues, String the5MostFrequentValues, String comments) {
+                          String the75PercebtOfRecordsBelowThisValue, String numberOfOutliersOutside3Std, String the5LeastFrequestValues,
+                          String the5MostFrequentValues, String comments) {
 
+        this.variableReportName = variableReportName;
+        this.variableReportNumber = variableReportNumber;
         this.typeDeclared = typeDeclared;
         this.typeEstimated = typeEstimated;
         this.listOfCategoryValues = listOfCategoryValues;
@@ -68,6 +71,12 @@ public class VariableReport implements Serializable {
     private BigInteger variablereport_id;
 
     @Column
+    private String variableReportName;
+
+    @Column
+    private String variableReportNumber;
+
+    @Column
     private String typeDeclared;
 
     @Column
@@ -87,6 +96,7 @@ public class VariableReport implements Serializable {
 
     @Column
     private String numberOfOccurrencesForMostFrequentValue;
+
     @Column
     private String countOfRecordsFilled;
 
@@ -125,14 +135,16 @@ public class VariableReport implements Serializable {
     @Column
     private String comments;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade=CascadeType.ALL)
     @JoinColumn(name = "variable_id", nullable = false)
     @JsonBackReference
     private Variables variable;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "variableReport")
-    @JsonManagedReference
-    private TotalReport totalReport;
+
+    //@ManyToOne(fetch = FetchType.LAZY, optional = false,cascade=CascadeType.ALL)
+    //@JoinColumn(name = "totalreport_id", nullable = false)
+    //@JsonBackReference
+    //private TotalReport totalReport;
 
     public BigInteger getVariablereport_id() {
         return variablereport_id;
@@ -151,13 +163,7 @@ public class VariableReport implements Serializable {
         this.variable = variable;
     }
 
-    public TotalReport getTotalReport() {
-        return totalReport;
-    }
 
-    public void setTotalReport(TotalReport totalReport) {
-        this.totalReport = totalReport;
-    }
 
     public String getTypeDeclared() {
         return typeDeclared;
@@ -317,5 +323,21 @@ public class VariableReport implements Serializable {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public String getVariableReportName() {
+        return variableReportName;
+    }
+
+    public void setVariableReportName(String variableReportName) {
+        this.variableReportName = variableReportName;
+    }
+
+    public String getVariableReportNumber() {
+        return variableReportNumber;
+    }
+
+    public void setVariableReportNumber(String variableReportNumber) {
+        this.variableReportNumber = variableReportNumber;
     }
 }

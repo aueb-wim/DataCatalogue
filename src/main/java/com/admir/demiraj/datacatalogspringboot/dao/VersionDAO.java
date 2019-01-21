@@ -5,6 +5,7 @@
  */
 package com.admir.demiraj.datacatalogspringboot.dao;
 
+import com.admir.demiraj.datacatalogspringboot.repository.HospitalsRepository;
 import com.admir.demiraj.datacatalogspringboot.repository.VersionsRepository;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import jdk.nashorn.internal.runtime.Version;
@@ -25,6 +26,9 @@ public class VersionDAO {
 
     @Autowired
     private VersionsRepository versionsRepository;
+
+    @Autowired
+    HospitalDAO hospitalDAO;
 
     public List<Versions> getAllCdeVersions(){
 
@@ -108,6 +112,19 @@ public class VersionDAO {
             }}
         }
         return versionIdsByHospitalId;
+    }
+
+    public List<Versions> getAllVersionByHospitalName(String hospitalName) {
+        List<Versions> allVersions = versionsRepository.findAll();
+        List<Versions> versionsByHospitalName = new ArrayList<>();
+        BigInteger hospitalId = hospitalDAO.getHospitalIdByName(hospitalName);
+        for(Versions version : allVersions){
+            if(!version.getVariables().isEmpty()){
+                if(version.getVariables().get(0).getHospital().getHospital_id() == hospitalId){
+                    versionsByHospitalName.add(version);
+                }}
+        }
+        return versionsByHospitalName;
     }
 
 

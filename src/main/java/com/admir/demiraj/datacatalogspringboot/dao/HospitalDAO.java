@@ -71,6 +71,16 @@ public class HospitalDAO {
     public Hospitals getHospitalByName(String name){
         return hospitalsRepository.getHospitalByName(name);
    }
+
+   public BigInteger getHospitalIdByName(String hospName){
+        List<Hospitals> allHosp = hospitalsRepository.findAll();
+        for (Hospitals h : allHosp){
+            if(h.getName().equals(hospName)){
+                return h.getHospital_id();
+            }
+        }
+        return null;
+   }
     
     
 }

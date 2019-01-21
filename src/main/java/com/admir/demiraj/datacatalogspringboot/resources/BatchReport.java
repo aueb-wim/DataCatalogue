@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -27,13 +26,15 @@ import java.math.BigInteger;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EntityListeners(AuditingEntityListener.class)
 public class BatchReport implements Serializable {
+    public BatchReport(String batchReportName, String batchReportNumber, String fileName, String dateQcToolRan,
+                       String qctoolVersion, String totalVariables, String totalRows, String rowsWithOnlyId,
+                       String rowsWithNoId, String rowsWithAllColumnsFilled, String variablesWith100PercentRecordCoverage,
+                       String variablesWith80to100PercentRecordCoverage, String variablesWith60to80PercentRecordCoverage,
+                       String variablesWith40to60PercentRecordCoverage, String variablesWith20to40PercentRecordCoverage,
+                       String variablesWith0to20PercentRecordCoverage) {
 
-    public BatchReport(String fileName, String dateQcToolRan, String qctoolVersion, String totalVariables,
-                       String totalRows, String rowsWithOnlyId, String rowsWithNoId, String rowsWithAllColumnsFilled,
-                       String variablesWith100PercentRecordCoverage, String variablesWith80to100PercentRecordCoverage,
-                       String variablesWith60to80PercentRecordCoverage, String variablesWith40to60PercentRecordCoverage,
-                       String variablesWith20to40PercentRecordCoverage, String variablesWith0to20PercentRecordCoverage) {
-
+        this.batchReportName = batchReportName;
+        this.batchReportNumber = batchReportNumber;
         this.fileName = fileName;
         this.dateQcToolRan = dateQcToolRan;
         this.qctoolVersion = qctoolVersion;
@@ -59,6 +60,11 @@ public class BatchReport implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private BigInteger batchreport_id;
 
+ @Column
+ private String batchReportName;
+
+ @Column
+ private String batchReportNumber;
 
     @Column
     private String fileName;
@@ -103,11 +109,15 @@ public class BatchReport implements Serializable {
     private String variablesWith0to20PercentRecordCoverage;
 
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "version_id", nullable = false)
+    @JsonBackReference
+    private Versions version;
 
-
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "batchReport")
-    @JsonManagedReference
-    private TotalReport totalReport;
+    //@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "batchReport")
+    //@JsonBackReference
+    //@JsonManagedReference
+    //private TotalReport totalReport;
 
     public BigInteger getBatchreport_id() {
         return batchreport_id;
@@ -117,13 +127,12 @@ public class BatchReport implements Serializable {
         this.batchreport_id = batchreport_id;
     }
 
-
-    public TotalReport getTotalReport() {
-        return totalReport;
+    public Versions getVersion() {
+        return version;
     }
 
-    public void setTotalReport(TotalReport totalReport) {
-        this.totalReport = totalReport;
+    public void setVersion(Versions version) {
+        this.version = version;
     }
 
     public String getFileName() {
@@ -237,4 +246,22 @@ public class BatchReport implements Serializable {
     public void setVariablesWith0to20PercentRecordCoverage(String variablesWith0to20PercentRecordCoverage) {
         this.variablesWith0to20PercentRecordCoverage = variablesWith0to20PercentRecordCoverage;
     }
+
+    public String getBatchReportName() {
+        return batchReportName;
+    }
+
+    public void setBatchReportName(String batchReportName) {
+        this.batchReportName = batchReportName;
+    }
+
+    public String getBatchReportNumber() {
+        return batchReportNumber;
+    }
+
+    public void setBatchReportNumber(String batchReportNumber) {
+        this.batchReportNumber = batchReportNumber;
+    }
+
+
 }
