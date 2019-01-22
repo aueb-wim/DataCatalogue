@@ -30,6 +30,7 @@ import { MappingVisualComponent } from './visuals/mapping-visual/mapping-visual.
 import {SelectModule} from 'ng-select';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AllVariablesComponent } from './components/all-variables/all-variables.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 
 
@@ -60,6 +61,7 @@ import { AllVariablesComponent } from './components/all-variables/all-variables.
     FormUploadComponent,
     MappingVisualComponent,
     AllVariablesComponent,
+    ReportsComponent,
 
   ],
   imports: [

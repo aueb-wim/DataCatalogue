@@ -1,8 +1,3 @@
-/*
-/deep/div.container{
-  align-items: center;
-  alignment: center;
-}*/
 
 
 .mat-tab-label.mat-tab-label-active {
@@ -55,5 +50,12 @@ input[type=text] {
   opacity: 0.9%;
 }
 
+
+/deep/div.visuals{
+position: absolute;
+  float: right;
+  display: inline-block;
+
+}
 
 

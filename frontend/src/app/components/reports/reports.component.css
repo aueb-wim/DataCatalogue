@@ -1,0 +1,41 @@
+button.report-button {
+  line-height: 12px;
+  position: relative;
+  margin-left: 4px;
+  border-radius: 50%;
+  background-color: #ff937f;
+
+}
+i{
+  font-size: 24px;
+}
+
+
+li {
+  list-style: none outside none;
+}
+td{
+  vertical-align:top;
+  font-size: 1.3vmin;
+}
+th{
+  color:lightblue;
+  font-size: 1.5vmin;
+}
+
+table{
+  height:100%;
+  width:100%;
+  padding:0;
+  margin-top: 30px;
+}
+
+
+
+caption{
+  font-size: x-large;
+  text-align: center;
+  color: #007FBB;
+}
+
+

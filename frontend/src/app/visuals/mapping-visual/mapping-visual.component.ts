@@ -16,9 +16,11 @@ export class MappingVisualComponent implements OnInit, OnChanges {
 
 
   @Input("versionId") versionId:number;
+  @Input("reportOpen") reportOpen;
   @Input("searchTermVar") searchTermVar:string;
   @Input("diagramOpen") diagramOpen;
   @Output() diagramOpenChange = new EventEmitter<boolean>();
+  @Output() reportOpenChange = new EventEmitter<boolean>();
 
   margin: any;
   width: number;
@@ -47,13 +49,20 @@ export class MappingVisualComponent implements OnInit, OnChanges {
 
 
    handleChart(){
-    if(this.diagramOpen){
-      d3.select('svg').remove();
-      this.changediagramOpen();
+     if(this.reportOpen){
+       document.getElementById('reports').innerHTML = "";
+       this.reportOpen = !this.reportOpen;
+       this.reportOpenChange.emit(this.reportOpen);
+     }else{
+       if(this.diagramOpen){
+         d3.select('svg').remove();
+         this.changediagramOpen();
 
-    }else{
-      this.DrawChart();
-    }
+       }else{
+         this.DrawChart();
+       }
+     }
+
   }
 
   private DrawChart() {

@@ -1,0 +1,101 @@
+
+<button  class="report-button" (click)="changeReportOpen()"><i class="fa fa-newspaper-o icon-4x"></i></button>
+
+<a class="reports" id="reports" *ngIf="reportOpen">
+  <table border="1">
+    <caption>General Reports</caption>
+
+    <tbody>
+
+    <th>Batch Number</th>
+    <th>File Name</th>
+    <th>Date Qc Tool Ran</th>
+    <th>QC Tool Version</th>
+    <th>Total Variables</th>
+    <th>Total Rows</th>
+    <th>Rows With Only Id</th>
+    <th>Rows With No Id</th>
+    <th>Rows With All Columns Filled</th>
+    <th>100% Coverage</th>
+    <th>80-100% Coverage</th>
+    <th>60-80% Coverage</th>
+    <th>40-60% Coverage</th>
+    <th>20-40% Coverage</th>
+    <th>0-20% Coverage</th>
+    <tr *ngFor="let batchreport of batchReports">
+      <td>{{batchreport.batchReportNumber}}</td>
+      <td>{{batchreport.fileName}}</td>
+      <td>{{batchreport.dateQcToolRan}}</td>
+      <td>{{batchreport.qctoolVersion}}</td>
+      <td>{{batchreport.totalVariables}}</td>
+      <td>{{batchreport.totalRows}}</td>
+      <td>{{batchreport.rowsWithOnlyId}}</td>
+      <td>{{batchreport.rowsWithNoId}}</td>
+      <td>{{batchreport.rowsWithAllColumnsFilled}}</td>
+      <td>{{batchreport.variablesWith100PercentRecordCoverage}}</td>
+      <td>{{batchreport.variablesWith80to100PercentRecordCoverage}}</td>
+      <td>{{batchreport.variablesWith60to80PercentRecordCoverage}}</td>
+      <td>{{batchreport.variablesWith40to60PercentRecordCoverage}}</td>
+      <td>{{batchreport.variablesWith20to40PercentRecordCoverage}}</td>
+      <td>{{batchreport.variablesWith0to20PercentRecordCoverage}}</td>
+
+    </tbody>
+
+  </table>
+  <table class="variableReports" border="1">
+    <caption>Variable Reports</caption>
+
+    <th>Variable Name</th>
+    <th>Batch Number</th>
+    <th>Type Declared</th>
+    <th>Type Estimated</th>
+    <th>Category Values</th>
+    <th>Unique Values</th>
+    <th>Most Frequent Value</th>
+    <th>Count Of Most Frequent Value</th>
+    <th>Records Filled</th>
+    <th>Non Null Rows(%)</th>
+    <th>Mean</th>
+    <th>Standard Deviation</th>
+    <th>Min</th>
+    <th>Max</th>
+    <th>Count the 25% Values Below</th>
+    <th>Count the 50% Values Below</th>
+    <th>Count the 75% Values Below</th>
+    <th>Outliers Outside 3 STDs</th>
+    <th>5 Least Frequent Values</th>
+    <th>5 Most Frequent Values</th>
+    <th>Comments</th>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <tr *ngFor="let variable of variables | hospitalFilter:searchTermVar">
+      <td>{{variable.code}}</td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.variableReportNumber}}</li></td>
+
+      <td ><li *ngFor="let report of variable.variableReports">{{report.typeDeclared}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.typeEstimated}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.listOfCategoryValues}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.numberOfCategoryValues}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.countOfUniqueValues}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.mostFrequentValue}}</li></td>
+
+      <td ><li *ngFor="let report of variable.variableReports">{{report.numberOfOccurrencesForMostFrequentValue}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.countOfRecordsFilled}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.percentageOfNonNullRows}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.mean}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.std}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.max}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.the25PercebtOfRecordsBelowThisValue}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.the50PercebtOfRecordsBelowThisValue}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.the75PercebtOfRecordsBelowThisValue}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.numberOfOutliersOutside3Std}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.the5LeastFrequestValues}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.the5MostFrequentValues}}</li></td>
+      <td ><li *ngFor="let report of variable.variableReports">{{report.comments}}</li></td>
+
+    </tr>
+  </table>
+</a>

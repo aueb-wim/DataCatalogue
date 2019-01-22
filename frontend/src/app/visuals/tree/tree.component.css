@@ -1,10 +1,8 @@
 button.toogleChart {
-  line-height: 12px;
-  margin-top: 15px;
-  margin-right: 2px;
-  margin-bottom: 20px;
   border-radius: 50%;
   background-color: wheat;
+  position: relative;
+  margin-left: 4px;
 
 }
 

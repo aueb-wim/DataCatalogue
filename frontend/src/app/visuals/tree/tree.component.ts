@@ -29,7 +29,9 @@ export class TreeComponent implements OnInit,OnChanges {
   @Input('versionId') versionId;
   @Input('searchTermVar') searchTermVar;
   @Input('diagramOpen') diagramOpen;
+  @Input('reportOpen') reportOpen?: boolean;
   @Output() diagramOpenChange = new EventEmitter<boolean>();
+  @Output() reportOpenChange = new EventEmitter<boolean>();
   margin: any;
   width: number;
   height: number;
@@ -61,12 +63,20 @@ export class TreeComponent implements OnInit,OnChanges {
   }
 
   handleChart(){
+    if(this.reportOpen){
+      document.getElementById('reports').innerHTML = "";
+      this.reportOpen = !this.reportOpen;
+      this.reportOpenChange.emit(this.reportOpen);
+    }else{
+
+
     if(this.diagramOpen){
       d3.select('svg').remove();
       this.chagediagramOpen();
 
     }else{
       this.setData();
+    }
     }
   }
 

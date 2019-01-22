@@ -29,7 +29,6 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   myOptions2: Array<IOption> = [{label: '', value: ''}];
   value: any = {};
   disabled = false;
-
   diagramOpen = false;
   hospitalVersions: Array<any>;
   hospital: any;
@@ -39,6 +38,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   downloadName = "variables_";
   searchTermVar: String = "";
   viewInitialized: boolean;
+  reportOpen = false;
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
 
   }
@@ -73,7 +73,6 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
 
     }
-
   }
   public selected(option: IOption): void {
     this.searchTermVar = option.label;

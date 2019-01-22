@@ -37,7 +37,7 @@ public class ReportController {
 
     @Autowired
     private BatchReportDAO batchReportDAO;
-    
+
 
     @GetMapping("/test2")
     private void test2() {

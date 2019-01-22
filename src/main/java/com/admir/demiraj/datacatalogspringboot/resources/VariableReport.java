@@ -2,16 +2,11 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.List;
-
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -140,11 +135,6 @@ public class VariableReport implements Serializable {
     @JsonBackReference
     private Variables variable;
 
-
-    //@ManyToOne(fetch = FetchType.LAZY, optional = false,cascade=CascadeType.ALL)
-    //@JoinColumn(name = "totalreport_id", nullable = false)
-    //@JsonBackReference
-    //private TotalReport totalReport;
 
     public BigInteger getVariablereport_id() {
         return variablereport_id;
