@@ -8,6 +8,7 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 import com.admir.demiraj.datacatalogspringboot.repository.FunctionsRepository;
 import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
+import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,8 +42,11 @@ public class FunctionsDAO {
         for (Functions f : allFunctions) {
             List<Variables> allVariables = f.getVariables();
             for (Variables v : allVariables) {
-                if (v.getVersions().get(0).getVersion_id() == variableVersion) {
-                    functionByVariableId.add(f);
+                List<Versions> versionInsideVariable = v.getVersions();
+                for (Versions ver : versionInsideVariable){
+                    if (ver.getVersion_id() == variableVersion) {
+                        functionByVariableId.add(f);
+                    }
                 }
             }
         }

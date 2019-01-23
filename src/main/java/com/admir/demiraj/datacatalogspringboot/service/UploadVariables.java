@@ -2,13 +2,9 @@ package com.admir.demiraj.datacatalogspringboot.service;
 
 import com.admir.demiraj.datacatalogspringboot.dao.*;
 import com.admir.demiraj.datacatalogspringboot.resources.*;
-import jdk.nashorn.internal.objects.annotations.Function;
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.Version;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,33 +37,6 @@ public class UploadVariables {
     @Autowired
     private FunctionsDAO functionsDAO;
 
-    public void createVersion(String versionName, String filePath, Hospitals currentHospital) {
-        //generateConceptPathFromMapping(filePath);
-        Versions version = new Versions(versionName);
-        System.out.println("Saving Version");
-        Set<Variables> allVar = new HashSet<>();
-        try {
-            allVar = Read_xlsx(filePath, version, currentHospital);
-        } catch (FileNotFoundException fnfe) {
-            System.err.println("Xlsx not found...!!!");
-        } catch (IOException io) {
-            System.err.println("Problem with the xlsx...");
-        }
-
-        for (Variables var : allVar) {
-            System.out.println("Code : " + var.getCode() + " Concept path : " + var.getConceptPath());
-        }
-
-
-        VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
-        System.out.println("Retrieving jsonString from file");
-        //version.setJsonString(variablesXLSX_json.createJSONMetadata(testTree).toString());
-        version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
-        System.out.println("Retrieving jsonStringVisualizable from file");
-        version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
-        versionDAO.saveVersion(version);
-
-    }
 
     public void readExcelFile() {
         File folder = new File(FOLDER_NAME);
@@ -100,16 +69,46 @@ public class UploadVariables {
                 } else {
                     //generateConceptPathFromMapping(filePath);
                     Hospitals createdHospital = new Hospitals(hospitalName);
-                    hospitalDAO.save(createdHospital);
+                    //hospitalDAO.save(createdHospital);//////check this
                     createVersion(versionName, filePath, createdHospital);
+
                 }
             }
         }
     }
 
 
-    public Set<Variables> Read_xlsx(String ff, Versions version, Hospitals hospital) throws IOException {
-        Set<Variables> xlsxVars = new HashSet<>();//<Variables>
+    public void createVersion(String versionName, String filePath, Hospitals currentHospital) {
+        Versions version = new Versions(versionName);
+        System.out.println("Saving Version");
+        List<Variables> allVar = new ArrayList<>();
+        try {
+            allVar = Read_xlsx(filePath, version, currentHospital);
+        } catch (FileNotFoundException fnfe) {
+            System.err.println("Xlsx not found...!!!");
+        } catch (IOException io) {
+            System.err.println("Problem with the xlsx...");
+        }
+
+        List<Variables> allVar2 = new ArrayList<>();
+        for (Variables var : allVar) {
+            if (var.getHospital() != null && var.getCode() != null) {
+                allVar2.add(var);
+            }
+        }
+
+        VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
+        System.out.println("Retrieving jsonString from file");
+        version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
+        System.out.println("Retrieving jsonStringVisualizable from file");
+        version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
+        version.setVariables(allVar2);
+        versionDAO.saveVersion(version);
+
+    }
+
+    public List<Variables> Read_xlsx(String ff, Versions version, Hospitals hospital) throws IOException {
+        List<Variables> xlsxVars = new ArrayList<>();//<Variables>
         FileInputStream fis = null;
         fis = new FileInputStream(ff);
         Workbook workbook = null;
@@ -163,14 +162,18 @@ public class UploadVariables {
                     System.out.println("THE c12 CELL CONTAINS: " + cc12);
                     // The comma indicates that the user is inserting multiple elements
                     if (cc12 != "") {
-                        if(cc12.contains(",")){
+                        if (cc12.contains(",")) {
                             newVar = mappingToMultipleCdes(cc12, mapFunction, newVar, version, hospital);
-                        }else{
+                        } else {
                             newVar = mappingToSingleCde(cc12, mapFunction, newVar, version, hospital);
                         }
-                    }else{//cell is empty
+                    } else {//cell is empty
                         variableDAO.saveVersionToVariable(newVar, version);
-                        variableDAO.saveHospitalToVariable(newVar, hospital);
+                        List<Variables> hospVar = hospital.getVariables();
+                        hospVar.add(newVar);
+                        hospital.setVariables(hospVar);
+                        hospitalDAO.save(hospital);
+                        newVar.setHospital(hospital);
                         variableDAO.save(newVar);
                     }
 
@@ -182,92 +185,93 @@ public class UploadVariables {
 
 
         }
-        System.out.println("********* Total of " + xlsxVars.size() + " XLSX elements **********");
         return xlsxVars;
     }
 
 
+    public Variables mappingToMultipleCdes(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
+        Pattern p = Pattern.compile("\\[(.*?)\\]");
+        Matcher m = p.matcher(cc11);
+        cc12 = cc12.replaceAll("\\s+", "");
+        String[] cc12Parts = cc12.split(",");
+        List<String> cc11Parts = new ArrayList<>();
+        while (m.find()) {
+            cc11Parts.add(m.group(1));
+        }
 
 
-    public Variables mappingToMultipleCdes( String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
-        System.out.println("MAPPING TO MULTIPLE CDES");
+        List<Variables> allVariables = new ArrayList<>();
+        List<Functions> allFunctions = new ArrayList<>();
+        List<CDEVariables> allCdeVariables = new ArrayList<>();
+        for (int i = 0; i < cc11Parts.size(); i++) {
+            CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12Parts[i]);
+            if (cde != null) {
+                System.out.println("The cdevariable has been retrieved " + cde + "and has concept path of:" + cde.getConceptPath());
+                Functions functions = new Functions();
+                allFunctions.add(functions);
+                allCdeVariables.add(cde);
 
-            Pattern p = Pattern.compile("\\[(.*?)\\]");
-            Matcher m = p.matcher(cc11);
-            cc12 = cc12.replaceAll("\\s+", "");
-            String[] cc12Parts = cc12.split(",");
-            List<String> cc11Parts = new ArrayList<>();
-            while (m.find()) {
-                cc11Parts.add(m.group(1));
             }
+        }
+        if (allCdeVariables.size() > 0) {
+            newVar.setFunction(allFunctions);
+            String cpath = allCdeVariables.get(0).getConceptPath();////////////////////////////one
+            cpath = cpath.substring(0, cpath.lastIndexOf("/")) + "/" + newVar.getCode();
+            newVar.setConceptPath(cpath);
+            newVar = variableDAO.compareVariables(newVar);
+            List<Versions> currentVersions = newVar.getVersions();
+            currentVersions.add(version);
+            newVar.setVersions(currentVersions);
+            List<Variables> hospVar = hospital.getVariables();
+            hospVar.add(newVar);
+            hospital.setVariables(hospVar);
+            hospitalDAO.save(hospital);
+            newVar.setHospital(hospital);
+            variableDAO.save(newVar);
+            System.out.println("SAVED VARIABLE TO DATABASE");
+            allVariables.add(newVar);
+
+            List<Functions> cdeFunctions = new ArrayList<>();
+            for (int i = 0; i < allCdeVariables.size(); i++) {
+                allFunctions.get(i).setVariables(allVariables);
+                allFunctions.get(i).setRule(cc11Parts.get(i));
+                List<CDEVariables> acde = new ArrayList<>();
+                acde.add(allCdeVariables.get(i));
+                allFunctions.get(i).setCdeVariables(acde);
+                System.out.println("LINKED FUNCTIONS WITH VARIABLES AND CDEVARIABLES");
+
+                cdeFunctions = new ArrayList<>(allCdeVariables.get(i).getFunction());
+                cdeFunctions.add(allFunctions.get(i));
+                allCdeVariables.get(i).setFunction(cdeFunctions);
+                System.out.println("LINKED CDEVARIABLES WITH FUNCTIONS");
 
 
-            List<Variables> allVariables = new ArrayList<>();
-            List<Functions> allFunctions = new ArrayList<>();
-            List<CDEVariables> allCdeVariables = new ArrayList<>();
-            for (int i = 0; i < cc11Parts.size(); i++) {
-                CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12Parts[i]);
-                System.out.println("i is : " + i + "cc11Parts : " + cc11Parts.get(i) + "cc12Parts: " + cc12Parts[i]);
-                if (cde != null) {
-                    System.out.println("The cdevariable has been retrieved " + cde + "and has concept path of:" + cde.getConceptPath());
-                    Functions functions = new Functions();
-                    allFunctions.add(functions);
-                    allCdeVariables.add(cde);
+                functionsDAO.save(allFunctions.get(i));
+                System.out.println("SAVED FUNCTION TO DATABASE");
+                cdeVariableDAO.save(allCdeVariables.get(i));
+                System.out.println("SAVED CDEVARIABLE TO DATABASE");
 
-                }
             }
-            System.out.println("THE SIZE OF THE ALLCDEVARIABLES IS : " + allCdeVariables.size());
-            if (allCdeVariables.size() > 0) {
-                newVar.setFunction(allFunctions);
-                String cpath = allCdeVariables.get(0).getConceptPath();////////////////////////////one
-                cpath = cpath.substring(0, cpath.lastIndexOf("/"))+"/"+newVar.getCode();
-                newVar.setConceptPath(cpath);
-                newVar.setVersions(version);
-                newVar.setHospital(hospital);
-                variableDAO.save(newVar);
-                System.out.println("SAVED VARIABLE TO DATABASE");
-                allVariables.add(newVar);
-
-                List<Functions> cdeFunctions = new ArrayList<>();
-                for (int i = 0; i < allCdeVariables.size(); i++) {
-                        System.out.println("ITERATION: " + i);
-                        allFunctions.get(i).setVariables(allVariables);
-                        allFunctions.get(i).setRule(cc11Parts.get(i));
-                        List<CDEVariables> acde = new ArrayList<>();
-                        acde.add(allCdeVariables.get(i));
-                        allFunctions.get(i).setCdeVariable(acde);
-                        System.out.println("LINKED FUNCTIONS WITH VARIABLES AND CDEVARIABLES");
-
-                        cdeFunctions = new ArrayList<>(allCdeVariables.get(i).getFunction());
-                        System.out.println("BLOCK: " + 1);
-                        cdeFunctions.add(allFunctions.get(i));
-                        System.out.println("BLOCK: " + 2);
-                        allCdeVariables.get(i).setFunction(cdeFunctions);
-                        System.out.println("BLOCK: " + 3);
-                        //allCdeVariables.get(i).setFunction(allCdeVariables.get(i).getFunction().add(allFunctions.get(i)));
-                        //cdeFunctions = allCdeVariables.get(i).getFunction();
-                        System.out.println("LINKED CDEVARIABLES WITH FUNCTIONS");
-
-
-                        functionsDAO.save(allFunctions.get(i));
-                        System.out.println("SAVED FUNCTION TO DATABASE");
-                        cdeVariableDAO.save(allCdeVariables.get(i));
-                        System.out.println("SAVED CDEVARIABLE TO DATABASE");
-
-                }
-            }else{//no cdes were found
-                    System.out.println("The cdevariable with name: "+ cc12 +"does no exist.We cannot create a mapping function");
-                    variableDAO.saveVersionToVariable(newVar, version);
-                    variableDAO.saveHospitalToVariable(newVar, hospital);
-                    variableDAO.save(newVar);
-            }
+        } else {//no cdes were found
+            System.out.println("The cdevariable with name: " + cc12 + "does no exist.We cannot create a mapping function");
+            newVar = variableDAO.compareVariables(newVar);
+            List<Versions> currentVersions = newVar.getVersions();
+            currentVersions.add(version);
+            newVar.setVersions(currentVersions);
+            List<Variables> hospVar = hospital.getVariables();
+            hospVar.add(newVar);
+            hospital.setVariables(hospVar);
+            hospitalDAO.save(hospital);
+            newVar.setHospital(hospital);
+            variableDAO.save(newVar);
+        }
 
 
         return newVar;
 
     }
 
-    public Variables mappingToSingleCde( String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
+    public Variables mappingToSingleCde(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
         System.out.println("MAPPING TO A SINGLE CDE");
 
         CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12);
@@ -275,6 +279,7 @@ public class UploadVariables {
             System.out.println("The cdevariable has been retrieved and has concept path of:" + cde.getConceptPath());
             Functions functions = new Functions();
 
+            newVar = variableDAO.compareVariables(newVar);
             List<Variables> allVariables = new ArrayList<>();
             List<Functions> allFunctions = new ArrayList<>();
             List<CDEVariables> allCdeVariables = new ArrayList<>();
@@ -282,37 +287,51 @@ public class UploadVariables {
             allVariables.add(newVar);
             allCdeVariables.add(cde);
 
+
+            newVar.setHospital(hospital);
+
             functions.setVariables(allVariables);
             functions.setRule(cc11);
-            functions.setCdeVariable(allCdeVariables);
+            functions.setCdeVariables(allCdeVariables);
             allFunctions.add(functions);
 
             newVar.setFunction(allFunctions);
 
             String cpath = cde.getConceptPath();////////////////////////////two
-            if(cpath != null){
-                cpath = cpath.substring(0, cpath.lastIndexOf("/"))+"/"+newVar.getCode();
+            if (cpath != null) {
+                cpath = cpath.substring(0, cpath.lastIndexOf("/")) + "/" + newVar.getCode();
                 newVar.setConceptPath(cpath);
-            }else{
-                System.out.println("The cde withou concept path is: "+cde.getCode());
+            } else {
+                System.out.println("The cde withou concept path is: " + cde.getCode());
             }
-
 
 
             List<Functions> cdeFunctions = cde.getFunction();
             cdeFunctions.add(functions);
             cde.setFunction(cdeFunctions);
 
-            variableDAO.saveVersionToVariable(newVar, version);
-            variableDAO.saveHospitalToVariable(newVar, hospital);
+            List<Versions> currentVersions = newVar.getVersions();
+            currentVersions.add(version);
+            newVar.setVersions(currentVersions);
+
+            List<Variables> hospVar = hospital.getVariables();
+            hospVar.add(newVar);
+            hospital.setVariables(hospVar);
+            hospitalDAO.save(hospital);
+            newVar.setHospital(hospital);
             variableDAO.save(newVar);
             cdeVariableDAO.save(cde);
             functionsDAO.save(functions);
 
-        }else{
-            System.out.println("The cdevariable with name: "+ cc12 +"does no exist.We cannot create a mapping function");
-            variableDAO.saveVersionToVariable(newVar, version);
-            variableDAO.saveHospitalToVariable(newVar, hospital);
+        } else {
+            newVar = variableDAO.compareVariables(newVar);
+            List<Versions> currentVersions = newVar.getVersions();
+            currentVersions.add(version);
+            newVar.setVersions(currentVersions);
+            System.out.println("The cdevariable with name: " + cc12 + "does no exist.We cannot create a mapping function");
+            hospital.setVariablesOneByOne(newVar);
+            hospitalDAO.save(hospital);
+            newVar.setHospital(hospital);
             variableDAO.save(newVar);
         }
         return newVar;

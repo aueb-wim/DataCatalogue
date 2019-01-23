@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Set;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,9 +34,9 @@ public class VariablesXLSX_JSON_tests
     private static final String FOLDER_NAME_CDES = System.getProperty("user.dir") + "/src/main/resources/data/cdes/";
     private static final String FOLDER_NAME_VARS = System.getProperty("user.dir") + "/src/main/resources/data/variables/";
 
-    private Set<Variables> JSONcodes;
-    private Set<Variables> XLSXcodes1;
-    private Set<Variables> XLSXcodes2;
+    private List<Variables> JSONcodes;
+    private List<Variables> XLSXcodes1;
+    private List<Variables> XLSXcodes2;
     VariablesXLSX_JSON xlsx_json = new VariablesXLSX_JSON();
 
     //@Mock private CDEVariableDAO variableDao;

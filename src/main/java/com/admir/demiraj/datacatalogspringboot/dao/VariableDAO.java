@@ -130,5 +130,21 @@ public void deletePreviousSaveNew(Variables var){
         return null;
     }
 
+    /** Method that given a specific variable searches for other variables with the same code and compares each property
+     * to see if the variables are identical.*/
+    public Variables compareVariables(Variables variable){
+        List<Variables> allVar = variablesRepository.findAll();
+        for (Variables v : allVar){
+            System.out.println("comparing :"+v.getCode()+" with :"+variable.getCode());
+            if(v.getCode().equals(variable.getCode()) && v.getName().equals(variable.getName()) &&
+            v.getCsvFile().equals(variable.getCsvFile()) && v.getValues().equals(variable.getValues()) && v.getUnit().equals(variable.getUnit())
+            && v.getCanBeNull().equals(variable.getCanBeNull()) && v.getDescription().equals(variable.getDescription())){
+                System.out.println("Same variable was found and returned : "+v.getCode());
+                return v;
+            }
+        }
+        return variable;
+    }
+
     
 }

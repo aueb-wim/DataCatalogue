@@ -121,7 +121,7 @@ export class MappingVisualComponent implements OnInit, OnChanges {
 
 for(let f of this.functionsByVariableVersion){
   let v = f.variables[0];
-  let c = f.cdeVariable[0];
+  let c = f.cdeVariables[0];
 
   let nodeVariable = {
     nodeId:parseInt(v.variable_id),
@@ -396,56 +396,3 @@ function updatePosition() {
   // is resized or scrolled
 }
 
-/*
-*
-       // console.log("Current node attributes x0:"+function (d: any) { return d.x0; });
-d3.select('rect')
-  .attr("x", function (d: any) {console.log("d.x0 is: "+d.x0); return d.x0; })
-  .attr("y", function (d: any) {console.log("d.y0 is: "+d.x0); return d.y0; });
-        /////////////////////////////////////////////////////////////
-
-        var t = 50, k = 15;
-        var tip = {'w': (3/4 * t), 'h': k};
-        var foWidth = 300;
-        var anchor = {'w': width/3, 'h': height/3};
-        //var x = currentNode.getBoundingClientRect();
-        var x = 10;
-        var y = getPosition(currentNode)[1];
-
-//console.log("Current position is: x-->"+x+" y-->"+y);
-        currentNode = svg.append('foreignObject')
-          .attr( 'x', width)
-          //.attr( 'x', anchor.w - tip.w)
-        .attr('y', height)
-         //  .attr('y', anchor.h + tip.h)
-          .attr("width",foWidth)
-          .attr("class","svg-tooltip");
-
-        var div = currentNode.append('xhtml:div')
-          .append('div')
-          .attr("class","tooltip");
-
-        div.append('p')
-          .attr('class', 'lead')
-          .html('Holmes was certainly not a difficult man to live with.');
-        div.append('p')
-          .html('He was quiet in his ways, and his habits were regular. It was rare ing.');
-        //var foHeight = div[0][0].getBoundingClientRect().height;
-       // let coordinates = (currentNode[0] as any).getBBox();
-       // console.log("coordinates are 0: "+(currentNode[0] as any).getBBox());
-        //console.log("coordinates are 1: "+(currentNode[1] as any).getBBox());
-       // console.log("coordinates are 2: "+(currentNode[2] as any).getBBox());
-       // console.log("coordinates are 3: ");
-        //console.log("coordinates are 4: "+(currentNode[4] as any).getBBox());
-        //console.log("div is at: "+ (div as any)[0][0].getBoundingClientRect().height);
-        //console.log("currentnode is at x: "+ div.attr("x"));
-        //console.log("currentnode is at y: "+ div.attr("y"));
-        var foHeight = 200;
-        //node.attr('height', foHeight);
-        svg.insert('polygon', '.svg-tooltip')
-          .attr('points', "0,0 0," + foHeight + " " + foWidth + "," + foHeight + " " + foWidth + ",0 " + (t) + ",0 " + tip.w + "," + (-tip.h) + " " + (t/2) + ",0")
-          .attr('height', foHeight + tip.h)
-          .attr('width', foWidth)
-          .attr('fill', '#D8D8D8')
-          .attr('opacity', 0.75)
-          .attr('transform', 'translate(' + (anchor.w - tip.w) + ',' + (anchor.h + tip.h) + ')');*/

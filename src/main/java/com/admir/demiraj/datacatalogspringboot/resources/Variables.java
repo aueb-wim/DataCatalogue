@@ -100,6 +100,7 @@ public class Variables implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hospital_id", nullable = false) 
     @JsonBackReference
+    //@JsonManagedReference
     private Hospitals hospital;
     
     @JsonBackReference
@@ -114,7 +115,7 @@ public class Variables implements Serializable{
 
     @OneToMany(mappedBy="variable",fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<VariableReport> variableReports;
+    private List<VariableReport> variableReports = new ArrayList<>();
 
 
     public String getCode() {

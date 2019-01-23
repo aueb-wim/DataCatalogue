@@ -48,17 +48,17 @@ public class Functions {
     @JsonManagedReference
     private List<Variables> variables;
 
-    //@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "function")
-    //@JsonManagedReference
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE},mappedBy = "function")
     @JsonManagedReference
-    private List<CDEVariables> cdeVariable;
+    private List<CDEVariables> cdeVariables;
 
-    public List<CDEVariables> getCdeVariables() { return cdeVariable; }
+    public List<CDEVariables> getCdeVariables() {
+        return cdeVariables;
+    }
 
-    public void setCdeVariable(List<CDEVariables> cdeVariable) {
-        this.cdeVariable = cdeVariable;
+    public void setCdeVariables(List<CDEVariables> cdeVariables) {
+        this.cdeVariables = cdeVariables;
     }
 
     public BigInteger getFunction_id() {
