@@ -39,9 +39,9 @@ public class ReportController {
     private BatchReportDAO batchReportDAO;
 
 
-    @GetMapping("/test2")
+    @GetMapping("/uploadAllReports")
     private void test2() {
-        uploadReports.readCsvFile2();
+        uploadReports.uploadAllReports();
     }
 
     @GetMapping("/batchreport/all")

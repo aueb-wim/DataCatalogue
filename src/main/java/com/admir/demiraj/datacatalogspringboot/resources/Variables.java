@@ -115,7 +115,7 @@ public class Variables implements Serializable{
 
     @OneToMany(mappedBy="variable",fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<VariableReport> variableReports = new ArrayList<>();
+    private List<VariableReport> variableReports;
 
 
     public String getCode() {

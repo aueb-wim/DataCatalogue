@@ -131,7 +131,7 @@ public class VariableReport implements Serializable {
     private String comments;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false,cascade=CascadeType.ALL)
-    @JoinColumn(name = "variable_id", nullable = false)
+    @JoinColumn(name = "variable_id", nullable = true)
     @JsonBackReference
     private Variables variable;
 
