@@ -39,6 +39,8 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   searchTermVar: String = "";
   viewInitialized: boolean;
   reportOpen = false;
+  editable=false;
+  newVersion = false;
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
 
   }
@@ -114,6 +116,25 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     this.changeVersionId(this.hospitalVersions[event.index].version_id);
     this.changeVersionName(event.tab.textLabel);
     this.searchTermVar = "";
+    if(this.newVersion){
+      this.hospitalVersions[event.index].name = "new";
+      this.newVersion = false;
+    }
+
+    if(this.hospitalVersions[event.index].name == "new"){
+      this.editable = true;
+    }else{
+      this.editable = false;
+    }
+
+
+  }
+
+  addTab() {
+    let ver = Object.assign(Object.create(this.hospitalVersions[1]));
+    this.hospitalVersions.push(ver);
+    this.newVersion = true;
+
   }
 
 

@@ -40,12 +40,12 @@ public class VariableDAO {
     }
 
     public void saveVersionToVariable(Variables var, Versions ver){
-        var.setVersions(ver);
+        var.setVersions2(ver);
     
     }
     
     public void saveFunctionToVariable(Variables var, Functions function){
-    var.setFunction(function);
+    var.setFunction2(function);
     }
     public void saveHospitalToVariable(Variables var, Hospitals hosp){ var.setHospital(hosp); }
 

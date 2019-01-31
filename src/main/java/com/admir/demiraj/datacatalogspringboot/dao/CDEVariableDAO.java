@@ -78,7 +78,7 @@ public class CDEVariableDAO {
         return null;
     }
     public void saveVersionToCDEVariable(CDEVariables cdevar, Versions ver){
-        cdevar.setVersions(ver);
+        cdevar.setVersions2(ver);
     }
 
 

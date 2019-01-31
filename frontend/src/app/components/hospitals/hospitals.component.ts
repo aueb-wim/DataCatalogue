@@ -34,7 +34,7 @@ ngAfterViewInit(){
   epicFunction() {
     /** We have a lot of information about the device in case we want to customize components.*/
 
-    console.log('hello `Home` component');
+    //console.log('hello `Home` component');
     this.deviceInfo = this.deviceService.getDeviceInfo();
     const isMobile = this.deviceService.isMobile();
     const isTablet = this.deviceService.isTablet();

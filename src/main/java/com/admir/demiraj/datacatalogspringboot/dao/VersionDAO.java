@@ -7,6 +7,7 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 
 import com.admir.demiraj.datacatalogspringboot.repository.HospitalsRepository;
 import com.admir.demiraj.datacatalogspringboot.repository.VersionsRepository;
+import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import jdk.nashorn.internal.runtime.Version;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import javax.management.Query;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -107,11 +109,32 @@ public class VersionDAO {
         List<BigInteger> versionIdsByHospitalId = new ArrayList<>();
         for(Versions version : allVersions){
             if(!version.getVariables().isEmpty()){
-            if(version.getVariables().get(0).getHospital().getHospital_id() == hospitalId){
+                Variables randomVar = new Variables();
+                for(Variables var : version.getVariables()) {
+                    randomVar =var;
+                    break;
+                }
+            if(randomVar.getHospital().getHospital_id() == hospitalId){
                 versionIdsByHospitalId.add(version.getVersion_id());
             }}
         }
         return versionIdsByHospitalId;
+    }
+
+    public Versions getLatestVersionByHospitalId(BigInteger hospitalId) {
+        List<Versions> allVersions = versionsRepository.findAll();
+        Versions latestVersionByHospitalId = new Versions();
+       // Date now = new Date();
+        for(Versions version : allVersions){
+            if(!version.getVariables().isEmpty()){
+                if(version.getVariables().get(version.getVariables().size()-1).getHospital().getHospital_id() == hospitalId){
+                    latestVersionByHospitalId = version;
+                    //now = version.getCreatedAt();
+                }}
+        }
+       return latestVersionByHospitalId;
+
+
     }
 
     public List<Versions> getAllVersionByHospitalName(String hospitalName) {

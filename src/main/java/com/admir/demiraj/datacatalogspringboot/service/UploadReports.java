@@ -90,11 +90,13 @@ public class UploadReports {
 
 
     public void readVariableReportCsv(String csvFile, String varReportNumber, BatchReport batchReport, Versions version) throws IOException {
+        System.out.println("Read variable reportcsv");
         Reader in = new FileReader(csvFile);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(in);
         for (CSVRecord record : records) {
             // NOTE !! CURRENTLY WE ARE RUNNING ON MOCK DATA SO ONLY A FEW, IF ANY VARIABLES WILL BE FOUND
             Variables var = variableDAO.findByCode(record.get(0));
+            System.out.println("values length: " + record.size());
             // check if the variableReport is contained in variable
 
 

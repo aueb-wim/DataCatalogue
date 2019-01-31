@@ -1,8 +1,21 @@
 <!--<button (click)="goBack()">Back</button>-->
 
 <h1><i class="fa fa-hospital-o">{{hospital.name}}</i></h1>
+<!--
+<button mat-raised-button
+        class="example-add-tab-button"
+        (click)="addTab()">
+  New Version
+</button>
+-->
+
+<button class="newVersion" routerLink="/hospitals/{{hospital.hospital_id}}/new-version">
+  <i class="fa fa-plus"></i>
+</button>
+
 <mat-tab-group class="inner" [selectedIndex]="hospitalVersions.length-1" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id"><!-- +' ('+version.createdAt.slice(0,10)+')'-->
+
     <a>{{changeVersionId(version.version_id)}}</a>
     <br>
     <div style="width: 300px; margin-bottom: 20px;">
@@ -17,7 +30,7 @@
       </ng-select>
     </div>
 
-    <div class="visuals">
+    <div class="visuals" *ngIf="!editable">
       <app-tree [versionId]="version.version_id" [(reportOpen)]="reportOpen" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
       <app-reports [(diagramOpen)]="diagramOpen" [(reportOpen)]="reportOpen" [variables]="version.variables" [batchReports]="version.batchReports" [searchTermVar]="searchTermVar"></app-reports>
       <app-mapping-visual [(reportOpen)]="reportOpen" [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
@@ -26,10 +39,11 @@
     <mat-accordion multi="true">
       <app-version-details *ngIf="diagramOpen==false && reportOpen==false" [searchTermVar]="searchTermVar" [versionId]="version.version_id"
                            [versionName]="currentVersionName" [downloadFileName]="downloadName"
-                           [cdeData]="false"></app-version-details>
+                           [cdeData]="false" [editable]="editable"></app-version-details>
     </mat-accordion>
 
   </mat-tab>
+  <!--
   <mat-tab class="upload" label="Create new Version">
 
     <div class="container" style="width:500px">
@@ -42,6 +56,7 @@
       <list-upload></list-upload>
     </div>
   </mat-tab>
+  -->
 </mat-tab-group>
 
 

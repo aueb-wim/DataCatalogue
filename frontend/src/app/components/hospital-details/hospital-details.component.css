@@ -58,4 +58,14 @@ position: absolute;
 
 }
 
+.fa-plus{
+  color: #71a436;
+  font-size: 1vw;
+}
 
+.newVersion{
+  color: transparent;
+  margin-bottom: 3vh;
+  float: right;
+  position: relative;
+}

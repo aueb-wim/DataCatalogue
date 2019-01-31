@@ -78,6 +78,35 @@ public class UploadVariables {
     }
 
 
+    public void createVersion2(String versionName, String filePath, Hospitals currentHospital) {
+        //generateConceptPathFromMapping(filePath);
+        Versions version = new Versions(versionName);
+        System.out.println("Saving Version");
+        List<Variables> allVar = new ArrayList<>();
+        try {
+            allVar = Read_xlsx(filePath, version, currentHospital);
+        } catch (FileNotFoundException fnfe) {
+            System.err.println("Xlsx not found...!!!");
+        } catch (IOException io) {
+            System.err.println("Problem with the xlsx...");
+        }
+
+        List<Variables> allVar2 = new ArrayList<>();
+        for (Variables var : allVar) {
+            if (var.getHospital() != null && var.getCode() != null) {
+                allVar2.add(var);
+            }
+        }
+
+        VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
+        System.out.println("Retrieving jsonString from file");
+        version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
+        System.out.println("Retrieving jsonStringVisualizable from file");
+        version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
+        version.setVariables(allVar2);
+        versionDAO.saveVersion(version);
+
+    }
     public void createVersion(String versionName, String filePath, Hospitals currentHospital) {
         Versions version = new Versions(versionName);
         System.out.println("Saving Version");
@@ -302,7 +331,7 @@ public class UploadVariables {
                 cpath = cpath.substring(0, cpath.lastIndexOf("/")) + "/" + newVar.getCode();
                 newVar.setConceptPath(cpath);
             } else {
-                System.out.println("The cde withou concept path is: " + cde.getCode());
+                System.out.println("The cde without concept path is: " + cde.getCode());
             }
 
 
@@ -324,7 +353,9 @@ public class UploadVariables {
             functionsDAO.save(functions);
 
         } else {
+            System.out.println("newVar before comparison: "+newVar.getCode());
             newVar = variableDAO.compareVariables(newVar);
+            System.out.println("newVar after comparison: "+newVar.getCode());
             List<Versions> currentVersions = newVar.getVersions();
             currentVersions.add(version);
             newVar.setVersions(currentVersions);

@@ -4,6 +4,7 @@ import {CdeVariablesComponent} from "./components/cde-variables/cde-variables.co
 import {HospitalsComponent} from "./components/hospitals/hospitals.component";
 import {HospitalDetailsComponent} from "./components/hospital-details/hospital-details.component";
 import {AllVariablesComponent} from "./components/all-variables/all-variables.component";
+import {CreateNewVersionComponent} from "./components/create-new-version/create-new-version.component";
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   {path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/all', component: AllVariablesComponent},
   {path:'hospitals/:hospital_id', component: HospitalDetailsComponent},
+  {path:'hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
 
   //{path:'hospitals/:hospital_id/', component: VersionDetailsComponent},
   //{path:'hospitals/:hospital_id/:version_id/flat', component: VersionDetailsComponent},

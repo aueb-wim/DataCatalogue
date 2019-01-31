@@ -43,6 +43,11 @@ public class HospitalController {
         return hospitalDAO.getHospital(BigInteger.valueOf(hospitalId));
     }
 
+    @GetMapping("/name/{hospital_id}")
+    public String getHospitalNameById(@PathVariable(value = "hospital_id") Long hospitalId){
+        return hospitalDAO.getHospital(BigInteger.valueOf(hospitalId)).getName();
+    }
+
      //save a hospital to database
     @PostMapping("/hosp")
     public Hospitals createHospital(@Valid @RequestBody Hospitals hosp){

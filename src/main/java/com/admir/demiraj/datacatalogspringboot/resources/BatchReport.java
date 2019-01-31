@@ -111,13 +111,8 @@ public class BatchReport implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "version_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("versionsBatchReport")
     private Versions version;
-
-    //@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "batchReport")
-    //@JsonBackReference
-    //@JsonManagedReference
-    //private TotalReport totalReport;
 
     public BigInteger getBatchreport_id() {
         return batchreport_id;

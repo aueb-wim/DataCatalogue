@@ -1,57 +1,38 @@
-div{
-margin-top:10px;
-  /*display: flex;*/
-  align-items: center;
+
+h1{
+  font-size: xx-large;
+  color: #2196F3;
+  margin-left: 40%;
 }
 
-.download{
-  line-height: 12px;
-  margin-top: 1px;
-  margin-right: 2px;
-  position:absolute;
-  top:0;
-  right:0;
-  background-color: DodgerBlue;
-  border: none;
-  color: white;
-  padding: 12px 30px;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-
-/* Darker background on mouse-over */
-.download:hover {
-  background-color: RoyalBlue;
-}
 
 mat-expansion-panel{
   margin-top: 10px;
 }
+
+/deep/.mat-tab-label.mat-tab-label-active {
+  min-width: 25px !important;
+  padding: 5px;
+  background-color: transparent;
+  color: blue;
+  font-weight: 400;
+  font-size: large;
+}
+
 
 
 .mat-expansion-panel-header-title{
   font-weight: bold;
   font-size: medium;
   color: green;
+
+  display: table;
+  table-layout: fixed;
 }
 
 input.vDetails:disabled{
   border: none;
   background: none;
-}
-
-.deleteBtn{
-  alignment: right;
-  margin-left: 1vw;
-  position: relative;
-  border-radius: 30%;
-  background-color: #D44950;
-  color: black;
-}
-
-.deleteBtn:hover{
-  background-color: #B52E31;
 }
 
 .enabledDataBtn{
@@ -60,6 +41,7 @@ input.vDetails:disabled{
 
 .editModeBtn{
   margin-top: 2vh;
+  margin-bottom: 2vh;
   border-radius: 10%;
   width: 3vw;
   height: 2vw;
@@ -76,6 +58,7 @@ input.vDetails:disabled{
   alignment: right;
   margin-left: 1vw;
   margin-top: 2vh;
+  margin-bottom: 2vh;
   background-color: #eeeeee;
   border-radius: 10%;
   width: 3vw;
@@ -89,3 +72,28 @@ input.vDetails:disabled{
 .fa-save{
   font-size: 24px;
 }
+
+
+.panelHeader{
+  width: 45vw;
+}
+
+.variableCode{
+  display: table-cell;
+
+}
+
+.deleteBtn{
+
+  position: absolute;
+  border-radius: 30%;
+  background-color: #D44950;
+  color: black;
+  display: table-cell;
+
+}
+
+.deleteBtn:hover{
+  background-color: #B52E31;
+}
+

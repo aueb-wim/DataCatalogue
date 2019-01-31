@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HospitalService } from './shared/hospital.service';
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonModule, MatCardModule, MatProgressBarModule, MatFormFieldModule, MatSlideToggleModule, MatInputModule, MatAutocompleteModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
+import { MatButtonModule,MatDialogModule, MatCardModule, MatProgressBarModule, MatFormFieldModule, MatSlideToggleModule, MatInputModule, MatAutocompleteModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { HospitalVariablesComponent } from './shared/hospital-variables/hospital-variables.component';
@@ -31,6 +31,7 @@ import {SelectModule} from 'ng-select';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AllVariablesComponent } from './components/all-variables/all-variables.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { CreateNewVersionComponent } from './components/create-new-version/create-new-version.component';
 
 
 
@@ -62,7 +63,7 @@ import { ReportsComponent } from './components/reports/reports.component';
     MappingVisualComponent,
     AllVariablesComponent,
     ReportsComponent,
-
+    CreateNewVersionComponent,
   ],
   imports: [
 
@@ -79,6 +80,7 @@ import { ReportsComponent } from './components/reports/reports.component';
     MatSlideToggleModule,
     MatFormFieldModule,
     MatProgressBarModule,
+    MatDialogModule,
     MatTabsModule,
     MatExpansionModule,
     MatIconModule,

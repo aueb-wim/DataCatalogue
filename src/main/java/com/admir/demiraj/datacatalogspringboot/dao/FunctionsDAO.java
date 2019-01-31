@@ -46,8 +46,7 @@ public class FunctionsDAO {
                 for (Versions ver : versionInsideVariable){
                     if (ver.getVersion_id() == variableVersion) {
                         functionByVariableId.add(f);
-                    }
-                }
+                    }   }
             }
         }
         return functionByVariableId;

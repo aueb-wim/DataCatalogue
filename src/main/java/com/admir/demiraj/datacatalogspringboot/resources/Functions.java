@@ -8,6 +8,7 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.*;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Table(name="functions")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EntityListeners(AuditingEntityListener.class)
-public class Functions {
+public class Functions implements Serializable {
 
     public Functions(String rule, String description) {
         this.rule = rule;
@@ -94,7 +95,7 @@ public class Functions {
         return variables;
     }
 
-    public void setVariables(Variables variables) {
+    public void setVariables2(Variables variables) {
         this.variables.add(variables);
     }
 
