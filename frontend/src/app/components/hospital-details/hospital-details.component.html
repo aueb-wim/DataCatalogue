@@ -8,15 +8,19 @@
   New Version
 </button>
 -->
-
+<!--<a>curent version id: {{currentVersionId}}</a>-->
 <button class="newVersion" routerLink="/hospitals/{{hospital.hospital_id}}/new-version">
   <i class="fa fa-plus"></i>
 </button>
-
+<!--
+<button class="openMappings" (click)="openMappings()">
+Open mAPPINGS
+</button>
+-->
 <mat-tab-group class="inner" [selectedIndex]="hospitalVersions.length-1" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id"><!-- +' ('+version.createdAt.slice(0,10)+')'-->
 
-    <a>{{changeVersionId(version.version_id)}}</a>
+    <!--<a>{{changeVersionId(version.version_id)}}</a>-->
     <br>
     <div style="width: 300px; margin-bottom: 20px;">
       <ng-select class="select"
@@ -33,7 +37,7 @@
     <div class="visuals" *ngIf="!editable">
       <app-tree [versionId]="version.version_id" [(reportOpen)]="reportOpen" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
       <app-reports [(diagramOpen)]="diagramOpen" [(reportOpen)]="reportOpen" [variables]="version.variables" [batchReports]="version.batchReports" [searchTermVar]="searchTermVar"></app-reports>
-      <app-mapping-visual [(reportOpen)]="reportOpen" [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
+      <app-mapping-visual [versionName]="version.name" [(reportOpen)]="reportOpen" [(versionId)]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
     </div>
 
     <mat-accordion multi="true">

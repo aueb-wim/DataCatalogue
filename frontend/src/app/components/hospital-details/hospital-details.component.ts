@@ -5,7 +5,7 @@ import {
   Component,
   OnChanges,
   OnInit,
-  SimpleChanges,
+  SimpleChanges, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
@@ -13,6 +13,7 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {Location} from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import {IOption,} from "ng-select";
+import {MappingVisualComponent} from "../../visuals/mapping-visual/mapping-visual.component";
 
 
 
@@ -33,7 +34,8 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   hospitalVersions: Array<any>;
   hospital: any;
   url = this.location.path();
-  currentVersionId = 4; /// be careful when changing the database , it should be assigned to an existing id
+  //currentVersionId = 4; /// be careful when changing the database , it should be assigned to an existing id
+  currentVersionId:number;
   currentVersionName;
   downloadName = "variables_";
   searchTermVar: String = "";
@@ -41,11 +43,17 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   reportOpen = false;
   editable=false;
   newVersion = false;
+  @ViewChild(MappingVisualComponent) mappingVisual:MappingVisualComponent;
+
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
 
   }
 
   ngOnInit() {
+
+    this.route.params.switchMap((params: Params) => this.hospitalService.getlatestVersionIdByHospId(+params['hospital_id'])).subscribe(verId => {
+      this.currentVersionId = verId
+    });
     this.route.params
       .switchMap((params: Params) => this.hospitalService.getVersionsByHospitalId(+params['hospital_id']))
       .subscribe(versions => {
@@ -55,10 +63,14 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
       this.hospital = hosp
     });
+
+
   }
 
   ngAfterViewInit() {
     this.viewInitialized = true;
+    //this.currentVersionId = parseInt(document.getElementById('inner').getAttribute("selectedIndex"));
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -75,6 +87,11 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
 
     }
+  }
+
+  public openMappings(){
+    console.log("Opening mappings with versionId: "+this.currentVersionId);
+    this.mappingVisual.handleChart2(this.currentVersionName,this.reportOpen,this.currentVersionId,this.diagramOpen);
   }
   public selected(option: IOption): void {
     this.searchTermVar = option.label;

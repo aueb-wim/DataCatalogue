@@ -44,6 +44,12 @@ export class HospitalService {
 
   }
 
+  getlatestVersionIdByHospId(hospital_id: number):Observable<any>{
+    return this.http.get('//195.251.252.222:2443/versions/latestVersionIdByHospId/'+hospital_id);
+
+  }
+
+
   getLatestVersionByHospitalId(hospital_id: number):Observable<any>{
     return this.http.get('//195.251.252.222:2443/versions/getLatestVersionByHospitalId/'+hospital_id);
 

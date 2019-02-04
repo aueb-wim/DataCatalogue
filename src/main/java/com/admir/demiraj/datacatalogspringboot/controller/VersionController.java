@@ -94,6 +94,14 @@ public class VersionController {
             }
         return versions;
     }
+
+    @GetMapping("/latestVersionIdByHospId/{hospital_id}")
+    public BigInteger latestVersionIdByHospId(@PathVariable(value = "hospital_id") Long hospitalId){
+        BigInteger hospId = BigInteger.valueOf(hospitalId);
+        List<BigInteger> allVersionIds = versionDAO.getAllVersionIdsByHospitalId(hospId);
+        return allVersionIds.get(allVersionIds.size()-1);
+    }
+
     @GetMapping("/getLatestVersionByHospitalId/{hospital_id}")
     public Versions  getLatestVersionByHospital(@PathVariable(value = "hospital_id") Long hospitalId){
         BigInteger hId = BigInteger.valueOf(hospitalId);
