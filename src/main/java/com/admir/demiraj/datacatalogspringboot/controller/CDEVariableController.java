@@ -16,6 +16,7 @@ import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
 import java.math.BigInteger;
+import java.security.Principal;
 import java.util.List;
 
 import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;
@@ -42,7 +43,10 @@ public class CDEVariableController {
         this.uploadCdes = uploadCdes;
     }
 
-
+    @GetMapping("/login")
+    public void login(){
+        System.out.println("Login cde - inside");
+    }
 
     @GetMapping("/readExcel")
     public void readExcel(){

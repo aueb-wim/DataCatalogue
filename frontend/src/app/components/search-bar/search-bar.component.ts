@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {HospitalService} from "../../shared/hospital.service";
 
 @Component({
   selector: 'app-search-bar',
@@ -8,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 export class SearchBarComponent implements OnInit {
 
   selectedItem: number;
-  constructor() { }
+  user:any;
+  userName:string;
+  loggedIn:boolean;
+  @Input('loggedIn2')loggedIn2:boolean;
+  @Input('userName2')userName2:string;
+
+  constructor(private hospitalService:HospitalService) {
+    this.checkIfLoggedIn();
+  }
 
   ngOnInit() {
   }
@@ -17,5 +26,50 @@ export class SearchBarComponent implements OnInit {
 
   listClick(event, newValue) {
     this.selectedItem = newValue;
+  }
+
+  login2(){
+    this.hospitalService.login().subscribe();
+    this.hospitalService.getUser().subscribe(user=>{
+      if(user!=null){
+        this.loggedIn = true;
+        this.userName = user['name'];
+        this.user = user;
+      }
+    });
+  }
+
+  login(){
+   // this.hospitalService.login().subscribe();
+    window.location.href ="/login";
+    this.hospitalService.getUser().subscribe(user=>{
+      if(user!=null){
+        this.loggedIn = true;
+        this.userName = user['name'];
+        this.user = user;
+      }
+    });
+  }
+  cdeReadExcel(){
+    this.hospitalService.cdeReadExcel().subscribe();
+  }
+  hospitalReadExcel(){
+    this.hospitalService.hospitalReadExcel().subscribe();
+  }
+  checkIfLoggedIn(){
+    this.hospitalService.getUser().subscribe(user=>{
+      if(user!=null){
+        this.loggedIn = true;
+        this.userName = user['name'];
+        this.user = user;
+      }
+    });
+  }
+  logout(){
+    this.hospitalService.logout().subscribe();
+    //window.location.href ="http://195.251.252.222:2442/logout";
+    this.user = null;
+    this.userName = null;
+    this.loggedIn = false;
   }
 }

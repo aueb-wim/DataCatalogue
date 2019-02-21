@@ -89,10 +89,13 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
     this.hospitalService.createNewVersion(this.hospital["name"], this.versionName, this.versionToUpdate)
       .subscribe(data => {
         //alert("Version created successfully.");
-      });
+
+
+      }, () => {});//alert("You cannot complete this action without logging-in");
+
+
 
     alert("Version created successfully.");
-
     this.location.back();
 
 

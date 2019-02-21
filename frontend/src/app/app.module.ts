@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 import { HospitalService } from './shared/hospital.service';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import { MatButtonModule,MatDialogModule, MatCardModule, MatProgressBarModule, MatFormFieldModule, MatSlideToggleModule, MatInputModule, MatAutocompleteModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -32,14 +32,25 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AllVariablesComponent } from './components/all-variables/all-variables.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { CreateNewVersionComponent } from './components/create-new-version/create-new-version.component';
+import { LoginComponent } from './components/login/login.component';
+import {AuthInterceptor} from './components/auth.interceptor';
+import { HttpModule } from '@angular/http';
+import { RouterModule }   from '@angular/router';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { HomeComponent } from './home.component';
+import { FooComponent } from './foo.component';
 
 
+@Injectable()
+export class XhrInterceptor implements HttpInterceptor {
 
-
-
-
-
-
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const xhr = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  }
+}
 
 
 @NgModule({
@@ -64,6 +75,10 @@ import { CreateNewVersionComponent } from './components/create-new-version/creat
     AllVariablesComponent,
     ReportsComponent,
     CreateNewVersionComponent,
+    LoginComponent,
+    HomeComponent,
+    FooComponent,
+
   ],
   imports: [
 
@@ -93,11 +108,21 @@ import { CreateNewVersionComponent } from './components/create-new-version/creat
     PrettyJsonModule,
     AngularFontAwesomeModule,
     SelectModule,
+    HttpModule,
+    RouterModule,
+    OAuthModule.forRoot(),
     DeviceDetectorModule.forRoot()
   ],
 
-  providers: [HospitalService, LogService, D3Service],
+  providers: [HospitalService, LogService, D3Service, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  //providers: [HospitalService, LogService, D3Service],
   bootstrap: [AppComponent]
 
 })
-export class AppModule {  }
+
+export class AppModule{
+
+}
+
+
+

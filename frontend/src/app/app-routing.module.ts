@@ -5,10 +5,17 @@ import {HospitalsComponent} from "./components/hospitals/hospitals.component";
 import {HospitalDetailsComponent} from "./components/hospital-details/hospital-details.component";
 import {AllVariablesComponent} from "./components/all-variables/all-variables.component";
 import {CreateNewVersionComponent} from "./components/create-new-version/create-new-version.component";
+import {LoginComponent} from "./components/login/login.component";
+import {HomeComponent} from "./home.component";
+import {FooComponent} from "./foo.component";
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/hospital', pathMatch: 'full' },
+ // { path: '', redirectTo: '/login', pathMatch: 'full' },
+ // {path:'login', component: LoginComponent},
+  {path:'home', component: HomeComponent},
+  {path:'foo', component: FooComponent},
+  //{ path: '', redirectTo: '/hospital', pathMatch: 'full' },
   {path:'hospitals/cde-variables', component: CdeVariablesComponent},
   {path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/all', component: AllVariablesComponent},

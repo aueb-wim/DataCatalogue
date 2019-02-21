@@ -1,0 +1,34 @@
+{
+  "/login": {
+    "target": "http://195.251.252.222:2443",
+    "secure": false,
+    "logLevel": "debug"
+  },
+
+  "/home": {
+    "target": "http://195.251.252.222:2443",
+    "secure": false,
+    "logLevel": "debug"
+  },
+
+  "/user": {
+    "target": "http://195.251.252.222:2443",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/logout": {
+    "target": "http://195.251.252.222:2443",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/hospital/readExcel": {
+    "target": "http://195.251.252.222:2443",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/CDE/readExcel": {
+    "target": "http://195.251.252.222:2443",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
