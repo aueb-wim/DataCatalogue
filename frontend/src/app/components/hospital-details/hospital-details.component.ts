@@ -51,13 +51,16 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
   ngOnInit() {
 
-    this.route.params.switchMap((params: Params) => this.hospitalService.getlatestVersionIdByHospId(+params['hospital_id'])).subscribe(verId => {
-      this.currentVersionId = verId
-    });
+   // this.route.params.switchMap((params: Params) => this.hospitalService.getlatestVersionIdByHospId(+params['hospital_id'])).subscribe(verId => {
+     // this.currentVersionId = verId
+    //});
+
     this.route.params
       .switchMap((params: Params) => this.hospitalService.getVersionsByHospitalId(+params['hospital_id']))
       .subscribe(versions => {
-        this.hospitalVersions = versions
+        this.hospitalVersions = versions;
+        let lastVersion = versions[versions.length-1];
+        this.currentVersionId = +lastVersion['version_id'];
       });
 
     this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {

@@ -13,10 +13,6 @@ import {FullUploadComponent} from "./components/full-upload/full-upload.componen
 
 
 const routes: Routes = [
- // { path: '', redirectTo: '/login', pathMatch: 'full' },
- // {path:'login', component: LoginComponent},
-  //{path:'home', component: HomeComponent},
- // {path:'foo', component: FooComponent},
   { path: '', redirectTo: '/hospitals', pathMatch: 'full' },
   {path:'hospitals/cde-variables', component: CdeVariablesComponent},
   {path:'hospitals', component: HospitalsComponent},
@@ -25,9 +21,6 @@ const routes: Routes = [
   {path:'hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
   {path:'hospitals/:hospital_id/new-version/:upload_file', component: FullUploadComponent},
 
-  //{path:'hospitals/:hospital_id/', component: VersionDetailsComponent},
-  //{path:'hospitals/:hospital_id/:version_id/flat', component: VersionDetailsComponent},
-  //{path:'hospitals/:hospital_id/:version_id/hierarchical', component: TreeComponent},
 ];
 
 @NgModule({

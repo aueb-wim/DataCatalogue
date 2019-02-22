@@ -30,20 +30,24 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit() {
     this.hospitalService.getAllCdeVersions().subscribe(allVersions => {
-      this.allCdeVersions = allVersions
+      this.allCdeVersions = allVersions;
+      let lastVersion = allVersions[allVersions.length-1];
+      this.currentVersionId = +lastVersion['version_id'];
+     // this.jsonVisualizable = lastVersion['jsonStringVisualizable'];
+
     });
-    this.hospitalService.getjsonStringVisualizableByVersionId(this.currentVersionId).subscribe(json => {
-      this.jsonVisualizable = json
-    });
+   // this.hospitalService.getjsonStringVisualizableByVersionId(this.currentVersionId).subscribe(json => {
+   //   this.jsonVisualizable = json
+  //  });
 
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['currentVersionId']) {
-      this.hospitalService.getJsonStringByVersionId(this.currentVersionId).subscribe(json => {
-        this.jsonMetadata = json
-      });
-    }
+   // if (changes['currentVersionId']) {
+    //  this.hospitalService.getJsonStringByVersionId(this.currentVersionId).subscribe(json => {
+    //    this.jsonMetadata = json
+    //  });
+  //  }
   }
 
   ngAfterViewInit(){
