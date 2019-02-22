@@ -39,7 +39,7 @@ input.vDetails:disabled{
   background-color: #5c707a;
 }
 
-.editModeBtn{
+.editModeBtn2{
   margin-top: 2vh;
   margin-bottom: 2vh;
   border-radius: 10%;
@@ -49,12 +49,28 @@ input.vDetails:disabled{
 .editModeBtn:hover{
   background-color: #666666;
 }
+
+.backBtn:hover{
+  background-color: darksalmon;
+}
+
+.uploadFileBtn:hover{
+  background-color: tan;
+}
+
 .fa-edit{
   font-size: 24px;
 }
 
+.fa-arrow-left{
+  font-size: 24px;
+}
 
-.saveVersionBtn{
+.fa-upload{
+  font-size: 24px;
+}
+
+.saveVersionBtn2{
   alignment: right;
   margin-left: 1vw;
   margin-top: 2vh;
@@ -79,17 +95,16 @@ input.vDetails:disabled{
 }
 
 .variableCode{
-  display: table-cell;
+
 
 }
 
 .deleteBtn{
 
-  position: absolute;
+  position: relative;
   border-radius: 30%;
   background-color: #D44950;
   color: black;
-  display: table-cell;
 
 }
 

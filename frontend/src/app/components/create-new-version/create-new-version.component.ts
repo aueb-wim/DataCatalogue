@@ -2,6 +2,7 @@ import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Location} from "@angular/common";
+import {MatDialog} from "@angular/material";
 
 
 
@@ -49,7 +50,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   //functions = new Array;
   versionName: string;
 
-  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
+  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -101,7 +102,13 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
 
   };
 
-
+  goBack(){
+    this.location.back();
+  }
+  uploadFile(){
+//this.location.go(this.location.path()+'/'+this.sampleFileName);
+    window.location.href = this.location.path()+'/'+this.sampleFileName;
+  }
 
 
   createSampleFileName() {

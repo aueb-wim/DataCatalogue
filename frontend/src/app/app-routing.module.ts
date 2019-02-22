@@ -8,19 +8,22 @@ import {CreateNewVersionComponent} from "./components/create-new-version/create-
 import {LoginComponent} from "./components/login/login.component";
 import {HomeComponent} from "./home.component";
 import {FooComponent} from "./foo.component";
+import {FormUploadComponent} from "./components/form-upload/form-upload.component";
+import {FullUploadComponent} from "./components/full-upload/full-upload.component";
 
 
 const routes: Routes = [
  // { path: '', redirectTo: '/login', pathMatch: 'full' },
  // {path:'login', component: LoginComponent},
-  {path:'home', component: HomeComponent},
-  {path:'foo', component: FooComponent},
-  //{ path: '', redirectTo: '/hospital', pathMatch: 'full' },
+  //{path:'home', component: HomeComponent},
+ // {path:'foo', component: FooComponent},
+  { path: '', redirectTo: '/hospitals', pathMatch: 'full' },
   {path:'hospitals/cde-variables', component: CdeVariablesComponent},
   {path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/all', component: AllVariablesComponent},
   {path:'hospitals/:hospital_id', component: HospitalDetailsComponent},
   {path:'hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
+  {path:'hospitals/:hospital_id/new-version/:upload_file', component: FullUploadComponent},
 
   //{path:'hospitals/:hospital_id/', component: VersionDetailsComponent},
   //{path:'hospitals/:hospital_id/:version_id/flat', component: VersionDetailsComponent},

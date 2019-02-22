@@ -1,10 +1,12 @@
+<button class="backBtn" (click)="goBack()"><i class="fa fa-arrow-left"></i></button>
+<button class="editModeBtn" [ngClass]="{'enabledDataBtn': disabledInput == false }" (click)="toggleEdit()"><i class="fa fa-edit"></i></button>
+<button class="saveVersionBtn" (click)="saveNewVersion()"><i class="fa fa-save"></i></button>
+<button class="uploadFileBtn" (click)="uploadFile()"><i class="fa fa-upload"></i></button>
 
 <h1><i class="fa fa-folder-o">New Version for {{hospital.name}}</i></h1>
 
-<mat-tab-group>
-  <mat-tab label="edit">
-    <button class="editModeBtn" [ngClass]="{'enabledDataBtn': disabledInput == false }"(click)="toggleEdit()"><i class="fa fa-edit"></i></button>
-    <button class="saveVersionBtn" (click)="saveNewVersion()"><i class="fa fa-save"></i></button>
+
+
     <mat-accordion multi="false">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -31,8 +33,8 @@
       <mat-expansion-panel *ngFor="let variable of versionToUpdate.variables; let i = index">
         <mat-expansion-panel-header>
           <mat-panel-title>
+            <button class="deleteBtn" (click)="deleteVariable(i)"><i class="fa fa-times"></i></button>
              <a class="variableCode"> {{variable.code}}</a>
-             <button class="deleteBtn" (click)="deleteVariable(i)"><i class="fa fa-times"></i></button>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <p><b>File : </b><input class="vDetails" matInput value="{{variable.csvFile}}" [disabled]="disabledInput" (change)="change(1,($event.target.value))"></p>
@@ -51,17 +53,4 @@
         <button mat-raised-button class="saveVariable" (click)="saveVariable(i)">Save</button>
       </mat-expansion-panel>
     </mat-accordion>
-  </mat-tab>
-  <mat-tab label="upload file">
-    <div class="container" style="width:500px">
-
-      <form-upload [sampleNameVersion]="sampleFileName"></form-upload>
-
-      <br/>
-      <br/>
-
-      <list-upload></list-upload>
-    </div>
-  </mat-tab>
-</mat-tab-group>
 

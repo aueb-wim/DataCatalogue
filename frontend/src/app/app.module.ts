@@ -39,6 +39,7 @@ import { RouterModule }   from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { HomeComponent } from './home.component';
 import { FooComponent } from './foo.component';
+import { FullUploadComponent } from './components/full-upload/full-upload.component';
 
 
 @Injectable()
@@ -78,6 +79,7 @@ export class XhrInterceptor implements HttpInterceptor {
     LoginComponent,
     HomeComponent,
     FooComponent,
+    FullUploadComponent,
 
   ],
   imports: [
