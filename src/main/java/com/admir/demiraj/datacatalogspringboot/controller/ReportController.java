@@ -23,14 +23,9 @@ import java.util.List;
 @RequestMapping("/report")
 public class ReportController {
 
-    @Autowired
-    private CDEVariableDAO cdeVariableDAO;
 
     @Autowired
     private VersionDAO versionDAO;
-
-    @Autowired
-    private UploadCdes uploadCdes;
 
     @Autowired
     private UploadReports uploadReports;

@@ -10,13 +10,10 @@ package com.admir.demiraj.datacatalogspringboot.controller;
  * @author root
  */
 import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
-import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
-import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
 import java.math.BigInteger;
-import java.security.Principal;
 import java.util.List;
 
 import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;

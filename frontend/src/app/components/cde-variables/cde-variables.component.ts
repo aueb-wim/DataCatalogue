@@ -54,9 +54,10 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     if (!(this.deviceInfo['browser'] == "Chrome" || this.deviceInfo['browser'] == "MS-Edge") || !this.deviceService.isDesktop()) {
       window.alert("Currently the application is available for Google " +
-        "Chrome and Microsoft Edge browsers on Desktop Devices. Firefox doesn't like animations!");
+        "Chrome and Microsoft Edge browsers on Desktop Devices.");
       this.enabled = "inactive";
     }
+
   }
   changeVersionId(verId) {
     this.currentVersionId = verId;
@@ -78,7 +79,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     }
       var oldName = parseInt(this.allCdeVersions[this.allCdeVersions.length - 1].name.replace('v', ''));
       oldName = oldName + 1;
-      return "v" + oldName.toString() + ".xlsx";
+      return "cdes_v" + oldName.toString() + ".xlsx";
   }
 
   public selected(option: IOption): void {

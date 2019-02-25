@@ -32,13 +32,9 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AllVariablesComponent } from './components/all-variables/all-variables.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { CreateNewVersionComponent } from './components/create-new-version/create-new-version.component';
-import { LoginComponent } from './components/login/login.component';
-import {AuthInterceptor} from './components/auth.interceptor';
 import { HttpModule } from '@angular/http';
 import { RouterModule }   from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { HomeComponent } from './home.component';
-import { FooComponent } from './foo.component';
 import { FullUploadComponent } from './components/full-upload/full-upload.component';
 
 
@@ -76,9 +72,6 @@ export class XhrInterceptor implements HttpInterceptor {
     AllVariablesComponent,
     ReportsComponent,
     CreateNewVersionComponent,
-    LoginComponent,
-    HomeComponent,
-    FooComponent,
     FullUploadComponent,
 
   ],

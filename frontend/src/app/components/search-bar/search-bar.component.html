@@ -19,10 +19,12 @@
 
 
 </nav>
-<!--
-<button  (click)="cdeReadExcel()">cde read excel</button>
-<button  (click)="hospitalReadExcel()">hospital read excel</button>
 
--->
+
+<button  *ngIf="userName=='Admir Demiraj'" (click)="cdeReadExcel()">cde read excel</button>
+<button  *ngIf="userName=='Admir Demiraj'" (click)="hospitalReadExcel()">hospital read excel</button>
+<button  *ngIf="userName=='Admir Demiraj'" (click)="uploadAllReports()">upload reports</button>
+
+
 
 

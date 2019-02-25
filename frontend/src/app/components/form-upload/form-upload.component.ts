@@ -19,9 +19,8 @@ export class FormUploadComponent implements OnInit {
 
   constructor(private hospitalService: HospitalService) { }
 
-  ngOnInit() {
-    this.sampleFile = this.hospitalService.getSample();
-  }
+  ngOnInit() {}
+
 
   selectFile(event) {
     this.selectedFiles = event.target.files;
@@ -37,13 +36,34 @@ export class FormUploadComponent implements OnInit {
       } else if (event instanceof HttpResponse) {
         console.log('File is completely uploaded!');
       }
-    });
+    },error => {
+      if(error.status=='401'){
+        alert("You need to be logged in to complete this action.");
+      }else{
+        //alert("You need to be logged in to complete this action2.");
+        alert("You need to be logged in to complete this action.");
+      }});
 
     this.selectedFiles = undefined;
   }
 
   download() {
-    window.open("http://195.251.252.222:2443/mapping/getsample/"+this.sampleNameVersion);
-    console.log('XLSX template downloaded...');
+    this.hospitalService.getSample(this.sampleNameVersion)
+      .subscribe(
+        data=>{
+          console.log("sample data is: "+data);
+           window.open("http://195.251.252.222:2442/mapping/getsample/"+this.sampleNameVersion);
+           console.log('XLSX template downloaded...');
+        },
+        error => {
+          if(error.status=='401'){
+            alert("You need to be logged in to complete this action.");
+          }else{
+            //alert("You need to be logged in to complete this action2.");
+            window.open("http://195.251.252.222:2442/mapping/getsample/"+this.sampleNameVersion);
+            console.log('XLSX template downloaded...');
+          }});
+
+
   }
 }

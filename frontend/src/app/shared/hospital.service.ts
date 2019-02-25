@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpEvent, HttpHeaders,HttpClientXsrfModule, HttpParams, HttpRequest} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import {throwError} from "rxjs";
+import {catchError} from "rxjs/operators";
 
 
 @Injectable({
@@ -122,7 +124,10 @@ export class HospitalService {
     return this.http.get('//195.251.252.222:2442/mapping/functionsByVersionId/'+version_id,{headers:this.headers});
   }
 
+ uploadAllReports(){
+   return this.http.get('//195.251.252.222:2442/report/uploadAllReports/',{headers:this.headers});
 
+ }
   ///////////////////////////SEND NEW VERSION
   public createNewVersion2(version: any): Observable<HttpEvent<{}>>{
     //const formdata: FormData = new FormData();
@@ -137,13 +142,14 @@ export class HospitalService {
   createNewVersion (hospitalName: string, versionName: string, version: any): Observable<any> {
     return this.http.post<any>('//195.251.252.222:2442/versions/newVersion', [hospitalName,versionName,version],{headers:this.headers});
   }
+
   ///////////////////////////UPLOAD RELATED
   pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
 
     formdata.append('file', file);
 
-    const req = new HttpRequest('POST', '//195.251.252.222:2442//mapping/post', formdata, {
+    const req = new HttpRequest('POST', '//195.251.252.222:2442/mapping/post', formdata, {
       reportProgress: true,
       responseType: 'text'
     });
@@ -152,11 +158,11 @@ export class HospitalService {
   }
 
   getFiles(): Observable<any> {
-    return this.http.get('//195.251.252.222:2442//mapping/getallfiles');
+    return this.http.get('//195.251.252.222:2442/mapping/getallfiles',{headers:this.headers});
   }
   //////////////////////////////////////// GET SAMPLE FILE
-  getSample():Observable<any>{
-    return this.http.get('//195.251.252.222:2442//mapping/getsample');
+  getSample(sampleVersion:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/mapping/getsample/'+sampleVersion,{headers:this.headers});
   }
   /////////////////////////////////////////////////
 

@@ -12,22 +12,17 @@
     along with WebMIPMap.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.admir.demiraj.datacatalogspringboot.controller;
+package com.admir.demiraj.datacatalogspringboot.service;
 
-//import org.springframework.security.core.AuthenticationException;
-//import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders={"x-auth-token", "x-requested-with", "x-xsrf-token","Authorization","Content-Type","X-Auth-Token"},
-        methods = {RequestMethod.POST,RequestMethod.OPTIONS,RequestMethod.GET,RequestMethod.DELETE, RequestMethod.PUT})
+
 class CustomLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
     public CustomLoginUrlAuthenticationEntryPoint(String url) {
@@ -35,12 +30,7 @@ class CustomLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntry
     }
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setHeader("Access-Control-Request-Headers", "X-Requested-With, Content-Type, Accept");///
-        response.setHeader("Access-Control-Allow-Headers", "Origin, x-requested-with, Content-Type, Accept,AUTH-TOKEN,x-auth-token, Authorization, X-Auth-Token");///
-        response.addHeader("Access-Control-Allow-Origin", "*");////
-        response.addHeader("Access-Control-Allow-Methods", "POST,PUT, GET, OPTIONS, DELETE");////
-        response.addHeader("Access-Control-Max-Age", "3600");//////
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 

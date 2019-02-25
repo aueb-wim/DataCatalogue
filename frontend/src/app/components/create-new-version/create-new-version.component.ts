@@ -3,6 +3,8 @@ import {HospitalService} from "../../shared/hospital.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Location} from "@angular/common";
 import {MatDialog} from "@angular/material";
+import {catchError} from "rxjs/operators";
+import {throwError} from "rxjs";
 
 
 
@@ -80,25 +82,18 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
 
 
   saveNewVersion(): void {
-    //this.functions.push(this.randomFunction);
-
     this.createNewVersionName();
-    for (let v of this.versionToUpdate.variables) {
-      console.log(v.code)
-    }
-    //this.versionName = "v4";
-    this.hospitalService.createNewVersion(this.hospital["name"], this.versionName, this.versionToUpdate)
-      .subscribe(data => {
-        //alert("Version created successfully.");
-
-
-      }, () => {});//alert("You cannot complete this action without logging-in");
-
-
-
-    alert("Version created successfully.");
-    this.location.back();
-
+    this.hospitalService.createNewVersion(this.hospital["name"], this.versionName, this.versionToUpdate).subscribe(
+      data=>{
+        window.alert("Version created successfully.");
+        this.location.back();
+      },
+      error => {
+        if(error.status=='401'){
+          alert("You need to be logged in to complete this action.");
+        }else{
+          alert("An error has occurred.");
+        }});
 
   };
 

@@ -4,25 +4,14 @@ import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import com.admir.demiraj.datacatalogspringboot.service.CustomMapper;
-import com.admir.demiraj.datacatalogspringboot.service.UploadReports;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jdk.nashorn.internal.runtime.Version;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,8 +44,6 @@ public class VersionController {
 
     @GetMapping("/jsonStringByVersionId/{version_id}")
     public String getJsonStringByVersionId(@PathVariable(value="version_id") Long version_id){
-        //JSONObject jsonObj = new JSONObject(versionDAO.getJsonStringByVersionId(version_id));
-        //JsonObject obj = new JsonParser().parse(jsonString).getAsJsonObject();
         return versionDAO.getJsonStringByVersionId(version_id);
     }
 
@@ -126,10 +113,10 @@ public class VersionController {
     }
 
     @PostMapping(value = "/newVersion")
-    public String create2(@RequestBody String ver){
+    public void create2(@RequestBody String ver){
         JSONArray jr = new JSONArray(ver);
         customMapper.mapVersion(jr);
-        return "ok";
+        //return "ok";
     }
 
 }

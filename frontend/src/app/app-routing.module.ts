@@ -5,10 +5,6 @@ import {HospitalsComponent} from "./components/hospitals/hospitals.component";
 import {HospitalDetailsComponent} from "./components/hospital-details/hospital-details.component";
 import {AllVariablesComponent} from "./components/all-variables/all-variables.component";
 import {CreateNewVersionComponent} from "./components/create-new-version/create-new-version.component";
-import {LoginComponent} from "./components/login/login.component";
-import {HomeComponent} from "./home.component";
-import {FooComponent} from "./foo.component";
-import {FormUploadComponent} from "./components/form-upload/form-upload.component";
 import {FullUploadComponent} from "./components/full-upload/full-upload.component";
 
 

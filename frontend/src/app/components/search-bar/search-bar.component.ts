@@ -56,6 +56,9 @@ export class SearchBarComponent implements OnInit {
   hospitalReadExcel(){
     this.hospitalService.hospitalReadExcel().subscribe();
   }
+  uploadAllReports(){
+    this.hospitalService.uploadAllReports().subscribe();
+  }
   checkIfLoggedIn(){
     this.hospitalService.getUser().subscribe(user=>{
       if(user!=null){
