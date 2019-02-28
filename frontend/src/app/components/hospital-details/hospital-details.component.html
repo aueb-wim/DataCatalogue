@@ -1,22 +1,11 @@
-<!--<button (click)="goBack()">Back</button>-->
 
-<h1><i class="fa fa-hospital-o">{{hospital.name}}</i></h1>
-<!--
-<button mat-raised-button
-        class="example-add-tab-button"
-        (click)="addTab()">
-  New Version
-</button>
--->
-<!--f <a>curent version id: {{currentVersionId}}</a>-->
+
+<button class="backBtn" (click)="goBack()"><i class="fa fa-arrow-left"></i></button>
 <button class="newVersion" routerLink="/hospitals/{{hospital.hospital_id}}/new-version">
   <i class="fa fa-plus"></i>
 </button>
-<!--
-<button class="openMappings" (click)="openMappings()">
-Open mAPPINGS
-</button>
--->
+
+<h1><i class="fa fa-hospital-o">{{hospital.name}}</i></h1>
 <mat-tab-group class="inner" [selectedIndex]="hospitalVersions.length-1" (selectedTabChange)="tabChanged($event)">
   <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id"><!-- +' ('+version.createdAt.slice(0,10)+')'-->
 
@@ -47,20 +36,7 @@ Open mAPPINGS
     </mat-accordion>
 
   </mat-tab>
-  <!--
-  <mat-tab class="upload" label="Create new Version">
 
-    <div class="container" style="width:500px">
-
-      <form-upload [sampleNameVersion]="createSampleFileName()"></form-upload>
-
-      <br/>
-      <br/>
-
-      <list-upload></list-upload>
-    </div>
-  </mat-tab>
-  -->
 </mat-tab-group>
 
 

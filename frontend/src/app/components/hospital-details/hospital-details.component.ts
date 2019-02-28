@@ -112,7 +112,10 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     //empty the array first
     this.myOptions2.length = 0;
     for (let obj of originalArray) {
-      this.myOptions2.push({label: obj['code'].toString(), value: obj['variable_id'].toString()});
+      if(obj['code']!=null && obj['variable_id']!=null){
+        this.myOptions2.push({label: obj['code'].toString(), value: obj['variable_id'].toString()});
+      }
+
     }
     return this.myOptions2;
   }

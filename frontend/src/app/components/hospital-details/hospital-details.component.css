@@ -64,8 +64,20 @@ position: absolute;
 }
 
 .newVersion{
-  color: transparent;
-  margin-bottom: 3vh;
-  float: right;
-  position: relative;
+  margin-left: 2px;
+}
+.newVersion:hover{
+  background-color: #AFBEC5;
+}
+
+.backBtn:hover{
+  background-color: darksalmon;
+}
+
+.fa-arrow-left{
+  font-size: 20px;
+}
+
+.fa-plus{
+  font-size: 20px;
 }

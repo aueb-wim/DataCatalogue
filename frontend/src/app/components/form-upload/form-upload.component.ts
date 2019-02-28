@@ -41,7 +41,7 @@ export class FormUploadComponent implements OnInit {
         alert("You need to be logged in to complete this action.");
       }else{
         //alert("You need to be logged in to complete this action2.");
-        alert("You need to be logged in to complete this action.");
+        //alert("You need to be logged in to complete this action.");
       }});
 
     this.selectedFiles = undefined;

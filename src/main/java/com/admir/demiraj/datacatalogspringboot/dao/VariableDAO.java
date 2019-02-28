@@ -129,19 +129,22 @@ public void deletePreviousSaveNew(Variables var){
         }
         return null;
     }
-
+    public static boolean compare(String str1, String str2) {
+        return (str1 == null ? str2 == null : str1.equals(str2));
+    }
     /** Method that given a specific variable searches for other variables with the same code and compares each property
      * to see if the variables are identical.*/
     public Variables compareVariables(Variables variable){
         List<Variables> allVar = variablesRepository.findAll();
         for (Variables v : allVar){
-            System.out.println("comparing :"+v.getCode()+" with :"+variable.getCode());
-            if(v.getCode().equals(variable.getCode()) && v.getName().equals(variable.getName()) &&
-            v.getCsvFile().equals(variable.getCsvFile()) && v.getValues().equals(variable.getValues()) && v.getUnit().equals(variable.getUnit())
-            && v.getCanBeNull().equals(variable.getCanBeNull()) && v.getDescription().equals(variable.getDescription())){
+            //System.out.println("comparing :"+v.getCode()+" with :"+variable.getCode());
+            if(v.getCode().equals(variable.getCode()) && compare(v.getName(),variable.getName()) &&
+            compare(v.getCsvFile(),variable.getCsvFile()) && compare(v.getValues(),variable.getValues()) && compare(v.getUnit(),variable.getUnit())
+            && compare(v.getCanBeNull(),variable.getCanBeNull()) && compare(v.getDescription(),variable.getDescription())){
                 System.out.println("Same variable was found and returned : "+v.getCode());
                 return v;
             }
+
         }
         return variable;
     }

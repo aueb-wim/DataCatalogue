@@ -173,11 +173,12 @@ public class VariablesXLSX_JSON
         {
             Node node2Add = findNodeByCode(conceptPath[i],root);
             if (node2Add != null)
-                if (i < conceptPath.length - 1)
+                if (i <= conceptPath.length - 1)
                     continue;//this node has already been added and this time we are not in an xlsx row dedicated to it, so we have nothing more to offer... movin on
                 else
                 {
                     node2Add.var = nextVar;//adding all Variables' stuff to the pre-existing Node...
+                    System.out.println("Concept path is : "+conceptPath+" requested number is :"+i);
                     parent = findNodeByCode(conceptPath[i - 1], root);//find the parent
                 }
             else

@@ -100,8 +100,8 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   goBack(){
     this.location.back();
   }
+
   uploadFile(){
-//this.location.go(this.location.path()+'/'+this.sampleFileName);
     window.location.href = this.location.path()+'/'+this.sampleFileName;
   }
 
@@ -122,7 +122,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   addNewVariable() {
     let newVar = Object.assign(Object.create(this.versionToUpdate.variables[this.versionToUpdate.variables.length - 1]));
     //var newVar: VariableOject={};
-    if (this.newVarCode != null) {
+    if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode)) {
       newVar.csvFile = this.ifNullEmptyElseTheSame(this.newVarFile);
       newVar.name = this.ifNullEmptyElseTheSame(this.newVarName);
       newVar.code = this.ifNullEmptyElseTheSame(this.newVarCode);
@@ -151,13 +151,30 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
       this.newVarMapFunction = "";
 
       this.versionToUpdate.variables.unshift(newVar);
-    } else {
-      alert("Code cannot be null.");
     }
 
     //alert("The variable : "+this.newVarName+" was created");
   }
 
+  checkIfCoceprPathIsValid(conceptPath){
+    if(conceptPath == null || conceptPath == 'undefined' || conceptPath == ""){
+      return true;
+    }else if(conceptPath.startsWith("/root/")){
+      return true;
+    }else{
+      alert("Invalid concept path. It should start with: /root/\nAll empty concept paths are mapped to /root/");
+      return false;
+    }
+  }
+
+  checkIfCodeIsNull(code){
+    if(code!=null && code != ""){
+      return true;
+    }else{
+      alert("Code cannot be null.");
+      return false;
+    }
+  }
   ifNullEmptyElseTheSame(value) {
     if (value != null) {
       return value;

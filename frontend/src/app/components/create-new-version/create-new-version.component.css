@@ -46,39 +46,39 @@ input.vDetails:disabled{
   width: 3vw;
   height: 2vw;
 }
+.editModeBtn{
+  margin-left: 2px;
+}
 .editModeBtn:hover{
   background-color: #666666;
 }
-
+.backBtn{
+  margin-left: 2px;
+}
 .backBtn:hover{
   background-color: darksalmon;
 }
-
+.uploadFileBtn{
+  margin-left: 2px;
+}
 .uploadFileBtn:hover{
   background-color: tan;
 }
 
 .fa-edit{
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .fa-arrow-left{
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .fa-upload{
-  font-size: 24px;
+  font-size: 20px;
 }
 
-.saveVersionBtn2{
-  alignment: right;
-  margin-left: 1vw;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  background-color: #eeeeee;
-  border-radius: 10%;
-  width: 3vw;
-  height: 2vw;
+.saveVersionBtn{
+  margin-left: 2px;
 }
 .saveVersionBtn:hover{
   background-color: #428bca;
@@ -86,7 +86,7 @@ input.vDetails:disabled{
 }
 
 .fa-save{
-  font-size: 24px;
+  font-size: 20px;
 }
 
 

@@ -28,16 +28,6 @@ export class SearchBarComponent implements OnInit {
     this.selectedItem = newValue;
   }
 
-  login2(){
-    this.hospitalService.login().subscribe();
-    this.hospitalService.getUser().subscribe(user=>{
-      if(user!=null){
-        this.loggedIn = true;
-        this.userName = user['name'];
-        this.user = user;
-      }
-    });
-  }
 
   login(){
    // this.hospitalService.login().subscribe();
@@ -74,5 +64,6 @@ export class SearchBarComponent implements OnInit {
     this.user = null;
     this.userName = null;
     this.loggedIn = false;
+    window.location.reload();
   }
 }

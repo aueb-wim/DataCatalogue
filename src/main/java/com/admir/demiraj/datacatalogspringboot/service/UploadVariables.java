@@ -18,7 +18,6 @@ public class UploadVariables {
 
     private static final String FOLDER_NAME = System.getProperty("user.dir") + "/src/main/resources/data/variables/";
 
-
     @Autowired
     private HospitalDAO hospitalDAO;
 
@@ -78,35 +77,6 @@ public class UploadVariables {
     }
 
 
-    public void createVersion2(String versionName, String filePath, Hospitals currentHospital) {
-        //generateConceptPathFromMapping(filePath);
-        Versions version = new Versions(versionName);
-        System.out.println("Saving Version");
-        List<Variables> allVar = new ArrayList<>();
-        try {
-            allVar = Read_xlsx(filePath, version, currentHospital);
-        } catch (FileNotFoundException fnfe) {
-            System.err.println("Xlsx not found...!!!");
-        } catch (IOException io) {
-            System.err.println("Problem with the xlsx...");
-        }
-
-        List<Variables> allVar2 = new ArrayList<>();
-        for (Variables var : allVar) {
-            if (var.getHospital() != null && var.getCode() != null) {
-                allVar2.add(var);
-            }
-        }
-
-        VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
-        System.out.println("Retrieving jsonString from file");
-        version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
-        System.out.println("Retrieving jsonStringVisualizable from file");
-        version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
-        version.setVariables(allVar2);
-        versionDAO.saveVersion(version);
-
-    }
     public void createVersion(String versionName, String filePath, Hospitals currentHospital) {
         Versions version = new Versions(versionName);
         System.out.println("Saving Version");
@@ -136,6 +106,12 @@ public class UploadVariables {
 
     }
 
+
+    /**
+     * Method that reads each cell of the excel file and saves their values in a new variable. Each row is referring to
+     * a new variable and each column to a variable attribute. After the mapping, we save the variable and all connected
+     * tables. Finally, we return a list with all variables found.
+     */
     public List<Variables> Read_xlsx(String ff, Versions version, Hospitals hospital) throws IOException {
         List<Variables> xlsxVars = new ArrayList<>();//<Variables>
         FileInputStream fis = null;
@@ -155,6 +131,7 @@ public class UploadVariables {
             Iterator cellIterator = row.cellIterator();
             Variables newVar = new Variables();
             String mapFunction = null; // keep the value of the mapping function if it is not present
+            boolean isVariableSaved = false; //check if the variable is saved during the cell iteration
             while (cellIterator.hasNext()) {
                 Cell cell = (Cell) cellIterator.next();
                 if (cell.getColumnIndex() == 0) //
@@ -162,8 +139,15 @@ public class UploadVariables {
                     newVar.setCsvFile(cell.getStringCellValue());
                 } else if (cell.getColumnIndex() == 1)
                     newVar.setName(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 2)
-                    newVar.setCode(cell.getStringCellValue());
+                else if (cell.getColumnIndex() == 2){
+                    if(cell.getStringCellValue()==null || cell.getStringCellValue().equals("")){
+                        break;
+                    }else{
+                        newVar.setCode(cell.getStringCellValue());
+                    }
+
+                }
+
                 else if (cell.getColumnIndex() == 3)
                     newVar.setType(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 4)
@@ -193,8 +177,10 @@ public class UploadVariables {
                     if (cc12 != "") {
                         if (cc12.contains(",")) {
                             newVar = mappingToMultipleCdes(cc12, mapFunction, newVar, version, hospital);
+                            isVariableSaved = true;
                         } else {
                             newVar = mappingToSingleCde(cc12, mapFunction, newVar, version, hospital);
+                            isVariableSaved = true;
                         }
                     } else {//cell is empty
                         variableDAO.saveVersionToVariable(newVar, version);
@@ -204,12 +190,28 @@ public class UploadVariables {
                         hospitalDAO.save(hospital);
                         newVar.setHospital(hospital);
                         variableDAO.save(newVar);
+                        isVariableSaved = true;
                     }
 
                 }
-
+                System.out.println("this column index is : " + cell.getColumnIndex());
 
             }
+            // Check if the variable already saved. If not save it. It might have not been saved if the 'mapFunction'
+            //and 'mapCDE' are null and thus there is no 'cell.getColumnIndex()' for them.
+            if (!isVariableSaved && newVar.getCode()!=null && newVar.getCode()!="") {
+                System.out.println("Variable: "+newVar.getVariable_id()+newVar.getCode()+" is not saved.");
+                variableDAO.saveVersionToVariable(newVar, version);
+                List<Variables> hospVar = hospital.getVariables();
+                hospVar.add(newVar);
+                hospital.setVariables(hospVar);
+                hospitalDAO.save(hospital);
+                newVar.setHospital(hospital);
+                variableDAO.save(newVar);
+            }else{
+                System.out.println("Variable: "+newVar.getVariable_id()+newVar.getCode()+" is already saved.");
+            }
+
             xlsxVars.add(newVar);
 
 
@@ -218,6 +220,10 @@ public class UploadVariables {
     }
 
 
+    /**
+     * Method that maps a single variable to multiple CDEs. First extract from the file all mapping functions and mapping
+     * CDEs. Then search in the database for the CDEs. Finally, link all tables and save them.
+     */
     public Variables mappingToMultipleCdes(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
         Pattern p = Pattern.compile("\\[(.*?)\\]");
         Matcher m = p.matcher(cc11);
@@ -300,6 +306,10 @@ public class UploadVariables {
 
     }
 
+    /**
+     * Method that maps a variable to a CDEs. First extract from the file the mapping function and the mapping
+     * CDE. Then search in the database for the CDE. Finally, link all tables and save them.
+     */
     public Variables mappingToSingleCde(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
         System.out.println("MAPPING TO A SINGLE CDE");
 
@@ -353,9 +363,9 @@ public class UploadVariables {
             functionsDAO.save(functions);
 
         } else {
-            System.out.println("newVar before comparison: "+newVar.getCode());
+            System.out.println("newVar before comparison: " + newVar.getCode());
             newVar = variableDAO.compareVariables(newVar);
-            System.out.println("newVar after comparison: "+newVar.getCode());
+            System.out.println("newVar after comparison: " + newVar.getCode());
             List<Versions> currentVersions = newVar.getVersions();
             currentVersions.add(version);
             newVar.setVersions(currentVersions);

@@ -86,20 +86,18 @@ nav ul li a {
 nav ul li a,
 nav ul li a:focus,
 nav ul li a:visited,
-nav ul li a:hover,
-nav ul li a:active {
+nav ul li a:hover {
   color: #000;
   text-decoration: none; }
+
+nav ul li a.ac{
+  background: #007FBB;
+}
 nav ul li a:hover,
 nav ul li a:active {
   background: #007FBB; /* Old browsers */
 
 }
 
-nav ul li:first-child a {
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px; }
-nav ul li:last-child a {
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px; }
+
 
