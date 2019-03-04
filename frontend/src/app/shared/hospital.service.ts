@@ -54,6 +54,10 @@ export class HospitalService {
   cdeReadExcel():Observable<any> {
     return this.http.get('//195.251.252.222:2442/CDE/readExcel',{headers:this.headers});
   }
+
+  getLatestCDEVersion(){
+    return this.http.get('//195.251.252.222:2442/versions/latestCDEVersion',{headers:this.headers});
+  }
 ////////////////////////////////
 ////////////////////////////////
 ////////////////////////////////

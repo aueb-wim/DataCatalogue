@@ -46,7 +46,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   editVarMapFunction: string;
   editVarMapCDE: string;
 
-  randomFunction: Array<any>;
+  latestCDEVersion:any;
   versionName: string;
   functions: Array<any>;
 
@@ -104,6 +104,8 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
         this.hospital = h
       });
 
+    this.hospitalService.getLatestCDEVersion().subscribe(cde=>{this.latestCDEVersion = cde});
+
   }
 
 
@@ -155,7 +157,9 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   addNewVariable() {
     let newVar = Object.assign(Object.create(this.versionToUpdate.variables[this.versionToUpdate.variables.length - 1]));
     //var newVar: VariableOject={};
-    if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode)) {
+    if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
+      this.checkIfMappingFunctionIsValid(this.newVarMapFunction) && this.checkIfMappingCDEIsValid(this.newVarMapCDE)) {
+
       newVar.csvFile = this.ifNullEmptyElseTheSame(this.newVarFile);
       newVar.name = this.ifNullEmptyElseTheSame(this.newVarName);
       newVar.code = this.ifNullEmptyElseTheSame(this.newVarCode);
@@ -189,6 +193,39 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
     //alert("The variable : "+this.newVarName+" was created");
   }
 
+  checkIfMappingFunctionIsValid(mappingFunction){
+    if(mappingFunction != null){
+      if(mappingFunction.includes('[') || mappingFunction.includes(']')){
+        mappingFunction = mappingFunction.replace(/\s/g, "");
+        if(mappingFunction.startsWith('[') && mappingFunction.endsWith(']') && mappingFunction.includes('],[')){
+          return true;
+        }else{
+          alert("Invalid format of the mapping function for mapping to multiple CDEs.\nValid example: [stays the same],[stays the same]");
+          return false;
+        }
+      }
+    }else{
+      return true;
+    }
+
+  }
+
+  checkIfMappingCDEIsValid(mappingCde){
+    if(mappingCde != null){
+    var cdes = mappingCde.split(",");
+    for(let cde of cdes){
+      for(let cdevariable of this.latestCDEVersion['cdevariables']){
+      if(cdevariable['code'] == cde){
+        return true;
+      }
+      }
+    }
+    alert("The cdeVariable is not valid.");
+    return false;
+    }else{
+      return true;
+    }
+  }
   checkIfCoceprPathIsValid(conceptPath) {
     if (conceptPath == null || conceptPath == 'undefined' || conceptPath == "") {
       return true;
@@ -292,7 +329,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
       this.versionToUpdate.variables[currentIndex].comments = this.editVarComments;
       this.editVarComments = null;
     }
-    if (this.editVarConceptPath != null) {
+    if (this.editVarConceptPath != null && this.checkIfCoceprPathIsValid(this.editVarConceptPath)) {
       this.versionToUpdate.variables[currentIndex].conceptPath = this.editVarConceptPath;
       this.editVarConceptPath = null;
     }
@@ -300,11 +337,11 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
       this.versionToUpdate.variables[currentIndex].methodology = this.editVarMethodology;
       this.editVarMethodology = null;
     }
-    if (this.editVarMapFunction != null) {
+    if (this.editVarMapFunction != null && this.checkIfMappingFunctionIsValid(this.editVarMapFunction)) {
       this.versionToUpdate.variables[currentIndex].mapFunction = this.editVarMapFunction;
       this.editVarMapFunction = null;
     }
-    if (this.editVarMapCDE != null) {
+    if (this.editVarMapCDE != null && this.checkIfMappingCDEIsValid(this.editVarMapCDE)) {
       this.versionToUpdate.variables[currentIndex].mapCDE = this.editVarMapCDE;
       this.editVarMapCDE = null;
     }

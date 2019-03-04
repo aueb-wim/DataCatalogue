@@ -2,8 +2,10 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
+import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import com.admir.demiraj.datacatalogspringboot.service.CustomMapper;
+import jdk.nashorn.internal.runtime.Version;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -95,6 +97,17 @@ public class VersionController {
         return versionDAO.getLatestVersionByHospitalId(hId);
     }
 
+    @GetMapping("/latestCDEVersion")
+    public Versions getCDEVariablesOfLatestVersion(){
+        List<Versions> allCDEVersions = versionDAO.getAllCdeVersions();
+        if(allCDEVersions !=null){
+            return allCDEVersions.get(allCDEVersions.size()-1);
+        }else{
+            return null;
+        }
+
+    }
+
     @PostMapping("/sendNewVersion")
     ResponseEntity<String> receiveNewVersion(@RequestBody(required = false) Versions ver) {
         System.out.println("Received new version");
@@ -118,5 +131,6 @@ public class VersionController {
         customMapper.mapVersion(jr);
         //return "ok";
     }
+
 
 }

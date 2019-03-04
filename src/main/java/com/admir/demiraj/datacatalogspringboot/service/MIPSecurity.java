@@ -77,6 +77,7 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "/versions/jsonStringByVersionId/*",
                         "/versions/jsonStringVisualizableByVersionId/*",
                         "/versions/allVersionsPerHospital",
+                        "/versions/latestCDEVersion",
                         "/mapping/down",
                         "/hospitals/name",
                         "/mapping/functions/",

@@ -26,6 +26,7 @@
       "/mapping/randomFunction",
       "/mapping/functionsByVersionId",
       "/versions/newVersion",
+      "/versions/latestCDEVersion",
       "/mapping/post",
       "/mapping/getallfiles",
       "/mapping/getsample",
