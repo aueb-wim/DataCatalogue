@@ -5,7 +5,7 @@
 
 <h1><i class="fa fa-folder-o">New Version for {{hospital.name}}</i></h1>
 
-
+<a>functions: {{functions}}</a>
 
     <mat-accordion multi="false">
       <mat-expansion-panel>
@@ -48,8 +48,8 @@
         <p><b>Comments : </b><input class="vDetails" matInput value="{{variable.comments}}" [disabled]="disabledInput" (change)="change(9,($event.target.value))"></p>
         <p><b>Concept Path : </b><input class="vDetails" matInput value="{{variable.conceptPath}}" [disabled]="disabledInput" (change)="change(10,($event.target.value))"></p>
         <p><b>Methodology : </b><input class="vDetails" matInput value="{{variable.methodology}}" [disabled]="disabledInput" (change)="change(11,($event.target.value))"></p>
-        <p><b>Mapping Function : </b><input class="vDetails" matInput  [disabled]="disabledInput" (change)="change(12,($event.target.value))"></p>
-        <p><b>Map CDE : </b><input class="vDetails" matInput  [disabled]="disabledInput" (change)="change(13,($event.target.value))"></p>
+        <p><b>Mapping Function : </b><input class="vDetails" matInput  value="{{variable.mapFunction}}" [disabled]="disabledInput" (change)="change(12,($event.target.value))"></p>
+        <p><b>Map CDE : </b><input class="vDetails" matInput  value="{{variable.mapCDE}}" [disabled]="disabledInput" (change)="change(13,($event.target.value))"></p>
         <button mat-raised-button class="saveVariable" (click)="saveVariable(i)">Save</button>
       </mat-expansion-panel>
     </mat-accordion>

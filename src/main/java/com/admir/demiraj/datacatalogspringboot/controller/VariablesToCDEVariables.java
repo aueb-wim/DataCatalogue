@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import com.admir.demiraj.datacatalogspringboot.service.StorageService;
 import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;
 import com.admir.demiraj.datacatalogspringboot.service.UploadVariables;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -120,6 +121,11 @@ public class VariablesToCDEVariables {
    @GetMapping("/functions")
     public List<Functions> getAllFunctions(){
         return this.functionsDAO.findAll();
+   }
+
+   @GetMapping("/mapFunctionAndMapCdeByVariableId")
+   public String getmapFunctionAndMapCdeByVariableId(){
+        return "";
    }
 
    @GetMapping("/randomFunction")

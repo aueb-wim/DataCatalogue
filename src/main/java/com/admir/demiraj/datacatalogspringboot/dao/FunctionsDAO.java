@@ -52,6 +52,8 @@ public class FunctionsDAO {
         return functionByVariableId;
     }
 
+    //public String findMapFunctionAndMapCdeByVariableId(BigInteger variableId){}
+
     public Functions findFunctionById(Functions fun) {
         List<Functions> allFunctions = functionsRepository.findAll();
         for (Functions f : allFunctions) {

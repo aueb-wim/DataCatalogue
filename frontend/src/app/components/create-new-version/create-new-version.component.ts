@@ -7,7 +7,6 @@ import {catchError} from "rxjs/operators";
 import {throwError} from "rxjs";
 
 
-
 @Component({
   selector: 'app-create-new-version',
   templateUrl: './create-new-version.component.html',
@@ -47,10 +46,12 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   editVarMethodology: string;
   editVarMapFunction: string;
   editVarMapCDE: string;
+
   ////////////////////////
   randomFunction: Array<any>;
   //functions = new Array;
   versionName: string;
+  functions: Array<any>;
 
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {
   }
@@ -58,51 +59,125 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.route.params
       .switchMap((params: Params) => this.hospitalService.getLatestVersionByHospitalId(+params['hospital_id']))
-      .subscribe(versions => {
-        this.versionToUpdate = versions
+      .subscribe(version => {
+        this.hospitalService.getFunctionsByVariableVersionId(version['version_id']).subscribe(functions => {
+          console.log("version id is  -- >",version['version_id']);
+          for(let i in version['variables']){
+            let versionvariable = version['variables'][i];
+            //console.log("version  variable: ",versionvariable);
+            version['variables'][i]['mapFunction'] = '';
+            version['variables'][i]['mapCDE'] = '';
+            let mappingCDEs='';
+            let mappingFunctions='';
+            for(let func of functions){
+              for (let functionvariable of func['variables']){
+                //console.log("function  variables",func['variables']);
+                if(versionvariable['variable_id']==functionvariable['variable_id']){
+                  if(mappingFunctions != ''){
+                    if(mappingFunctions.includes(',')){
+                      mappingFunctions = mappingFunctions +',['+ func['rule']+']';
+                    }else{
+                      mappingFunctions = '['+mappingFunctions+']' +',['+ func['rule']+']';
+                    }
+                    //mappingFunctions = mappingFunctions +',['+ func['rule']+']';
+                  }else{
+                    mappingFunctions = func['rule'];
+                  }
+                  for(let functioncdevariable of func['cdeVariables']){
+                    if(mappingCDEs !=''){
+
+                      mappingCDEs = mappingCDEs +','+ functioncdevariable['code'];
+                    }else{
+                      mappingCDEs = functioncdevariable['code'];
+                    }
+                  }
+                }
+              }
+            }
+            console.log("ok3 -- >"+i,versionvariable['code']);
+            console.log("mapping cdes -- >",mappingCDEs);
+            version['variables'][i]['mapFunction'] = mappingFunctions
+            version['variables'][i]['mapCDE'] = mappingCDEs;
+          }
+          //version['variables'][0]['ok'] = "hey";
+          console.log("version variables",version['variables']);
+          this.versionToUpdate = version;
+        });
+
       });
+
     this.route.params
       .switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id']))
       .subscribe(h => {
         this.hospital = h
       });
 
-    //////////////////////////////////////
-    //this.hospitalService.getRandomFunction().subscribe(rf=>{this.randomFunction = rf})
+  }
+
+  getMapFunctionAndMapCde(version, allfunctions) {
+    let allvar = version['variables'];
+    for (let variable of allvar) {
+      for (let func of allfunctions) {
+        let variablesInFunc = func['variables'];
+        let cdevariablesInFunc = func['cdeVariables'];
+        for (let variableInFunc of variablesInFunc) {
+          let mappingcdes = "";
+          if (variable['code'].equals(variableInFunc['code'])) {
+            for (let cdevariableInFunc of cdevariablesInFunc) {
+              mappingcdes = mappingcdes + "[" + cdevariableInFunc['code'] + "]";
+            }
+            variable.mapFunction = func['rule'];
+            variable.mapCDE = mappingcdes;
+            version['variables'].add(variable);
+
+          } else {
+            variable.mapFunction = '';
+            variable.mapCDE = '';
+            version['variables'].add(variable);
+          }
+        }
+
+      }
+    }
+   return version;
   }
 
   ngAfterViewInit(): void {
     this.createSampleFileName();
+    /*
 
     for (let variable of this.versionToUpdate.variables) {
       variable.mapFunction = "";
       variable.mapCDE = "";
     }
+    * */
+
   }
 
 
   saveNewVersion(): void {
     this.createNewVersionName();
     this.hospitalService.createNewVersion(this.hospital["name"], this.versionName, this.versionToUpdate).subscribe(
-      data=>{
+      data => {
         window.alert("Version created successfully.");
         this.location.back();
       },
       error => {
-        if(error.status=='401'){
+        if (error.status == '401') {
           alert("You need to be logged in to complete this action.");
-        }else{
+        } else {
           alert("An error has occurred.");
-        }});
+        }
+      });
 
   };
 
-  goBack(){
+  goBack() {
     this.location.back();
   }
 
-  uploadFile(){
-    window.location.href = this.location.path()+'/'+this.sampleFileName;
+  uploadFile() {
+    window.location.href = this.location.path() + '/' + this.sampleFileName;
   }
 
 
@@ -156,25 +231,26 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
     //alert("The variable : "+this.newVarName+" was created");
   }
 
-  checkIfCoceprPathIsValid(conceptPath){
-    if(conceptPath == null || conceptPath == 'undefined' || conceptPath == ""){
+  checkIfCoceprPathIsValid(conceptPath) {
+    if (conceptPath == null || conceptPath == 'undefined' || conceptPath == "") {
       return true;
-    }else if(conceptPath.startsWith("/root/")){
+    } else if (conceptPath.startsWith("/root/")) {
       return true;
-    }else{
+    } else {
       alert("Invalid concept path. It should start with: /root/\nAll empty concept paths are mapped to /root/");
       return false;
     }
   }
 
-  checkIfCodeIsNull(code){
-    if(code!=null && code != ""){
+  checkIfCodeIsNull(code) {
+    if (code != null && code != "") {
       return true;
-    }else{
+    } else {
       alert("Code cannot be null.");
       return false;
     }
   }
+
   ifNullEmptyElseTheSame(value) {
     if (value != null) {
       return value;

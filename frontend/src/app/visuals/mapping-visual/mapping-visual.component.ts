@@ -260,7 +260,7 @@ for(let f of this.functionsByVariableVersion){
     }
 
     link.append("title")
-      .text(function (d: any) { return d.source.name + " → " + d.target.name + "\n Mapping Rule: " + d.rule; });
+      .text(function (d: any) { return d.source.code + " → " + d.target.code + "\n Mapping Rule: " + d.rule; });
 
 
     node = node
@@ -285,7 +285,7 @@ for(let f of this.functionsByVariableVersion){
       .attr("text-anchor", "end")
       .style("font-family"," OpenSymbol")
       .style("font-weight"," bold")
-      .text(function (d: any) { return d.name; })
+      .text(function (d: any) { return d.code; })
       .filter(function (d: any) { return d.x0 < width / 2; })
       .attr("x", function (d: any) { return d.x1 + 6; })
       .attr("text-anchor", "start");
@@ -293,7 +293,7 @@ for(let f of this.functionsByVariableVersion){
 
 
     node.append("title")
-      .text(function (d: any) { return d.name + ":  "+ d.conceptPath});
+      .text(function (d: any) { return d.code + ":  "+ d.conceptPath});
 
 
 

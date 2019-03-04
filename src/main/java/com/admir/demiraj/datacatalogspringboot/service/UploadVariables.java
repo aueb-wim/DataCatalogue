@@ -1,5 +1,6 @@
 package com.admir.demiraj.datacatalogspringboot.service;
 
+import antlr.StringUtils;
 import com.admir.demiraj.datacatalogspringboot.dao.*;
 import com.admir.demiraj.datacatalogspringboot.resources.*;
 import org.apache.poi.EncryptedDocumentException;
@@ -140,7 +141,9 @@ public class UploadVariables {
                 } else if (cell.getColumnIndex() == 1)
                     newVar.setName(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 2){
-                    if(cell.getStringCellValue()==null || cell.getStringCellValue().equals("")){
+                    System.out.println("Inside 2");
+                    if(cell.getStringCellValue()==null || cell.getStringCellValue().isEmpty()){
+                        System.out.println("Inside break");
                         break;
                     }else{
                         newVar.setCode(cell.getStringCellValue());
@@ -225,6 +228,7 @@ public class UploadVariables {
      * CDEs. Then search in the database for the CDEs. Finally, link all tables and save them.
      */
     public Variables mappingToMultipleCdes(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
+        System.out.println("MAPPING TO MULTIPLE CDEs");
         Pattern p = Pattern.compile("\\[(.*?)\\]");
         Matcher m = p.matcher(cc11);
         cc12 = cc12.replaceAll("\\s+", "");
@@ -253,7 +257,7 @@ public class UploadVariables {
             String cpath = allCdeVariables.get(0).getConceptPath();////////////////////////////one
             cpath = cpath.substring(0, cpath.lastIndexOf("/")) + "/" + newVar.getCode();
             newVar.setConceptPath(cpath);
-            newVar = variableDAO.compareVariables(newVar);
+            newVar = variableDAO.compareVariables(newVar, cc11Parts, cc12Parts);
             List<Versions> currentVersions = newVar.getVersions();
             currentVersions.add(version);
             newVar.setVersions(currentVersions);
@@ -289,7 +293,7 @@ public class UploadVariables {
             }
         } else {//no cdes were found
             System.out.println("The cdevariable with name: " + cc12 + "does no exist.We cannot create a mapping function");
-            newVar = variableDAO.compareVariables(newVar);
+            newVar = variableDAO.compareVariables(newVar,cc11Parts,cc12Parts);
             List<Versions> currentVersions = newVar.getVersions();
             currentVersions.add(version);
             newVar.setVersions(currentVersions);
@@ -312,13 +316,21 @@ public class UploadVariables {
      */
     public Variables mappingToSingleCde(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
         System.out.println("MAPPING TO A SINGLE CDE");
+        //Since we have a single mapping we should create the LIst containing only one element
+        List<String> cc11Parts = new ArrayList<>();
+        cc11Parts.add(cc11);
+        String[] cc12Parts = new String[100];
+        cc12Parts[0] = cc12;
+        ////////////////////////////////////////////
+        ////////////////////////////////////////////
 
         CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12);
         if (cde != null) { //the cde variable exists
             System.out.println("The cdevariable has been retrieved and has concept path of:" + cde.getConceptPath());
             Functions functions = new Functions();
 
-            newVar = variableDAO.compareVariables(newVar);
+
+            newVar = variableDAO.compareVariables(newVar, cc11Parts,cc12Parts);
             List<Variables> allVariables = new ArrayList<>();
             List<Functions> allFunctions = new ArrayList<>();
             List<CDEVariables> allCdeVariables = new ArrayList<>();
@@ -364,7 +376,7 @@ public class UploadVariables {
 
         } else {
             System.out.println("newVar before comparison: " + newVar.getCode());
-            newVar = variableDAO.compareVariables(newVar);
+            newVar = variableDAO.compareVariables(newVar,cc11Parts,cc12Parts);
             System.out.println("newVar after comparison: " + newVar.getCode());
             List<Versions> currentVersions = newVar.getVersions();
             currentVersions.add(version);

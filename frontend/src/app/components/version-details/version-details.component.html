@@ -1,54 +1,7 @@
 
 <button *ngIf="!editable" class="download" (click)="exportJson()">Download</button>
 
-
-<div *ngIf="cdeData==false && editable">
- <!-- <button class="editModeBtn" [ngClass]="{'enabledDataBtn': disabledInput == false }"(click)="toggleEdit()"><i class="fa fa-edit"></i></button>-->
-  <button class="saveVersionBtn" (click)="toggleEdit()"><i class="fa fa-save"></i></button>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-          New Variable
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p><input matInput placeholder="File Name" [(ngModel)]="newVarFile"></p>
-    <p><input matInput placeholder="Name" [(ngModel)]="newVarName"></p>
-    <p><input matInput placeholder="Code" [(ngModel)]="newVarCode"></p>
-    <p><input matInput placeholder="Type" [(ngModel)]="newVarType"></p>
-    <p><input matInput placeholder="Values" [(ngModel)]="newVarValues"></p>
-    <p><input matInput placeholder="Measure Unit" [(ngModel)]="newVarUnit"></p>
-    <p><input matInput placeholder="Can Be Null" [(ngModel)]="newVarCanBeNull"></p>
-    <p><input matInput placeholder="Description" [(ngModel)]="newVarDescription"></p>
-    <p><input matInput placeholder="Comments" [(ngModel)]="newVarComments"></p>
-    <p><input matInput placeholder="Concept Path" [(ngModel)]="newVarConceptPath"></p>
-    <p><input matInput placeholder="Methodology" [(ngModel)]="newVarMethodology"></p>
-    <p><input matInput placeholder="Mapping Function" [(ngModel)]="newVarMapFunction"></p>
-    <p><input matInput placeholder="Map CDE" [(ngModel)]="newVarMapCDE"></p>
-    <button mat-raised-button class="editvariable" (click)="addNewVariable()" [(ngModel)]="newVarName">save</button>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel *ngFor="let variable of version.variables | hospitalFilter:searchTermVar; let i = index">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <a> <b>{{variable.code}}</b> <button class="deleteBtn" (click)="deleteVariable(i)"><i class="fa fa-times"></i></button></a>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <p><b>File : </b><input class="vDetails" matInput value="{{variable.csvFile}}" [disabled]="disabledInput" (change)="change(1,($event.target.value))"></p>
-    <p><b>Name : </b><input class="vDetails" matInput value="{{variable.name}}" [disabled]="disabledInput" (change)="change(2,($event.target.value))"></p>
-    <p><b>Code : </b><input class="vDetails" matInput value="{{variable.code}}" [disabled]="disabledInput" (change)="change(3,($event.target.value))" ></p>
-    <p><b>Type : </b><input class="vDetails" matInput value="{{variable.type}}" [disabled]="disabledInput" (change)="change(4,($event.target.value))"></p>
-    <p><b>Values : </b><input class="vDetails" matInput value="{{variable.values}}" [disabled]="disabledInput" (change)="change(5,($event.target.value))"></p>
-    <p><b>Measure Unit: </b><input class="vDetails" matInput value="{{variable.unit}}" [disabled]="disabledInput" (change)="change(6,($event.target.value))"></p>
-    <p><b>Can Be Null: </b><input class="vDetails" matInput value="{{variable.canBeNull}}" [disabled]="disabledInput" (change)="change(7,($event.target.value))"></p>
-    <p><b>Description : </b><input class="vDetails" matInput value="{{variable.description}}" [disabled]="disabledInput" (change)="change(8,($event.target.value))"></p>
-    <p><b>Comments : </b><input class="vDetails" matInput value="{{variable.comments}}" [disabled]="disabledInput" (change)="change(9,($event.target.value))"></p>
-    <p><b>Concept Path : </b><input class="vDetails" matInput value="{{variable.conceptPath}}" [disabled]="disabledInput" (change)="change(10,($event.target.value))"></p>
-    <p><b>Methodology : </b><input class="vDetails" matInput value="{{variable.methodology}}" [disabled]="disabledInput" (change)="change(11,($event.target.value))"></p>
-    <button mat-raised-button class="saveVariable" (click)="saveVariable(i)">Save</button>
-  </mat-expansion-panel>
-</div>
-
-<div *ngIf="cdeData==false && editable==false">
+<div *ngIf="cdeData==false">
   <mat-expansion-panel *ngFor="let variable of version.variables | hospitalFilter:searchTermVar">
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -70,16 +23,20 @@
   <mat-expansion-panel *ngFor="let variable of version.cdevariables | hospitalFilter:searchTermVar">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <a> <b>{{variable.name}}</b></a>
+        <a> <b>{{variable.code}}</b></a>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p><b>Name :</b>{{variable.name}}</p>
     <p><b>File :</b>{{variable.csvFile}}</p>
-    <p><b>Values :</b>{{variable.values}}</p>
+    <p><b>Name :</b>{{variable.name}}</p>
+    <p><b>Code :</b>{{variable.code}}</p>
     <p><b>Type :</b>{{variable.type}}</p>
+    <p><b>Values :</b>{{variable.values}}</p>
     <p><b>Measure Unit:</b>{{variable.unit}}</p>
+    <p><b>Can Be Null:</b>{{variable.unit}}</p>
     <p><b>Description :</b>{{variable.description}}</p>
     <p><b>Comments :</b>{{variable.comments}}</p>
     <p><b>Concept Path :</b>{{variable.conceptPath}}</p>
+    <p><b>Methodology :</b>{{variable.methodology}}</p>
+
   </mat-expansion-panel>
 </div>
