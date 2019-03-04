@@ -365,14 +365,14 @@ for(let f of this.functionsByVariableVersion){
 
   }
 /**
- * Method that checks by name if an object is present in an array of objects.
+ * Method that checks by code if an object is present in an array of objects.
  * If yes return the index it was found. If not add it to the array and then return the index.
  * */
   presentAt(array,object){
     let isPresent = false;
     let index = null;
     for (let i=0; i<array.length; i++) {
-      if(array[i].name == object.name){
+      if(array[i].code == object.code){
         isPresent = true;
         index = i;
       }

@@ -3,8 +3,7 @@ import {HospitalService} from "../../shared/hospital.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Location} from "@angular/common";
 import {MatDialog} from "@angular/material";
-import {catchError} from "rxjs/operators";
-import {throwError} from "rxjs";
+
 
 
 @Component({
@@ -47,9 +46,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   editVarMapFunction: string;
   editVarMapCDE: string;
 
-  ////////////////////////
   randomFunction: Array<any>;
-  //functions = new Array;
   versionName: string;
   functions: Array<any>;
 
@@ -64,14 +61,12 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
           console.log("version id is  -- >",version['version_id']);
           for(let i in version['variables']){
             let versionvariable = version['variables'][i];
-            //console.log("version  variable: ",versionvariable);
             version['variables'][i]['mapFunction'] = '';
             version['variables'][i]['mapCDE'] = '';
             let mappingCDEs='';
             let mappingFunctions='';
             for(let func of functions){
               for (let functionvariable of func['variables']){
-                //console.log("function  variables",func['variables']);
                 if(versionvariable['variable_id']==functionvariable['variable_id']){
                   if(mappingFunctions != ''){
                     if(mappingFunctions.includes(',')){
@@ -79,7 +74,6 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
                     }else{
                       mappingFunctions = '['+mappingFunctions+']' +',['+ func['rule']+']';
                     }
-                    //mappingFunctions = mappingFunctions +',['+ func['rule']+']';
                   }else{
                     mappingFunctions = func['rule'];
                   }
@@ -94,8 +88,6 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
                 }
               }
             }
-            console.log("ok3 -- >"+i,versionvariable['code']);
-            console.log("mapping cdes -- >",mappingCDEs);
             version['variables'][i]['mapFunction'] = mappingFunctions
             version['variables'][i]['mapCDE'] = mappingCDEs;
           }
@@ -114,43 +106,9 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
 
   }
 
-  getMapFunctionAndMapCde(version, allfunctions) {
-    let allvar = version['variables'];
-    for (let variable of allvar) {
-      for (let func of allfunctions) {
-        let variablesInFunc = func['variables'];
-        let cdevariablesInFunc = func['cdeVariables'];
-        for (let variableInFunc of variablesInFunc) {
-          let mappingcdes = "";
-          if (variable['code'].equals(variableInFunc['code'])) {
-            for (let cdevariableInFunc of cdevariablesInFunc) {
-              mappingcdes = mappingcdes + "[" + cdevariableInFunc['code'] + "]";
-            }
-            variable.mapFunction = func['rule'];
-            variable.mapCDE = mappingcdes;
-            version['variables'].add(variable);
-
-          } else {
-            variable.mapFunction = '';
-            variable.mapCDE = '';
-            version['variables'].add(variable);
-          }
-        }
-
-      }
-    }
-   return version;
-  }
 
   ngAfterViewInit(): void {
     this.createSampleFileName();
-    /*
-
-    for (let variable of this.versionToUpdate.variables) {
-      variable.mapFunction = "";
-      variable.mapCDE = "";
-    }
-    * */
 
   }
 
@@ -345,15 +303,9 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
     if (this.editVarMapFunction != null) {
       this.versionToUpdate.variables[currentIndex].mapFunction = this.editVarMapFunction;
       this.editVarMapFunction = null;
-    } else {
-      this.versionToUpdate.variables[currentIndex].mapFunction = "";
-      this.editVarMapFunction = null;
     }
     if (this.editVarMapCDE != null) {
       this.versionToUpdate.variables[currentIndex].mapCDE = this.editVarMapCDE;
-      this.editVarMapCDE = null;
-    } else {
-      this.versionToUpdate.variables[currentIndex].mapCDE = "";
       this.editVarMapCDE = null;
     }
 
