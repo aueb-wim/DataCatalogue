@@ -65,7 +65,7 @@ public class VariableReport implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private BigInteger variablereport_id;
 
-    @Column
+    @Column(length = 1000)
     private String variableReportName;
 
     @Column
@@ -77,7 +77,7 @@ public class VariableReport implements Serializable {
     @Column
     private String typeEstimated;
 
-    @Column
+    @Column(length = 1000)
     private String listOfCategoryValues;
 
     @Column
@@ -121,10 +121,10 @@ public class VariableReport implements Serializable {
     @Column
     private String numberOfOutliersOutside3Std;
 
-    @Column
+    @Column(length = 1000)
     private String the5LeastFrequestValues;
 
-    @Column
+    @Column(length = 1000)
     private String the5MostFrequentValues;
 
     @Column

@@ -60,7 +60,7 @@ public class BatchReport implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private BigInteger batchreport_id;
 
- @Column
+ @Column(length = 500)
  private String batchReportName;
 
  @Column

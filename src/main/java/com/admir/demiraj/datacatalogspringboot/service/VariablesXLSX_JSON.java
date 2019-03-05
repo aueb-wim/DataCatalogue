@@ -159,7 +159,7 @@ public class VariablesXLSX_JSON
     private void addPathNodes(Variables nextVar, Node root)
     {
         String thisConceptPath = nextVar.getConceptPath();
-        if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/"))
+        if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/") || thisConceptPath.trim().equals("/root") || thisConceptPath.trim().equals("/root/"))
         {
             thisConceptPath="/root/"+nextVar.getCode();
             nextVar.setConceptPath(thisConceptPath);

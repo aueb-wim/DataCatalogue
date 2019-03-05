@@ -1,7 +1,8 @@
 .mat-expansion-panel-header-title{
-  font-weight: bold;
-  font-size: medium;
+  font-size: small;
   color: green;
+  font-weight: bold;
+  font-family: Helvetica;
 }
 
 input[type=text] {
@@ -10,8 +11,9 @@ input[type=text] {
   margin-top: 8px;
   margin-bottom: 8px;
   margin-right: 4px;
-  font-size: 15px;
+  font-size: 10px;
   border-color: #2196F3;
+  font-family: Helvetica;
 
 }
 
@@ -19,4 +21,15 @@ h1{
   font-size: xx-large;
   color: #2196F3;
   margin-left: 40%;
+  font-family: Helvetica;
+}
+
+.select{
+  font-family:Helvetica;
+  font-size: small;
+}
+
+mat-accordion mat-expansion-panel p{
+  font-family:Helvetica;
+  font-size: small;
 }

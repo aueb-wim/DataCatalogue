@@ -7,18 +7,21 @@
   color: blue;
   font-weight: 400;
   font-size: large;
+  font-family:Helvetica;
 }
 
 
 .mat-tab-label{
   color: black;
   font-size: large;
+  font-family:Helvetica;
 }
 
 h1{
   font-size: xx-large;
   color: #2196F3;
   margin-left: 40%;
+  font-family:Helvetica;
 }
 
 input[type=text] {
@@ -29,6 +32,7 @@ input[type=text] {
   margin-right: 4px;
   font-size: 15px;
   border-color: #2196F3;
+  font-family:Helvetica;
 
 }
 
@@ -48,6 +52,7 @@ input[type=text] {
   font-size: xx-large;
   border-color: #262626;
   opacity: 0.9%;
+  font-family:Helvetica;
 }
 
 
@@ -65,13 +70,16 @@ position: absolute;
 
 .newVersion{
   margin-left: 2px;
+  font-family:Helvetica;
 }
 .newVersion:hover{
   background-color: #AFBEC5;
+  font-family:Helvetica;
 }
 
 .backBtn:hover{
   background-color: darksalmon;
+  font-family:Helvetica;
 }
 
 .fa-arrow-left{

@@ -5,11 +5,13 @@
   color: blue;
   font-weight: 400;
   font-size: large;
+  font-family:Helvetica;
 }
 
 
 /deep/.mat-tab-label{
   color: black;
+  font-family:Helvetica;
   font-size: large;
 }
 
@@ -22,6 +24,7 @@ h1{
   font-size: xx-large;
   color: #2196F3;
   margin-left: 40%;
+  font-family:Helvetica;
 
 }
 
@@ -31,11 +34,17 @@ input[type=text] {
   margin-top: 8px;
   margin-bottom: 8px;
   margin-right: 4px;
-  font-size: 15px;
   border-color: #2196F3;
+  font-family:Helvetica;
+  font-size: small;
 }
 
 
 .holder{
   horiz-align: left;
+}
+
+.select{
+  font-family:Helvetica;
+  font-size: small;
 }

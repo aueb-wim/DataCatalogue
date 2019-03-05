@@ -4,6 +4,7 @@ button.report-button {
   margin-left: 4px;
   border-radius: 50%;
   background-color: #ff937f;
+  font-family:Helvetica;
 
 }
 i{
@@ -42,3 +43,6 @@ b{
   width: 30px;
 }
 
+.reports{
+  font-family:Helvetica;
+}

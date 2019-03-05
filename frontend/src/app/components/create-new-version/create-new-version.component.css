@@ -3,6 +3,7 @@ h1{
   font-size: xx-large;
   color: #2196F3;
   margin-left: 40%;
+  font-family:Helvetica;
 }
 
 
@@ -17,6 +18,8 @@ mat-expansion-panel{
   color: blue;
   font-weight: 400;
   font-size: large;
+  font-family:Helvetica;
+
 }
 
 
@@ -28,15 +31,18 @@ mat-expansion-panel{
 
   display: table;
   table-layout: fixed;
+  font-family:Helvetica;
 }
 
 input.vDetails:disabled{
   border: none;
   background: none;
+  font-family:Helvetica;
 }
 
 .enabledDataBtn{
   background-color: #5c707a;
+  font-family:Helvetica;
 }
 
 .editModeBtn2{
@@ -45,24 +51,31 @@ input.vDetails:disabled{
   border-radius: 10%;
   width: 3vw;
   height: 2vw;
+  font-family:Helvetica;
 }
 .editModeBtn{
   margin-left: 2px;
+  font-family:Helvetica;
 }
 .editModeBtn:hover{
   background-color: #666666;
+  font-family:Helvetica;
 }
 .backBtn{
   margin-left: 2px;
+  font-family:Helvetica;
 }
 .backBtn:hover{
   background-color: darksalmon;
+  font-family:Helvetica;
 }
 .uploadFileBtn{
   margin-left: 2px;
+  font-family:Helvetica;
 }
 .uploadFileBtn:hover{
   background-color: tan;
+  font-family:Helvetica;
 }
 
 .fa-edit{
@@ -79,9 +92,11 @@ input.vDetails:disabled{
 
 .saveVersionBtn{
   margin-left: 2px;
+  font-family:Helvetica;
 }
 .saveVersionBtn:hover{
   background-color: #428bca;
+  font-family:Helvetica;
 
 }
 
@@ -92,10 +107,11 @@ input.vDetails:disabled{
 
 .panelHeader{
   width: 45vw;
+  font-family:Helvetica;
 }
 
 .variableCode{
-
+  font-family:Helvetica;
 
 }
 
@@ -105,10 +121,20 @@ input.vDetails:disabled{
   border-radius: 30%;
   background-color: #D44950;
   color: black;
+  font-family:Helvetica;
 
 }
 
 .deleteBtn:hover{
   background-color: #B52E31;
+  font-family:Helvetica;
 }
 
+mat-accordion mat-expansion-panel p input{
+  font-family:Helvetica;
+  font-size: small;
+}
+mat-accordion mat-expansion-panel p{
+  font-family:Helvetica;
+  font-size: small;
+}

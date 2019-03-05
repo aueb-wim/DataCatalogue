@@ -63,7 +63,7 @@ public class Variables implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private BigInteger variable_id;
 
-    @Column
+    @Column(length = 500)
     private String name;
 
     @Column
@@ -72,7 +72,7 @@ public class Variables implements Serializable{
     @Column(length = 500)
     private String values;
 
-    @Column
+    @Column(length = 500)
     private String code;
 
     @Column

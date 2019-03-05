@@ -203,6 +203,8 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
           alert("Invalid format of the mapping function for mapping to multiple CDEs.\nValid example: [stays the same],[stays the same]");
           return false;
         }
+      }else{
+        return true;
       }
     }else{
       return true;
@@ -211,7 +213,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   }
 
   checkIfMappingCDEIsValid(mappingCde){
-    if(mappingCde != null){
+    if(mappingCde != null && mappingCde != ''){
     var cdes = mappingCde.split(",");
     for(let cde of cdes){
       for(let cdevariable of this.latestCDEVersion['cdevariables']){
@@ -229,10 +231,10 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   checkIfCoceprPathIsValid(conceptPath) {
     if (conceptPath == null || conceptPath == 'undefined' || conceptPath == "") {
       return true;
-    } else if (conceptPath.startsWith("/root/")) {
+    } else if (conceptPath.startsWith("/root")) {
       return true;
     } else {
-      alert("Invalid concept path. It should start with: /root/\nAll empty concept paths are mapped to /root/");
+      alert("Invalid concept path. It should start with: /root\nAll empty concept paths are mapped to /root");
       return false;
     }
   }

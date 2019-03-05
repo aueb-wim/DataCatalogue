@@ -54,7 +54,7 @@ public class CDEVariables implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private BigInteger cdevariable_id;
 
-    @Column
+    @Column(length = 500)
     private String name;
 
     @Column
@@ -66,7 +66,7 @@ public class CDEVariables implements Serializable {
     @Column
     private String type;
 
-    @Column
+    @Column(length = 500)
     private String code;
 
     @Column

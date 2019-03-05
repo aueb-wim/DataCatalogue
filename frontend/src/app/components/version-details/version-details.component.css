@@ -2,6 +2,7 @@ div{
 margin-top:10px;
   /*display: flex;*/
   align-items: center;
+  font-family:Helvetica;
 }
 
 .download{
@@ -17,6 +18,7 @@ margin-top:10px;
   padding: 12px 30px;
   cursor: pointer;
   font-size: 20px;
+  font-family:Helvetica;
 }
 
 
