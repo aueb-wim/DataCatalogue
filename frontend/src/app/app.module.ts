@@ -5,12 +5,12 @@ import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpR
 import { MatButtonModule,MatDialogModule, MatCardModule, MatProgressBarModule, MatFormFieldModule, MatSlideToggleModule, MatInputModule, MatAutocompleteModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import { HospitalVariablesComponent } from './shared/hospital-variables/hospital-variables.component';
 import {AppRoutingModule} from "./app-routing.module";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {LogService} from "./shared/log.service";
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { CdeVariablesComponent } from './components/cde-variables/cde-variables.component';
+//import { CdeVariablesComponent } from './components/cde-variables/cde-variables.component';
+import { CdeVariablesComponent } from './components/cde-variables2/cde-variables.component';
 import { HospitalFilterPipe } from './components/hospital-filter.pipe';
 import { VersionFilterPipe } from './components/version-filter.pipe';
 import { TreeModule } from 'angular-tree-component';
@@ -53,7 +53,6 @@ export class XhrInterceptor implements HttpInterceptor {
 @NgModule({
   declarations: [
     AppComponent,
-    HospitalVariablesComponent,
     SearchBarComponent,
     CdeVariablesComponent,
     HospitalFilterPipe,

@@ -30,7 +30,8 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
      // .subscribe(ver => this.version = ver);
     //this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
     //this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
-
+    this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
+    this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
 //alert("editable? "+this.editable)
   }
   ngOnChanges(changes: SimpleChanges){

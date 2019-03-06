@@ -44,7 +44,9 @@ export class TreeComponent implements OnInit,OnChanges {
   links: any;
   dataList:any;
 
-  ngOnInit(){}
+  ngOnInit(){
+
+  }
 
   ngOnChanges(changes: SimpleChanges){
     if (changes['versionId']) {
@@ -112,7 +114,7 @@ export class TreeComponent implements OnInit,OnChanges {
     //first clear previous component
     d3.select('svg').remove();
     this.margin = { top: 20, right: 90, bottom: 30, left: 90 };
-    //this.width = 1400 - this.margin.left - this.margin.right;
+    //this.width = (window.screen.width) -500 - this.margin.left - this.margin.right;
     this.width = 2000 - this.margin.left - this.margin.right;
     this.height = 2000- this.margin.top - this.margin.bottom;
     //this.height = 400 - this.margin.top - this.margin.bottom;
@@ -152,7 +154,7 @@ export class TreeComponent implements OnInit,OnChanges {
 
 
 var thisOutside = this;
-    var ngSelect = d3.select('ng-select').on('click',function (d) {
+    var ngSelect = d3.select('.select').on('click',function (d) {
       var paths = searchTree(thisOutside.root, thisOutside.searchTermVar,[]);
       if(typeof(paths) !== "undefined"){
         openPaths(paths);

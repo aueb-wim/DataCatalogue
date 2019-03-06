@@ -1,17 +1,20 @@
 div{
-margin-top:10px;
+margin-top:5vh;
   /*display: flex;*/
   align-items: center;
-  font-family:Helvetica;
+
 }
+
+div mat-expansion-panel p{
+  font-family:Helvetica;
+  font-size: small;
+}
+
+
 
 .download{
   line-height: 12px;
-  margin-top: 1px;
-  margin-right: 2px;
-  position:absolute;
-  top:0;
-  right:0;
+  float:right;
   background-color: DodgerBlue;
   border: none;
   color: white;
@@ -34,8 +37,9 @@ mat-expansion-panel{
 
 .mat-expansion-panel-header-title{
   font-weight: bold;
-  font-size: medium;
+  font-size: small;
   color: green;
+  font-family:Helvetica;
 }
 
 input.vDetails:disabled{

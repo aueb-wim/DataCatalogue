@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HospitalVariablesComponent } from './hospital-variables.component';
+import { CdeVariablesComponent } from './cde-variables.component';
 
-describe('HospitalVariablesComponent', () => {
-  let component: HospitalVariablesComponent;
-  let fixture: ComponentFixture<HospitalVariablesComponent>;
+describe('CdeVariablesComponent', () => {
+  let component: CdeVariablesComponent;
+  let fixture: ComponentFixture<CdeVariablesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HospitalVariablesComponent ]
+      declarations: [ CdeVariablesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HospitalVariablesComponent);
+    fixture = TestBed.createComponent(CdeVariablesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

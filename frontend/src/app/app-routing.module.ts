@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {CdeVariablesComponent} from "./components/cde-variables/cde-variables.component";
+//import {CdeVariablesComponent} from "./components/cde-variables/cde-variables.component";
+import {CdeVariablesComponent} from "./components/cde-variables2/cde-variables.component";
 import {HospitalsComponent} from "./components/hospitals/hospitals.component";
 import {HospitalDetailsComponent} from "./components/hospital-details/hospital-details.component";
 import {AllVariablesComponent} from "./components/all-variables/all-variables.component";

@@ -5,39 +5,49 @@
   <i class="fa fa-plus"></i>
 </button>
 
-<h1><i class="fa fa-hospital-o">{{hospital.name}}</i></h1>
-<mat-tab-group class="inner" [selectedIndex]="hospitalVersions.length-1" (selectedTabChange)="tabChanged($event)">
-  <mat-tab *ngFor="let version of hospitalVersions" label="{{version.name}}" id="version.version_id"><!-- +' ('+version.createdAt.slice(0,10)+')'-->
+<h1><i class="fa fa-hospital-o">{{hospital.name}}({{currentVersionName}})</i></h1>
+
+
 
     <!--<a>{{changeVersionId(version.version_id)}}</a>-->
     <br>
-    <div style="width: 300px; margin-bottom: 20px;">
+    <div class="selectors" style="width: 400px; margin-bottom: 20px;">
+      <ng-select class="versionSelect"
+                 [allowClear]="true"
+                 [options]="arrayIterationByVersionName(hospitalVersions)"
+                 [disabled]="disabled"
+                 (selected)="versionSelected($event)"
+                 (filterInputChanged)="versionFilterInputChanged($event)"
+                 (deselected)="versionDeselected($event)"
+                 placeholder="Versions">
+      </ng-select>
       <ng-select class="select"
                  [allowClear]="true"
-                 [options]="arrayIterationByLabel(version.variables)"
+                 [options]="variableOptions"
                  [disabled]="disabled"
                  (selected)="selected($event)"
                  (filterInputChanged)="filterInputChanged($event)"
                  (deselected)="deselected($event)"
                  placeholder="Search...">
       </ng-select>
+
     </div>
 
     <div class="visuals" *ngIf="!editable">
-      <app-tree [versionId]="version.version_id" [(reportOpen)]="reportOpen" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
-      <app-reports [(diagramOpen)]="diagramOpen" [(reportOpen)]="reportOpen" [variables]="version.variables" [batchReports]="version.batchReports" [searchTermVar]="searchTermVar"></app-reports>
-      <app-mapping-visual [versionName]="version.name" [(reportOpen)]="reportOpen" [(versionId)]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
+      <app-tree [versionId]="hospitalVersions[currentVersionIndex].version_id" [(reportOpen)]="reportOpen" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
+      <app-reports [(diagramOpen)]="diagramOpen" [(reportOpen)]="reportOpen" [variables]="hospitalVersions[currentVersionIndex].variables" [batchReports]="hospitalVersions[currentVersionIndex].batchReports" [searchTermVar]="searchTermVar"></app-reports>
+      <app-mapping-visual [versionName]="hospitalVersions[currentVersionIndex].name" [(reportOpen)]="reportOpen" [(versionId)]="hospitalVersions[currentVersionIndex].version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
     </div>
 
-    <mat-accordion multi="true">
-      <app-version-details *ngIf="diagramOpen==false && reportOpen==false" [searchTermVar]="searchTermVar" [versionId]="version.version_id"
+
+      <app-version-details *ngIf="diagramOpen==false && reportOpen==false" [searchTermVar]="searchTermVar" [versionId]="hospitalVersions[currentVersionIndex].version_id"
                            [versionName]="currentVersionName" [downloadFileName]="downloadName"
                            [cdeData]="false"></app-version-details>
-    </mat-accordion>
 
-  </mat-tab>
 
-</mat-tab-group>
+
+
+
 
 
 

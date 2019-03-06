@@ -32,6 +32,7 @@ mat-expansion-panel{
   display: table;
   table-layout: fixed;
   font-family:Helvetica;
+  font-size: small;
 }
 
 input.vDetails:disabled{

@@ -22,12 +22,14 @@ import {MappingVisualComponent} from "../../visuals/mapping-visual/mapping-visua
   templateUrl: './hospital-details.component.html',
   styleUrls: ['./hospital-details.component.css'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewInit{
 
-  myOptions2: Array<IOption> = [{label: '', value: ''}];
+  variableOptions: Array<IOption> = [{label: '', value: ''}];
+  versionOptions: Array<IOption> = [{label: '', value: ''}];
+  currentVersionIndex;
   value: any = {};
   disabled = false;
   diagramOpen = false;
@@ -60,6 +62,9 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
         this.hospitalVersions = versions;
         let lastVersion = versions[versions.length-1];
         this.currentVersionId = +lastVersion['version_id'];
+        this.currentVersionName = lastVersion['name'];
+        this.variableOptions = this.arrayIterationByLabel(lastVersion['variables']);
+        this.currentVersionIndex = versions.length-1;
       });
 
     this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
@@ -90,6 +95,44 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
     }
   }
+  public arrayIterationByLabel(originalArray) {
+    //empty the array first
+    //this.variableOptions.length = 0;
+    let finalArray: Array<IOption> = [{label: '', value: ''}];
+    for (let obj of originalArray) {
+      if(obj['code']!=null && obj['variable_id']!=null){
+        finalArray.push({label: obj['code'].toLowerCase().toString(), value: obj['variable_id'].toString()});
+      }
+
+    }
+    return finalArray;
+  }
+
+  public arrayIterationByVersionName(originalArray) {
+    //empty the array first
+    //this.versionOptions.length = 0;
+    for (let obj of originalArray) {
+      this.versionOptions.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
+    }
+    return this.versionOptions;
+  }
+
+  public versionSelected(option: IOption): void {
+    this.currentVersionName = option.label;
+    this.currentVersionId = +option.value;
+    this.currentVersionIndex = this.versionOptions.indexOf(option)-1;
+    this.variableOptions = this.arrayIterationByLabel(this.hospitalVersions[this.currentVersionIndex]['variables']);
+    this.searchTermVar = '';
+
+  }
+
+  public versionDeselected(option: IOption): void {
+
+  }
+  public versionFilterInputChanged(option: IOption): void {
+
+  }
+
 
   public openMappings(){
     console.log("Opening mappings with versionId: "+this.currentVersionId);
@@ -106,19 +149,6 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   public filterInputChanged(option: IOption): void{
     this.searchTermVar = option.label;
   }
-
-  public arrayIterationByLabel(originalArray) {
-    //empty the array first
-    this.myOptions2.length = 0;
-    for (let obj of originalArray) {
-      if(obj['code']!=null && obj['variable_id']!=null){
-        this.myOptions2.push({label: obj['code'].toString(), value: obj['variable_id'].toString()});
-      }
-
-    }
-    return this.myOptions2;
-  }
-
 
   createSampleFileName() {
     var oldName = parseInt(this.hospitalVersions[this.hospitalVersions.length - 1].name.replace('v', ''));

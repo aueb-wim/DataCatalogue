@@ -1,20 +1,6 @@
 
-
-.mat-tab-label.mat-tab-label-active {
-  min-width: 25px !important;
-  padding: 5px;
-  background-color: transparent;
-  color: blue;
-  font-weight: 400;
-  font-size: large;
-  font-family:Helvetica;
-}
-
-
-.mat-tab-label{
-  color: black;
-  font-size: large;
-  font-family:Helvetica;
+.selectors {
+  display: flex;
 }
 
 h1{
@@ -26,11 +12,7 @@ h1{
 
 input[type=text] {
 
-  padding: 6px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-right: 4px;
-  font-size: 15px;
+  font-size: small;
   border-color: #2196F3;
   font-family:Helvetica;
 
@@ -41,26 +23,12 @@ input[type=text] {
   horiz-align: left;
 }
 
-/deep/mat-tab.upload{
-  width: 100%;
-}
-
-
-
-/deep/.searcher{
-  color: #D44950;
-  font-size: xx-large;
-  border-color: #262626;
-  opacity: 0.9%;
-  font-family:Helvetica;
-}
 
 
 /deep/div.visuals{
 position: absolute;
   float: right;
   display: inline-block;
-
 }
 
 .fa-plus{

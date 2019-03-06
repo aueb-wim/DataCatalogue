@@ -1,0 +1,26 @@
+
+
+
+h1{
+  font-size: xx-large;
+  color: #2196F3;
+  margin-left: 40%;
+  font-family:Helvetica;
+
+}
+
+input[type=text] {
+  border-color: #2196F3;
+  font-family:Helvetica;
+  font-size: small;
+}
+
+
+.holder{
+  horiz-align: left;
+}
+
+
+div{
+  display: flex;
+}
