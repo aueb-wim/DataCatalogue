@@ -7,7 +7,7 @@ import {DeviceDetectorService} from "ngx-device-detector";
   selector: 'app-cde-variables',
   templateUrl: './cde-variables.component.html',
   styleUrls: ['./cde-variables.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
@@ -16,14 +16,17 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   diagramOpen = false;
   jsonMetadata: any;
   jsonVisualizable: any;
-  currentVersionId = 2; /// be careful when changing the database , it should be assigned to an existing id
+  //currentVersionId = 2; /// be careful when changing the database , it should be assigned to an existing id
+  currentVersionId;
   currentVersionName;
   downloadName = "cdes_";
   searchTermVar: String;
   disabled = false;
-  myOptions2: Array<IOption> = [{label: '', value: ''}];
+  variableOptions: Array<IOption> = [{label: '', value: ''}];
+  versionOptions: Array<IOption> = [{label: '', value: ''}];
   enabled = "active";
   deviceInfo = null;
+  currentVersionIndex=0;
 
   constructor(private hospitalService: HospitalService, private deviceService: DeviceDetectorService) {
   }
@@ -33,6 +36,10 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
       this.allCdeVersions = allVersions;
       let lastVersion = allVersions[allVersions.length-1];
       this.currentVersionId = +lastVersion['version_id'];
+      this.currentVersionName = lastVersion['name'];
+      //this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
+      this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
+      this.currentVersionIndex = allVersions.length-1;
      // this.jsonVisualizable = lastVersion['jsonStringVisualizable'];
 
     });
@@ -87,7 +94,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public deselected(option: IOption): void {
-    this.searchTermVar = "";
+    this.searchTermVar = '';
   }
 
   public filterInputChanged(option: IOption): void {
@@ -96,11 +103,38 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
   public arrayIterationByLabel(originalArray) {
     //empty the array first
-    this.myOptions2.length = 0;
+    //this.variableOptions.length = 0;
+    let finalArray: Array<IOption> = [{label: '', value: ''}];
     for (let obj of originalArray) {
-      this.myOptions2.push({label: obj['code'].toLowerCase().toString(), value: obj['cdevariable_id'].toString()});
+      finalArray.push({label: obj['code'].toLowerCase().toString(), value: obj['cdevariable_id'].toString()});
     }
-    return this.myOptions2;
+    return finalArray;
   }
+
+  public arrayIterationByVersionName(originalArray) {
+    //empty the array first
+    //this.versionOptions.length = 0;
+    for (let obj of originalArray) {
+      this.versionOptions.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
+    }
+    return this.versionOptions;
+  }
+
+  public versionSelected(option: IOption): void {
+    this.currentVersionName = option.label;
+    this.currentVersionId = +option.value;
+    this.currentVersionIndex = this.versionOptions.indexOf(option)-1;
+    this.variableOptions = this.arrayIterationByLabel(this.allCdeVersions[this.currentVersionIndex]['cdevariables']);
+    this.searchTermVar = '';
+
+  }
+
+  public versionDeselected(option: IOption): void {
+
+  }
+  public versionFilterInputChanged(option: IOption): void {
+
+  }
+
 
 }

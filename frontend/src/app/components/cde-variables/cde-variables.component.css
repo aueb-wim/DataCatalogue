@@ -1,23 +1,4 @@
-/deep/.mat-tab-label.mat-tab-label-active {
-  min-width: 25px !important;
-  padding: 5px;
-  background-color: transparent;
-  color: blue;
-  font-weight: 400;
-  font-size: large;
-  font-family:Helvetica;
-}
 
-
-/deep/.mat-tab-label{
-  color: black;
-  font-family:Helvetica;
-  font-size: large;
-}
-
-mat-tab-group.inactive{
-  pointer-events: none;
-}
 
 
 h1{
@@ -29,11 +10,6 @@ h1{
 }
 
 input[type=text] {
-
-  padding: 6px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-right: 4px;
   border-color: #2196F3;
   font-family:Helvetica;
   font-size: small;
@@ -44,7 +20,7 @@ input[type=text] {
   horiz-align: left;
 }
 
-.select{
-  font-family:Helvetica;
-  font-size: small;
+
+div{
+  display: flex;
 }
