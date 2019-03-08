@@ -86,7 +86,7 @@ public class Versions implements Serializable{
     }
 
     public List<CDEVariables> getCdevariables() {
-        return cdevariables;
+        return this.cdevariables;
     }
 
     public void setCdevariables(List<CDEVariables> cdevariables) {

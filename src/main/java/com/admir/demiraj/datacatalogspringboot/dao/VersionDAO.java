@@ -37,7 +37,7 @@ public class VersionDAO {
         List<Versions> allversions = versionsRepository.findAll();
         List<Versions> allCdeVersions = new ArrayList<>();
         for (Versions version : allversions){
-            if(!version.getCdevariables().isEmpty()){
+            if(!version.getCdevariables().isEmpty() && version.getVariables().isEmpty()){
                 allCdeVersions.add(version);
             }
         }
@@ -98,6 +98,10 @@ public class VersionDAO {
 
     }
 
+
+    public void saveVariablesToVersion(Versions version, List<Variables> variables){
+        version.setVariables(variables);
+    }
 
 
     public List<Versions> getAllVersionsByVariableId(BigInteger variableId) {

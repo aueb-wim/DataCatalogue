@@ -3,6 +3,7 @@ package com.admir.demiraj.datacatalogspringboot.service;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
+import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CustomMapper {
@@ -71,9 +74,15 @@ public class CustomMapper {
     public void createVersion(String versionName, Hospitals currentHospital, JSONObject versionObject) {
         //generateConceptPathFromMapping(filePath);
         Versions version = new Versions(versionName);
+        Versions harmonizedVersion = new Versions(versionName+"-harmonized");
         System.out.println("Saving Version");
         List<Variables> allVar = new ArrayList<>();
-        allVar = customMappings(version, currentHospital, versionObject);
+        List<Variables> allVar3 = new ArrayList<>();
+        Map<String, List<Variables>> map;
+        map = customMappings(version, currentHospital, versionObject, harmonizedVersion);
+        allVar =  map.get("variables");
+        allVar3 =  map.get("hvariables");
+
         List<Variables> allVar2 = new ArrayList<>();
         System.out.println("Outsiede allVar: ");
         for (Variables var : allVar) {
@@ -82,16 +91,28 @@ public class CustomMapper {
                 allVar2.add(var);
             }
         }
+        System.out.println("allvar2 size: "+allVar2.size()+"allvar3 size: "+allVar3.size());
+
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
         version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
         version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
         version.setVariables(allVar2);
         versionDAO.saveVersion(version);
 
+        List<CDEVariables> cdeVariables = new ArrayList<>();
+        for(CDEVariables cdevar : versionDAO.getLastCdeVersion().getCdevariables()){
+            cdevar.setVersions2(harmonizedVersion);
+            cdeVariables.add(cdevar);
+        }
+        harmonizedVersion.setCdevariables(cdeVariables);
+        harmonizedVersion.setVariables(allVar3);
+        versionDAO.saveVersion(harmonizedVersion);
+
     }
 
-    public List<Variables> customMappings(Versions version, Hospitals currentHospital, JSONObject versionObject) {
+    public Map<String,List<Variables>> customMappings(Versions version, Hospitals currentHospital, JSONObject versionObject, Versions harmonizedVersion) {
         List<Variables> xlsxVars = new ArrayList<>();
+        List<Variables> xlsxHarmonizedVars = new ArrayList<>();//<harmonizedVariables>
         //String mapFunction = null;
         System.out.println("Inside custom mapping");
 
@@ -114,7 +135,8 @@ public class CustomMapper {
             newVar.setMethodology(variableJsonObject.get("methodology").toString());
 
 
-            if (variableJsonObject.get("mapCDE").toString() != "") {
+            if (variableJsonObject.get("mapCDE").toString() != "" && !variableJsonObject.get("mapCDE").toString().isEmpty()
+            && variableJsonObject.get("mapCDE") != null) {
                 if (variableJsonObject.get("mapCDE").toString().contains(",")) {
 
                     newVar = uploadVariables.mappingToMultipleCdes(variableJsonObject.get("mapCDE").toString(), variableJsonObject.get("mapFunction").toString(), newVar, version, currentHospital);
@@ -125,6 +147,9 @@ public class CustomMapper {
                     System.out.println("newVar after mapping to single: "+newVar.getCode());
                 }
             } else {//cell is empty
+                variableDAO.saveVersionToVariable(newVar, harmonizedVersion);
+                variableDAO.saveVersionToVariable(newVar, version);
+
                 variableDAO.saveVersionToVariable(newVar, version);
                 List<Variables> hospVar = currentHospital.getVariables();
                 hospVar.add(newVar);
@@ -132,15 +157,17 @@ public class CustomMapper {
                 hospitalDAO.save(currentHospital);
                 newVar.setHospital(currentHospital);
                 variableDAO.save(newVar);
+
+                xlsxHarmonizedVars.add(newVar);
             }
 
             xlsxVars.add(newVar);
         }
-        for (Variables v : xlsxVars){
-            System.out.println("xlsxVars contains:"+v.getCode());
-        }
 
-        return xlsxVars;
+        Map<String,List<Variables>> map =new HashMap();
+        map.put("variables",xlsxVars);
+        map.put("hvariables",xlsxHarmonizedVars);
+        return map;
 
     }
 }

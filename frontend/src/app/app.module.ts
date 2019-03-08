@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {LogService} from "./shared/log.service";
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 //import { CdeVariablesComponent } from './components/cde-variables/cde-variables.component';
-import { CdeVariablesComponent } from './components/cde-variables2/cde-variables.component';
+import { CdeVariablesComponent } from './components/cde-variables/cde-variables.component';
 import { HospitalFilterPipe } from './components/hospital-filter.pipe';
 import { VersionFilterPipe } from './components/version-filter.pipe';
 import { TreeModule } from 'angular-tree-component';

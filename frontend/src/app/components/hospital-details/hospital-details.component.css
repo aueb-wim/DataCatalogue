@@ -2,7 +2,15 @@
 .selectors {
   display: flex;
 }
+.select{
+  font-family:Helvetica;
+  font-size: small;
+}
 
+.versionSelect{
+  font-family:Helvetica;
+  font-size: small;
+}
 h1{
   font-size: xx-large;
   color: #2196F3;

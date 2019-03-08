@@ -100,6 +100,7 @@ public class CDEVariableDAO {
     public List<CDEVariables> findAll(){
         return cdeVariablesRepository.findAll();
     }
+
         
     
 }

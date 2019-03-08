@@ -106,7 +106,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     //this.variableOptions.length = 0;
     let finalArray: Array<IOption> = [{label: '', value: ''}];
     for (let obj of originalArray) {
-      finalArray.push({label: obj['code'].toLowerCase().toString(), value: obj['cdevariable_id'].toString()});
+      finalArray.push({label: obj['code'].toString(), value: obj['cdevariable_id'].toString()});
     }
     return finalArray;
   }

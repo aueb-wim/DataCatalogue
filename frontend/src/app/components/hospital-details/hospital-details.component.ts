@@ -64,6 +64,9 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
         this.currentVersionId = +lastVersion['version_id'];
         this.currentVersionName = lastVersion['name'];
         this.variableOptions = this.arrayIterationByLabel(lastVersion['variables']);
+        if(lastVersion['cdevariables'] != null && lastVersion['cdevariables'] != 'undefined'){
+          this.appendToVariableOptions(lastVersion['cdevariables'])
+        }
         this.currentVersionIndex = versions.length-1;
       });
 
@@ -101,11 +104,22 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     let finalArray: Array<IOption> = [{label: '', value: ''}];
     for (let obj of originalArray) {
       if(obj['code']!=null && obj['variable_id']!=null){
-        finalArray.push({label: obj['code'].toLowerCase().toString(), value: obj['variable_id'].toString()});
+        finalArray.push({label: obj['code'].toString(), value: obj['variable_id'].toString()});
       }
 
     }
     return finalArray;
+  }
+
+  public appendToVariableOptions(arrayToIterate){
+    console.log("inside append.variable options size: ",this.variableOptions.length);
+    for (let obj of arrayToIterate) {
+      if(obj['code']!=null && obj['cdevariable_id']!=null){
+        this.variableOptions.push({label: obj['code'].toString(), value: obj['cdevariable_id'].toString()});
+      }
+
+    }
+    console.log("Final variable options size: ",this.variableOptions.length);
   }
 
   public arrayIterationByVersionName(originalArray) {
@@ -122,6 +136,9 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     this.currentVersionId = +option.value;
     this.currentVersionIndex = this.versionOptions.indexOf(option)-1;
     this.variableOptions = this.arrayIterationByLabel(this.hospitalVersions[this.currentVersionIndex]['variables']);
+    if(this.hospitalVersions[this.currentVersionIndex]['cdevariables'] != null && this.hospitalVersions[this.currentVersionIndex]['cdevariables'] != 'undefined'){
+      this.appendToVariableOptions(this.hospitalVersions[this.currentVersionIndex]['cdevariables'])
+    }
     this.searchTermVar = '';
 
   }
@@ -163,21 +180,6 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   changeVersionName(verName) {
     this.currentVersionName = verName;
   }
-
-  tabChanged(event) {
-    this.changeVersionId(this.hospitalVersions[event.index].version_id);
-    this.changeVersionName(event.tab.textLabel);
-    this.searchTermVar = "";
-  }
-
-  addTab() {
-    let ver = Object.assign(Object.create(this.hospitalVersions[1]));
-    this.hospitalVersions.push(ver);
-    this.newVersion = true;
-
-  }
-
-
 
   goBack(): void {
     this.location.back();
