@@ -42,7 +42,8 @@ public class VersionController {
     @GetMapping("/allVersions/{version_id}")
     public Versions  getVersionById(@PathVariable("version_id") Long versionId){
         BigInteger verId = BigInteger.valueOf(versionId);
-        return versionDAO.getOne(verId);}
+        return versionDAO.getVersionById(verId);
+    }
 
     @GetMapping("/jsonStringByVersionId/{version_id}")
     public String getJsonStringByVersionId(@PathVariable(value="version_id") Long version_id){
@@ -53,48 +54,24 @@ public class VersionController {
     public String  getJsonStringVisualizableByVersionId(@PathVariable(value="version_id") Long version_id){return versionDAO.getJsonStringVisualizableByVersionId(version_id);}
 
 
-    @GetMapping("/allVersionsPerHospital")
-    public Map<String, List<Versions>>  getAllVersionsPerHospital(){
-        List<BigInteger> allHospitalIds = hospitalDAO.getAllHospitalIds();
-        Map<String, List<Versions>> versionsPerHospital = new HashMap<>();
-        for(BigInteger hospId : allHospitalIds){
-            List<BigInteger> allVersionIds = versionDAO.getAllVersionIdsByHospitalId(hospId);
-            List<Versions> versions = new ArrayList<>();
-            for(BigInteger versionId : allVersionIds){
-                versions.add(versionDAO.getVersionById(versionId));
-            }
-
-            String hospName = hospitalDAO.getHospitalNameById(hospId);
-            versionsPerHospital.put(hospName, versions);
-
-        }
-        return versionsPerHospital;
-    }
-
     @GetMapping("/allVersionsPerHospital/{hospital_id}")
     public List<Versions>  getAllVersionsPerHospital(@PathVariable(value = "hospital_id") Long hospitalId){
-
-
         BigInteger hospId = BigInteger.valueOf(hospitalId);
-            List<BigInteger> allVersionIds = versionDAO.getAllVersionIdsByHospitalId(hospId);
-            List<Versions> versions = new ArrayList<>();
-            for(BigInteger versionId : allVersionIds){
-                versions.add(versionDAO.getVersionById(versionId));
-            }
-        return versions;
+        return versionDAO.getAllVersionsByHospitalId(hospId);
     }
 
     @GetMapping("/latestVersionIdByHospId/{hospital_id}")
     public BigInteger latestVersionIdByHospId(@PathVariable(value = "hospital_id") Long hospitalId){
         BigInteger hospId = BigInteger.valueOf(hospitalId);
-        List<BigInteger> allVersionIds = versionDAO.getAllVersionIdsByHospitalId(hospId);
-        return allVersionIds.get(allVersionIds.size()-1);
+        List<Versions> allVersionsByHospitalId = versionDAO.getAllVersionsByHospitalId(hospId);
+        return allVersionsByHospitalId.get(allVersionsByHospitalId.size()-1).getVersion_id();
     }
 
     @GetMapping("/getLatestVersionByHospitalId/{hospital_id}")
     public Versions  getLatestVersionByHospital(@PathVariable(value = "hospital_id") Long hospitalId){
         BigInteger hId = BigInteger.valueOf(hospitalId);
-        return versionDAO.getLatestVersionByHospitalId(hId);
+        List<Versions> allVersionsByHospitalId = versionDAO.getAllVersionsByHospitalId(hId);
+        return allVersionsByHospitalId.get(allVersionsByHospitalId.size()-1);
     }
 
     @GetMapping("/latestCDEVersion")

@@ -38,7 +38,7 @@
       <app-mapping-visual [versionName]="hospitalVersions[currentVersionIndex].name" [(reportOpen)]="reportOpen" [(versionId)]="hospitalVersions[currentVersionIndex].version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
     </div>
 
-
+<a>Current version id: {{hospitalVersions[currentVersionIndex].version_id}} Length: {{hospitalVersions[currentVersionIndex].variables.length}}</a>
       <app-version-details *ngIf="diagramOpen==false && reportOpen==false" [searchTermVar]="searchTermVar" [versionId]="hospitalVersions[currentVersionIndex].version_id"
                            [versionName]="currentVersionName" [downloadFileName]="downloadName"
                            [cdeData]="false"></app-version-details>

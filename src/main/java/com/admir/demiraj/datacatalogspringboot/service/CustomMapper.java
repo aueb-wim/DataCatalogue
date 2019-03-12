@@ -7,13 +7,12 @@ import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import org.bouncycastle.math.ec.ScaleYPointMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,14 +83,16 @@ public class CustomMapper {
         allVar3 =  map.get("hvariables");
 
         List<Variables> allVar2 = new ArrayList<>();
-        System.out.println("Outsiede allVar: ");
         for (Variables var : allVar) {
             System.out.println("The variable returned is: "+var.getCode()+" out of: "+allVar.size());
             if (var.getHospital() != null && var.getCode() != null) {
                 allVar2.add(var);
             }
         }
-        System.out.println("allvar2 size: "+allVar2.size()+"allvar3 size: "+allVar3.size());
+        for(Variables var : allVar2){
+            System.out.println("allvar2 contains: "+var.getCode());
+        }
+        System.out.println("allvar1 size: "+allVar.size()+"allvar2 size: "+allVar2.size());
 
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
         version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
@@ -150,7 +151,6 @@ public class CustomMapper {
                 variableDAO.saveVersionToVariable(newVar, harmonizedVersion);
                 variableDAO.saveVersionToVariable(newVar, version);
 
-                variableDAO.saveVersionToVariable(newVar, version);
                 List<Variables> hospVar = currentHospital.getVariables();
                 hospVar.add(newVar);
                 currentHospital.setVariables(hospVar);
