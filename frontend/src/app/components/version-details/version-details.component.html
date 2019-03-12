@@ -1,40 +1,65 @@
 
-<button class="download" (click)="exportJson()">Download</button>
-
+<button *ngIf="!editable" class="download" (click)="exportJson()">Download</button>
 
 <div *ngIf="cdeData==false">
   <mat-expansion-panel *ngFor="let variable of version.variables | hospitalFilter:searchTermVar">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <a> <b>{{variable.name}}</b></a>
+        <a> <b>{{variable.code}}</b></a>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p><b>Name :</b>{{variable.name}}</p>
     <p><b>File :</b>{{variable.csvFile}}</p>
-    <p><b>Values :</b>{{variable.values}}</p>
+    <p><b>Name :</b>{{variable.name}}</p>
+    <p><b>Code :</b>{{variable.code}}</p>
     <p><b>Type :</b>{{variable.type}}</p>
+    <p><b>Values :</b>{{variable.values}}</p>
     <p><b>Measure Unit:</b>{{variable.unit}}</p>
+    <p><b>Can Be Null:</b>{{variable.canBeNull}}</p>
     <p><b>Description :</b>{{variable.description}}</p>
     <p><b>Comments :</b>{{variable.comments}}</p>
     <p><b>Concept Path :</b>{{variable.conceptPath}}</p>
+    <p><b>Methodology :</b>{{variable.methodology}}</p>
   </mat-expansion-panel>
+  <a *ngIf="version.cdevariables != null && version.cdevariables != 'undefined'">
+  <mat-expansion-panel *ngFor="let variable of version.cdevariables | hospitalFilter:searchTermVar">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <a> <b>{{variable.code}}</b></a>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p><b>File :</b>{{variable.csvFile}}</p>
+    <p><b>Name :</b>{{variable.name}}</p>
+    <p><b>Code :</b>{{variable.code}}</p>
+    <p><b>Type :</b>{{variable.type}}</p>
+    <p><b>Values :</b>{{variable.values}}</p>
+    <p><b>Measure Unit:</b>{{variable.unit}}</p>
+    <p><b>Can Be Null:</b>{{variable.canBeNull}}</p>
+    <p><b>Description :</b>{{variable.description}}</p>
+    <p><b>Comments :</b>{{variable.comments}}</p>
+    <p><b>Concept Path :</b>{{variable.conceptPath}}</p>
+    <p><b>Methodology :</b>{{variable.methodology}}</p>
+  </mat-expansion-panel>
+  </a>
 </div>
-
 
 <div *ngIf="cdeData==true">
   <mat-expansion-panel *ngFor="let variable of version.cdevariables | hospitalFilter:searchTermVar">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        <a> <b>{{variable.name}}</b></a>
+        <a> <b>{{variable.code}}</b></a>
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <p><b>Name :</b>{{variable.name}}</p>
     <p><b>File :</b>{{variable.csvFile}}</p>
-    <p><b>Values :</b>{{variable.values}}</p>
+    <p><b>Name :</b>{{variable.name}}</p>
+    <p><b>Code :</b>{{variable.code}}</p>
     <p><b>Type :</b>{{variable.type}}</p>
+    <p><b>Values :</b>{{variable.values}}</p>
     <p><b>Measure Unit:</b>{{variable.unit}}</p>
+    <p><b>Can Be Null:</b>{{variable.canBeNull}}</p>
     <p><b>Description :</b>{{variable.description}}</p>
     <p><b>Comments :</b>{{variable.comments}}</p>
     <p><b>Concept Path :</b>{{variable.conceptPath}}</p>
+    <p><b>Methodology :</b>{{variable.methodology}}</p>
+
   </mat-expansion-panel>
 </div>

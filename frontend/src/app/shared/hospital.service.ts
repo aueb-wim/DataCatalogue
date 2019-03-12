@@ -1,25 +1,41 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpHeaders,HttpClientXsrfModule, HttpParams, HttpRequest} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import {throwError} from "rxjs";
+import {catchError} from "rxjs/operators";
 
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class HospitalService {
   customMap:Array<any> = new Array<any>();
+<<<<<<< HEAD
   address = '//localhost:8086';
+=======
+  //private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({'X-Requested-With':'XMLHttpRequest'});
+
+>>>>>>> dbc67c444ec608c592f7e81cbc5f7a059a5ac299
 
   constructor(private http: HttpClient) { }
 
   getAllVariables(): Observable<any> {
+<<<<<<< HEAD
     //return this.http.get('//195.251.252.222:2443/hospital/allVariables');
     return this.http.get(this.address + '/hospital/allVariables');
+=======
+    return this.http.get('//195.251.252.222:2442/hospital/allVariables',{headers:this.headers});
   }
-
+  getAllUniqueVariables(): Observable<any> {
+    return this.http.get('//195.251.252.222:2442/hospital/allUniqueVariables',{headers:this.headers});
+>>>>>>> dbc67c444ec608c592f7e81cbc5f7a059a5ac299
+  }
 
   getAllVersionsPerHospital():Observable<any>{
 
+<<<<<<< HEAD
     //return this.http.get('//195.251.252.222:2443/versions/allVersionsPerHospital');
     return this.http.get(this.address + '/versions/allVersionsPerHospital');
   }
@@ -27,20 +43,81 @@ export class HospitalService {
   getAllCdeVersions():Observable<any> {
     //return this.http.get('//195.251.252.222:2443/CDE/allCdeVersions');
     return this.http.get(this.address + '/CDE/allCdeVersions');
+=======
+    return this.http.get('//195.251.252.222:2442/versions/allVersionsPerHospital',{headers:this.headers});
+
   }
 
+  getAllCdeVersions():Observable<any> {
+    return this.http.get('//195.251.252.222:2442/CDE/allCdeVersions',{headers:this.headers});
+  }
+///////////////////////////////
+////////////////////////////////
+  login():Observable<any>{
+    return this.http.post('/login',{headers:this.headers});
+  }
 
+  logout():Observable<any>{
+    return this.http.post('//195.251.252.222:2442/logout',{headers:this.headers});
+  }
+
+  getUser():Observable<any>{
+    return this.http.get('/user',{headers:this.headers});
+  }
+
+  hospitalReadExcel():Observable<any> {
+    return this.http.get('//195.251.252.222:2442/hospital/readExcel',{headers:this.headers});
+>>>>>>> dbc67c444ec608c592f7e81cbc5f7a059a5ac299
+  }
+
+  cdeReadExcel():Observable<any> {
+    return this.http.get('//195.251.252.222:2442/CDE/readExcel',{headers:this.headers});
+  }
+
+  getLatestCDEVersion(){
+    return this.http.get('//195.251.252.222:2442/versions/latestCDEVersion',{headers:this.headers});
+  }
+////////////////////////////////
+////////////////////////////////
+////////////////////////////////
   getAllHospitalsAndVariables(): Observable<any> {
+<<<<<<< HEAD
     //return this.http.get('//195.251.252.222:2443/hospitals/hosp');
     return this.http.get(this.address + '/hospitals/hosp');
+=======
+    return this.http.get('/hospitals/hosp',{headers:this.headers});
+>>>>>>> dbc67c444ec608c592f7e81cbc5f7a059a5ac299
   }
+  getAllHospitalsAndUniqueVariables(): Observable<any> {
+    return this.http.get('//195.251.252.222:2442/hospitals/allWithUniqueVariables',{headers:this.headers});
+  }
+
 
   getVersionsByHospitalId(hospital_id: number):Observable<any>{
+<<<<<<< HEAD
     //return this.http.get('//195.251.252.222:2443/versions/allVersionsPerHospital/'+hospital_id);
     return this.http.get(this.address + '/versions/allVersionsPerHospital/'+hospital_id);
+=======
+    return this.http.get('//195.251.252.222:2442/versions/allVersionsPerHospital/'+hospital_id,{headers:this.headers});
+
   }
 
+  getlatestVersionIdByHospId(hospital_id: number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/versions/latestVersionIdByHospId/'+hospital_id,{headers:this.headers});
+
+  }
+
+//
+  getLatestVersionByHospitalId(hospital_id: number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/versions/getLatestVersionByHospitalId/'+hospital_id,{headers:this.headers});
+
+>>>>>>> dbc67c444ec608c592f7e81cbc5f7a059a5ac299
+  }
+
+
+
   getAllVersions(): Observable<any>{
+<<<<<<< HEAD
     //return this.http.get('//195.251.252.222:2443/versions/allVersions');
     return this.http.get(this.address + '/versions/allVersions');
   }
@@ -78,15 +155,79 @@ export class HospitalService {
   getFunctionsByVariableVersionId(version_id:number):Observable<any>{
     //return this.http.get('//195.251.252.222:2443/mapping/functionsByVersionId/'+version_id);
     return this.http.get(this.address + '/mapping/functionsByVersionId/'+version_id);
+=======
+    return this.http.get('//195.251.252.222:2442/versions/allVersions',{headers:this.headers});
   }
+
+  getVersionById(version_id:number){
+    return this.http.get('//195.251.252.222:2442/versions/allVersions/'+version_id,{headers:this.headers});
+  }
+
+  getJsonStringByVersionId(version_id:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/versions/jsonStringByVersionId/'+version_id,{headers:this.headers});
+  }
+
+  getjsonStringVisualizableByVersionId(version_id:number):Observable<any>{
+
+    return this.http.get('//195.251.252.222:2442/versions/jsonStringVisualizableByVersionId/'+version_id,{headers:this.headers});
+
+  }
+  getExcelSample():Observable<any>{
+    return this.http.get('//195.251.252.222:2442/mapping/down',{headers:this.headers});
+  }
+
+  getHospitalById(hospital_id:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/hospitals/hosp/'+hospital_id,{headers:this.headers});
+  }
+
+  getHospitalNameById(hospital_id:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/hospitals/name/'+hospital_id,{headers:this.headers});
+  }
+
+  getAllFunctions():Observable<any>{
+    return this.http.get('//195.251.252.222:2442/mapping/functions/',{headers:this.headers});
+  }
+
+  getRandomFunction():Observable<any>{
+    return this.http.get('//195.251.252.222:2442/mapping/randomFunction/',{headers:this.headers});
+  }
+
+  getFunctionsByVariableVersionId(version_id:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/mapping/functionsByVersionId/'+version_id,{headers:this.headers});
+  }
+
+ uploadAllReports(){
+   return this.http.get('//195.251.252.222:2442/report/uploadAllReports/',{headers:this.headers});
+
+ }
+  ///////////////////////////SEND NEW VERSION
+  public createNewVersion2(version: any): Observable<HttpEvent<{}>>{
+    //const formdata: FormData = new FormData();
+    //formdata.append('version', version);
+    const req = new HttpRequest('POST','//195.251.252.222:2442/versions/sendNewVersion',version,{
+      reportProgress: true,
+      responseType: 'text'
+    });
+    return this.http.request(req);
+  }
+
+  createNewVersion (hospitalName: string, versionName: string, version: any): Observable<any> {
+    return this.http.post<any>('//195.251.252.222:2442/versions/newVersion', [hospitalName,versionName,version],{headers:this.headers});
+>>>>>>> dbc67c444ec608c592f7e81cbc5f7a059a5ac299
+  }
+
   ///////////////////////////UPLOAD RELATED
   pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
 
     formdata.append('file', file);
 
+<<<<<<< HEAD
     //const req = new HttpRequest('POST', '//195.251.252.222:2443//mapping/post', formdata, {
     const req = new HttpRequest('POST', this.address+'/mapping/post', formdata, {
+=======
+    const req = new HttpRequest('POST', '//195.251.252.222:2442/mapping/post', formdata, {
+>>>>>>> dbc67c444ec608c592f7e81cbc5f7a059a5ac299
       reportProgress: true,
       responseType: 'text'
     });
@@ -95,6 +236,7 @@ export class HospitalService {
   }
 
   getFiles(): Observable<any> {
+<<<<<<< HEAD
     //return this.http.get('//195.251.252.222:2443//mapping/getallfiles');
     return this.http.get(this.address + '/mapping/getallfiles');
   }
@@ -102,6 +244,13 @@ export class HospitalService {
   getSample():Observable<any>{
     //return this.http.get('//195.251.252.222:2443//mapping/getsample');
     return this.http.get(this.address + '/mapping/getsample');
+=======
+    return this.http.get('//195.251.252.222:2442/mapping/getallfiles',{headers:this.headers});
+  }
+  //////////////////////////////////////// GET SAMPLE FILE
+  getSample(sampleVersion:number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/mapping/getsample/'+sampleVersion,{headers:this.headers});
+>>>>>>> dbc67c444ec608c592f7e81cbc5f7a059a5ac299
   }
   /////////////////////////////////////////////////
 

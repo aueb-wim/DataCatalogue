@@ -5,10 +5,12 @@
  */
 package com.admir.demiraj.datacatalogspringboot.resources;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -42,7 +44,8 @@ public class Hospitals {
   
     @OneToMany(mappedBy="hospital",fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<Variables> variables;
+    //@JsonBackReference
+    private List<Variables> variables = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -66,6 +69,10 @@ public class Hospitals {
 
     public void setVariables(List<Variables> variables) {
         this.variables = variables;
+    }
+
+    public void setVariablesOneByOne(Variables variable) {
+        this.variables.add(variable);
     }
 
     

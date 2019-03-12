@@ -1,41 +1,26 @@
-/deep/.mat-tab-label.mat-tab-label-active {
-  min-width: 25px !important;
-  padding: 5px;
-  background-color: transparent;
-  color: blue;
-  font-weight: 400;
-  font-size: large;
-}
 
-
-/deep/.mat-tab-label{
-  color: black;
-  font-size: large;
-}
-
-mat-tab-group.inactive{
-  pointer-events: none;
-}
 
 
 h1{
   font-size: xx-large;
   color: #2196F3;
   margin-left: 40%;
+  font-family:Helvetica;
 
 }
 
 input[type=text] {
-
-  padding: 6px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-right: 4px;
-  font-size: 15px;
   border-color: #2196F3;
+  font-family:Helvetica;
+  font-size: small;
 }
 
 
 .holder{
   horiz-align: left;
+}
+
+
+div{
+  display: flex;
 }

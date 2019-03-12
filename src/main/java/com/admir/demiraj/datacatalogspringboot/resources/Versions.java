@@ -6,6 +6,7 @@
 package com.admir.demiraj.datacatalogspringboot.resources;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import netscape.javascript.JSObject;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,7 +24,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author root
  */
 @Entity
-@Table(name="Versions")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EntityListeners(AuditingEntityListener.class)
 public class Versions implements Serializable{
@@ -55,15 +55,18 @@ public class Versions implements Serializable{
     @LastModifiedDate
     private Date createdAt;
 
+
+    @OneToMany(mappedBy="version",fetch = FetchType.LAZY)
+    @JsonManagedReference("batchReportsVersion")
+    private List<BatchReport> batchReports;
     
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
-    @JsonManagedReference
+    //@JsonManagedReference("variablesVersion")
+    @JsonIgnoreProperties
     private List<Variables> variables = new ArrayList<>();
 
-    
-     
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
-    @JsonManagedReference
+    @JsonManagedReference("cdevariablesVersion")
     private List<CDEVariables> cdevariables = new ArrayList<>();
 
     public String getJsonString() {
@@ -83,7 +86,7 @@ public class Versions implements Serializable{
     }
 
     public List<CDEVariables> getCdevariables() {
-        return cdevariables;
+        return this.cdevariables;
     }
 
     public void setCdevariables(List<CDEVariables> cdevariables) {
@@ -121,7 +124,12 @@ public class Versions implements Serializable{
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-    
-    
-    
+
+    public List<BatchReport> getBatchReports() {
+        return batchReports;
+    }
+
+    public void setBatchReports(List<BatchReport> batchReports) {
+        this.batchReports = batchReports;
+    }
 }

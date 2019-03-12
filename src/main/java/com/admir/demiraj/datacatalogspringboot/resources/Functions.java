@@ -8,6 +8,7 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.*;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Table(name="functions")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EntityListeners(AuditingEntityListener.class)
-public class Functions {
+public class Functions implements Serializable {
 
     public Functions(String rule, String description) {
         this.rule = rule;
@@ -48,17 +49,17 @@ public class Functions {
     @JsonManagedReference
     private List<Variables> variables;
 
-    //@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "function")
-    //@JsonManagedReference
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE},mappedBy = "function")
     @JsonManagedReference
-    private List<CDEVariables> cdeVariable;
+    private List<CDEVariables> cdeVariables;
 
-    public List<CDEVariables> getCdeVariables() { return cdeVariable; }
+    public List<CDEVariables> getCdeVariables() {
+        return cdeVariables;
+    }
 
-    public void setCdeVariable(List<CDEVariables> cdeVariable) {
-        this.cdeVariable = cdeVariable;
+    public void setCdeVariables(List<CDEVariables> cdeVariables) {
+        this.cdeVariables = cdeVariables;
     }
 
     public BigInteger getFunction_id() {
@@ -94,7 +95,7 @@ public class Functions {
         return variables;
     }
 
-    public void setVariables(Variables variables) {
+    public void setVariables2(Variables variables) {
         this.variables.add(variables);
     }
 

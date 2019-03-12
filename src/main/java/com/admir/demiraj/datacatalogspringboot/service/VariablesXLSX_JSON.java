@@ -51,7 +51,7 @@ public class VariablesXLSX_JSON
     public Node loadXLSXInMemory(String file)
     {
         //private Set<Variables> JSONcodes;
-        Set<Variables> XLSXcodes=null;
+        List<Variables> XLSXcodes=null;
         try{
             XLSXcodes = Read_xlsx(file);
         }catch (FileNotFoundException fnfe)
@@ -71,9 +71,9 @@ public class VariablesXLSX_JSON
      * @return A HashSet with all Variables
      */
 
-    public Set<Variables> Read_xlsx(String ff) throws IOException
+    public List<Variables> Read_xlsx(String ff) throws IOException
     {
-        Set<Variables> xlsxVars = new HashSet<>();//<Variables>
+        List<Variables> xlsxVars = new ArrayList<>();//<Variables>
         FileInputStream fis = null;
         fis = new FileInputStream(ff);
         Workbook workbook = null;
@@ -130,7 +130,7 @@ public class VariablesXLSX_JSON
      * @param xlsxVars: Set of the Variables parsed from the input XLSX
      * @return the Metadata JSON which contains the xlsxVars plus the last version CDEs
      */
-    public JSONObject createJSONMetadataWithCDEs(Set<Variables> xlsxVars)
+    public JSONObject createJSONMetadataWithCDEs(List<Variables> xlsxVars)
     {
         Versions lastVersion = versionDAO.getLastCdeVersion();
         System.out.println("cde variables found : "+ cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id()).size());
@@ -148,7 +148,7 @@ public class VariablesXLSX_JSON
      * @param xlsxVars
      * @return The root Node of the Variables Tree
      */
-    public Node createTree(Set<Variables> xlsxVars)
+    public Node createTree(List<Variables> xlsxVars)
     {
         Node root = new Node("root",null,null);
         Iterator<Variables> it = xlsxVars.iterator();
@@ -159,7 +159,7 @@ public class VariablesXLSX_JSON
     private void addPathNodes(Variables nextVar, Node root)
     {   System.out.println("----> nextVar is "+nextVar+" <----");
         String thisConceptPath = nextVar.getConceptPath();
-        if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/"))
+        if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/") || thisConceptPath.trim().equals("/root") || thisConceptPath.trim().equals("/root/"))
         {
             thisConceptPath="/root/"+nextVar.getCode();
             nextVar.setConceptPath(thisConceptPath);
@@ -173,11 +173,12 @@ public class VariablesXLSX_JSON
         {
             Node node2Add = findNodeByCode(conceptPath[i],root);
             if (node2Add != null)
-                if (i < conceptPath.length - 1)
+                if (i <= conceptPath.length - 1)
                     continue;//this node has already been added and this time we are not in an xlsx row dedicated to it, so we have nothing more to offer... movin on
                 else
                 {
                     node2Add.var = nextVar;//adding all Variables' stuff to the pre-existing Node...
+                    System.out.println("Concept path is : "+conceptPath+" requested number is :"+i);
                     parent = findNodeByCode(conceptPath[i - 1], root);//find the parent
                 }
             else

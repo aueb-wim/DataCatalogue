@@ -10,12 +10,10 @@
   font-size: 20px;
 }
 
-/deep/button.map-button {
+button.map-button {
   line-height: 12px;
   position: absolute;
-  margin-top: 15px;
-  margin-right: 2px;
-  margin-bottom: 20px;
+  margin-left: 4px;
   border-radius: 50%;
   background-color: lightblue;
 
@@ -25,3 +23,4 @@
 i{
   font-size: 24px;
 }
+

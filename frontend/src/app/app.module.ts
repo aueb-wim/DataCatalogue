@@ -1,15 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 import { HospitalService } from './shared/hospital.service';
-import { HttpClientModule } from '@angular/common/http';
-import { MatButtonModule, MatCardModule, MatProgressBarModule, MatFormFieldModule, MatSlideToggleModule, MatInputModule, MatAutocompleteModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
+import {HTTP_INTERCEPTORS, HttpClientModule, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import { MatButtonModule,MatDialogModule, MatCardModule, MatProgressBarModule, MatFormFieldModule, MatSlideToggleModule, MatInputModule, MatAutocompleteModule, MatListModule, MatToolbarModule, MatTabsModule, MatExpansionModule, MatIconModule, MatSelectModule, MatOptionModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
-import { HospitalVariablesComponent } from './shared/hospital-variables/hospital-variables.component';
 import {AppRoutingModule} from "./app-routing.module";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {LogService} from "./shared/log.service";
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+//import { CdeVariablesComponent } from './components/cde-variables/cde-variables.component';
 import { CdeVariablesComponent } from './components/cde-variables/cde-variables.component';
 import { HospitalFilterPipe } from './components/hospital-filter.pipe';
 import { VersionFilterPipe } from './components/version-filter.pipe';
@@ -29,21 +29,30 @@ import { FormUploadComponent } from './components/form-upload/form-upload.compon
 import { MappingVisualComponent } from './visuals/mapping-visual/mapping-visual.component';
 import {SelectModule} from 'ng-select';
 import { DeviceDetectorModule } from 'ngx-device-detector';
-import { AllHospitalsComponent } from './components/all-hospitals/all-hospitals.component';
+import { AllVariablesComponent } from './components/all-variables/all-variables.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { CreateNewVersionComponent } from './components/create-new-version/create-new-version.component';
+import { HttpModule } from '@angular/http';
+import { RouterModule }   from '@angular/router';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { FullUploadComponent } from './components/full-upload/full-upload.component';
 
 
+@Injectable()
+export class XhrInterceptor implements HttpInterceptor {
 
-
-
-
-
-
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const xhr = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  }
+}
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HospitalVariablesComponent,
     SearchBarComponent,
     CdeVariablesComponent,
     HospitalFilterPipe,
@@ -59,7 +68,10 @@ import { AllHospitalsComponent } from './components/all-hospitals/all-hospitals.
     DetailsUploadComponent,
     FormUploadComponent,
     MappingVisualComponent,
-    AllHospitalsComponent,
+    AllVariablesComponent,
+    ReportsComponent,
+    CreateNewVersionComponent,
+    FullUploadComponent,
 
   ],
   imports: [
@@ -77,6 +89,7 @@ import { AllHospitalsComponent } from './components/all-hospitals/all-hospitals.
     MatSlideToggleModule,
     MatFormFieldModule,
     MatProgressBarModule,
+    MatDialogModule,
     MatTabsModule,
     MatExpansionModule,
     MatIconModule,
@@ -89,11 +102,21 @@ import { AllHospitalsComponent } from './components/all-hospitals/all-hospitals.
     PrettyJsonModule,
     AngularFontAwesomeModule,
     SelectModule,
+    HttpModule,
+    RouterModule,
+    OAuthModule.forRoot(),
     DeviceDetectorModule.forRoot()
   ],
 
-  providers: [HospitalService, LogService, D3Service],
+  providers: [HospitalService, LogService, D3Service, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],
+  //providers: [HospitalService, LogService, D3Service],
   bootstrap: [AppComponent]
 
 })
-export class AppModule {  }
+
+export class AppModule{
+
+}
+
+
+

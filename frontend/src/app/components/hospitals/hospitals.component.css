@@ -4,12 +4,14 @@ div.inactive{
   margin-top: 50px;
   cursor: not-allowed;
   pointer-events: none;
+  font-family:Helvetica;
 
 }
 
 div.active{
   display: inline-flex;
   margin-top: 50px;
+  font-family:Helvetica;
 }
 
 div mat-card{
@@ -23,7 +25,7 @@ div mat-card{
 }
 
 div mat-card mat-card-title{
-  font-family: sans-serif;
+  font-family:Helvetica;
   font-size: 17px;
   font-weight: bolder;
 }
@@ -39,4 +41,5 @@ div mat-card mat-card-title{
 mat-form-field{
   margin-bottom: 50px;
   alignment: center;
+  font-family:Helvetica;
 }

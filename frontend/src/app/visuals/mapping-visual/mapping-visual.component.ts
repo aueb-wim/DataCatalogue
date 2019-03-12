@@ -1,7 +1,8 @@
-import {Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, Output, SimpleChanges, EventEmitter, DoCheck} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import * as d3 from 'd3';
 import * as d3Sankey from 'd3-sankey';
+import {style} from "d3";
 
 
 @Component({
@@ -9,16 +10,20 @@ import * as d3Sankey from 'd3-sankey';
   templateUrl: './mapping-visual.component.html',
   styleUrls: ['./mapping-visual.component.css']
 })
-export class MappingVisualComponent implements OnInit, OnChanges {
+export class MappingVisualComponent implements OnInit, OnChanges{
 
   constructor(private hospitalService: HospitalService) {
   }
 
 
   @Input("versionId") versionId:number;
+  @Input("versionName") versionName:string;
+  @Input("reportOpen") reportOpen;
   @Input("searchTermVar") searchTermVar:string;
   @Input("diagramOpen") diagramOpen;
   @Output() diagramOpenChange = new EventEmitter<boolean>();
+  @Output() reportOpenChange = new EventEmitter<boolean>();
+  @Output() versionIdChange = new EventEmitter<number>();
 
   margin: any;
   width: number;
@@ -26,6 +31,7 @@ export class MappingVisualComponent implements OnInit, OnChanges {
   functionsByVariableVersion: Array<any>;
 
   ngOnInit() {
+
 
   }
 
@@ -45,15 +51,43 @@ export class MappingVisualComponent implements OnInit, OnChanges {
     }
   }
 
+  handleChart2(versionName,reportOpen,versionId,diagramOpen){
+    this.versionId = versionId;
+    this.versionIdChange.emit(this.versionId);
+    this.versionName = versionName;
+    this.diagramOpen = diagramOpen;
+    this.reportOpen = reportOpen;
+    if(this.reportOpen){
+      document.getElementById('reports').innerHTML = "";
+      this.reportOpen = !this.reportOpen;
+      this.reportOpenChange.emit(this.reportOpen);
+    }else{
+      if(this.diagramOpen){
+        d3.select('svg').remove();
+        this.changediagramOpen();
+
+      }else{
+        this.DrawChart();
+      }
+    }
+
+  }
 
    handleChart(){
-    if(this.diagramOpen){
-      d3.select('svg').remove();
-      this.changediagramOpen();
+     if(this.reportOpen){
+       document.getElementById('reports').innerHTML = "";
+       this.reportOpen = !this.reportOpen;
+       this.reportOpenChange.emit(this.reportOpen);
+     }else{
+       if(this.diagramOpen){
+         d3.select('svg').remove();
+         this.changediagramOpen();
 
-    }else{
-      this.DrawChart();
-    }
+       }else{
+         this.DrawChart();
+       }
+     }
+
   }
 
   private DrawChart() {
@@ -61,7 +95,7 @@ export class MappingVisualComponent implements OnInit, OnChanges {
     this.changediagramOpen();
 
     d3.select('svg').remove();
-    this.margin = { top: 100, right: 90, bottom: 30, left: 90 };
+    this.margin = { top: 100, right: 90, bottom: 30, left: 0 };
     var numberMappingFunctions = this.functionsByVariableVersion.length;
     //this.width = 1400 - this.margin.left - this.margin.right;
     //this.width = 1100 - this.margin.left - this.margin.right;
@@ -72,13 +106,35 @@ export class MappingVisualComponent implements OnInit, OnChanges {
     d3.select('a.mappings').append('svg')
       .attr('width', this.width + this.margin.right + this.margin.left)
       .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
+      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
       //.attr("class","sankey");
-
 
     var svg = d3.select("svg"),
       width = +svg.attr("width"),
       height = +svg.attr("height");
+//////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
+    svg.append("text")
+      .attr("x", (width / 2))
+      .attr("y", 15)
+      .attr("text-anchor", "middle")
+      .style("font-size", "20px")
+      .style("font-family"," OpenSymbol")
+      .style("font-weight"," bold")
+      .style("text-decoration", "underline")
+      .text("Hospital Variables ("+this.versionName+") ---> CDE Variables");
+    //////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////
+    ///////////////////////////////////////////////
+
+
+    let sankeyHeight;
+    if(numberMappingFunctions<2){
+      sankeyHeight = 70
+    }else{
+      sankeyHeight = numberMappingFunctions*50;
+    }
 
     var formatNumber = d3.format(",.0f"),
       color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -86,21 +142,30 @@ export class MappingVisualComponent implements OnInit, OnChanges {
     var sankey = d3Sankey.sankey()
       .nodeWidth(15)
       .nodePadding(10)
-      .extent([[1, 1], [width, height - 6]]);
+      //.extent([[1, 1], [width, height - 6]]);
+      .extent([[1, 40], [width, sankeyHeight]]);///changed
+
+    ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////
 
     var link = svg.append("g")
+      .attr("margin-top","40px")//added
       .attr("class", "links")
-      .attr("fill", "none")
+      .attr("fill", "none")///////////////////////commented
+      //.attr("height",15)/////////////////added
       .attr("stroke", "#000")
       .attr("stroke-opacity", 0.2)
+      ///.attr(  "stroke-linejoin","bevel")///added
+      //.attr("height",15)//////added
+     // .style("height",15)/////added
       .selectAll("path");
 
     var linkLabels = svg.append("g");
 
     var node = svg.append("g")
       .attr("class", "nodes")
-      .attr("font-family", "sans-serif")
-      .attr("font-size", 10)
+      .attr("font-family", "OpenSymbol")/////////////////////////////
+      .attr("font-size", "12px")//
       .attr("stroke-opacity", 0.2)
       .selectAll("g");
 
@@ -112,7 +177,7 @@ export class MappingVisualComponent implements OnInit, OnChanges {
 
 for(let f of this.functionsByVariableVersion){
   let v = f.variables[0];
-  let c = f.cdeVariable[0];
+  let c = f.cdeVariables[0];
 
   let nodeVariable = {
     nodeId:parseInt(v.variable_id),
@@ -160,12 +225,13 @@ for(let f of this.functionsByVariableVersion){
 
     sankey(energy);
 
-
     link = link
       .data(energy.links)
       .enter().append("path")
       .attr("d", d3Sankey.sankeyLinkHorizontal())
-      .attr("stroke-width", function (d: any) { return Math.max(1, d.width); })
+      //.attr("height",15)///////////////////added
+      .attr("stroke-width", function (d: any) { return Math.max(1, d.width); })////////////min -->max
+      ///.style("height",15)/////////////////////////////
     .each(addLabels);
 
     /**
@@ -189,12 +255,12 @@ for(let f of this.functionsByVariableVersion){
       .attr( "fill-opacity", .4 )
         .style("fill", "blue")
         .style("text-anchor", "middle")
-        .style("font-size", "12")
+        .style("font-size", "12px")/////////changed
         //.attr("transform", "rotate(" + rotation + ","+ position.x + "," + position.y + ")")
     }
 
     link.append("title")
-      .text(function (d: any) { return d.source.name + " → " + d.target.name + "\n Mapping Rule: " + d.rule; });
+      .text(function (d: any) { return d.source.code + " → " + d.target.code + "\n Mapping Rule: " + d.rule; });
 
 
     node = node
@@ -205,6 +271,7 @@ for(let f of this.functionsByVariableVersion){
       .attr("x", function (d: any) { return d.x0; })
       .attr("y", function (d: any) { return d.y0; })
       .attr("height", function (d: any) { return d.y1 - d.y0; })
+      //.attr("height",15)/////
       .attr("width", function (d: any) { return d.x1 - d.x0; })
       .attr("fill", function (d: any) { return color(d.name.replace(/ .*/, "")); })
       .attr("stroke", "#000");
@@ -216,7 +283,9 @@ for(let f of this.functionsByVariableVersion){
       .attr("y", function (d: any) { return (d.y1 + d.y0) / 2; })
       .attr("dy", "0.35em")
       .attr("text-anchor", "end")
-      .text(function (d: any) { return d.name; })
+      .style("font-family"," OpenSymbol")
+      .style("font-weight"," bold")
+      .text(function (d: any) { return d.code; })
       .filter(function (d: any) { return d.x0 < width / 2; })
       .attr("x", function (d: any) { return d.x1 + 6; })
       .attr("text-anchor", "start");
@@ -224,7 +293,7 @@ for(let f of this.functionsByVariableVersion){
 
 
     node.append("title")
-      .text(function (d: any) { return d.name + " "+ d.conceptPath});
+      .text(function (d: any) { return d.code + ":  "+ d.conceptPath});
 
 
 
@@ -244,7 +313,8 @@ for(let f of this.functionsByVariableVersion){
         });
 
         currentText
-          .style("font-size", "20px")
+          .style("font-size", "17px")/////////////////////changed
+          .style("font-family"," OpenSymbol")/////////////////added
           .attr( "fill-opacity", .9 );
 
         currentTargetNode
@@ -277,7 +347,7 @@ for(let f of this.functionsByVariableVersion){
 
         currentText
           .attr( "fill-opacity", 0.4 )
-          .style("font-size", "12");
+          .style("font-size", "12px");////////changed
 
       currentTargetNode
         .transition()
@@ -295,14 +365,14 @@ for(let f of this.functionsByVariableVersion){
 
   }
 /**
- * Method that checks by name if an object is present in an array of objects.
+ * Method that checks by code if an object is present in an array of objects.
  * If yes return the index it was found. If not add it to the array and then return the index.
  * */
   presentAt(array,object){
     let isPresent = false;
     let index = null;
     for (let i=0; i<array.length; i++) {
-      if(array[i].name == object.name){
+      if(array[i].code == object.code){
         isPresent = true;
         index = i;
       }
@@ -379,64 +449,11 @@ function getPosition(el) {
 }
 
 // deal with the page getting resized or scrolled
-window.addEventListener("scroll", updatePosition, false);
-window.addEventListener("resize", updatePosition, false);
+//window.addEventListener("scroll", updatePosition, false);
+//window.addEventListener("resize", updatePosition, false);
 
 function updatePosition() {
   // add your code to update the position when your browser
   // is resized or scrolled
 }
 
-/*
-*
-       // console.log("Current node attributes x0:"+function (d: any) { return d.x0; });
-d3.select('rect')
-  .attr("x", function (d: any) {console.log("d.x0 is: "+d.x0); return d.x0; })
-  .attr("y", function (d: any) {console.log("d.y0 is: "+d.x0); return d.y0; });
-        /////////////////////////////////////////////////////////////
-
-        var t = 50, k = 15;
-        var tip = {'w': (3/4 * t), 'h': k};
-        var foWidth = 300;
-        var anchor = {'w': width/3, 'h': height/3};
-        //var x = currentNode.getBoundingClientRect();
-        var x = 10;
-        var y = getPosition(currentNode)[1];
-
-//console.log("Current position is: x-->"+x+" y-->"+y);
-        currentNode = svg.append('foreignObject')
-          .attr( 'x', width)
-          //.attr( 'x', anchor.w - tip.w)
-        .attr('y', height)
-         //  .attr('y', anchor.h + tip.h)
-          .attr("width",foWidth)
-          .attr("class","svg-tooltip");
-
-        var div = currentNode.append('xhtml:div')
-          .append('div')
-          .attr("class","tooltip");
-
-        div.append('p')
-          .attr('class', 'lead')
-          .html('Holmes was certainly not a difficult man to live with.');
-        div.append('p')
-          .html('He was quiet in his ways, and his habits were regular. It was rare ing.');
-        //var foHeight = div[0][0].getBoundingClientRect().height;
-       // let coordinates = (currentNode[0] as any).getBBox();
-       // console.log("coordinates are 0: "+(currentNode[0] as any).getBBox());
-        //console.log("coordinates are 1: "+(currentNode[1] as any).getBBox());
-       // console.log("coordinates are 2: "+(currentNode[2] as any).getBBox());
-       // console.log("coordinates are 3: ");
-        //console.log("coordinates are 4: "+(currentNode[4] as any).getBBox());
-        //console.log("div is at: "+ (div as any)[0][0].getBoundingClientRect().height);
-        //console.log("currentnode is at x: "+ div.attr("x"));
-        //console.log("currentnode is at y: "+ div.attr("y"));
-        var foHeight = 200;
-        //node.attr('height', foHeight);
-        svg.insert('polygon', '.svg-tooltip')
-          .attr('points', "0,0 0," + foHeight + " " + foWidth + "," + foHeight + " " + foWidth + ",0 " + (t) + ",0 " + tip.w + "," + (-tip.h) + " " + (t/2) + ",0")
-          .attr('height', foHeight + tip.h)
-          .attr('width', foWidth)
-          .attr('fill', '#D8D8D8')
-          .attr('opacity', 0.75)
-          .attr('transform', 'translate(' + (anchor.w - tip.w) + ',' + (anchor.h + tip.h) + ')');*/

@@ -9,6 +9,7 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,7 +28,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name="CDEVariables")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EntityListeners(AuditingEntityListener.class)
-public class CDEVariables{
+public class CDEVariables implements Serializable {
 
     public CDEVariables(@NotBlank String name, @NotBlank String csvFile, String values, String type, String unit, String canBeNull,
                         String description, String comments, String code, String conceptPath, String methodology) {
@@ -46,14 +47,14 @@ public class CDEVariables{
 
     public CDEVariables() {
     }
-    
-    
-    
+
+
+
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private BigInteger cdevariable_id;
 
-    @Column
+    @Column(length = 500)
     private String name;
 
     @Column
@@ -65,7 +66,7 @@ public class CDEVariables{
     @Column
     private String type;
 
-    @Column
+    @Column(length = 500)
     private String code;
 
     @Column
@@ -86,15 +87,13 @@ public class CDEVariables{
     @Column
     private String methodology;
 
-    @JsonBackReference
+    @JsonBackReference("versionsCde")
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "cdevariables_versions",joinColumns = { @JoinColumn(name = "cdevariable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
     private List<Versions> versions = new ArrayList<>();
 
-    //@OneToOne(fetch = FetchType.LAZY, optional = true)
-    //@JoinColumn(name = "function_id", nullable = true)
-    //@JsonBackReference
-    @JsonBackReference
+
+    @JsonBackReference("functionCdevariables")
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "cdevariables_functions",joinColumns = { @JoinColumn(name = "cdevariable_id") },inverseJoinColumns = { @JoinColumn(name = "function_id") })
     private List<Functions> function;
@@ -144,7 +143,7 @@ public class CDEVariables{
         this.versions = versions;
     }
 
-    public void setVersions(Versions versions) {
+    public void setVersions2(Versions versions) {
         this.versions.add(versions);
     }
 
@@ -211,5 +210,5 @@ public class CDEVariables{
     public void setType(String type) {
         this.type = type;
     }
-    
+
 }

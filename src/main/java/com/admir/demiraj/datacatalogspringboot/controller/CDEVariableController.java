@@ -10,9 +10,7 @@ package com.admir.demiraj.datacatalogspringboot.controller;
  * @author root
  */
 import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
-import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
-import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
 import java.math.BigInteger;
@@ -42,7 +40,10 @@ public class CDEVariableController {
         this.uploadCdes = uploadCdes;
     }
 
-
+    @GetMapping("/login")
+    public void login(){
+        System.out.println("Login cde - inside");
+    }
 
     @GetMapping("/readExcel")
     public void readExcel(){
@@ -66,5 +67,7 @@ public class CDEVariableController {
     public List<CDEVariables> getAllCDEVariables(){
         return cdeVariableDAO.findAll();
     }
+
+
 
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
+
 @Component({
   selector: 'app-version-details',
   templateUrl: './version-details.component.html',
@@ -15,10 +16,10 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
   @Input('downloadFileName') downloadName;
   @Input('cdeData') cdeData;
   @Input('searchTermVar') searchTermVar:String;
-  //searchTermVar: String;
-
   version:any;
   jsonMetadata:any;
+  disabledInput:boolean;
+
 
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
 
@@ -29,8 +30,9 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
      // .subscribe(ver => this.version = ver);
     //this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
     //this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
-
-
+    this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
+    this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
+//alert("editable? "+this.editable)
   }
   ngOnChanges(changes: SimpleChanges){
     if (changes['versionId']) {
@@ -67,6 +69,18 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
     const file = new Blob([c], {type: 'text/json'});
     this.download(file,this.downloadName+this.versionName+".json");
   }
+
+
+
+  toggleEdit(){
+   this.disabledInput = !this.disabledInput;
+  }
+
+  deleteVariable(currentIndex){
+    this.version.variables.splice(currentIndex,1);
+  }
+
+
 }
 
 

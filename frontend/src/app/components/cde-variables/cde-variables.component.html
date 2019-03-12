@@ -1,16 +1,20 @@
 
-<h1><i class="fa fa-gg-circle">Common Data Elements</i></h1>
-
-
-<mat-tab-group ngClass="{{enabled}}" [selectedIndex]="allCdeVersions.length-1" (selectedTabChange)="tabChanged($event)">
-  <mat-tab *ngFor="let version of allCdeVersions | hospitalFilter:searchTermVer" label="{{version.name}}"> <!--+' ('+version.createdAt.slice(0,10)+')'-->
-    <a>{{changeVersionId(version.version_id)}}</a>
-
+<h1><i class="fa fa-gg-circle">Common Data Elements ({{currentVersionName}})</i></h1>
     <br>
-    <div style="width: 300px; margin-bottom: 20px;">
+    <div style="width: 400px; margin-bottom: 20px;">
+
+      <ng-select class="versionSelect"
+                 [allowClear]="true"
+                 [options]="arrayIterationByVersionName(allCdeVersions)"
+                 [disabled]="disabled"
+                 (selected)="versionSelected($event)"
+                 (filterInputChanged)="versionFilterInputChanged($event)"
+                 (deselected)="versionDeselected($event)"
+                 placeholder="Versions">
+      </ng-select>
       <ng-select class="select"
                  [allowClear]="true"
-                 [options]="arrayIterationByLabel(version.cdevariables)"
+                 [options]="variableOptions"
                  [disabled]="disabled"
                  (selected)="selected($event)"
                  (filterInputChanged)="filterInputChanged($event)"
@@ -18,19 +22,13 @@
                  placeholder="Search...">
       </ng-select>
     </div>
-    <app-tree [versionId]="version.version_id" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
+
+    <app-tree [versionId]="allCdeVersions[currentVersionIndex].version_id" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
     <!--<app-mapping-visual [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>-->
     <app-version-details *ngIf="diagramOpen==false" [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="true" [searchTermVar]="searchTermVar"></app-version-details>
-  </mat-tab>
-  <mat-tab label="Create new Version">
-
-    <div class="container" style="width:500px">
-      <form-upload [sampleNameVersion]="createSampleFileName()"></form-upload>
-      <br/>
-      <br/>
-      <list-upload></list-upload>
-    </div>
-  </mat-tab>
-</mat-tab-group>
 
 
+
+<!--
+
+-->

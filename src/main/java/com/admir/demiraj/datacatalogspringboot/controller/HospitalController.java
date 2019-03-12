@@ -32,9 +32,20 @@ public class HospitalController {
         return hospitalDAO.findAll();
     }
 
+    //get all hospitals
+    @GetMapping("/allWithUniqueVariables")
+    public List<Hospitals> getAllHospitalsWithUniqueVariables(){
+        return hospitalDAO.findAllWithUniqueVariables();
+    }
+
     @GetMapping("/hosp/{hospital_id}")
     public Hospitals getHospitalName(@PathVariable(value = "hospital_id") Long hospitalId){
         return hospitalDAO.getHospital(BigInteger.valueOf(hospitalId));
+    }
+
+    @GetMapping("/name/{hospital_id}")
+    public String getHospitalNameById(@PathVariable(value = "hospital_id") Long hospitalId){
+        return hospitalDAO.getHospital(BigInteger.valueOf(hospitalId)).getName();
     }
 
      //save a hospital to database

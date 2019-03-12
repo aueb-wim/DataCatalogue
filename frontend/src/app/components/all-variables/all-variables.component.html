@@ -1,10 +1,9 @@
-<br>
+
 <h1><i class="fa fa-hospital-o">All Hospital Variables</i></h1>
-<br>
 <div style="width: 300px; margin-bottom: 20px;">
   <ng-select class="select"
              [allowClear]="true"
-             [options]="arrayIterationByLabel(allVariables)"
+             [options]="arrayIterationByLabel(allUniqueVariables)"
              [disabled]="disabled"
              (selected)="selected($event)"
              (filterInputChanged)="filterInputChanged($event)"
@@ -13,7 +12,7 @@
   </ng-select>
 </div>
 
-<mat-accordion *ngFor="let hospital of allHospitalVariables" multi="true">
+<mat-accordion *ngFor="let hospital of allHospitalWithUniqueVariables" multi="true">
   <mat-expansion-panel *ngFor="let variable of hospital.variables | hospitalFilter:searchTermVar" >
       <mat-expansion-panel-header>
         <mat-panel-title>

@@ -17,12 +17,15 @@
   width: 130px;
   float: right;
   box-shadow: 0 6px #999;
+  font-family:Helvetica;
 }
-.btn:hover {background-color: #e7e7e7;}
+.btn:hover {background-color: #e7e7e7;
+  font-family:Helvetica;}
 .btn:active {
   background-color: #e7e7e7;
   box-shadow: 0 3px #666;
   transform: translateY(3px);
+  font-family:Helvetica;
 }
 
 .upload-btn-wrapper input[type=file] {
@@ -32,6 +35,7 @@
   left: 0;
   top: 0;
   opacity: 0;
+  font-family:Helvetica;
 }
 
 .first{
@@ -51,6 +55,7 @@
   /*background: url('https://s20.postimg.org/o09gf7fvx/bag.jpg') no-repeat center top;*/
   /*background-size: contain;*/
   /*padding-top:29%;*/
+  font-family:Helvetica;
 }
 @media (max-width: 1500px)
 { .first {
@@ -65,13 +70,18 @@
   background: 80%;}
 }
 .instructions{
-  font-size: large;
-  font-family: "Courier New";
-  color: #2196F3;
+  font-size: small;
+  font-family:Helvetica;
+  font-weight: bold;
+  color: #0273D4;
   width: 200%;
 
 }
 
+.examples{
+  font-size: small;
+  font-family:Helvetica;
+}
 .donwloadsample{
 
 }
@@ -85,4 +95,9 @@
 textarea{
   width: 100%;
   height: 100%;
+  font-family:Helvetica;
+}
+
+div{
+  font-family:Helvetica;
 }

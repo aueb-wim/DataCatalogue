@@ -5,16 +5,15 @@
  */
 package com.admir.demiraj.datacatalogspringboot.resources;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -64,7 +63,7 @@ public class Variables implements Serializable{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private BigInteger variable_id;
 
-    @Column
+    @Column(length = 500)
     private String name;
 
     @Column
@@ -73,7 +72,7 @@ public class Variables implements Serializable{
     @Column(length = 500)
     private String values;
 
-    @Column
+    @Column(length = 500)
     private String code;
 
     @Column
@@ -99,18 +98,24 @@ public class Variables implements Serializable{
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hospital_id", nullable = false) 
-    @JsonBackReference
+    @JsonBackReference("hospitalVariables")
+    //@JsonManagedReference
     private Hospitals hospital;
     
-    @JsonBackReference
+    @JsonBackReference("functionVariables")
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "variables_functions",joinColumns = { @JoinColumn(name = "variable_id") },inverseJoinColumns = { @JoinColumn(name = "function_id") })
     private List<Functions> function = new ArrayList<>();
     
-    @JsonBackReference
+    @JsonBackReference("versionsVariables")
     @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "variables_versions",joinColumns = { @JoinColumn(name = "variable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
     private List<Versions> versions = new ArrayList<>();
+
+    @OneToMany(mappedBy="variable",fetch = FetchType.LAZY)
+    @JsonManagedReference("variableReportsVariables")
+    private List<VariableReport> variableReports;
+
 
     public String getCode() {
         return code;
@@ -136,7 +141,7 @@ public class Variables implements Serializable{
         this.versions = versions;
     }
 
-    public void setVersions(Versions version) {
+    public void setVersions2(Versions version) {
         this.versions.add(version);
     }
 
@@ -176,7 +181,7 @@ public class Variables implements Serializable{
         return function;
     }
 
-    public void setFunction(Functions function) {
+    public void setFunction2(Functions function) {
         this.function.add(function);
     }
 
@@ -234,5 +239,13 @@ public class Variables implements Serializable{
 
     public void setMethodology(String methodology) {
         this.methodology = methodology;
+    }
+
+    public List<VariableReport> getVariableReports() {
+        return variableReports;
+    }
+
+    public void setVariableReports(List<VariableReport> variableReports) {
+        this.variableReports = variableReports;
     }
 }

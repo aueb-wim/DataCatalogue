@@ -10,14 +10,9 @@ import com.admir.demiraj.datacatalogspringboot.dao.FunctionsDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
-import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Functions;
-import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
-import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,18 +21,13 @@ import java.util.stream.Collectors;
 import com.admir.demiraj.datacatalogspringboot.service.StorageService;
 import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;
 import com.admir.demiraj.datacatalogspringboot.service.UploadVariables;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -53,17 +43,8 @@ public class VariablesToCDEVariables {
     @Autowired
     private VariableDAO variableDAO;
     
-    @Autowired
-    private VersionDAO versionDAO;
-    
-   @Autowired
-   private HospitalDAO hospitalDAO;
-    
    @Autowired
    private FunctionsDAO functionsDAO;
-   
-   @Autowired
-   private CDEVariableDAO cdeVariableDAO;
 
     @Autowired
     StorageService storageService;
@@ -141,6 +122,17 @@ public class VariablesToCDEVariables {
     public List<Functions> getAllFunctions(){
         return this.functionsDAO.findAll();
    }
+
+   @GetMapping("/mapFunctionAndMapCdeByVariableId")
+   public String getmapFunctionAndMapCdeByVariableId(){
+        return "";
+   }
+
+   @GetMapping("/randomFunction")
+   public Functions getRandomFunction(){
+       return this.functionsDAO.findAll().get(1);
+   }
+
 
    @GetMapping("/functionsByVersionId/{version_id}")
     public List<Functions> getFunctionsByVariableId(@PathVariable(value = "version_id") Long versionId) {
