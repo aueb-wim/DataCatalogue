@@ -128,7 +128,7 @@ public class VariablesXLSX_JSON_tests
 
 
     }
-    @Test
+    /*@Test
     public void testVariablesXLSX_JSON_test()
     {
         String file_path = FOLDER_NAME_CDES + "cdes_v3_test.xlsx";
@@ -141,6 +141,29 @@ public class VariablesXLSX_JSON_tests
         JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
         System.out.println(testJSONMeta.toString());
         System.out.println("--------- --------- --------- --------- ---------");
+    }*/
+    @Test
+    public void testVariablesXLSX_JSON_Visualization_Niguarda()
+    {
+        String file_path = FOLDER_NAME_VARS + "Niguarda_v3.xlsx";
+        System.out.println(file_path);
+        XLSXcodes2 = null;
+        try{
+            XLSXcodes2 = xlsx_json.Read_xlsx(file_path);
+        }catch (FileNotFoundException fnfe)
+        {   System.err.println("Xlsx not found...!!!");
+        }
+        catch (IOException io)
+        {   System.err.println("Problem with the xlsx...");
+        }
+        Node testTree = xlsx_json.createTree(XLSXcodes2);
+        JSONObject testJSONVis = xlsx_json.createJSONVisualization(testTree);
+        System.out.println("---2.1-- Here comes the visualization JSON for Niguarda where there seems to be a problem with a null node... ---------");
+        System.out.println(testJSONVis.toString());
+        System.out.println("--------- --------- --------- --------- ---------");
+        /*System.out.println("---2.2-- And now the Metadata JSON ---------");
+        JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
+        System.out.println(testJSONMeta.toString());*/
     }
     @Test
     public void testQuotesRemoval()
@@ -154,7 +177,7 @@ public class VariablesXLSX_JSON_tests
         enumCode = enumCode.endsWith("\"") ? enumCode.substring(0,enumCode.length()-1) : enumCode;
         Assert.assertEquals("EDSD",enumCode);
     }
-  /*  @Test
+    /*@Test
     public void testVariablesXLSX_JSON_withDAOCDEs()
     {
         String file_path = FOLDER_NAME_VARS + "Freiburg_v1.xlsx";
@@ -167,8 +190,8 @@ public class VariablesXLSX_JSON_tests
         System.out.println("---TESTIN CDEs-- Here comes the Metadata JSON for file Freiburg_v1.xslx WITH the CDEs from the DB---------");
         System.out.println(testFullMetadataJSON.toString());
         System.out.println("--------- --------- --------- --------- --------- --------- --------- --------- --------- --------- ---------");
-    }
-  */
+    }*/
+
   @Test
     public void testStringProcessinStuff()
     {

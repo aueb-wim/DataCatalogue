@@ -128,18 +128,18 @@ public class VariablesXLSX_JSON
     /**
      *
      * @param xlsxVars: Set of the Variables parsed from the input XLSX
+     * @param cdeVars: Set of the CDEs of the version we want
      * @return the Metadata JSON which contains the xlsxVars plus the last version CDEs
      */
-    public JSONObject createJSONMetadataWithCDEs(List<Variables> xlsxVars)
+    public JSONObject createJSONMetadataWithCDEs(List<Variables> xlsxVars, List<CDEVariables> cdeVars)
     {
-        Versions lastVersion = versionDAO.getLastCdeVersion();
+        /*Versions lastVersion = versionDAO.getLastCdeVersion();
         System.out.println("cde variables found : "+ cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id()).size());
-        List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
+        List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());*/
         List<Variables> varsThatRCdes = new ArrayList<>();
         for (CDEVariables cde : cdeVars){
             varsThatRCdes.add(new Variables(cde));
         }
-
         xlsxVars.addAll(varsThatRCdes);//to the xlsxVars add the Variables that actually are the CDEs
         return createJSONMetadata(createTree(xlsxVars));//return the full Metadata JSON
     }
@@ -156,8 +156,29 @@ public class VariablesXLSX_JSON
             addPathNodes(it.next(), root);
         return root;
     }
-    private void addPathNodes(Variables nextVar, Node root)
+    /**
+     * Creates the Variables Tree from the Set of Variables PLUS the Set of the CDEs
+     * @param xlsxVars
+     * @param cdeVars: Set of the CDEs in the version we want
+     * @return The root Node of the Variables Tree
+     */
+    public Node createTree2(List<Variables> xlsxVars, List<CDEVariables> cdeVars)
     {
+        //############# same as in createJSONMetadataWithCDEs() ##########
+        List<Variables> varsThatRCdes = new ArrayList<>();
+        for (CDEVariables cde : cdeVars){
+            varsThatRCdes.add(new Variables(cde));
+        }
+        xlsxVars.addAll(varsThatRCdes);//to the xlsxVars add the Variables that actually are the CDEs
+        //###################### ################## ################## ###
+        Node root = new Node("root",null,null);
+        Iterator<Variables> it = xlsxVars.iterator();
+        while (it.hasNext())
+            addPathNodes(it.next(), root);
+        return root;
+    }
+    private void addPathNodes(Variables nextVar, Node root)
+    {   System.out.println("----> nextVar is "+nextVar+" <----");
         String thisConceptPath = nextVar.getConceptPath();
         if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/") || thisConceptPath.trim().equals("/root") || thisConceptPath.trim().equals("/root/"))
         {

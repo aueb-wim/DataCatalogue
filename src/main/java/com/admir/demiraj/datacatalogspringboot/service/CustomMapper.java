@@ -1,5 +1,6 @@
 package com.admir.demiraj.datacatalogspringboot.service;
 
+import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
@@ -36,7 +37,8 @@ public class CustomMapper {
     @Autowired
     private VariableDAO variableDAO;
 
-
+    @Autowired
+    private CDEVariableDAO cdeVariableDAO;
 
 
 
@@ -95,7 +97,12 @@ public class CustomMapper {
         System.out.println("allvar1 size: "+allVar.size()+"allvar2 size: "+allVar2.size());
 
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
-        version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
+        //Select last Version of the CDEs : TO BE CHANGED!!! We have to parameterize the version it takes ********
+        Versions lastVersion = versionDAO.getLastCdeVersion();
+        System.out.println("cde variables found : "+ cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id()).size());
+        List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
+        //******** ********* ********* **** TO BE CHANGED!!! ******** ********* ********* ********* ******** ***
+        version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
         version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
         version.setVariables(allVar2);
         versionDAO.saveVersion(version);

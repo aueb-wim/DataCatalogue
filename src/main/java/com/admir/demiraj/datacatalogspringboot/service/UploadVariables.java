@@ -107,8 +107,13 @@ public class UploadVariables {
 
 // allvar contains all local variables. allvar3 contains only the variables that are not mapped to cdes
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
-        System.out.println("Retrieving jsonString from file");
-        version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar).toString());
+        System.out.println("Retrieving jsonStringMetadata from file");
+        //Select last Version of the CDEs : TO BE CHANGED!!! We have to parameterize the version it takes ********
+        Versions lastVersion = versionDAO.getLastCdeVersion();
+        System.out.println("cde variables found : "+ cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id()).size());
+        List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
+        //******** ********* ********* **** TO BE CHANGED!!! ******** ********* ********* ********* ******** ***
+        version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
         System.out.println("Retrieving jsonStringVisualizable from file");
         version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
         version.setVariables(allVar2);
