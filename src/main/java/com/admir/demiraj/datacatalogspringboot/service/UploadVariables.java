@@ -110,7 +110,6 @@ public class UploadVariables {
         System.out.println("Retrieving jsonStringMetadata from file");
         //Select last Version of the CDEs : TO BE CHANGED!!! We have to parameterize the version it takes ********
         Versions lastVersion = versionDAO.getLastCdeVersion();
-        System.out.println("cde variables found : "+ cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id()).size());
         List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
         //******** ********* ********* **** TO BE CHANGED!!! ******** ********* ********* ********* ******** ***
         version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
@@ -126,7 +125,9 @@ public class UploadVariables {
             cdevar.setVersions2(harmonizedVersion);
             cdeVariables.add(cdevar);
         }
-
+        VariablesXLSX_JSON.Node testTree2 = variablesXLSX_json.createTree2(allVar,cdeVars);
+        harmonizedVersion.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
+        harmonizedVersion.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree2).toString());
         harmonizedVersion.setCdevariables(cdeVariables);
         harmonizedVersion.setVariables(allVar3);
         versionDAO.saveVersion(harmonizedVersion);

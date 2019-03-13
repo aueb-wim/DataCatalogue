@@ -112,6 +112,9 @@ public class CustomMapper {
             cdevar.setVersions2(harmonizedVersion);
             cdeVariables.add(cdevar);
         }
+        VariablesXLSX_JSON.Node testTree2 = variablesXLSX_json.createTree2(allVar, cdeVars);
+        harmonizedVersion.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
+        harmonizedVersion.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree2).toString());
         harmonizedVersion.setCdevariables(cdeVariables);
         harmonizedVersion.setVariables(allVar3);
         versionDAO.saveVersion(harmonizedVersion);
