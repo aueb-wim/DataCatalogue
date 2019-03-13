@@ -61,6 +61,7 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
 			.authorizeRequests()
 				.antMatchers("/", "/login**","/token","/user","/logout","/home", "/login",
                         "/hospital/readExcel",
+                        "/report/batchreport/all",
                         "/mapping/mapFunctionAndMapCdeByVariableId",
                         "/CDE/readExcel",
                         "/hospital/allVariables",

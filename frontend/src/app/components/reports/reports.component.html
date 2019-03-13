@@ -22,26 +22,30 @@
     <th>40-60% Coverage</th>
     <th>20-40% Coverage</th>
     <th>0-20% Coverage</th>
+
     <tr *ngFor="let batchreport of batchReports">
       <td>{{batchreport.batchReportNumber}}</td>
-      <td>{{batchreport.fileName}}</td>
-      <td>{{batchreport.dateQcToolRan}}</td>
-      <td>{{batchreport.qctoolVersion}}</td>
-      <td>{{batchreport.totalVariables}}</td>
-      <td>{{batchreport.totalRows}}</td>
-      <td>{{batchreport.rowsWithOnlyId}}</td>
-      <td>{{batchreport.rowsWithNoId}}</td>
-      <td>{{batchreport.rowsWithAllColumnsFilled}}</td>
-      <td>{{batchreport.variablesWith100PercentRecordCoverage}}</td>
-      <td>{{batchreport.variablesWith80to100PercentRecordCoverage}}</td>
-      <td>{{batchreport.variablesWith60to80PercentRecordCoverage}}</td>
-      <td>{{batchreport.variablesWith40to60PercentRecordCoverage}}</td>
-      <td>{{batchreport.variablesWith20to40PercentRecordCoverage}}</td>
-      <td>{{batchreport.variablesWith0to20PercentRecordCoverage}}</td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.fileName}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.dateQcToolRan}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.qctoolVersion}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.totalVariables}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.totalRows}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.rowsWithOnlyId}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.rowsWithNoId}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.rowsWithAllColumnsFilled}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.variablesWith100PercentRecordCoverage}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.variablesWith80to100PercentRecordCoverage}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.variablesWith60to80PercentRecordCoverage}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.variablesWith40to60PercentRecordCoverage}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.variablesWith20to40PercentRecordCoverage}}</li></td>
+      <td><li *ngFor="let fileReport of batchreport.fileReports">{{fileReport.variablesWith0to20PercentRecordCoverage}}</li></td>
+    </tr>
 
     </tbody>
 
   </table>
+
+
   <table class="variableReports" border="1">
     <caption>Variable Reports</caption>
 

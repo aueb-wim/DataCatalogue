@@ -71,6 +71,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
       });
 
     this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
+      this.downloadName = hosp['name']+'_';
       this.hospital = hosp
     });
 

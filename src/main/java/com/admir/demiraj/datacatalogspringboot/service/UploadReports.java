@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,6 +21,9 @@ public class UploadReports {
 
     @Autowired
     BatchReportDAO batchReportDAO;
+
+    @Autowired
+    FileReportDAO fileReportDAO;
 
     @Autowired
     VariableReportDAO variableReportDAO;
@@ -59,12 +63,13 @@ public class UploadReports {
             if (check) {
                 System.out.println("Expected vr file was found");
                 try {
-                    //NOTE ! WE ARE ADDING TO ALL VERSIONS OF A PARTICULAR HOSPITAL REPORTS. WHEN WE HAVE ACTUAL DATA WE NEED TO SPECIFY ONLY ONE VERSION
+                    //NOTE ! WE ARE ADDING TO ALL VERSIONS OF A PARTICULAR HOSPITAL REPORT. WHEN WE HAVE ACTUAL DATA WE NEED TO SPECIFY ONLY ONE VERSION
                     List<Versions> allVersionPerHospital = versionDAO.getAllVersionByHospitalName(hospitalName);
                     for (Versions version : allVersionPerHospital) {
                         System.out.println("Version found: " + hospitalName + " :" + version.getName());
-                        BatchReport batchReport = readBatchReportCsv(filePath, batchName, batchNumber);
-                        readVariableReportCsv(VARIABLE_REPORT_FOLDER + expectedVariableReportFile, batchNumber, batchReport, version);
+                        BatchReport batchReport = new BatchReport(batchName, batchNumber);
+                        List<FileReport> allFileReports = readBatchReportCsv(filePath);
+                        readVariableReportCsv(VARIABLE_REPORT_FOLDER + expectedVariableReportFile, batchNumber, batchReport, allFileReports, version);
                     }
 
 
@@ -75,31 +80,40 @@ public class UploadReports {
         }
     }
 
-    public BatchReport readBatchReportCsv(String csvFile, String batchName, String batchNumber) throws IOException {
+    public List<FileReport> readBatchReportCsv(String csvFile) throws IOException {
         Reader in = new FileReader(csvFile);
         //Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(in);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
+        //BatchReport batchReport = new BatchReport(batchName, batchNumber);
+        List<FileReport> allFileReports = new ArrayList<>();
         for (CSVRecord record : records) {
-            BatchReport batchReport = new BatchReport(batchName, batchNumber, record.get(0), record.get(1), record.get(2),
-                    record.get(3), record.get(4), record.get(5), record.get(6), record.get(7), record.get(8), record.get(9),
+            FileReport fileReport = new FileReport(record.get(0), record.get(1), record.get(2),
+                   record.get(3), record.get(4), record.get(5), record.get(6), record.get(7), record.get(8), record.get(9),
                     record.get(10), record.get(11), record.get(12), record.get(13));
-            return batchReport;
+           // System.out.println("Records are: "+record.get(0)+ record.get(1)+ record.get(2)+ record.get(3)+record.get(4)+record.get(5)+record.get(6)+record.get(7)+record.get(8)+record.get(9)+record.get(10)+record.get(11)+record.get(12)+record.get(13));
+            //FileReport fileReport = new FileReport();
+            //System.out.println("File report id: "+fileReport.getFilereport_id());
+            //fileReport.setBatchReport(batchReport);
+            //batchReport.setFileReport2(fileReport);
+            //batchReportDAO.save(batchReport);
+            //fileReportDAO.save(fileReport);
+            allFileReports.add(fileReport);
         }
-        return null;
+//batchReportDAO.save(batchReport);
+        return allFileReports;
     }
 
 
-    public void readVariableReportCsv(String csvFile, String varReportNumber, BatchReport batchReport, Versions version) throws IOException {
+    public void readVariableReportCsv(String csvFile, String varReportNumber,BatchReport batchReport, List<FileReport> allFileReports, Versions version) throws IOException {
         System.out.println("Read variable reportcsv");
+        // Connect file reports with batch reports
+
         Reader in = new FileReader(csvFile);
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.parse(in);
         for (CSVRecord record : records) {
             // NOTE !! CURRENTLY WE ARE RUNNING ON MOCK DATA SO ONLY A FEW, IF ANY VARIABLES WILL BE FOUND
             Variables var = variableDAO.findByCode(record.get(0));
-            System.out.println("values length: " + record.size());
             // check if the variableReport is contained in variable
-
-
             if (var != null) {
                 boolean contained = false;
                 if (var != null && var.getVariableReports() != null) {
@@ -117,16 +131,11 @@ public class UploadReports {
                             record.get(8), record.get(9), record.get(10), record.get(11), record.get(12), record.get(13), record.get(14),
                             record.get(15), record.get(16), record.get(17), record.get(18), record.get(19), record.get(20));
 
-                    System.out.println("Adding variable to variableReportObject");
                     variableReport.setVariable(var);
-
-                    System.out.println("Adding variableReportObject to variable");
                     List<VariableReport> currentVariableReports = var.getVariableReports();
                     currentVariableReports.add(variableReport);
                     var.setVariableReports(currentVariableReports);
-                    System.out.println("Saving variableReportObject");
                     variableReportDAO.save(variableReport);
-                    System.out.println("Saving variable");
                     variableDAO.save(var);
 
                 }
@@ -153,6 +162,11 @@ public class UploadReports {
                     batchReport.setVersion(version);
                     System.out.println("Saving batchReport");
                     batchReportDAO.save(batchReport);
+                    for(FileReport fr : allFileReports){
+                        fr.setBatchReport(batchReport);
+                        batchReport.setFileReport2(fr);
+                        fileReportDAO.save(fr);
+                    }
                 }
 
 
