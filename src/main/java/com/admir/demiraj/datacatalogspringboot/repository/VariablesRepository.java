@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 //@CrossOrigin
 public interface VariablesRepository extends JpaRepository<Variables, BigInteger>{
 
+
     @Query(value = "SELECT * FROM variables v "
             + "INNER JOIN variables_versions vv ON v.variable_id = vv.variable_id "
             + "INNER JOIN versions ver ON ver.version_id = vv.version_id "

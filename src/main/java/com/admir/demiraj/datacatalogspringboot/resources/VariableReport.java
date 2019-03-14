@@ -62,7 +62,7 @@ public class VariableReport implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private BigInteger variablereport_id;
 
     @Column(length = 1000)

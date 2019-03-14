@@ -6,7 +6,6 @@
 package com.admir.demiraj.datacatalogspringboot.resources;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
@@ -15,7 +14,6 @@ import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -24,6 +22,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
  * @author root
  */
 @Entity
+@Table(name="Versions")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EntityListeners(AuditingEntityListener.class)
 public class Versions implements Serializable{
@@ -38,7 +37,7 @@ public class Versions implements Serializable{
     
     
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private BigInteger version_id;
     
     @NotBlank

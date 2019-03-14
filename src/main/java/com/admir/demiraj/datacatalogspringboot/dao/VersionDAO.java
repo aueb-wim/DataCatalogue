@@ -7,6 +7,7 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 
 import com.admir.demiraj.datacatalogspringboot.repository.HospitalsRepository;
 import com.admir.demiraj.datacatalogspringboot.repository.VersionsRepository;
+import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import jdk.nashorn.internal.runtime.Version;
@@ -103,9 +104,7 @@ public class VersionDAO {
     }
 
 
-    public List<Versions> getAllVersionsByVariableId(BigInteger variableId) {
-        return versionsRepository.getAllVersionByVariableId(variableId);
-    }
+
 
     public List<BigInteger> getAllVersionIdsByHospitalId(BigInteger hospitalId) {
         List<Versions> allVersions = versionsRepository.findAll();
@@ -185,7 +184,8 @@ public class VersionDAO {
 
 
     public boolean isVersionNameInHospital(String versionName, String hospitalName) {
-        List<String> allVersionNames = versionsRepository.getAllVersionNamesByHospitalName(hospitalName);
+        List<String> allVersionNames = getAllVersionNamesByHospitalName(hospitalName);
+
         for (String ver : allVersionNames) {
             if (ver.equals(versionName)) {
                 return true;
@@ -194,6 +194,21 @@ public class VersionDAO {
         return false;
     }
 
+    public List<String> getAllVersionNamesByHospitalName(String hospitalName){
+        List<String> allVersionNames = new ArrayList<>();
+        Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
+        List<Variables> variablesInHospital = currentHospital.getVariables();
+        for(Variables var : variablesInHospital){
+            List<Versions> versionsInVariable = var.getVersions();
+            for(Versions ver : versionsInVariable){
+                if(!allVersionNames.contains(ver.getName())){
+                    allVersionNames.add(ver.getName());
+                }
+            }
+
+        }
+        return allVersionNames;
+    }
     public Versions getVersionById(BigInteger verId) {
         return versionsRepository.getOne(verId);
     }

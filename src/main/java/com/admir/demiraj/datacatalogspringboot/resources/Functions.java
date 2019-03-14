@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * @author root
  */
 @Entity
-@Table(name="functions")
+@Table(name="Functions")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @EntityListeners(AuditingEntityListener.class)
 public class Functions implements Serializable {
@@ -36,7 +36,7 @@ public class Functions implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private BigInteger function_id;
     
     @Column(length = 1024)

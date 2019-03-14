@@ -70,9 +70,10 @@ public class VersionsVariablesController {
     public List<Versions> getAllVerions(){return versionDAO.getAllVersions();}
 
 
+    /*
     @GetMapping("/versionsPerVariable/{variable_id}")
     public List<Versions> getAllVersionsByVariableId(@PathVariable(value = "variable_id") BigInteger variableId){
         return versionDAO.getAllVersionsByVariableId(variableId);
     }
-
+*/
 }
