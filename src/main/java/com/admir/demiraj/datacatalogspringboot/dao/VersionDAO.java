@@ -61,7 +61,7 @@ public class VersionDAO {
     public String getJsonStringByVersionId(Long versionId) {
         List<Versions> allversions = versionsRepository.findAll();
         for (Versions ver : allversions) {
-            if (ver.getVersion_id() == BigInteger.valueOf(versionId)) {
+            if (ver.getVersion_id().compareTo(BigInteger.valueOf(versionId)) == 0) {
                 return ver.getJsonString();
             }
         }
@@ -71,7 +71,7 @@ public class VersionDAO {
     public String getJsonStringVisualizableByVersionId(Long versionId) {
         List<Versions> allversions = versionsRepository.findAll();
         for (Versions ver : allversions) {
-            if (ver.getVersion_id() == BigInteger.valueOf(versionId)) {
+            if (ver.getVersion_id().compareTo(BigInteger.valueOf(versionId)) == 0) {
                 return ver.getJsonStringVisualizable();
             }
         }
@@ -90,7 +90,7 @@ public class VersionDAO {
     public Versions getOne(BigInteger verId) {
         List<Versions> allVersions = versionsRepository.findAll();
         for (Versions version : allVersions) {
-            if (version.getVersion_id() == verId) {
+            if (version.getVersion_id().compareTo(verId) == 0) {
                 return version;
             }
         }
@@ -116,7 +116,7 @@ public class VersionDAO {
                     randomVar = var;
                     break;
                 }
-                if (randomVar.getHospital().getHospital_id() == hospitalId) {
+                if (randomVar.getHospital().getHospital_id().compareTo(hospitalId) == 0) {
                     versionIdsByHospitalId.add(version.getVersion_id());
                 }
             }
@@ -125,30 +125,22 @@ public class VersionDAO {
     }
 
     /**
-     * Check if all variables contained in one version belong to the same hospital and if they do , we can say that
-     * the version belong to a hospital.
+     * Retrieve the variables of each hospital and in each variable get all the versions that it belongs to. We keep a
+     * set with all the unique versions encountered in the variables.
      */
-    public List<Versions> getAllVersionsByHospitalId(BigInteger hospId) {
-        List<Versions> allVersions = versionsRepository.findAll();
-        List<Versions> hospitalVersions = new ArrayList<>();
-        for (Versions version : allVersions) {
-            if (!version.getVariables().isEmpty()) {
-                boolean allVariablesBelongToHospital = false;
-                for (Variables var : version.getVariables()) {
-                    if (var.getHospital().getHospital_id() == hospId) {
-                        allVariablesBelongToHospital = true;
-                    } else {
-                        allVariablesBelongToHospital = false;
-                        break;
-                    }
+    public List<Versions> getAllVersionsByHospitalId(BigInteger hospId){
+        Hospitals currentHospital = hospitalDAO.getHospital(hospId);
+        List<Variables> allVariablesInHospital = currentHospital.getVariables();
+        List<Versions> allHospitalVersions = new ArrayList<>();
+        for(Variables var : allVariablesInHospital){
+            List<Versions> allVersionsInVar = var.getVersions();
+            for(Versions ver : allVersionsInVar){
+                if(!allHospitalVersions.contains(ver)){
+                    allHospitalVersions.add(ver);
                 }
-             if(allVariablesBelongToHospital){
-                 hospitalVersions.add(version);
-             }
             }
-
         }
-        return hospitalVersions;
+        return allHospitalVersions;
     }
 
     public Versions getLatestVersionByHospitalId(BigInteger hospitalId) {
@@ -157,7 +149,7 @@ public class VersionDAO {
         // Date now = new Date();
         for (Versions version : allVersions) {
             if (!version.getVariables().isEmpty()) {
-                if (version.getVariables().get(version.getVariables().size() - 1).getHospital().getHospital_id() == hospitalId) {
+                if (version.getVariables().get(version.getVariables().size() - 1).getHospital().getHospital_id().compareTo(hospitalId) == 0) {
                     latestVersionByHospitalId = version;
                     //now = version.getCreatedAt();
                 }
@@ -174,7 +166,7 @@ public class VersionDAO {
         BigInteger hospitalId = hospitalDAO.getHospitalIdByName(hospitalName);
         for (Versions version : allVersions) {
             if (!version.getVariables().isEmpty()) {
-                if (version.getVariables().get(0).getHospital().getHospital_id() == hospitalId) {
+                if (version.getVariables().get(0).getHospital().getHospital_id().compareTo(hospitalId) == 0) {
                     versionsByHospitalName.add(version);
                 }
             }

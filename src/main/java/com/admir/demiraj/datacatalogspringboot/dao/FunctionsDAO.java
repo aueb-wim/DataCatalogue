@@ -44,7 +44,7 @@ public class FunctionsDAO {
             for (Variables v : allVariables) {
                 List<Versions> versionInsideVariable = v.getVersions();
                 for (Versions ver : versionInsideVariable){
-                    if (ver.getVersion_id() == variableVersion) {
+                    if (ver.getVersion_id().compareTo(variableVersion) == 0) {
                         functionByVariableId.add(f);
                     }   }
             }
@@ -57,7 +57,7 @@ public class FunctionsDAO {
     public Functions findFunctionById(Functions fun) {
         List<Functions> allFunctions = functionsRepository.findAll();
         for (Functions f : allFunctions) {
-            if (f.getFunction_id() == fun.getFunction_id()) {
+            if (f.getFunction_id().compareTo(fun.getFunction_id()) == 0) {
                 return f;
             }
         }

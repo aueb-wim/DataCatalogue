@@ -83,7 +83,7 @@ public class VariableDAO {
     public void deletePreviousSaveNew(Variables var) {
         List<Variables> allVariables = variablesRepository.findAll();
         for (Variables v : allVariables) {
-            if (v.getVariable_id() == var.getVariable_id()) {
+            if (v.getVariable_id().compareTo(var.getVariable_id()) == 0) {
                 variablesRepository.delete(v);
                 variablesRepository.save(var);
             }
