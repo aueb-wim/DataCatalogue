@@ -85,6 +85,8 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "/mapping/randomFunction",
                         "/mapping/functionsByVersionId/*",
                         "//mapping/getallfiles",
+                        "/report/getBatchReport/*",
+                        "/report/getVariableReport/*",
                         "//mapping/getsample").permitAll()
 				.anyRequest().authenticated()
                         .and().logout().logoutSuccessUrl("/").permitAll()

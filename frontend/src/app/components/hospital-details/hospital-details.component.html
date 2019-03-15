@@ -1,7 +1,8 @@
 
 
 <button class="backBtn" (click)="goBack()"><i class="fa fa-arrow-left"></i></button>
-<button class="newVersion" routerLink="/hospitals/{{hospital.hospital_id}}/new-version">
+<!--<button class="newVersion" routerLink="/hospitals/{{hospital.hospital_id}}/new-version">-->
+<button class="newVersion" (click)="newVersionUrl()">
   <i class="fa fa-plus"></i>
 </button>
 
@@ -13,7 +14,7 @@
     <div class="selectors" style="width: 400px; margin-bottom: 20px;">
       <ng-select class="versionSelect"
                  [allowClear]="true"
-                 [options]="arrayIterationByVersionName(hospitalVersions)"
+                 [options]="versionOptions"
                  [disabled]="disabled"
                  (selected)="versionSelected($event)"
                  (filterInputChanged)="versionFilterInputChanged($event)"
@@ -33,14 +34,14 @@
     </div>
 
     <div class="visuals" *ngIf="!editable">
-      <app-tree [versionId]="hospitalVersions[currentVersionIndex].version_id" [(reportOpen)]="reportOpen" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
-      <app-reports [(diagramOpen)]="diagramOpen" [(reportOpen)]="reportOpen" [variables]="hospitalVersions[currentVersionIndex].variables" [batchReports]="hospitalVersions[currentVersionIndex].batchReports" [searchTermVar]="searchTermVar"></app-reports>
-      <app-mapping-visual [versionName]="hospitalVersions[currentVersionIndex].name" [(reportOpen)]="reportOpen" [(versionId)]="hospitalVersions[currentVersionIndex].version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
+      <app-tree [versionId]="currentVersionId" [(reportOpen)]="reportOpen" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
+      <app-reports [hospitalName]="currentHospitalName" [versionNumber]="currentVersionNumber"  [(diagramOpen)]="diagramOpen" [(reportOpen)]="reportOpen" [variables]="currentVersionVariables" [batchReports]="currentBatchReport" [searchTermVar]="searchTermVar"></app-reports>
+      <app-mapping-visual [versionName]="currentVersionName" [(reportOpen)]="reportOpen" [(versionId)]="currentVersionId" [(diagramOpen)]="diagramOpen"></app-mapping-visual>
     </div>
 
-<a>Current version id: {{hospitalVersions[currentVersionIndex].version_id}} Length: {{hospitalVersions[currentVersionIndex].variables.length}}</a>
-      <app-version-details *ngIf="diagramOpen==false && reportOpen==false" [searchTermVar]="searchTermVar" [versionId]="hospitalVersions[currentVersionIndex].version_id"
-                           [versionName]="currentVersionName" [downloadFileName]="downloadName"
+<!--<a>Current version id: {{currentVersionId}} Length: {{hospitalVersions[currentVersionIndex].variables.length}}</a>-->
+      <app-version-details *ngIf="diagramOpen==false && reportOpen==false" [searchTermVar]="searchTermVar" [versionId]="currentVersionId"
+                           [versionName]="currentVersionName" [downloadFileName]="downloadName" [version]="currentVersion" [jsonMetadata]="currentJsonMetadata"
                            [cdeData]="false"></app-version-details>
 
 

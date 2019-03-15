@@ -80,7 +80,7 @@ public class VariablesToCDEVariables {
         }
     }
 
-    /** Method that provides a link with for each file the user has uploaded*/
+    /** Method that provides a link for each file the user has uploaded*/
     @GetMapping("/getallfiles")
     public ResponseEntity<List<String>> getListFiles(Model model) {
         List<String> fileNames = files
@@ -105,7 +105,7 @@ public class VariablesToCDEVariables {
     @GetMapping("/getsample/{filename}")
     @ResponseBody
     public ResponseEntity<Resource> getSample(@PathVariable(value = "filename") String fileName) {
-        Resource file = storageService.loadSample();
+        Resource file = storageService.loadSampleOrReport(fileName,0);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,  "attachment; filename=\"" + fileName + "\"")
                 .body(file);

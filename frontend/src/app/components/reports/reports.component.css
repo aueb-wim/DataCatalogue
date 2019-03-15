@@ -46,3 +46,22 @@ b{
   font-family:Helvetica;
   font-size: xx-small;
 }
+
+.downloadBatchReport{
+  float: right;
+  font-family:Helvetica;
+}
+
+.downloadVariableReport{
+  font-family:Helvetica;
+  float: right;
+}
+.downloadBatchReport:hover{
+  background-color: #428bca;
+  font-family:Helvetica;
+}
+
+.downloadVariableReport:hover{
+  background-color: #428bca;
+  font-family:Helvetica;
+}

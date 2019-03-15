@@ -1,7 +1,12 @@
 
 <button  class="report-button" (click)="changeReportOpen()"><i class="fa fa-newspaper-o icon-4x"></i></button>
 
+
 <a class="reports" id="reports" *ngIf="reportOpen">
+  <button class="downloadVariableReport"  (click)="downloadVariableReport(batchReports.name)"><i class="fa fa-download icon-4x"></i>Variable</button>
+  <button class="downloadBatchReport" (click)="downloadBatchReport(batchReports.name)"><i class="fa fa-download icon-4x"></i>General</button>
+
+
   <table border="1">
     <caption>General Reports</caption>
 

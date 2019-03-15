@@ -12,12 +12,14 @@ import 'rxjs/add/operator/switchMap';
 })
 export class VersionDetailsComponent implements OnInit,OnChanges {
   @Input('versionId') versionId;
+  @Input('version') version;
+  @Input('jsonMetadata') jsonMetadata;
   @Input('versionName') versionName;
   @Input('downloadFileName') downloadName;
   @Input('cdeData') cdeData;
   @Input('searchTermVar') searchTermVar:String;
-  version:any;
-  jsonMetadata:any;
+  //version:any;
+  //jsonMetadata:any;
   disabledInput:boolean;
 
 
@@ -30,14 +32,14 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
      // .subscribe(ver => this.version = ver);
     //this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
     //this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
-    this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
-    this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
+    //this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
+    //this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
 //alert("editable? "+this.editable)
   }
   ngOnChanges(changes: SimpleChanges){
     if (changes['versionId']) {
       this.hospitalService.getJsonStringByVersionId(this.versionId).subscribe(json=>{this.jsonMetadata=json});
-      this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
+      //this.hospitalService.getVersionById(this.versionId).subscribe(ver=>{this.version = ver});
 
     }
 

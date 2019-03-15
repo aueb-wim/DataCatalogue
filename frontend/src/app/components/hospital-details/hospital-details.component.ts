@@ -9,7 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import {IOption,} from "ng-select";
@@ -37,16 +37,23 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   hospital: any;
   url = this.location.path();
   //currentVersionId = 4; /// be careful when changing the database , it should be assigned to an existing id
+
   currentVersionId:number;
-  currentVersionName;
+  currentVersionName:string;
+  currentVersionVariables;
+  currentBatchReport;
+  currentVersionNumber:number;
+  currentHospitalName:string;
+  currentVersion;
+  currentJsonMetadata;
+
   downloadName = "variables_";
   searchTermVar: String = "";
   viewInitialized: boolean;
   reportOpen = false;
-  newVersion = false;
   @ViewChild(MappingVisualComponent) mappingVisual:MappingVisualComponent;
 
-  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
+  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, private router: Router) {
 
   }
 
@@ -61,17 +68,25 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
       .subscribe(versions => {
         this.hospitalVersions = versions;
         let lastVersion = versions[versions.length-1];
+        this.currentVersion = lastVersion;
+        this.currentJsonMetadata = lastVersion['jsonString'];
         this.currentVersionId = +lastVersion['version_id'];
         this.currentVersionName = lastVersion['name'];
+        this.currentVersionVariables = lastVersion['variables'];
+        this.currentBatchReport = lastVersion['batchReports'];
+        this.currentVersionNumber = +lastVersion['name'][1];
         this.variableOptions = this.arrayIterationByLabel(lastVersion['variables']);
         if(lastVersion['cdevariables'] != null && lastVersion['cdevariables'] != 'undefined'){
           this.appendToVariableOptions(lastVersion['cdevariables'])
         }
         this.currentVersionIndex = versions.length-1;
+        //////////////added
+        this.versionOptions = this.arrayIterationByVersionName(versions);
       });
 
     this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
       this.downloadName = hosp['name']+'_';
+      this.currentHospitalName = hosp['name'];
       this.hospital = hosp
     });
 
@@ -89,7 +104,16 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
       this.route.params
         .switchMap((params: Params) => this.hospitalService.getVersionsByHospitalId(+params['hospital_id']))
         .subscribe(versions => {
-          this.hospitalVersions = versions
+          this.hospitalVersions = versions;
+          let lastVersion = versions[versions.length-1];
+          this.currentVersion = lastVersion;
+          this.currentJsonMetadata = lastVersion['jsonString'];
+          this.currentVersionId = +lastVersion['version_id'];
+          this.currentVersionName = lastVersion['name'];
+          this.currentVersionVariables = lastVersion['variables'];
+          this.currentBatchReport = lastVersion['batchReports'];
+          //////////////added
+          //this.versionOptions = this.arrayIterationByVersionName(versions);
         });
 
       this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
@@ -113,6 +137,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   public appendToVariableOptions(arrayToIterate){
+    console.log("variable options : ",this.variableOptions);
     console.log("inside append.variable options size: ",this.variableOptions.length);
     for (let obj of arrayToIterate) {
       if(obj['code']!=null && obj['cdevariable_id']!=null){
@@ -126,16 +151,24 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   public arrayIterationByVersionName(originalArray) {
     //empty the array first
     //this.versionOptions.length = 0;
+    let finalArray: Array<IOption> = [{label: '', value: ''}];
     for (let obj of originalArray) {
-      this.versionOptions.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
+      finalArray.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
     }
-    return this.versionOptions;
+    return finalArray;
   }
 
   public versionSelected(option: IOption): void {
     this.currentVersionName = option.label;
     this.currentVersionId = +option.value;
     this.currentVersionIndex = this.versionOptions.indexOf(option)-1;
+
+    let lastVersion = this.hospitalVersions[this.currentVersionIndex];
+    this.currentVersion = lastVersion;
+    this.currentJsonMetadata = lastVersion['jsonString'];
+    this.currentVersionVariables = lastVersion['variables'];
+    this.currentBatchReport = lastVersion['batchReports'];
+
     this.variableOptions = this.arrayIterationByLabel(this.hospitalVersions[this.currentVersionIndex]['variables']);
     if(this.hospitalVersions[this.currentVersionIndex]['cdevariables'] != null && this.hospitalVersions[this.currentVersionIndex]['cdevariables'] != 'undefined'){
       this.appendToVariableOptions(this.hospitalVersions[this.currentVersionIndex]['cdevariables'])
@@ -184,5 +217,10 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
   goBack(): void {
     this.location.back();
+  }
+
+  newVersionUrl(){
+
+      this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
   }
 }

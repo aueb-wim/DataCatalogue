@@ -19,6 +19,8 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   //currentVersionId = 2; /// be careful when changing the database , it should be assigned to an existing id
   currentVersionId;
   currentVersionName;
+  currentVersion;
+  currentJsonMetadata;
   downloadName = "cdes_";
   searchTermVar: String;
   disabled = false;
@@ -35,11 +37,15 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     this.hospitalService.getAllCdeVersions().subscribe(allVersions => {
       this.allCdeVersions = allVersions;
       let lastVersion = allVersions[allVersions.length-1];
+      this.currentVersion = lastVersion;
+      this.currentJsonMetadata = lastVersion['jsonString'];
       this.currentVersionId = +lastVersion['version_id'];
       this.currentVersionName = lastVersion['name'];
       //this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
       this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
       this.currentVersionIndex = allVersions.length-1;
+
+      this.versionOptions = this.arrayIterationByVersionName(allVersions);
      // this.jsonVisualizable = lastVersion['jsonStringVisualizable'];
 
     });
@@ -114,16 +120,23 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   public arrayIterationByVersionName(originalArray) {
     //empty the array first
     //this.versionOptions.length = 0;
+    let finalArray: Array<IOption> = [{label: '', value: ''}];
     for (let obj of originalArray) {
-      this.versionOptions.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
+      finalArray.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
     }
-    return this.versionOptions;
+    return finalArray;
   }
 
   public versionSelected(option: IOption): void {
     this.currentVersionName = option.label;
     this.currentVersionId = +option.value;
     this.currentVersionIndex = this.versionOptions.indexOf(option)-1;
+
+
+    let lastVersion = this.allCdeVersions[this.currentVersionIndex];
+    this.currentVersion = lastVersion;
+    this.currentJsonMetadata = lastVersion['jsonString'];
+
     this.variableOptions = this.arrayIterationByLabel(this.allCdeVersions[this.currentVersionIndex]['cdevariables']);
     this.searchTermVar = '';
 

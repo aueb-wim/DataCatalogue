@@ -30,6 +30,8 @@
       "/mapping/post",
       "/mapping/getallfiles",
       "/mapping/getsample",
+      "/report/getBatchReport/",
+      "/report/getVariableReport/",
       "/report/uploadAllReports"
     ],
     target: "http://195.251.252.222:2443",

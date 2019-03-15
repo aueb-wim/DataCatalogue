@@ -174,6 +174,14 @@ export class HospitalService {
   getSample(sampleVersion:number):Observable<any>{
     return this.http.get('//195.251.252.222:2442/mapping/getsample/'+sampleVersion,{headers:this.headers});
   }
+  getBatchReport(filename:string):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/report/getBatchReport/'+filename + '.csv',{headers:this.headers});
+  }
+  getVariableReport(filename:string):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/report/getVariableReport/'+filename + '.csv',{headers:this.headers});
+  }
+
+
   /////////////////////////////////////////////////
 
 }
