@@ -8,10 +8,12 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 import com.admir.demiraj.datacatalogspringboot.repository.CDEVariablesRepository;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Functions;
+import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import jdk.nashorn.internal.runtime.Version;
@@ -81,6 +83,24 @@ public class CDEVariableDAO {
         cdevar.setVersions2(ver);
     }
 
+    public static boolean compare(String str1, String str2) {
+        return (str1 == null ? str2 == null : str1.equals(str2));
+    }
+
+
+
+    public CDEVariables compareVariableAttributes(CDEVariables cdevariable){
+         List<CDEVariables> allcdevariables = cdeVariablesRepository.findAll();
+         for(CDEVariables cdev: allcdevariables){
+             if (cdev.getCode().equals(cdevariable.getCode()) && compare(cdev.getName(), cdevariable.getName()) &&
+                     compare(cdev.getCsvFile(), cdevariable.getCsvFile()) && compare(cdev.getValues(), cdevariable.getValues()) &&
+                     compare(cdev.getUnit(), cdevariable.getUnit()) && compare(cdev.getCanBeNull(), cdevariable.getCanBeNull()) &&
+                     compare(cdev.getDescription(), cdevariable.getDescription())){
+                 return null;
+             }
+         }
+        return cdevariable;
+    }
 
     public List<Versions> getAllCdeVersions(){
          return versionDAO.getAllCdeVersions();

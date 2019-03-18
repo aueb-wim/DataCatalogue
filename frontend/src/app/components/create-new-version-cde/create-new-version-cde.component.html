@@ -1,0 +1,49 @@
+<button class="backBtn" (click)="goBack()"><i class="fa fa-arrow-left"></i></button>
+<button class="editModeBtn" [ngClass]="{'enabledDataBtn': disabledInput == false }" (click)="toggleEdit()"><i class="fa fa-edit"></i></button>
+<button class="saveVersionBtn" (click)="saveNewVersion()"><i class="fa fa-save"></i></button>
+<button class="uploadFileBtn" (click)="uploadFile()"><i class="fa fa-upload"></i></button>
+
+<h1><i class="fa fa-folder-o">New CDE Version</i></h1>
+<mat-accordion multi="false">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        New CDE Variable
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p><input matInput placeholder="File Name" [(ngModel)]="newVarFile"></p>
+    <p><input matInput placeholder="Name" [(ngModel)]="newVarName"></p>
+    <p><input matInput placeholder="Code" [(ngModel)]="newVarCode"></p>
+    <p><input matInput placeholder="Type" [(ngModel)]="newVarType"></p>
+    <p><input matInput placeholder="Values" [(ngModel)]="newVarValues"></p>
+    <p><input matInput placeholder="Measure Unit" [(ngModel)]="newVarUnit"></p>
+    <p><input matInput placeholder="Can Be Null" [(ngModel)]="newVarCanBeNull"></p>
+    <p><input matInput placeholder="Description" [(ngModel)]="newVarDescription"></p>
+    <p><input matInput placeholder="Comments" [(ngModel)]="newVarComments"></p>
+    <p><input matInput placeholder="Concept Path" [(ngModel)]="newVarConceptPath"></p>
+    <p><input matInput placeholder="Methodology" [(ngModel)]="newVarMethodology"></p>
+    <button mat-raised-button class="editVariable" (click)="addNewVariable()" [(ngModel)]="newVarName">save</button>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngFor="let variable of latestCDEVersion.cdevariables; let i = index">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <button class="deleteBtn" (click)="deleteVariable(i)"><i class="fa fa-times"></i></button>
+        <a class="variableCode"> {{variable.code}}</a>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <p><b>File : </b><input class="vDetails" matInput value="{{variable.csvFile}}" [disabled]="disabledInput" (change)="change(1,($event.target.value))"></p>
+    <p><b>Name : </b><input class="vDetails" matInput value="{{variable.name}}" [disabled]="disabledInput" (change)="change(2,($event.target.value))"></p>
+    <p><b>Code : </b><input class="vDetails" matInput value="{{variable.code}}" [disabled]="disabledInput" (change)="change(3,($event.target.value))" ></p>
+    <p><b>Type : </b><input class="vDetails" matInput value="{{variable.type}}" [disabled]="disabledInput" (change)="change(4,($event.target.value))"></p>
+    <p><b>Values : </b><input class="vDetails" matInput value="{{variable.values}}" [disabled]="disabledInput" (change)="change(5,($event.target.value))"></p>
+    <p><b>Measure Unit: </b><input class="vDetails" matInput value="{{variable.unit}}" [disabled]="disabledInput" (change)="change(6,($event.target.value))"></p>
+    <p><b>Can Be Null: </b><input class="vDetails" matInput value="{{variable.canBeNull}}" [disabled]="disabledInput" (change)="change(7,($event.target.value))"></p>
+    <p><b>Description : </b><input class="vDetails" matInput value="{{variable.description}}" [disabled]="disabledInput" (change)="change(8,($event.target.value))"></p>
+    <p><b>Comments : </b><input class="vDetails" matInput value="{{variable.comments}}" [disabled]="disabledInput" (change)="change(9,($event.target.value))"></p>
+    <p><b>Concept Path : </b><input class="vDetails" matInput value="{{variable.conceptPath}}" [disabled]="disabledInput" (change)="change(10,($event.target.value))"></p>
+    <p><b>Methodology : </b><input class="vDetails" matInput value="{{variable.methodology}}" [disabled]="disabledInput" (change)="change(11,($event.target.value))"></p>
+    <button mat-raised-button class="saveVariable" (click)="saveVariable(i)">Save</button>
+  </mat-expansion-panel>
+</mat-accordion>
+

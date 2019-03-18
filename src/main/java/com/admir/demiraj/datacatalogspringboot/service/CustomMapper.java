@@ -132,7 +132,7 @@ public class CustomMapper {
             Variables newVar = new Variables();
             JSONObject variableJsonObject = variablesJsonArray.getJSONObject(i);
             System.out.println("Adding name to variable: " + variableJsonObject.toString());
-            newVar.setName(variableJsonObject.get("name").toString());
+            //newVar.setName(variableJsonObject.get("name").toString());
             newVar.setCsvFile(variableJsonObject.get("csvFile").toString());
             newVar.setName(variableJsonObject.get("name").toString());
             newVar.setCode(variableJsonObject.get("code").toString());

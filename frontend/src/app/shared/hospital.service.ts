@@ -150,6 +150,10 @@ export class HospitalService {
     return this.http.post<any>('//195.251.252.222:2442/versions/newVersion', [hospitalName,versionName,version],{headers:this.headers});
   }
 
+  createNewVersionCde(versionName:string, version: any):Observable<any> {
+    return this.http.post<any>('//195.251.252.222:2442/versions/newVersionCde', [versionName,version],{headers:this.headers});
+  }
+
   ///////////////////////////UPLOAD RELATED
   pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();

@@ -134,8 +134,13 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
   newVersionUrl(){
 
-   // this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
-    window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
+   // works
+   // window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
+
+    //test
+    window.location.href = this.location.path() + '/new-cde-version';
+
+
   }
 
 

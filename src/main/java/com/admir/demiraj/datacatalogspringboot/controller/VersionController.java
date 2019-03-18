@@ -5,6 +5,7 @@ import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import com.admir.demiraj.datacatalogspringboot.service.CustomMapper;
+import com.admir.demiraj.datacatalogspringboot.service.CustomMapperCDEs;
 import jdk.nashorn.internal.runtime.Version;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class VersionController {
 
     @Autowired
     private CustomMapper customMapper;
+
+    @Autowired
+    private CustomMapperCDEs customMapperCDEs;
 
 
 
@@ -106,6 +110,13 @@ public class VersionController {
     public void create2(@RequestBody String ver){
         JSONArray jr = new JSONArray(ver);
         customMapper.mapVersion(jr);
+        //return "ok";
+    }
+
+    @PostMapping(value = "/newVersionCde")
+    public void createCdeVersion(@RequestBody String ver){
+        JSONArray jr = new JSONArray(ver);
+        customMapperCDEs.mapCdeVersion(jr);
         //return "ok";
     }
 
