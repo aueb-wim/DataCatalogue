@@ -17,6 +17,7 @@ const routes: Routes = [
   {path:'hospitals/:hospital_id', component: HospitalDetailsComponent},
   {path:'hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
   {path:'hospitals/:hospital_id/new-version/:upload_file', component: FullUploadComponent},
+  {path:'hospitals/cde-variables/new-version/:upload_file', component: FullUploadComponent},
 
 ];
 

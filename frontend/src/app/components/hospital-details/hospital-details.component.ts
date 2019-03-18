@@ -112,12 +112,14 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
           this.currentVersionName = lastVersion['name'];
           this.currentVersionVariables = lastVersion['variables'];
           this.currentBatchReport = lastVersion['batchReports'];
+          this.currentVersionNumber = +lastVersion['name'][1];
           //////////////added
           //this.versionOptions = this.arrayIterationByVersionName(versions);
         });
 
       this.route.params.switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id'])).subscribe(hosp => {
-        this.hospital = hosp
+        this.hospital = hosp;
+        this.currentHospitalName = hosp['name'];
       });
 
 
@@ -168,6 +170,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     this.currentJsonMetadata = lastVersion['jsonString'];
     this.currentVersionVariables = lastVersion['variables'];
     this.currentBatchReport = lastVersion['batchReports'];
+    this.currentVersionNumber = +lastVersion['name'][1];
 
     this.variableOptions = this.arrayIterationByLabel(this.hospitalVersions[this.currentVersionIndex]['variables']);
     if(this.hospitalVersions[this.currentVersionIndex]['cdevariables'] != null && this.hospitalVersions[this.currentVersionIndex]['cdevariables'] != 'undefined'){

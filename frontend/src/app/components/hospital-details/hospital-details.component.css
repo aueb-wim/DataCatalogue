@@ -41,7 +41,7 @@ position: absolute;
 
 .fa-plus{
   color: #71a436;
-  font-size: 1vw;
+  font-size: 20px;
 }
 
 .newVersion{
@@ -62,6 +62,4 @@ position: absolute;
   font-size: 20px;
 }
 
-.fa-plus{
-  font-size: 20px;
-}
+

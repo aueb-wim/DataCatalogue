@@ -24,3 +24,26 @@ input[type=text] {
 div{
   display: flex;
 }
+
+.fa-plus{
+  color: #71a436;
+  font-size: 20px;
+}
+
+.newVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.newVersion:hover{
+  background-color: #AFBEC5;
+  font-family:Helvetica;
+}
+
+.backBtn:hover{
+  background-color: darksalmon;
+  font-family:Helvetica;
+}
+
+.fa-arrow-left{
+  font-size: 20px;
+}

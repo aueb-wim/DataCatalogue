@@ -54,7 +54,7 @@ export class ReportsComponent implements OnInit {
           if(error.status=='401'){
             alert("You need to be logged in to complete this action.");
           }else if(error.status=='500'){
-            alert("The batch report is not available.");
+            alert("The general report is not available.");
           } else{
             //alert("You need to be logged in to complete this action2.");
             window.open("http://195.251.252.222:2442/report/getBatchReport/"+batchReportName+'.csv');

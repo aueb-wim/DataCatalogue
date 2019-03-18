@@ -2,6 +2,8 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, OnChanges, OnInit, Si
 import {HospitalService} from "../../shared/hospital.service";
 import {IOption} from "ng-select";
 import {DeviceDetectorService} from "ngx-device-detector";
+import {Location} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-cde-variables',
@@ -30,7 +32,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   deviceInfo = null;
   currentVersionIndex=0;
 
-  constructor(private hospitalService: HospitalService, private deviceService: DeviceDetectorService) {
+  constructor(private hospitalService: HospitalService, private deviceService: DeviceDetectorService, private location: Location,private router: Router) {
   }
 
   ngOnInit() {
@@ -126,6 +128,16 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     }
     return finalArray;
   }
+  goBack(): void {
+    this.location.back();
+  }
+
+  newVersionUrl(){
+
+   // this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
+    window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
+  }
+
 
   public versionSelected(option: IOption): void {
     this.currentVersionName = option.label;

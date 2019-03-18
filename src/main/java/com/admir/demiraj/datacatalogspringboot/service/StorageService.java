@@ -68,8 +68,15 @@ public class StorageService {
     public Resource loadSampleOrReport(String fileName, int type){
         try {
             Path file;
-            if(type == 0)
-             file = sampleLocation.resolve("sample.xlsx");
+            if(type == 0){
+                //we return the cde sample if the file that will be given to the file contains the word cde.
+                if(fileName.contains("cde")){
+                    file = sampleLocation.resolve("samplecdes.xlsx");
+                }else{
+                    file = sampleLocation.resolve("sample.xlsx");
+                }
+
+            }
             else if(type == 1)
                 file = batchReportLocation.resolve(fileName);
             else if(type ==2)

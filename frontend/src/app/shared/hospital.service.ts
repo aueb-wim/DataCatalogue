@@ -171,7 +171,7 @@ export class HospitalService {
     return this.http.get('//195.251.252.222:2442/mapping/getallfiles',{headers:this.headers});
   }
   //////////////////////////////////////// GET SAMPLE FILE
-  getSample(sampleVersion:number):Observable<any>{
+  getSample(sampleVersion:string):Observable<any>{
     return this.http.get('//195.251.252.222:2442/mapping/getsample/'+sampleVersion,{headers:this.headers});
   }
   getBatchReport(filename:string):Observable<any>{
