@@ -1,6 +1,15 @@
 
 <h1><i class="fa fa-hospital-o">All Hospital Variables</i></h1>
 <div class="selectors" style="width: 500px; margin-bottom: 20px;">
+
+  <ng-select class="categorySelect"
+                           [allowClear]="true"
+                           [options]="categoryOptions"
+                           [disabled]="disabled"
+                           (selected)="categorySelected($event)"
+                           (deselected)="categoryDeselected($event)"
+                           placeholder="Categories...">
+</ng-select>
   <ng-select class="select"
              [allowClear]="true"
              [options]="arrayIterationByLabel(allUniqueVariables)"
@@ -10,15 +19,6 @@
              (deselected)="deselected($event)"
              placeholder="Search...">
   </ng-select>
-  <ng-select class="categorySelect"
-                           [allowClear]="true"
-                           [options]="categoryOptions"
-                           [disabled]="disabled"
-                           (selected)="categorySelected($event)"
-                           (deselected)="categoryDeselected($event)"
-                           placeholder="Categories...">
-</ng-select>
-
 </div>
 
 <mat-accordion *ngFor="let hospital of allHospitalWithUniqueVariables" multi="true">

@@ -105,7 +105,12 @@ public class UploadCdes {
                                 cdeVariables.setName(currentCell.getStringCellValue());
                                 break;
                             case 2:
-                                cdeVariables.setCode(currentCell.getStringCellValue());
+                                if(currentCell.getStringCellValue()==null || currentCell.getStringCellValue().isEmpty()){
+                                    break;
+                                }else{
+                                    cdeVariables.setCode(currentCell.getStringCellValue());
+                                }
+                                //cdeVariables.setCode(currentCell.getStringCellValue());
                                 break;
                             case 3:
                                 cdeVariables.setType(currentCell.getStringCellValue());
@@ -135,8 +140,13 @@ public class UploadCdes {
 
 
                     }
-                    cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
-                    cdeVariableDAO.save(cdeVariables);
+                    if(cdeVariables.getCode() != null && cdeVariables.getCode() != ""){
+                        cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
+                        cdeVariableDAO.save(cdeVariables);
+                    }else{
+                        System.out.println("CDE variable with empty code cannot be saved.");
+                    }
+
 
                 }
             }

@@ -139,7 +139,13 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     let finalArray: Array<IOption> = [{label: '', value: ''}];
     for(let variable of variables){
 
-      let category = variable['conceptPath'].split("/",3)[2];
+      //let category = variable['conceptPath'].split("/",3)[2];
+      let category;
+      if(variable['conceptPath'] != null && variable['conceptPath'].split("/",4)[3] !=null){
+        category = variable['conceptPath'].split("/",4)[2];
+      }else{
+        category = '';
+      }
       let contained = true;
       for(let i = 0; i<finalArray.length;i++){
         if(finalArray[i].label != category){
