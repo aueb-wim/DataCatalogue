@@ -47,3 +47,17 @@ div{
 .fa-arrow-left{
   font-size: 20px;
 }
+
+.select{
+  font-family:Helvetica;
+  font-size: small;
+}
+
+.versionSelect{
+  font-family:Helvetica;
+  font-size: small;
+}
+.categorySelect{
+  font-family:Helvetica;
+  font-size: small;
+}

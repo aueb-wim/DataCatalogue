@@ -80,13 +80,15 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
   uploadFile() {
     window.location.href = this.location.path() + '/' + this.sampleFileName;
+      // works
+     // window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
   }
 
 
   createSampleFileName() {
     var oldName = parseInt(this.latestCDEVersion.name.replace('v', ''));
     oldName = oldName + 1;
-    //this.sampleFileName = this.hospital.name + "_" + "v" + oldName.toString() + ".xlsx";
+    this.sampleFileName = "cdes_v" + oldName.toString() + ".xlsx";
   }
 
   createNewVersionName() {

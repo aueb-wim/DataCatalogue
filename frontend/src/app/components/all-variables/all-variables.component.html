@@ -1,6 +1,6 @@
 
 <h1><i class="fa fa-hospital-o">All Hospital Variables</i></h1>
-<div style="width: 300px; margin-bottom: 20px;">
+<div class="selectors" style="width: 500px; margin-bottom: 20px;">
   <ng-select class="select"
              [allowClear]="true"
              [options]="arrayIterationByLabel(allUniqueVariables)"
@@ -10,23 +10,36 @@
              (deselected)="deselected($event)"
              placeholder="Search...">
   </ng-select>
+  <ng-select class="categorySelect"
+                           [allowClear]="true"
+                           [options]="categoryOptions"
+                           [disabled]="disabled"
+                           (selected)="categorySelected($event)"
+                           (deselected)="categoryDeselected($event)"
+                           placeholder="Categories...">
+</ng-select>
+
 </div>
 
 <mat-accordion *ngFor="let hospital of allHospitalWithUniqueVariables" multi="true">
-  <mat-expansion-panel *ngFor="let variable of hospital.variables | hospitalFilter:searchTermVar" >
+  <mat-expansion-panel *ngFor="let variable of hospital.variables | hospitalFilter:searchTermVar | categoryFilter:searchTermCategory" >
       <mat-expansion-panel-header>
         <mat-panel-title>
           <a> <b>{{variable.name+' ('+hospital.name+')'}}</b></a>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <p><b>Name :</b>{{variable.name}}</p>
-      <p><b>File :</b>{{variable.csvFile}}</p>
-      <p><b>Values :</b>{{variable.values}}</p>
-      <p><b>Type :</b>{{variable.type}}</p>
-      <p><b>Measure Unit:</b>{{variable.unit}}</p>
-      <p><b>Description :</b>{{variable.description}}</p>
-      <p><b>Comments :</b>{{variable.comments}}</p>
-      <p><b>Concept Path :</b>{{variable.conceptPath}}</p>
+    <p><b>File :</b>{{variable.csvFile}}</p>
+    <p><b>Name :</b>{{variable.name}}</p>
+    <p><b>Code :</b>{{variable.code}}</p>
+    <p><b>Type :</b>{{variable.type}}</p>
+    <p><b>Values :</b>{{variable.values}}</p>
+    <p><b>Measure Unit:</b>{{variable.unit}}</p>
+    <p><b>Can Be Null:</b>{{variable.canBeNull}}</p>
+    <p><b>Description :</b>{{variable.description}}</p>
+    <p><b>Comments :</b>{{variable.comments}}</p>
+    <p><b>Concept Path :</b>{{variable.conceptPath}}</p>
+    <p><b>Methodology :</b>{{variable.methodology}}</p>
+
 
   </mat-expansion-panel>
 </mat-accordion>

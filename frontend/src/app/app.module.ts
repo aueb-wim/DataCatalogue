@@ -37,6 +37,7 @@ import { RouterModule }   from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { FullUploadComponent } from './components/full-upload/full-upload.component';
 import { CreateNewVersionCdeComponent } from './components/create-new-version-cde/create-new-version-cde.component';
+import { CategoryFilterPipe } from './components/category-filter.pipe';
 
 
 @Injectable()
@@ -74,6 +75,7 @@ export class XhrInterceptor implements HttpInterceptor {
     CreateNewVersionComponent,
     FullUploadComponent,
     CreateNewVersionCdeComponent,
+    CategoryFilterPipe,
 
   ],
   imports: [

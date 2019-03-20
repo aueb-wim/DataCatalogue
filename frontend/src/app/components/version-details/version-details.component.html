@@ -2,7 +2,7 @@
 <button *ngIf="!editable" class="download" (click)="exportJson()">Download</button>
 
 <div *ngIf="cdeData==false">
-  <mat-expansion-panel *ngFor="let variable of version.variables | hospitalFilter:searchTermVar">
+  <mat-expansion-panel *ngFor="let variable of version.variables | hospitalFilter:searchTermVar | categoryFilter:searchTermCategory">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <a> <b>{{variable.code}}</b></a>
@@ -21,7 +21,7 @@
     <p><b>Methodology :</b>{{variable.methodology}}</p>
   </mat-expansion-panel>
   <a *ngIf="version.cdevariables != null && version.cdevariables != 'undefined'">
-  <mat-expansion-panel *ngFor="let variable of version.cdevariables | hospitalFilter:searchTermVar">
+  <mat-expansion-panel *ngFor="let variable of version.cdevariables | hospitalFilter:searchTermVar | categoryFilter:searchTermCategory">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <a> <b>{{variable.code}}</b></a>
@@ -43,7 +43,7 @@
 </div>
 
 <div *ngIf="cdeData==true">
-  <mat-expansion-panel *ngFor="let variable of version.cdevariables | hospitalFilter:searchTermVar">
+  <mat-expansion-panel *ngFor="let variable of version.cdevariables | hospitalFilter:searchTermVar | categoryFilter:searchTermCategory">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <a> <b>{{variable.code}}</b></a>

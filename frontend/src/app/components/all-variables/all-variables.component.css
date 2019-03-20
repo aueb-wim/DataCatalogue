@@ -5,16 +5,8 @@
   font-family: Helvetica;
 }
 
-input[type=text] {
-
-  padding: 6px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-right: 4px;
-  font-size: 10px;
-  border-color: #2196F3;
-  font-family: Helvetica;
-
+.selectors {
+  display: flex;
 }
 
 h1{
@@ -25,6 +17,11 @@ h1{
 }
 
 .select{
+  font-family:Helvetica;
+  font-size: small;
+}
+
+.categorySelect{
   font-family:Helvetica;
   font-size: small;
 }

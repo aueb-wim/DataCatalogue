@@ -24,10 +24,12 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   currentVersion;
   currentJsonMetadata;
   downloadName = "cdes_";
-  searchTermVar: String;
+  searchTermVar: string;
+  searchTermCategory: string;
   disabled = false;
   variableOptions: Array<IOption> = [{label: '', value: ''}];
   versionOptions: Array<IOption> = [{label: '', value: ''}];
+  categoryOptions: Array<IOption> = [{label: '', value: ''}];
   enabled = "active";
   deviceInfo = null;
   currentVersionIndex=0;
@@ -45,6 +47,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
       this.currentVersionName = lastVersion['name'];
       //this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
       this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
+      this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
       this.currentVersionIndex = allVersions.length-1;
 
       this.versionOptions = this.arrayIterationByVersionName(allVersions);
@@ -128,6 +131,41 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     }
     return finalArray;
   }
+
+  /** Method that extracts the second part of the concept path of the each variables (this is our category) and adds
+   * each unique occurrence in a list that is returned*/
+
+  arrayIterationCategoryOptions(variables){
+    let finalArray: Array<IOption> = [{label: '', value: ''}];
+    for(let variable of variables){
+
+      let category = variable['conceptPath'].split("/",3)[2];
+      let contained = true;
+      for(let i = 0; i<finalArray.length;i++){
+        if(finalArray[i].label != category){
+          contained = false;
+        }else{
+          //if we find just one occurrence then we don't have to search any longer.
+          contained = true;
+          break;
+        }
+      }
+      if(contained==false){
+        console.log("adding category: "+category);
+        finalArray.push({label: category.toLowerCase(), value: ""});
+
+      }
+    }
+    return finalArray;
+  }
+  categorySelected(option: IOption) {
+    this.searchTermCategory = option.label;
+  }
+
+  categoryDeselected(option: IOption):void{
+    this.searchTermCategory = "";
+  }
+
   goBack(): void {
     this.location.back();
   }
@@ -155,6 +193,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     this.currentJsonMetadata = lastVersion['jsonString'];
 
     this.variableOptions = this.arrayIterationByLabel(this.allCdeVersions[this.currentVersionIndex]['cdevariables']);
+    this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
     this.searchTermVar = '';
 
   }

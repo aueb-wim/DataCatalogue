@@ -1,7 +1,5 @@
 import {
-  AfterContentInit,
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   OnChanges,
   OnInit,
@@ -29,6 +27,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
   variableOptions: Array<IOption> = [{label: '', value: ''}];
   versionOptions: Array<IOption> = [{label: '', value: ''}];
+  categoryOptions: Array<IOption> = [{label: '', value: ''}];
   currentVersionIndex;
   value: any = {};
   disabled = false;
@@ -48,7 +47,8 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   currentJsonMetadata;
 
   downloadName = "variables_";
-  searchTermVar: String = "";
+  searchTermVar: string = "";
+  searchTermCategory: string="";
   viewInitialized: boolean;
   reportOpen = false;
   @ViewChild(MappingVisualComponent) mappingVisual:MappingVisualComponent;
@@ -76,6 +76,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
         this.currentBatchReport = lastVersion['batchReports'];
         this.currentVersionNumber = +lastVersion['name'][1];
         this.variableOptions = this.arrayIterationByLabel(lastVersion['variables']);
+        this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['variables'],lastVersion['cdevariables']);
         if(lastVersion['cdevariables'] != null && lastVersion['cdevariables'] != 'undefined'){
           this.appendToVariableOptions(lastVersion['cdevariables'])
         }
@@ -90,8 +91,8 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
       this.hospital = hosp
     });
 
-
   }
+
 
   ngAfterViewInit() {
     this.viewInitialized = true;
@@ -122,8 +123,8 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
         this.currentHospitalName = hosp['name'];
       });
 
-
     }
+
   }
   public arrayIterationByLabel(originalArray) {
     //empty the array first
@@ -171,6 +172,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     this.currentVersionVariables = lastVersion['variables'];
     this.currentBatchReport = lastVersion['batchReports'];
     this.currentVersionNumber = +lastVersion['name'][1];
+    this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['variables'],lastVersion['cdevariables']);
 
     this.variableOptions = this.arrayIterationByLabel(this.hospitalVersions[this.currentVersionIndex]['variables']);
     if(this.hospitalVersions[this.currentVersionIndex]['cdevariables'] != null && this.hospitalVersions[this.currentVersionIndex]['cdevariables'] != 'undefined'){
@@ -186,7 +188,55 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   public versionFilterInputChanged(option: IOption): void {
 
   }
+  /** Method that extracts the second part of the concept path of the each variables (this is our category) and adds
+   * each unique occurrence in a list that is returned*/
 
+  arrayIterationCategoryOptions(variables, cdevariables){
+    let finalArray: Array<IOption> = [{label: '', value: ''}];
+   finalArray = this.arrayIteration(variables,finalArray);
+   console.log("cde variables: "+cdevariables);
+   if(!cdevariables.isEmpty && cdevariables != null && cdevariables != 'null'){
+     finalArray = this.arrayIteration(cdevariables,finalArray);
+   }
+    return finalArray;
+  }
+
+  arrayIteration(variables, finalArray){
+    for(let variable of variables){
+      let category;
+      console.log("concept path: "+variable['conceptPath']);
+      if(variable['conceptPath'] != null && variable['conceptPath'].split("/",4)[3] !=null){
+        category = variable['conceptPath'].split("/",4)[2];
+      }else{
+        category = '';
+      }
+
+      let contained = true;
+      for(let i = 0; i<finalArray.length;i++){
+        if(finalArray[i].label != category){
+          contained = false;
+        }else{
+          //if we find just one occurrence then we don't have to search any longer.
+          contained = true;
+          break;
+        }
+      }
+      if(contained==false){
+        console.log("adding category: "+category);
+        finalArray.push({label: category.toLowerCase(), value: ""});
+
+      }
+    }
+    return finalArray;
+  }
+
+ categorySelected(option: IOption) {
+    this.searchTermCategory = option.label;
+ }
+
+ categoryDeselected(option: IOption):void{
+   this.searchTermCategory = "";
+ }
 
   public openMappings(){
     console.log("Opening mappings with versionId: "+this.currentVersionId);

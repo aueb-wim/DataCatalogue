@@ -6,7 +6,7 @@
 
 <h1><i class="fa fa-gg-circle">Common Data Elements ({{currentVersionName}})</i></h1>
     <br>
-    <div style="width: 400px; margin-bottom: 20px;">
+    <div style="width: 600px; margin-bottom: 20px;">
 
       <ng-select class="versionSelect"
                  [allowClear]="true"
@@ -16,6 +16,14 @@
                  (filterInputChanged)="versionFilterInputChanged($event)"
                  (deselected)="versionDeselected($event)"
                  placeholder="Versions...">
+      </ng-select>
+      <ng-select class="categorySelect"
+                 [allowClear]="true"
+                 [options]="categoryOptions"
+                 [disabled]="disabled"
+                 (selected)="categorySelected($event)"
+                 (deselected)="categoryDeselected($event)"
+                 placeholder="Categories...">
       </ng-select>
       <ng-select class="select"
                  [allowClear]="true"
@@ -30,5 +38,5 @@
 
     <app-tree [versionId]="allCdeVersions[currentVersionIndex].version_id" [(diagramOpen)]="diagramOpen" [searchTermVar]="searchTermVar"></app-tree>
     <!--<app-mapping-visual [versionId]="version.version_id" [(diagramOpen)]="diagramOpen"></app-mapping-visual>-->
-    <app-version-details *ngIf="diagramOpen==false" [version]="currentVersion" [jsonMetadata]="currentJsonMetadata" [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="true" [searchTermVar]="searchTermVar"></app-version-details>
+    <app-version-details *ngIf="diagramOpen==false" [version]="currentVersion" [jsonMetadata]="currentJsonMetadata" [versionId]="currentVersionId" [versionName]="currentVersionName" [downloadFileName]="downloadName" [cdeData]="true" [searchTermVar]="searchTermVar" [searchTermCategory]="searchTermCategory"></app-version-details>
 

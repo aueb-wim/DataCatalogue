@@ -8,10 +8,9 @@
 
 <h1><i class="fa fa-hospital-o">{{hospital.name}}({{currentVersionName}})</i></h1>
 
-
     <!--<a>{{changeVersionId(version.version_id)}}</a>-->
     <br>
-    <div class="selectors" style="width: 400px; margin-bottom: 20px;">
+    <div class="selectors" style="width: 600px; margin-bottom: 20px;">
       <ng-select class="versionSelect"
                  [allowClear]="true"
                  [options]="versionOptions"
@@ -20,6 +19,14 @@
                  (filterInputChanged)="versionFilterInputChanged($event)"
                  (deselected)="versionDeselected($event)"
                  placeholder="Versions...">
+      </ng-select>
+      <ng-select class="categorySelect"
+                 [allowClear]="true"
+                 [options]="categoryOptions"
+                 [disabled]="disabled"
+                 (selected)="categorySelected($event)"
+                 (deselected)="categoryDeselected($event)"
+                 placeholder="Categories...">
       </ng-select>
       <ng-select class="select"
                  [allowClear]="true"
@@ -40,7 +47,7 @@
     </div>
 
 <!--<a>Current version id: {{currentVersionId}} Length: {{hospitalVersions[currentVersionIndex].variables.length}}</a>-->
-      <app-version-details *ngIf="diagramOpen==false && reportOpen==false" [searchTermVar]="searchTermVar" [versionId]="currentVersionId"
+      <app-version-details *ngIf="diagramOpen==false && reportOpen==false" [searchTermVar]="searchTermVar" [searchTermCategory]="searchTermCategory" [versionId]="currentVersionId"
                            [versionName]="currentVersionName" [downloadFileName]="downloadName" [version]="currentVersion" [jsonMetadata]="currentJsonMetadata"
                            [cdeData]="false"></app-version-details>
 
