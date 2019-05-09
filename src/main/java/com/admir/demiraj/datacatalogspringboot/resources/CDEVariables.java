@@ -42,7 +42,7 @@ public class CDEVariables implements Serializable {
         this.csvFile = csvFile;
         this.values = values;
         this.type = type;
-        SqlType = sqlType;
+        this.sql_type = sqlType;
         this.isCategorical = isCategorical;
         this.code = code;
         this.conceptPath = conceptPath;
@@ -70,7 +70,7 @@ public class CDEVariables implements Serializable {
     private String type;
 
     @Column
-    private String SqlType;
+    private String sql_type;
 
     @Column
     private String isCategorical;
@@ -219,12 +219,13 @@ public class CDEVariables implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-    public String getSqlType() {
-        return SqlType;
+
+    public String getSql_type() {
+        return sql_type;
     }
 
-    public void setSqlType(String sqlType) {
-        SqlType = sqlType;
+    public void setSql_type(String sql_type) {
+        this.sql_type = sql_type;
     }
 
     public String getIsCategorical() {

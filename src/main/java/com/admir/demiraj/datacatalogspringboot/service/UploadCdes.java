@@ -128,7 +128,7 @@ public class UploadCdes {
                                 cdeVariables.setType(currentCell.getStringCellValue());
                                 break;
                             case 4:
-                                cdeVariables.setSqlType(currentCell.getStringCellValue());
+                                cdeVariables.setSql_type(currentCell.getStringCellValue());
                                 break;
                             case 5:
                                 cdeVariables.setIsCategorical(currentCell.getStringCellValue());
@@ -186,9 +186,9 @@ public class UploadCdes {
      */
     private boolean validateCdeFields(CDEVariables cdevar) {
         //System.out.println("CHECK IF IT IS A CDEVARIABLE");
-        if (neitherEmptyNorNull(cdevar.getCode()) && neitherEmptyNorNull(cdevar.getSqlType()) && neitherEmptyNorNull(cdevar.getIsCategorical())) {
+        if (neitherEmptyNorNull(cdevar.getCode()) && neitherEmptyNorNull(cdevar.getSql_type()) && neitherEmptyNorNull(cdevar.getIsCategorical())) {
             //System.out.println("code - sqltype - isCategorical --> ok");
-            if (cdevar.getSqlType().trim().toLowerCase().equals("real") || cdevar.getSqlType().trim().toLowerCase().equals("integer") || cdevar.getSqlType().trim().toLowerCase().equals("text")) {
+            if (cdevar.getSql_type().trim().toLowerCase().equals("real") || cdevar.getSql_type().trim().toLowerCase().equals("int") || cdevar.getSql_type().trim().toLowerCase().equals("text")) {
                // System.out.println("sqltype (integer,real,text) --> ok");
                 if (cdevar.getIsCategorical().trim().toLowerCase().equals("true") || cdevar.getIsCategorical().trim().toLowerCase().equals("false")) {
                    // System.out.println("isCategorical (true,false) --> ok");
@@ -215,7 +215,7 @@ public class UploadCdes {
 
 
         if (eitherEmptyOrNull(cdevar.getCsvFile()) && eitherEmptyOrNull(cdevar.getType()) && eitherEmptyOrNull(cdevar.getCanBeNull())
-                && eitherEmptyOrNull(cdevar.getSqlType()) && eitherEmptyOrNull(cdevar.getIsCategorical()) && eitherEmptyOrNull(cdevar.getValues())
+                && eitherEmptyOrNull(cdevar.getSql_type()) && eitherEmptyOrNull(cdevar.getIsCategorical()) && eitherEmptyOrNull(cdevar.getValues())
                 && eitherEmptyOrNull(cdevar.getUnit())) {
            // System.out.println("EVERYTHING --> OK");
             return true;
