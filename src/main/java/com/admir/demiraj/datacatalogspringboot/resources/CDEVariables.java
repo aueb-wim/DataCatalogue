@@ -30,25 +30,28 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class CDEVariables implements Serializable {
 
-    public CDEVariables(@NotBlank String name, @NotBlank String csvFile, String values, String type, String unit, String canBeNull,
-                        String description, String comments, String code, String conceptPath, String methodology) {
-        this.name = name;
-        this.csvFile = csvFile;
-        this.values = values;
-        this.type = type;
-        this.unit = unit;
-        this.canBeNull = canBeNull;
-        this.description = description;
-        this.comments = comments;
-        this.conceptPath = conceptPath;
-        this.code = code;
-        this.methodology = methodology;
-    }
+
 
     public CDEVariables() {
     }
 
-
+    public CDEVariables(String name, String csvFile, String values, String type, @NotBlank String sqlType, @NotBlank String isCategorical,
+                        @NotBlank String code, String conceptPath, String unit, String canBeNull, String description, String comments,
+                        String methodology) {
+        this.name = name;
+        this.csvFile = csvFile;
+        this.values = values;
+        this.type = type;
+        SqlType = sqlType;
+        this.isCategorical = isCategorical;
+        this.code = code;
+        this.conceptPath = conceptPath;
+        this.unit = unit;
+        this.canBeNull = canBeNull;
+        this.description = description;
+        this.comments = comments;
+        this.methodology = methodology;
+    }
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -65,6 +68,12 @@ public class CDEVariables implements Serializable {
 
     @Column
     private String type;
+
+    @Column
+    private String SqlType;
+
+    @Column
+    private String isCategorical;
 
     @Column(length = 500)
     private String code;
@@ -209,6 +218,21 @@ public class CDEVariables implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+    public String getSqlType() {
+        return SqlType;
+    }
+
+    public void setSqlType(String sqlType) {
+        SqlType = sqlType;
+    }
+
+    public String getIsCategorical() {
+        return isCategorical;
+    }
+
+    public void setIsCategorical(String isCategorical) {
+        this.isCategorical = isCategorical;
     }
 
 }

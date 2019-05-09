@@ -7,6 +7,7 @@ import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runner.Runner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,7 +28,7 @@ import java.util.Set;
 @RestController
 @ComponentScan
 @WebAppConfiguration
-public class Springbootfuultutorial2ApplicationTests {
+public class Springbootfuultutorial2ApplicationTests{
 	private static final String FOLDER_NAME_CDES = System.getProperty("user.dir") + "/src/main/resources/data/cdes/";
 	private static final String FOLDER_NAME_VARS = System.getProperty("user.dir") + "/src/main/resources/data/variables/";
 

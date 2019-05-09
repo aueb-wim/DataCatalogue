@@ -326,7 +326,7 @@ public class VariablesXLSX_JSON
             outerNode.put("label", "/");
         }catch (InvalidParameterException ipe)
         {   System.err.println(ipe.getMessage());}
-        System.out.println("Root has a total of "+root.children.size()+" children -both groups n variables-.");
+        //System.out.println("Root has a total of "+root.children.size()+" children -both groups n variables-.");
         if (root.children != null)
         {
             addMetaChildren(root, outerNode);

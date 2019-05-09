@@ -119,18 +119,20 @@ public class UploadVariables {
         versionDAO.saveVersion(version);
 
 
-        //harmonizedVersion.setCdevariables(versionDAO.getLastCdeVersion().getCdevariables());
-        List<CDEVariables> cdeVariables = new ArrayList<>();
-        for(CDEVariables cdevar : versionDAO.getLastCdeVersion().getCdevariables()){
-            cdevar.setVersions2(harmonizedVersion);
-            cdeVariables.add(cdevar);
-        }
-        VariablesXLSX_JSON.Node testTree2 = variablesXLSX_json.createTree2(allVar,cdeVars);
-        harmonizedVersion.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
-        harmonizedVersion.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree2).toString());
-        harmonizedVersion.setCdevariables(cdeVariables);
-        harmonizedVersion.setVariables(allVar3);
-        versionDAO.saveVersion(harmonizedVersion);
+       if(!allVar3.isEmpty()){
+           List<CDEVariables> cdeVariables = new ArrayList<>();
+           for(CDEVariables cdevar : versionDAO.getLastCdeVersion().getCdevariables()){
+               cdevar.setVersions2(harmonizedVersion);
+               cdeVariables.add(cdevar);
+           }
+           VariablesXLSX_JSON.Node testTree2 = variablesXLSX_json.createTree2(allVar, cdeVars);
+           harmonizedVersion.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
+           harmonizedVersion.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree2).toString());
+           harmonizedVersion.setCdevariables(cdeVariables);
+           harmonizedVersion.setVariables(allVar3);
+           versionDAO.saveVersion(harmonizedVersion);
+
+       }
 
     }
 
@@ -201,15 +203,17 @@ public class UploadVariables {
                 } else if (cell.getColumnIndex() == 12) {
 
                     String cc12 = cell.getStringCellValue();
-                    System.out.println("THE c12 CELL CONTAINS: " + cc12);
+                    //System.out.println("THE c12 CELL CONTAINS: " + cc12);
                     // The comma indicates that the user is inserting multiple elements
                     cc12 = cc12.replaceAll("\\s+","");
                     System.out.println("THE c12 CELL CONTAINS: " + cc12);
                     if (!cc12.equals("")) {
                         if (cc12.contains(",")) {
+                            System.out.println("MAPPING TO MULTIPLE");
                             newVar = mappingToMultipleCdes(cc12, mapFunction, newVar, version, hospital);
                             isVariableSaved = true;
                         } else {
+                            System.out.println("MAPPING TO SINGLE");
                             newVar = mappingToSingleCde(cc12, mapFunction, newVar, version, hospital);
                             isVariableSaved = true;
                         }
@@ -224,19 +228,19 @@ public class UploadVariables {
                         newVar.setHospital(hospital);
                         variableDAO.save(newVar);
                         isVariableSaved = true;
-
+                        System.out.println("SAVING BECAUSE CELL IS EMPTY");
                         ////
                         xlsxHarmonizedVars.add(newVar);
                     }
 
                 }
-                System.out.println("this column index is : " + cell.getColumnIndex());
+                //System.out.println("this column index is : " + cell.getColumnIndex());
 
             }
             // Check if the variable already saved. If not save it. It might have not been saved if the 'mapFunction'
             //and 'mapCDE' are null and thus there is no 'cell.getColumnIndex()' for them.
             if (!isVariableSaved && newVar.getCode() != null && newVar.getCode() != "") {
-                System.out.println("Variable: "+newVar.getVariable_id()+newVar.getCode()+" is not saved.");
+                //System.out.println("Variable: "+newVar.getVariable_id()+newVar.getCode()+" is not saved.");
                 variableDAO.saveVersionToVariable(newVar, harmonizedVersion);
                 variableDAO.saveVersionToVariable(newVar, version);
                 //////////////////////////////
@@ -250,6 +254,7 @@ public class UploadVariables {
                 variableDAO.save(newVar);
 
                 /////
+                System.out.println("SAVING BECAUSE AFTER CHECK");
                 xlsxHarmonizedVars.add(newVar);
             }else{
                 System.out.println("Variable: "+newVar.getVariable_id()+newVar.getCode()+" is already saved.");
@@ -262,6 +267,7 @@ public class UploadVariables {
         Map<String,List<Variables>> map =new HashMap();
         map.put("variables",xlsxVars);
         map.put("hvariables",xlsxHarmonizedVars);
+        System.out.println("harmonized variables contain: "+xlsxHarmonizedVars);
         return map;
     }
 
@@ -288,7 +294,7 @@ public class UploadVariables {
         for (int i = 0; i < cc11Parts.size(); i++) {
             CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12Parts[i]);
             if (cde != null) {
-                System.out.println("The cdevariable has been retrieved " + cde + "and has concept path of:" + cde.getConceptPath());
+                //System.out.println("The cdevariable has been retrieved " + cde + "and has concept path of:" + cde.getConceptPath());
                 Functions functions = new Functions();
                 allFunctions.add(functions);
                 allCdeVariables.add(cde);
@@ -310,7 +316,7 @@ public class UploadVariables {
             hospitalDAO.save(hospital);
             newVar.setHospital(hospital);
             variableDAO.save(newVar);
-            System.out.println("SAVED VARIABLE TO DATABASE");
+            //System.out.println("SAVED VARIABLE TO DATABASE");
             allVariables.add(newVar);
 
             List<Functions> cdeFunctions = new ArrayList<>();

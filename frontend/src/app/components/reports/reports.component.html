@@ -59,6 +59,7 @@
     <th>Type Declared</th>
     <th>Type Estimated</th>
     <th>Category Values</th>
+    <th>Number Of Category Values</th>
     <th>Unique Values</th>
     <th>Most Frequent Value</th>
     <th>Count Of Most Frequent Value</th>
@@ -90,7 +91,7 @@
       <td ><li *ngFor="let report of variable.variableReports">{{report.numberOfCategoryValues}}</li></td>
       <td ><li *ngFor="let report of variable.variableReports">{{report.countOfUniqueValues}}</li></td>
       <td ><li *ngFor="let report of variable.variableReports">{{report.mostFrequentValue}}</li></td>
-
+      <td ><li *ngFor="let report of variable.variableReports">{{report.numberOfOccurrencesForMostFrequentValue}}</li></td>
       <td ><li *ngFor="let report of variable.variableReports">{{report.numberOfOccurrencesForMostFrequentValue}}</li></td>
       <td ><li *ngFor="let report of variable.variableReports">{{report.countOfRecordsFilled}}</li></td>
       <td ><li *ngFor="let report of variable.variableReports">{{report.percentageOfNonNullRows}}</li></td>
