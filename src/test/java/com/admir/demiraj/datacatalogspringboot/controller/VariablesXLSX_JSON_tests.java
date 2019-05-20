@@ -96,7 +96,7 @@ public class VariablesXLSX_JSON_tests
         System.out.println("---1.1-- Here comes the visualization JSON ---------");
         System.out.println(testJSONVis.toString());
         System.out.println("--------- --------- --------- --------- ---------");
-        System.out.println("---1.2-- And now the Metadata JSON ---------");
+        System.out.println("---1.2-- And now the Metadata JSON... enriched with the 2 new columns: isCategorical & sql_type ---------");
         JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
         System.out.println(testJSONMeta.toString());
 
@@ -128,6 +128,32 @@ public class VariablesXLSX_JSON_tests
 
 
     }
+    /*@Test
+    public void testVariablesXLSX_JSON_cdes_newColumns()
+    {
+        String file_path = FOLDER_NAME_CDES + "cdes_newColumns.xlsx";
+        System.out.println(file_path);
+        try{
+            XLSXcodes2 = xlsx_json.Read_xlsx(file_path);
+        }catch (FileNotFoundException fnfe)
+        {   System.err.println("Xlsx not found...!!!");
+        }
+        catch (IOException io)
+        {   System.err.println("Problem with the xlsx...");
+        }
+        Assert.assertEquals(XLSXcodes2.size(), 179);//172 variables + 7 variables' categories (just a few of them...)
+        Node testTree = xlsx_json.createTree(XLSXcodes2);
+        //xlsx_json.printVariablesTree(testTree);
+        JSONObject testJSONVis = xlsx_json.createJSONVisualization(testTree);
+        System.out.println("--- CDEs new columns -- Here comes the visualization JSON ---------");
+        System.out.println(testJSONVis.toString());
+        System.out.println("--------- --------- --------- --------- ---------");
+        System.out.println("--- CDEs new columns -- And now the Metadata JSON ---------");
+        JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
+        System.out.println(testJSONMeta.toString());
+
+
+    }*/
     /*@Test
     public void testVariablesXLSX_JSON_test()
     {

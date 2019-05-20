@@ -94,29 +94,34 @@ public class VariablesXLSX_JSON
             while (cellIterator.hasNext())
             {
                 Cell cell = (Cell) cellIterator.next();
-                if (cell.getColumnIndex() == 0) //
+                if (cell.getColumnIndex() == 0) //csvFile
                 {
                     newVar = new Variables();
-                    newVar.setCsvFile(cell.getStringCellValue());
-                } else if (cell.getColumnIndex() == 1)
-                    newVar.setName(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 2)
-                    newVar.setCode(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 3)
-                    newVar.setType(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 4)
+                    if (cell.getStringCellValue()!=null) {newVar.setCsvFile(cell.getStringCellValue()); System.out.println("***** Column-A:"+newVar.getCsvFile()+"*****");}
+
+                } else if (cell.getColumnIndex() == 1)//name
+                {  newVar.setName(cell.getStringCellValue()); }
+                else if (cell.getColumnIndex() == 2)//code
+                {   newVar.setCode(cell.getStringCellValue()); }
+                else if (cell.getColumnIndex() == 3)//type
+                {   newVar.setType(cell.getStringCellValue()); }
+                /*else if (cell.getColumnIndex() == 4)//sql_type
+                    newVar.setSql_type(cell.getStringCellValue());
+                else if (cell.getColumnIndex() == 5)//isCategorical
+                    newVar.setIsCategorical(cell.getStringCellValue());*/
+                else if (cell.getColumnIndex() == 4)//values
                     newVar.setValues(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 5)
+                else if (cell.getColumnIndex() == 5)//unit
                     newVar.setUnit(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 6)
+                else if (cell.getColumnIndex() == 6)//canBeNull
                     newVar.setCanBeNull(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 7)
+                else if (cell.getColumnIndex() == 7)//description
                     newVar.setDescription(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 8)
+                else if (cell.getColumnIndex() == 8)//comments
                     newVar.setComments(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 9)
+                else if (cell.getColumnIndex() == 9)//conceptPath
                     newVar.setConceptPath(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 10)
+                else if (cell.getColumnIndex() == 10)//methodology
                     newVar.setMethodology(cell.getStringCellValue());
 
             }
@@ -129,7 +134,7 @@ public class VariablesXLSX_JSON
      *
      * @param xlsxVars: Set of the Variables parsed from the input XLSX
      * @param cdeVars: Set of the CDEs of the version we want
-     * @return the Metadata JSON which contains the xlsxVars plus the last version CDEs
+     * @return the Metadata JSON which contains the xlsxVars plus the version of the CDEs we want
      */
     public JSONObject createJSONMetadataWithCDEs(List<Variables> xlsxVars, List<CDEVariables> cdeVars)
     {
@@ -321,13 +326,14 @@ public class VariablesXLSX_JSON
     public JSONObject createJSONMetadata(Node root)
     {
         JSONObject outerNode = new JSONObject();
+        boolean isLeaf =  (root.children == null ? true : false);
         try {
-            root.fillJSONMetaObject(outerNode);
             outerNode.put("label", "/");
+            root.fillJSONMetaObject(outerNode, isLeaf);
         }catch (InvalidParameterException ipe)
         {   System.err.println(ipe.getMessage());}
         //System.out.println("Root has a total of "+root.children.size()+" children -both groups n variables-.");
-        if (root.children != null)
+        if (!isLeaf)
         {
             addMetaChildren(root, outerNode);
         }
@@ -348,14 +354,14 @@ public class VariablesXLSX_JSON
             if (child.children != null)//groups
             {
                 JSONObject childNode = new JSONObject();
-                child.fillJSONMetaObject(childNode);
+                child.fillJSONMetaObject(childNode, false);
                 groupsArray.put(childNode);
                 addMetaChildren(child, childNode);
             }
             else//variables
             {
                 JSONObject varNode = new JSONObject();
-                child.fillJSONMetaObject(varNode);
+                child.fillJSONMetaObject(varNode, true);
                 variablesArray.put(varNode);
             }
         if (groupsArray.length()!=0)
@@ -405,6 +411,10 @@ public class VariablesXLSX_JSON
         {   return this.var.getConceptPath()!=null ? this.var.getConceptPath() : null;}
         public String getMethodology()
         {   return this.var.getMethodology()!=null ? this.var.getMethodology() : null;}
+        public String getIsCategorical()
+        {   return this.var.getIsCategorical();}
+        public String getSql_type()
+        {   return this.var.getSql_type();}
         public List<String> getMapfunctions()
         {
             List<String> functions = null;
@@ -457,9 +467,20 @@ public class VariablesXLSX_JSON
          * Function to fill in a JSONObject of the Metadata JSON from the current Node's attributes
          * @param varNode
          */
-        public void fillJSONMetaObject(JSONObject varNode) throws InvalidParameterException
+        public void fillJSONMetaObject(JSONObject varNode, boolean isLeaf) throws InvalidParameterException
         {
             varNode.put("code", this.code);
+            if (isLeaf)
+            {
+                varNode.put("description", "");
+                varNode.put("label", "");
+                varNode.put("methodology", "");
+                varNode.put("type", "");
+                varNode.put("units", "");
+                varNode.put("sql_type", "text");
+                //varNode.put("isCategorical", "");
+            }
+            boolean isCategorical = false;
             if (this.var != null)
             {
                 if (this.getDescription()!=null) varNode.put("description", this.getDescription());
@@ -468,8 +489,17 @@ public class VariablesXLSX_JSON
                 if (this.getType()!=null)
                 {
                     varNode.put("type", this.getType());
-                    if ((this.getType().equals("polynominal")||this.getType().equals("binominal")))
+                    boolean isInt = false;
+                    if (this.getType().toLowerCase().trim().equals("int") || this.getType().toLowerCase().trim().equals("integer"))
                     {
+                        varNode.put("sql_type", "int");
+                        isInt = true;
+                    }
+                    else if (this.getType().toLowerCase().trim().equals("real") || this.getType().toLowerCase().trim().equals("numeric"))
+                        varNode.put("sql_type", "real");
+                    else if ((this.getType().equals("polynominal")||this.getType().equals("binominal")||this.getType().equals("nominal")))
+                    {
+                        isCategorical = true;
                         if (this.getValues()==null)
                             throw new InvalidParameterException("Variable "+this.code+" is of polynominal type but does not have information about its values...");
                         //have 2 present the Values in an enumeration list
@@ -477,7 +507,7 @@ public class VariablesXLSX_JSON
                         varNode.put("enumerations", enumArray);
                         Pattern pattern = Pattern.compile("\\{([^}]*)\\s?,\\s?([^}]*)}");
                         Matcher matcher = pattern.matcher(this.getValues());
-                        boolean isInt = true;//check if it is int so as to put "sql_type":"int" or not...
+                        boolean isPolInt = true;//check if it is int so as to put "sql_type":"int" or not...
                         int countEnums=0;
                         String enumCode=null; String enumLabel=null; JSONObject enumm=null;
                         while (matcher.find())
@@ -494,38 +524,58 @@ public class VariablesXLSX_JSON
                                 int one = Integer.parseInt(enumCode);
                                 int two = Integer.parseInt(enumLabel);
                             }catch (NumberFormatException nfe)
-                            {   isInt = false;}
+                            {   isPolInt = false;}
+                            enumm.put("code", enumCode);
+                            enumm.put("label", enumLabel);
+                            enumArray.put(enumm);
                         }
                         if (countEnums==0)
                             throw new InvalidParameterException("Variable "+this.code+" has polynominal type but its value is not written correctly...");
-                        if (isInt)
+                        /*if (isPolInt)
                         {
                             varNode.put("sql_type", "int");
                             enumm.put("code", Integer.parseInt(enumCode));
                             enumm.put("label", Integer.parseInt(enumLabel));
-                        }
-                        else
-                        {
-                            enumm.put("code", enumCode);
-                            enumm.put("label", enumLabel);
-                        }
-                        enumArray.put(enumm);
+                        }*/
+
                     }
-                    else if (this.getValues()!=null)
+
+                    if (this.getValues()!=null && !isCategorical)
                     {
                         Pattern pattern = Pattern.compile("([0-9\\.,]*)\\s?-\\s?([0-9\\.,]*)");
                         Matcher matcher = pattern.matcher(this.getValues());
-                        if (matcher.find())
+                        if (matcher.find())//got values with range
                         {
                             int bottom = Integer.parseInt(matcher.group(1));
                             int top = Integer.parseInt(matcher.group(2));
                             varNode.put("minValue", bottom);
                             varNode.put("maxValue", top);
+                            if (isInt)
+                            {
+                                int int_range = top-bottom;
+                                if (++int_range <= 31)
+                                {
+                                    isCategorical = true;
+                                    JSONArray enumArray = new JSONArray();
+                                    varNode.put("enumerations", enumArray);
+                                    JSONObject enumm = null;
+                                    for (int i=bottom; i<=top; i++)
+                                    {
+                                        enumm = new JSONObject();
+                                        enumm.put("code", i);
+                                        enumm.put("label", i);
+                                        enumArray.put(enumm);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                if (this.getUnit()!=null) varNode.put("units", this.getUnit());
 
+                if (this.getUnit()!=null) varNode.put("units", this.getUnit());
+                //if (this.getSql_type()!=null) varNode.put("sql_type", "");
+                if (isLeaf)
+                    varNode.put("isCategorical", Boolean.toString(isCategorical));
             }
         }
 

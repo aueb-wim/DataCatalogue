@@ -82,6 +82,12 @@ public class Variables implements Serializable{
     private String type;
 
     @Column
+    private String sql_type;
+
+    @Column
+    private String isCategorical;
+
+    @Column
     private String unit;
 
     @Column
@@ -240,6 +246,14 @@ public class Variables implements Serializable{
     public void setMethodology(String methodology) {
         this.methodology = methodology;
     }
+
+    public String getSql_type() { return sql_type; }
+
+    public void setSql_type(String sql_type) { this.sql_type = sql_type; }
+
+    public String getIsCategorical() { return isCategorical; }
+
+    public void setIsCategorical(String isCategorical) { this.isCategorical = isCategorical; }
 
     public List<VariableReport> getVariableReports() {
         return variableReports;
