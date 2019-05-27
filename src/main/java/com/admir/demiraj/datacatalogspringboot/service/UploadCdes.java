@@ -127,37 +127,38 @@ public class UploadCdes {
                             case 3:
                                 cdeVariables.setType(currentCell.getStringCellValue());
                                 break;
+                         //   case 4:
+                            //    cdeVariables.setSql_type(currentCell.getStringCellValue());
+                             //   break;
+                          //  case 5:
+                              //  cdeVariables.setIsCategorical(currentCell.getStringCellValue());
+                               // break;
                             case 4:
-                                cdeVariables.setSql_type(currentCell.getStringCellValue());
-                                break;
-                            case 5:
-                                cdeVariables.setIsCategorical(currentCell.getStringCellValue());
-                                break;
-                            case 6:
                                 cdeVariables.setValues(currentCell.getStringCellValue());
                                 break;
-                            case 7:
+                            case 5:
                                 cdeVariables.setUnit(currentCell.getStringCellValue());
                                 break;
-                            case 8:
+                            case 6:
                                 cdeVariables.setCanBeNull(currentCell.getStringCellValue());
                                 break;
-                            case 9:
+                            case 7:
                                 cdeVariables.setDescription(currentCell.getStringCellValue());
                                 break;
-                            case 10:
+                            case 8:
                                 cdeVariables.setComments(currentCell.getStringCellValue());
                                 break;
-                            case 11:
+                            case 9:
                                 cdeVariables.setConceptPath(currentCell.getStringCellValue());
                                 break;
-                            case 12:
+                            case 10:
                                 cdeVariables.setMethodology(currentCell.getStringCellValue());
                                 break;
                         }
 
 
                     }
+                    /*
                     if (validateCdeFields(cdeVariables)) {
                         //it is a cdevariable
                         cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
@@ -169,7 +170,19 @@ public class UploadCdes {
                     } else {
                         System.out.println("CDE variable with empty code cannot be saved.");
                     }
+*/
 
+                    if (neitherEmptyNorNull(cdeVariables.getCode()) && neitherEmptyNorNull(cdeVariables.getType()) && !cdeVariables.getConceptPath().endsWith("/")) {
+                        //it is a cdevariable
+                        cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
+                        cdeVariableDAO.save(cdeVariables);
+                        cdeVariablesList.add(cdeVariables);
+                    } else if (validateCategoryFields(cdeVariables)) {
+                        //it is a category
+                        cdeVariablesList.add(cdeVariables);
+                    } else {
+                        System.out.println("CDE variable with empty code cannot be saved.");
+                    }
 
                 }
             }
@@ -214,7 +227,7 @@ public class UploadCdes {
      //   System.out.println("VALUES --> "+eitherEmptyOrNull(cdevar.getValues()));
 
 
-        if (eitherEmptyOrNull(cdevar.getCsvFile()) && eitherEmptyOrNull(cdevar.getType()) && eitherEmptyOrNull(cdevar.getCanBeNull())
+        if (eitherEmptyOrNull(cdevar.getType()) && eitherEmptyOrNull(cdevar.getCanBeNull())
                 && eitherEmptyOrNull(cdevar.getSql_type()) && eitherEmptyOrNull(cdevar.getIsCategorical()) && eitherEmptyOrNull(cdevar.getValues())
                 && eitherEmptyOrNull(cdevar.getUnit())) {
            // System.out.println("EVERYTHING --> OK");
