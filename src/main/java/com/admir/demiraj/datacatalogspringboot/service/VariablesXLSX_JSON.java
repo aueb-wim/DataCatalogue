@@ -575,7 +575,7 @@ public class VariablesXLSX_JSON
                 if (this.getUnit()!=null) varNode.put("units", this.getUnit());
                 //if (this.getSql_type()!=null) varNode.put("sql_type", "");
                 if (isLeaf)
-                    varNode.put("isCategorical", Boolean.toString(isCategorical));
+                    varNode.put("isCategorical", isCategorical);
             }
         }
 

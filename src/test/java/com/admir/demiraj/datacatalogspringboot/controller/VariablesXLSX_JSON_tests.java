@@ -169,7 +169,7 @@ public class VariablesXLSX_JSON_tests
         System.out.println("--------- --------- --------- --------- ---------");
     }*/
     @Test
-    public void testVariablesXLSX_JSON_Visualization_Niguarda()
+    public void testVariablesXLSX_JSON_Niguarda()
     {
         String file_path = FOLDER_NAME_VARS + "Niguarda_v3.xlsx";
         System.out.println(file_path);
@@ -187,9 +187,9 @@ public class VariablesXLSX_JSON_tests
         System.out.println("---2.1-- Here comes the visualization JSON for Niguarda where there seems to be a problem with a null node... ---------");
         System.out.println(testJSONVis.toString());
         System.out.println("--------- --------- --------- --------- ---------");
-        /*System.out.println("---2.2-- And now the Metadata JSON ---------");
+        System.out.println("---2.2-- And now the Metadata JSON for Niguarda ---------");
         JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
-        System.out.println(testJSONMeta.toString());*/
+        System.out.println(testJSONMeta.toString());
     }
     @Test
     public void testQuotesRemoval()
