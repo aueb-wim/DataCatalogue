@@ -28,7 +28,7 @@ public class Upload_tests {
     @Test
     public void testReadExcel() {
         UploadVariables uv = new UploadVariables();
-        uv.readExcelFile();
+        //uv.readExcelFile();
         //Assert.assertEquals("","");
     }
 

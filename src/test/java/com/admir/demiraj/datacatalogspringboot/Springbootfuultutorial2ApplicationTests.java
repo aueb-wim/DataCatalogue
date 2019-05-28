@@ -20,14 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@RunWith(SpringRunner.class)
 //@RunWith(SpringJUnit4ClassRunner.class)
-@EnableConfigurationProperties
-@EnableJpaAuditing
-@RestController
-@ComponentScan
-@WebAppConfiguration
+//@EnableConfigurationProperties
+//@EnableJpaAuditing
+//@RestController
+//@ComponentScan
+//@WebAppConfiguration
 public class Springbootfuultutorial2ApplicationTests{
 	private static final String FOLDER_NAME_CDES = System.getProperty("user.dir") + "/src/main/resources/data/cdes/";
 	private static final String FOLDER_NAME_VARS = System.getProperty("user.dir") + "/src/main/resources/data/variables/";
@@ -44,17 +44,18 @@ public class Springbootfuultutorial2ApplicationTests{
 
 	@Test
 	public void contextLoads() {
+		System.out.println("Spring full test is ok");
 		//uploadCDEs = new UploadCdes();
 		//SpringBootTest..run(DataCatalogueSpringBootApplication.class, args);
-		System.out.println("--------- Saving cdes_v1 to the DB ---------");
-		String file_path = FOLDER_NAME_CDES + "cdes_v1.xlsx";
-		Versions version1 = new Versions("v1");
-		uploadCDEs.readExcelSaveToVariabe(file_path, version1);
-		System.out.println("--------- --------- --------- --------- ---------");
-		System.out.println("--------- Saving cdes_v2 to the DB ---------");
-		file_path = FOLDER_NAME_CDES + "cdes_v2.xlsx";
-		Versions version2 = new Versions("v2");
-		uploadCDEs.readExcelSaveToVariabe(file_path, version2);
+		//System.out.println("--------- Saving cdes_v1 to the DB ---------");
+		//String file_path = FOLDER_NAME_CDES + "cdes_v1.xlsx";
+		//Versions version1 = new Versions("v1");
+		//uploadCDEs.readExcelSaveToVariabe(file_path, version1);
+		//System.out.println("--------- --------- --------- --------- ---------");
+		//System.out.println("--------- Saving cdes_v2 to the DB ---------");
+		//file_path = FOLDER_NAME_CDES + "cdes_v2.xlsx";
+		//Versions version2 = new Versions("v2");
+		//uploadCDEs.readExcelSaveToVariabe(file_path, version2);
 
 	}
 
