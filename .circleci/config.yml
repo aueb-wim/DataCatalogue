@@ -5,9 +5,15 @@ jobs: # a collection of steps
     working_directory: ~/IntelijProjects/DataCatalogue # directory where steps will run
 
     docker: # run the steps with Docker
-      - image: circleci/openjdk:8-jdk-browsers # ...with this image as the primary container; this is where all `steps` will run
+      #- image: redspark/oracle-jdk-8
+      - image: circleci/jdk8:0.1.1
+      #- image: circleci/openjdk:8-jdk-browsers # ...with this image as the primary container; this is where all `steps` will run
 
     steps: # a collection of executable commands
+      ############# ADDED ########################
+      - run: apt-get update; apt-get install -y git; apt-get install -y maven
+      #- run: set -xe && apt-get -y update && apt-get install --no-install-recommends -y git
+      ############# END ADDED ########################
 
       - checkout # check out source code to working directory
 
@@ -23,6 +29,9 @@ jobs: # a collection of steps
           key: DataCatalogue-{{ checksum "pom.xml" }}
       
       - run: mvn package # run the actual tests
+
+      # make a file for the reports
+      #- run: mkdir target/surefire-reports
       
       - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard. 
       # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
@@ -30,5 +39,5 @@ jobs: # a collection of steps
       
       - store_artifacts: # store the uberjar as an artifact
       # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-          path: target/DataCatalogue-0.0.1-SNAPSHOT.jar
+          path: target/datacatalogbackend-0.0.1-SNAPSHOT.jar
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples

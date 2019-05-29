@@ -14,7 +14,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>LATEST</version>
+      <version>LATEST</version>
+
         <relativePath/> <!-- lookup parent from repository <version>2.0.4.RELEASE</version>-->
     </parent>
 
@@ -26,12 +27,16 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!--
             <dependency>
                 <groupId>io.spring.platform</groupId>
                 <artifactId>platform-bom</artifactId>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            -->
+            <!--
             <dependency>
 
                 <groupId>org.springframework.cloud</groupId>
@@ -45,6 +50,7 @@
                 <scope>import</scope>
 
             </dependency>
+            -->
         </dependencies>
     </dependencyManagement>
 
@@ -64,27 +70,25 @@
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
             <version>2.1.2.RELEASE</version>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-netflix-dependencies</artifactId>
             <version>1.0.6.RELEASE</version>
             <type>pom</type>
         </dependency>
-
+<!--
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
             <version>LATEST</version>
         </dependency>
+        -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>

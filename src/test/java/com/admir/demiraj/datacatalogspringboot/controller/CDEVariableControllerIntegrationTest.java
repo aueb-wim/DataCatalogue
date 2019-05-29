@@ -2,7 +2,7 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 
 
 import com.admir.demiraj.datacatalogspringboot.DataCatalogueSpringBootApplication;
-import com.admir.demiraj.datacatalogspringboot.Springbootfuultutorial2ApplicationTests;
+//import com.admir.demiraj.datacatalogspringboot.Springbootfuultutorial2ApplicationTests;
 import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;
 import org.junit.Test;
 import org.junit.runner.RunWith;
