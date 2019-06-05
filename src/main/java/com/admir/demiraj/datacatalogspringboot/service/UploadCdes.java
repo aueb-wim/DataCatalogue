@@ -169,7 +169,11 @@ public class UploadCdes {
                     } else {
                         System.out.println("CDE variable with empty code cannot be saved.");
                     }
+
+
 */
+                    cdeVariables.setSql_type(generateSqlTypeFormType(cdeVariables.getType()));
+                    cdeVariables.setIsCategorical(checkIfCategorical(cdeVariables));
 
                     if (neitherEmptyNorNull(cdeVariables.getCode()) && neitherEmptyNorNull(cdeVariables.getType()) && !cdeVariables.getConceptPath().endsWith("/")) {
                         //it is a cdevariable
@@ -191,6 +195,36 @@ public class UploadCdes {
             e.printStackTrace();
         }
         return cdeVariablesList;
+    }
+
+    public String generateSqlTypeFormType(String type){
+        if(type != null){
+            if (type.toLowerCase().trim().equals("int") || type.toLowerCase().trim().equals("integer")){
+                return "int";
+            }else if (type.toLowerCase().trim().equals("real")){
+                return "real";
+            }else{
+                return "text";
+            }
+        }
+
+            return null;
+
+    }
+
+    public String checkIfCategorical(CDEVariables cde){
+        if(cde.getType() != null){
+            if(cde.getType().toLowerCase().trim().equals("polynominal") || cde.getType().toLowerCase().trim().equals("nominal")){
+                if(cde.getValues() != null){
+                if(cde.getValues().toLowerCase().trim().contains("{") && cde.getValues().toLowerCase().trim().contains("}") || cde.getValues().toLowerCase().trim().matches("^s*\\d{2,3}\\s*(?:-\\s*\\d{2,3}\\s*)$")){
+                    return "true";
+                }}
+        }
+
+        return "false";
+
+}
+return null;
     }
 
     /**

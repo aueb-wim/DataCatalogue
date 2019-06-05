@@ -5,6 +5,8 @@
 /deep/rect:hover {
   stroke-opacity: .5;
 }
+
+
 .link-label:hover {
   stroke-opacity: .9;
   font-size: 20px;
