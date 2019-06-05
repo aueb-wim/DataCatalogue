@@ -1,4 +1,4 @@
-[![AUEB](https://img.shields.io/badge/AUEB-RC-red.svg)](https://www.aueb.gr/) [![License](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](https://github.com/HBPMedical/DataCatalogue/blob/master/LICENSE) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c08a182fec11456a8ba98ddeedb9ed4f)](https://www.codacy.com/app/iosifsp/QCtool?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=aueb-wim/QCtool&amp;utm_campaign=Badge_Grade) [![CircleCI](https://circleci.com/gh/aueb-wim/DataCatalogue.svg?style=svg)](https://circleci.com/gh/aueb-wim/DataCatalogue)
+[![AUEB](https://img.shields.io/badge/AUEB-RC-red.svg)](https://www.aueb.gr/) [![License](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](https://github.com/HBPMedical/DataCatalogue/blob/master/LICENSE) [![CircleCI](https://circleci.com/gh/aueb-wim/DataCatalogue.svg?style=svg)](https://circleci.com/gh/aueb-wim/DataCatalogue)
 
 # HBP-MIP DataCatalogue
 ## Overview
@@ -8,27 +8,36 @@ This tool is a component developed for the [Human Brain Project Medical Informat
 The potential users of the tool are first of all the researchers that prior to executing experiments through the Portal of the MIP may want to investigate what type of information is available in each hospital. Moreover, the tool aims at facilitating the collaboration between the authorized hospital personnel and the development team of MIP.
 
 ## User Guide
-### Informative View
+### Informative Mode (No login required)
+The user can perform a set of actions without being logged in.
 
 Hospital Meta-Data:
--   View the meta-data of all hospitals combined 
--   View the meta-data of each specific hospital
--   Select the current or any previous version of the hospital meta-data
--   Search meta-data based on their category or code
--   View details about the meta-data
--   Download the json that contains the meta-data that will be used in the MIP Local Node
--   View the hierarchy of the meta-data in an indexable tree structure
--   View / Download / Index  the results of the Quality Control Tool for the meta-data
--   View the graphical representation of how variables should be mapped to CDEs and using which rule
+-   View the meta-data of all hospitals combined [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l1.png)
+-   View the meta-data of each specific hospital [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   Select the current or any previous version of the hospital meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   Search meta-data based on their category or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   View details about the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   Download the json that contains the meta-data that will be used in the MIP Local Node [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l3.png)
+-   View / Download / Index  the results of the Quality Control Tool for the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l4.png)
+-   View the graphical representation of how variables should be mapped to CDEs and using which rule [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l5.png)
 
 Common Data Elements (CDEs):
--   Select the current or any previous version of the CDE meta-data
--   Search meta-data based on their category or code
--   View details about the meta-data
--   Download the json that contains the meta-data that will be used in the MIP Federated Node
+-   Select the current or any previous version of the CDE meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
+-   Search meta-data based on their category or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
+-   View details about the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
+-   Download the json that contains the meta-data that will be used in the MIP Federated Node [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
+-   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l7.png)
+
+### Management Mode (Login required)
+Data Catalogue utilizes the [OpenID](https://collab.humanbrainproject.eu/#/collab/54/nav/35256) protocol in order to authorize users in the Data Catalogue. The users can be authendicated via the MIP Portal and be automatically authorized (logged in) in Data Catalogue. The extra actions that the user can do after being logged in are the following: 
+-   Create a new Variable/CDE meta-data version using the GUI [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l11.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_2.png), [step3](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_1.png)
+-   Download a sample excel file that contains the schema of the meta-data that should be copleted [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
+-   Create a new Variable/CDE meta-data version using by uploading an excel file [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
 
 ## Installing / Getting started
 ### General Architecture
+![architecture](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/architecture.png) 
 
 ### Prerequisites
 
@@ -83,3 +92,4 @@ This work is part of HBP SGA2 T8.5.2 .
 Special thanks to:
 
 -   **Prof. Vasilis Vassalos** - Athens University of Economics and Business
+
