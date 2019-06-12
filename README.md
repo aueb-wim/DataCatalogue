@@ -30,10 +30,10 @@ Common Data Elements (CDEs):
 -   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l7.png)
 
 ### Management Mode (Login required)
-Data Catalogue utilizes the [OpenID](https://collab.humanbrainproject.eu/#/collab/54/nav/35256) protocol in order to authorize users in the Data Catalogue. The users can be authendicated via the MIP Portal and be automatically authorized (logged in) in Data Catalogue. The extra actions that the user can do after being logged in are the following: 
+Data Catalogue utilizes the [OpenID](https://collab.humanbrainproject.eu/#/collab/54/nav/35256) protocol in order to authorize users in the Data Catalogue. The users can be authenticated via the MIP Portal and be automatically authorized (logged in) in Data Catalogue. The extra actions that the user can do after being logged in are the following: 
 -   Create a new Variable/CDE meta-data version using the GUI [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l11.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_2.png), [step3](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_1.png)
--   Download a sample excel file that contains the schema of the meta-data that should be copleted [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
--   Create a new Variable/CDE meta-data version using by uploading an excel file [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
+-   Download a sample excel file that contains the schema of the meta-data that should be completed [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
+-   Create a new Variable/CDE meta-data version by uploading an excel file [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
 
 ## Installing / Getting started
 ### General Architecture
