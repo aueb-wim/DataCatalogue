@@ -165,7 +165,7 @@ export class MappingVisualComponent implements OnInit, OnChanges{
     var node = svg.append("g")
       .attr("class", "nodes")
       .attr("font-family", "OpenSymbol")/////////////////////////////
-      .attr("font-size", "20px")///////////////////////////////
+      .attr("font-size", "12px")//
       .attr("stroke-opacity", 0.2)
       .selectAll("g");
 
@@ -255,7 +255,7 @@ for(let f of this.functionsByVariableVersion){
       .attr( "fill-opacity", .4 )
         .style("fill", "blue")
         .style("text-anchor", "middle")
-        .style("font-size", "15px")/////////changed/////////////////////////////////////////////////////////////////////////////////////
+        .style("font-size", "12px")/////////changed
         //.attr("transform", "rotate(" + rotation + ","+ position.x + "," + position.y + ")")
     }
 

@@ -25,8 +25,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 //@CrossOrigin
 public interface CDEVariablesRepository extends JpaRepository<CDEVariables, BigInteger>{
     
-    @Query(value = "select * from cdevariables where cdevariables.version.version_id = ?1",nativeQuery=true )
-    List<CDEVariables> findCDEVariablesByVersion(BigInteger VersionId);
+
 
     @Query(value = "SELECT ver.name FROM versions ver" +
             " INNER JOIN cdevariables_versions vv ON ver.version_id = vv.version_id " +

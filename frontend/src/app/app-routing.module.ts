@@ -7,6 +7,7 @@ import {AllVariablesComponent} from "./components/all-variables/all-variables.co
 import {CreateNewVersionComponent} from "./components/create-new-version/create-new-version.component";
 import {FullUploadComponent} from "./components/full-upload/full-upload.component";
 import {CreateNewVersionCdeComponent} from "./components/create-new-version-cde/create-new-version-cde.component"
+import {AboutComponent} from "./components/about/about.component"
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'hospitals/cde-variables', component: CdeVariablesComponent},
   {path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/all', component: AllVariablesComponent},
+  {path:'hospitals/about', component: AboutComponent},
   {path:'hospitals/:hospital_id', component: HospitalDetailsComponent},
   {path:'hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
   {path:'hospitals/:hospital_id/new-version/:upload_file', component: FullUploadComponent},

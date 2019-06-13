@@ -69,6 +69,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(){
+
     this.deviceInfo = this.deviceService.getDeviceInfo();
     if (!(this.deviceInfo['browser'] == "Chrome" || this.deviceInfo['browser'] == "MS-Edge") || !this.deviceService.isDesktop()) {
       window.alert("Currently the application is available for Google " +
