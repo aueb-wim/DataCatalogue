@@ -32,6 +32,13 @@ export class HospitalService {
 
   }
 
+  getAllPathologies():Observable<any>{
+
+    return this.http.get('//195.251.252.222:2442/pathology/allPathologies',{headers:this.headers});
+
+  }
+
+
   getAllCdeVersions():Observable<any> {
     return this.http.get('//195.251.252.222:2442/CDE/allCdeVersions',{headers:this.headers});
   }

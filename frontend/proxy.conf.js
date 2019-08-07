@@ -33,7 +33,8 @@
       "/mapping/down",
       "/report/getBatchReport/",
       "/report/getVariableReport/",
-      "/report/uploadAllReports"
+      "/report/uploadAllReports",
+      "/pathology/allPathologies"
     ],
     target: "http://195.251.252.222:2443",
     secure: false

@@ -29,15 +29,49 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   disabled = false;
   variableOptions: Array<IOption> = [{label: '', value: ''}];
   versionOptions: Array<IOption> = [{label: '', value: ''}];
+  pathologyOptions: Array<IOption> = [{label: '', value: ''}];
   categoryOptions: Array<IOption> = [{label: '', value: ''}];
   enabled = "active";
   deviceInfo = null;
   currentVersionIndex=0;
 
+  allPathologies:Array<any>;
+  currentPathology;
+  currentPathologyIndex=0;
+  currentPathologyName;
+  currentPathologyId;
+
   constructor(private hospitalService: HospitalService, private deviceService: DeviceDetectorService, private location: Location,private router: Router) {
   }
 
   ngOnInit() {
+    this.hospitalService.getAllPathologies().subscribe(allPathologies=>{
+      this.allPathologies = allPathologies;
+      let currentPathology = allPathologies[0];
+      this.currentPathology = currentPathology;
+      this.currentPathologyName = currentPathology['name'];
+      this.currentPathologyId = currentPathology['pathology_id'];
+      let allVersions = currentPathology['versions'];
+
+      this.allCdeVersions = allVersions;
+      let lastVersion = allVersions[allVersions.length-1];
+      this.currentVersion = lastVersion;
+      this.currentJsonMetadata = lastVersion['jsonString'];
+      this.currentVersionId = +lastVersion['version_id'];
+      this.currentVersionName = lastVersion['name'];
+      //this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
+      this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
+      this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
+      this.currentVersionIndex = allVersions.length-1;
+
+      this.versionOptions = this.arrayIterationByVersionName(allVersions);
+
+      this.pathologyOptions = this.arrayIterationByPathologyName(allPathologies);
+
+
+    });
+
+/*
     this.hospitalService.getAllCdeVersions().subscribe(allVersions => {
       this.allCdeVersions = allVersions;
       let lastVersion = allVersions[allVersions.length-1];
@@ -57,7 +91,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
    // this.hospitalService.getjsonStringVisualizableByVersionId(this.currentVersionId).subscribe(json => {
    //   this.jsonVisualizable = json
   //  });
-
+*/
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -129,6 +163,16 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     let finalArray: Array<IOption> = [{label: '', value: ''}];
     for (let obj of originalArray) {
       finalArray.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
+    }
+    return finalArray;
+  }
+
+  public arrayIterationByPathologyName(originalArray) {
+    //empty the array first
+    //this.versionOptions.length = 0;
+    let finalArray: Array<IOption> = [{label: '', value: ''}];
+    for (let obj of originalArray) {
+      finalArray.push({label: obj['name'].toLowerCase().toString(), value: obj['pathology_id'].toString()});
     }
     return finalArray;
   }
@@ -205,10 +249,47 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
+  public pathologySelected(option: IOption): void {
+    this.currentPathologyName = option.label;
+    this.currentPathologyId = +option.value;
+    this.currentPathologyIndex = this.pathologyOptions.indexOf(option)-1;
+
+    let lastPathology = this.allPathologies[this.currentPathologyIndex];
+    this.currentPathology = lastPathology;
+
+    ///////////////////////////////////////////////////////////////////////////
+    let allVersions = lastPathology['versions'];
+    this.allCdeVersions  = allVersions;
+
+    let lastVersion = allVersions[allVersions.length-1];
+    this.currentVersion = lastVersion;
+
+
+    this.currentVersionName = lastVersion['name'];
+    this.currentVersionId = +lastVersion['version_id'];
+    this.versionOptions = this.arrayIterationByVersionName(allVersions);
+    console.log('Console Options version:',this.versionOptions);
+    this.currentJsonMetadata = lastVersion['jsonString'];
+
+
+    this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
+    this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
+    this.searchTermVar = '';
+
+  }
+
   public versionDeselected(option: IOption): void {
 
   }
+  public pathologyDeselected(option: IOption): void {
+
+  }
+
   public versionFilterInputChanged(option: IOption): void {
+
+  }
+
+  public pathologyFilterInputChanged(option: IOption): void {
 
   }
 
