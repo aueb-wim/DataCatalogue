@@ -39,6 +39,7 @@ import { FullUploadComponent } from './components/full-upload/full-upload.compon
 import { CreateNewVersionCdeComponent } from './components/create-new-version-cde/create-new-version-cde.component';
 import { CategoryFilterPipe } from './components/category-filter.pipe';
 import { AboutComponent } from './components/about/about.component';
+import { PathologiesComponent } from './components/pathologies/pathologies.component';
 
 
 @Injectable()
@@ -78,6 +79,7 @@ export class XhrInterceptor implements HttpInterceptor {
     CreateNewVersionCdeComponent,
     CategoryFilterPipe,
     AboutComponent,
+    PathologiesComponent,
 
   ],
   imports: [

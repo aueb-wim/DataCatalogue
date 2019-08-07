@@ -8,15 +8,18 @@ import {CreateNewVersionComponent} from "./components/create-new-version/create-
 import {FullUploadComponent} from "./components/full-upload/full-upload.component";
 import {CreateNewVersionCdeComponent} from "./components/create-new-version-cde/create-new-version-cde.component"
 import {AboutComponent} from "./components/about/about.component"
-
+import {PathologiesComponent} from "./components/pathologies/pathologies.component"
 
 const routes: Routes = [
-  { path: '', redirectTo: '/hospitals', pathMatch: 'full' },
+  { path: '', redirectTo: 'pathologies', pathMatch: 'full' },
   {path:'hospitals/cde-variables', component: CdeVariablesComponent},
-  {path:'hospitals', component: HospitalsComponent},
+  {path:'pathologies', component: PathologiesComponent},
+  {path:'pathologies/:pathology_id', component: HospitalsComponent},
+  {path:'pathologies/:pathology_id/hospitals/:hospital_id', component: HospitalDetailsComponent},
+  //{path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/all', component: AllVariablesComponent},
   {path:'hospitals/about', component: AboutComponent},
-  {path:'hospitals/:hospital_id', component: HospitalDetailsComponent},
+
   {path:'hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
   {path:'hospitals/:hospital_id/new-version/:upload_file', component: FullUploadComponent},
   {path:'hospitals/cde-variables/new-cde-version/:upload_file', component: FullUploadComponent},

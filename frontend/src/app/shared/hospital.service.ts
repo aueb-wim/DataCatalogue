@@ -38,6 +38,11 @@ export class HospitalService {
 
   }
 
+  getPathologyById(pathology_id: number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/pathology/allPathologies/'+pathology_id,{headers:this.headers});
+
+  }
+
 
   getAllCdeVersions():Observable<any> {
     return this.http.get('//195.251.252.222:2442/CDE/allCdeVersions',{headers:this.headers});

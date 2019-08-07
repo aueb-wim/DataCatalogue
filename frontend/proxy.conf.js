@@ -34,7 +34,8 @@
       "/report/getBatchReport/",
       "/report/getVariableReport/",
       "/report/uploadAllReports",
-      "/pathology/allPathologies"
+      "/pathology/allPathologies",
+      "/pathology/allPathologies/"
     ],
     target: "http://195.251.252.222:2443",
     secure: false

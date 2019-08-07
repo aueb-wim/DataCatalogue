@@ -1,6 +1,8 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, SimpleChanges} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-hospitals',
@@ -10,18 +12,29 @@ import {DeviceDetectorService} from 'ngx-device-detector';
 export class HospitalsComponent implements OnInit,AfterViewInit {
 
   hospitals: Array<any>;
+  pathologies:Array<any>;
   deviceInfo = null;
+  currentLocation;
   enabled = "active";
 
-  constructor(private hospitalService: HospitalService, private deviceService: DeviceDetectorService) {
+
+  constructor(private hospitalService: HospitalService, private deviceService: DeviceDetectorService, private route: ActivatedRoute, private location: Location, private router: Router) {
 //this.epicFunction();
   }
 
   ngOnInit() {
-    this.hospitalService.getAllHospitalsAndVariables().subscribe(data => {
-      this.hospitals = data;
+this.currentLocation = this.router.url;
+console.log(this.currentLocation);
+    //this.hospitalService.getAllHospitalsAndVariables().subscribe(data => {
+    //  this.hospitals = data;
+    //});
+
+    this.route.params.switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id'])).subscribe(path => {
+          this.hospitals = path['hospitals']
     });
   }
+
+
 ngAfterViewInit(){
 
   this.deviceInfo = this.deviceService.getDeviceInfo();

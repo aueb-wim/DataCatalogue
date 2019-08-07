@@ -1,19 +1,11 @@
+
 h1{
   font-size: xx-large;
   color: #2196F3;
   margin-left: 40%;
   font-family: Helvetica;
 }
-div.inactive{
-  display: inline-block;
-  margin-top: 50px;
-  cursor: not-allowed;
-  pointer-events: none;
-  font-family:Helvetica;
-
-}
-
-div.active{
+div{
   display: inline-flex;
   font-family:Helvetica;
 }
@@ -30,8 +22,9 @@ div mat-card{
 
 div mat-card mat-card-title{
   font-family:Helvetica;
-  font-size: 17px;
-  font-weight: bolder;
+  font-size: 15px;
+  color: #428bca;
+
 }
 
 .thumbnail:hover {
