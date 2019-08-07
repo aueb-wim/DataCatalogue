@@ -6,6 +6,7 @@
 package com.admir.demiraj.datacatalogspringboot.resources;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
@@ -68,6 +69,11 @@ public class Versions implements Serializable{
     @JsonManagedReference("cdevariablesVersion")
     private List<CDEVariables> cdevariables = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    //@JoinColumn(name = "pathology_id", nullable = true)
+    @JsonBackReference
+    private Pathology pathology;
+
     public String getJsonString() {
         return jsonString;
     }
@@ -126,6 +132,14 @@ public class Versions implements Serializable{
 
     public List<BatchReport> getBatchReports() {
         return batchReports;
+    }
+
+    public Pathology getPathology() {
+        return pathology;
+    }
+
+    public void setPathology(Pathology pathology) {
+        this.pathology = pathology;
     }
 
     public void setBatchReports(List<BatchReport> batchReports) {

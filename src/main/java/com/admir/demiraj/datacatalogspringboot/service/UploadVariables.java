@@ -37,6 +37,9 @@ public class UploadVariables {
     @Autowired
     private FunctionsDAO functionsDAO;
 
+    @Autowired
+    private PathologyDAO pathologyDAO;
+
 
     public void readExcelFile() {
         File folder = new File(FOLDER_NAME);
@@ -48,8 +51,9 @@ public class UploadVariables {
                 String fileName = listOfFiles[i].getName();
                 String filePath = FOLDER_NAME + fileName;
                 String[] parts = fileName.split("_");
-                String hospitalName = parts[0];
-                String[] parts2 = parts[1].toString().split("\\.");
+                String pathologyName = parts[0];
+                String hospitalName = parts[1];
+                String[] parts2 = parts[2].toString().split("\\.");
                 String versionName = parts2[0];
                 Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
                 //The hospital exists
@@ -61,7 +65,7 @@ public class UploadVariables {
                         System.out.println("The file : " + listOfFiles[i].getName() + " won't be saved");
                         //The version isn't present at hospital
                     } else {
-                        createVersion(versionName, filePath, currentHospital);
+                        createVersion(versionName, filePath, currentHospital, pathologyName);
                     }
 
 
@@ -70,7 +74,7 @@ public class UploadVariables {
                     //generateConceptPathFromMapping(filePath);
                     Hospitals createdHospital = new Hospitals(hospitalName);
                     //hospitalDAO.save(createdHospital);//////check this
-                    createVersion(versionName, filePath, createdHospital);
+                    createVersion(versionName, filePath, createdHospital,pathologyName);
 
                 }
             }
@@ -78,7 +82,7 @@ public class UploadVariables {
     }
 
 
-    public void createVersion(String versionName, String filePath, Hospitals currentHospital) {
+    public void createVersion(String versionName, String filePath, Hospitals currentHospital, String pathologyName) {
         Versions version = new Versions(versionName);
         Versions harmonizedVersion = new Versions(versionName+"-harmonized");
         ///////////////////////////////////////////////////
@@ -87,7 +91,7 @@ public class UploadVariables {
         List<Variables> allVar3 = new ArrayList<>();
         Map<String,List<Variables>> map;
         try {
-            map = Read_xlsx(filePath, version, currentHospital, harmonizedVersion);
+            map = Read_xlsx(filePath, version, currentHospital, harmonizedVersion, pathologyName);
             allVar =  map.get("variables");
             allVar3 =  map.get("hvariables");
         } catch (FileNotFoundException fnfe) {
@@ -142,7 +146,7 @@ public class UploadVariables {
      * a new variable and each column to a variable attribute. After the mapping, we save the variable and all connected
      * tables. Finally, we return a list with all variables found.
      */
-    public Map<String,List<Variables>> Read_xlsx(String ff, Versions version, Hospitals hospital, Versions harmonizedVersion) throws IOException {
+    public Map<String,List<Variables>> Read_xlsx(String ff, Versions version, Hospitals hospital, Versions harmonizedVersion, String pathologyName) throws IOException {
         List<Variables> xlsxVars = new ArrayList<>();//<Variables>
         List<Variables> xlsxHarmonizedVars = new ArrayList<>();//<harmonizedVariables>
         FileInputStream fis = null;
@@ -224,6 +228,23 @@ public class UploadVariables {
                         List<Variables> hospVar = hospital.getVariables();
                         hospVar.add(newVar);
                         hospital.setVariables(hospVar);
+/////////////////////////////////////////////////////////////////////////////////////// ADD PATHOLOGY
+                        if(hospital.getPathology() == null){
+                            Pathology pathology;
+                            if(pathologyDAO.isPathologyPresent(pathologyName)){
+                                 pathology = pathologyDAO.getPathologyByName(pathologyName);
+
+                            }else{
+                                 pathology = new Pathology(pathologyName);
+
+                            }
+                            List<Hospitals> hospitalsInPathology = pathology.getHospitals();
+                            hospitalsInPathology.add(hospital);
+                            pathologyDAO.save(pathology);
+                            hospital.setPathology(pathology);
+
+
+                        }
                         hospitalDAO.save(hospital);
                         newVar.setHospital(hospital);
                         variableDAO.save(newVar);
@@ -249,6 +270,23 @@ public class UploadVariables {
                 List<Variables> hospVar = hospital.getVariables();
                 hospVar.add(newVar);
                 hospital.setVariables(hospVar);
+                /////////////////////////////////////////////////////////////////////////////////////// ADD PATHOLOGY
+                if(hospital.getPathology() == null){
+                    Pathology pathology;
+                    if(pathologyDAO.isPathologyPresent(pathologyName)){
+                        pathology = pathologyDAO.getPathologyByName(pathologyName);
+
+                    }else{
+                        pathology = new Pathology(pathologyName);
+
+                    }
+                    List<Hospitals> hospitalsInPathology = pathology.getHospitals();
+                    hospitalsInPathology.add(hospital);
+                    pathologyDAO.save(pathology);
+                    hospital.setPathology(pathology);
+
+
+                }
                 hospitalDAO.save(hospital);
                 newVar.setHospital(hospital);
                 variableDAO.save(newVar);

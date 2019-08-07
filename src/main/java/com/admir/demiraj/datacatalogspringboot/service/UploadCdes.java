@@ -37,6 +37,9 @@ public class UploadCdes {
     @Autowired
     private VariablesXLSX_JSON variablesXLSX_json;
 
+    @Autowired
+    private PathologyDAO pathologyDAO;
+
 
     public void readExcelFile() {
         File folder = new File(FOLDER_NAME);
@@ -49,34 +52,75 @@ public class UploadCdes {
                 String fileName = listOfFiles[i].getName();
                 String filePath = FOLDER_NAME + fileName;
                 String[] parts = fileName.split("_");
-                String[] parts2 = parts[1].toString().split("\\.");
+
+
+                String pathologyName = parts[0];
+
+                String[] parts2 = parts[2].toString().split("\\.");
                 String versionName = parts2[0];
-                //The cdeversion already exists
-                if (cdeVariableDAO.isCdeVersionPresent(versionName)) {
-                    System.out.println("This version already exists");
-                    //The cdeversion does not exist
-                } else {
+                Pathology pathology;
 
-                    Versions version = new Versions(versionName);
-                    List<CDEVariables> cdeVariablesList = readExcelSaveToVariabe(filePath, version);
-                    System.out.println("Retrieving node from file");
-                    //for(CDEVariables cde : cdeVariablesList){
-                     //   System.out.println(cde.getCode());
-                   // }
-                    System.out.println("The size of the cdevariables:---> "+cdeVariablesList.size());
+                if(pathologyDAO.isPathologyPresent(pathologyName)) {
+                    System.out.println("The pathology : " + pathologyName + " already exists");
+                     pathology = pathologyDAO.getPathologyByName(pathologyName);
+                }else{
+                    System.out.println("Greating pathology : " + pathologyName);
+                     pathology = new Pathology(pathologyName);
+                }
 
-                    //////////////////////////////////////////////////////VariablesXLSX_JSON.Node node = variablesXLSX_json.loadXLSXInMemory(filePath);
-                    VariablesXLSX_JSON.Node node = variablesXLSX_json.createTree3(cdeVariablesList);
-                    //////////////////////////////////////////////////////
-                    //////////////////////////////////////////////////////
-                    System.out.println("Retrieving jsonString from file");
-                    version.setJsonString(variablesXLSX_json.createJSONMetadata(node).toString());
-                    System.out.println("Retrieving jsonStringVisualizable from file");
-                    version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(node).toString());
-                    System.out.println("Saving Version");
-                    versionDAO.saveVersion(version);
+
+                    List<Versions> versionsInPathology = pathology.getVersions();
+                    boolean found = false;
+                    for(Versions v : versionsInPathology){
+                        if(v.getName().equals(versionName)){
+                            System.out.println("The version: "+versionName+" already exists in :"+pathologyName);
+                            found = true;
+                        }
+
+                    }
+                    if(found==false){
+                        System.out.println("Creating version: "+versionName+" for pathology: "+pathologyName);
+
+                        Versions version = new Versions(versionName);
+
+                        List<CDEVariables> cdeVariablesList = readExcelSaveToVariabe(filePath, version);
+                        System.out.println("Retrieving node from file");
+                        //for(CDEVariables cde : cdeVariablesList){
+                        //   System.out.println(cde.getCode());
+                        // }
+                        System.out.println("The size of the cdevariables:---> "+cdeVariablesList.size());
+
+                        //////////////////////////////////////////////////////VariablesXLSX_JSON.Node node = variablesXLSX_json.loadXLSXInMemory(filePath);
+                        VariablesXLSX_JSON.Node node = variablesXLSX_json.createTree3(cdeVariablesList);
+                        //////////////////////////////////////////////////////
+                        //////////////////////////////////////////////////////
+                        System.out.println("Retrieving jsonString from file");
+                        version.setJsonString(variablesXLSX_json.createJSONMetadata(node).toString());
+                        System.out.println("Retrieving jsonStringVisualizable from file");
+                        version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(node).toString());
+
+                        ///////////////////
+                        versionsInPathology.add(version);
+                        pathology.setVersions(versionsInPathology);
+                        pathologyDAO.save(pathology);
+                        System.out.println("The id of the pathology is: "+pathology.getPathology_id());
+
+                        System.out.println("Saving Version");
+                        version.setPathology(pathology);
+                        versionDAO.saveVersion(version);
+
+
+                        for(CDEVariables cde : cdeVariablesList){
+                            cdeVariableDAO.saveVersionToCDEVariable(cde, version);
+                            cdeVariableDAO.save(cde);
+                        }
+
+
+
+
 
                 }
+
 
             }
         }
@@ -177,8 +221,8 @@ public class UploadCdes {
 
                     if (neitherEmptyNorNull(cdeVariables.getCode()) && neitherEmptyNorNull(cdeVariables.getType()) && !cdeVariables.getConceptPath().endsWith("/")) {
                         //it is a cdevariable
-                        cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
-                        cdeVariableDAO.save(cdeVariables);
+                        //cdeVariableDAO.saveVersionToCDEVariable(cdeVariables, version);
+                        //cdeVariableDAO.save(cdeVariables);
                         cdeVariablesList.add(cdeVariables);
                     } else if (validateCategoryFields(cdeVariables)) {
                         //it is a category
@@ -250,7 +294,7 @@ return null;
     /**
      * If all tests pass it means it is a category
      */
-    private boolean validateCategoryFields(CDEVariables cdevar) {
+    public boolean validateCategoryFields(CDEVariables cdevar) {
        // System.out.println("CHECK IF IT IS A CATEGORY");
         //System.out.println("CSV --> "+eitherEmptyOrNull(cdevar.getCsvFile()));
        // System.out.println("TYPE --> "+eitherEmptyOrNull(cdevar.getType()));
@@ -269,7 +313,7 @@ return null;
         return false;
     }
 
-    private static boolean eitherEmptyOrNull(String field) {
+    public static boolean eitherEmptyOrNull(String field) {
         if (field == null || field == "") {
             return true;
         } else {
@@ -277,7 +321,7 @@ return null;
         }
     }
 
-    private static boolean neitherEmptyNorNull(String field) {
+    public static boolean neitherEmptyNorNull(String field) {
         if (field != null && field != "") {
             return true;
         } else {
@@ -286,3 +330,31 @@ return null;
     }
 
 }
+
+/**
+ * //The cdeversion already exists
+ *                 if (cdeVariableDAO.isCdeVersionPresent(versionName)) {
+ *                     System.out.println("This version already exists");
+ *                     //The cdeversion does not exist
+ *                 } else {
+ *
+ *                     Versions version = new Versions(versionName);
+ *                     List<CDEVariables> cdeVariablesList = readExcelSaveToVariabe(filePath, version);
+ *                     System.out.println("Retrieving node from file");
+ *                     //for(CDEVariables cde : cdeVariablesList){
+ *                      //   System.out.println(cde.getCode());
+ *                    // }
+ *                     System.out.println("The size of the cdevariables:---> "+cdeVariablesList.size());
+ *
+ *                     //////////////////////////////////////////////////////VariablesXLSX_JSON.Node node = variablesXLSX_json.loadXLSXInMemory(filePath);
+ *                     VariablesXLSX_JSON.Node node = variablesXLSX_json.createTree3(cdeVariablesList);
+ *                     //////////////////////////////////////////////////////
+ *                     //////////////////////////////////////////////////////
+ *                     System.out.println("Retrieving jsonString from file");
+ *                     version.setJsonString(variablesXLSX_json.createJSONMetadata(node).toString());
+ *                     System.out.println("Retrieving jsonStringVisualizable from file");
+ *                     version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(node).toString());
+ *                     System.out.println("Saving Version");
+ *                     versionDAO.saveVersion(version);
+ *
+ *                 }**/

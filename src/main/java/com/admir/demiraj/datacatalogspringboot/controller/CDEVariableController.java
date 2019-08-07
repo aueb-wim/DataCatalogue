@@ -40,11 +40,6 @@ public class CDEVariableController {
         this.uploadCdes = uploadCdes;
     }
 
-    @GetMapping("/login")
-    public void login(){
-        System.out.println("Login cde - inside");
-    }
-
     @GetMapping("/readExcel")
     public void readExcel(){
         uploadCdes.readExcelFile();

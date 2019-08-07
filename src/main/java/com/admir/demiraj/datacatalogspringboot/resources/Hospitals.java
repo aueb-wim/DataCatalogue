@@ -5,6 +5,7 @@
  */
 package com.admir.demiraj.datacatalogspringboot.resources;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -44,8 +45,12 @@ public class Hospitals {
   
     @OneToMany(mappedBy="hospital",fetch = FetchType.LAZY)
     @JsonManagedReference
-    //@JsonBackReference
     private List<Variables> variables = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+   // @JoinColumn(name = "pathology_id", nullable = true)
+    @JsonBackReference
+    private Pathology pathology;
 
     public String getName() {
         return name;
@@ -75,7 +80,12 @@ public class Hospitals {
         this.variables.add(variable);
     }
 
-    
-    
-    
+
+    public Pathology getPathology() {
+        return pathology;
+    }
+
+    public void setPathology(Pathology pathology) {
+        this.pathology = pathology;
+    }
 }
