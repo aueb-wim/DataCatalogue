@@ -35,6 +35,7 @@
       "/report/getVariableReport/",
       "/report/uploadAllReports",
       "/pathology/allPathologies",
+      "/pathology/allPathologies//latest_cde_version",
       "/pathology/allPathologies/"
     ],
     target: "http://195.251.252.222:2443",

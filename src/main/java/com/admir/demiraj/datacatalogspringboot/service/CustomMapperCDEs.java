@@ -1,10 +1,8 @@
 package com.admir.demiraj.datacatalogspringboot.service;
 
-import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
-import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
-import com.admir.demiraj.datacatalogspringboot.dao.VariableDAO;
-import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
+import com.admir.demiraj.datacatalogspringboot.dao.*;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
+import com.admir.demiraj.datacatalogspringboot.resources.Pathology;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,14 +33,18 @@ public class CustomMapperCDEs {
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
 
+    @Autowired
+    private PathologyDAO pathologyDAO;
+
 
 
     public void mapCdeVersion(JSONArray jr){
-        String versionName = jr.getString(0);
-        JSONObject versionJsonObject = jr.getJSONObject(1);
+        String pathologyName = jr.getString(0);
+        String versionName = jr.getString(1);
+        JSONObject versionJsonObject = jr.getJSONObject(2);
 
         //The cdeversion already exists
-                if(cdeVariableDAO.isCdeVersionPresent(versionName)){
+                if(pathologyDAO.isCdeVersionPrentInPathology(pathologyName,versionName)){
                     System.out.println("This version already exists");
                     //The cdeversion does not exist
                 }else{
@@ -57,6 +59,14 @@ public class CustomMapperCDEs {
                     System.out.println("Retrieving jsonStringVisualizable from file");
                     version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(node).toString());
                     System.out.println("Saving Version");
+
+                    Pathology pathology = pathologyDAO.getPathologyByName(pathologyName);
+                    List<Versions> pathologyVersions = pathology.getVersions();
+                    pathologyVersions.add(version);
+                    pathology.setVersions(pathologyVersions);
+                    pathologyDAO.save(pathology);
+
+                    version.setPathology(pathology);
                     versionDAO.saveVersion(version);
 
                 }

@@ -43,6 +43,10 @@ export class HospitalService {
 
   }
 
+  getLatestCdeVersionByPathologyName(pathology_name: string){
+    return this.http.get('//195.251.252.222:2442/pathology/allPathologies/'+pathology_name+'/latest_cde_version',{headers:this.headers});
+  }
+
 
   getAllCdeVersions():Observable<any> {
     return this.http.get('//195.251.252.222:2442/CDE/allCdeVersions',{headers:this.headers});
@@ -162,8 +166,8 @@ export class HospitalService {
     return this.http.post<any>('//195.251.252.222:2442/versions/newVersion', [hospitalName,versionName,version],{headers:this.headers});
   }
 
-  createNewVersionCde(versionName:string, version: any):Observable<any> {
-    return this.http.post<any>('//195.251.252.222:2442/versions/newVersionCde', [versionName,version],{headers:this.headers});
+  createNewVersionCde(pathologyName:string,versionName:string, version: any):Observable<any> {
+    return this.http.post<any>('//195.251.252.222:2442/versions/newVersionCde', [pathologyName,versionName,version],{headers:this.headers});
   }
 
   ///////////////////////////UPLOAD RELATED

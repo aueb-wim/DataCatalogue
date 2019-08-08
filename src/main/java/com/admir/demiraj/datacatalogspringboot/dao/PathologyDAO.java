@@ -3,6 +3,7 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 import com.admir.demiraj.datacatalogspringboot.repository.PathologyRepository;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Pathology;
+import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,32 @@ public class PathologyDAO {
 
     public Pathology getPathologyById(BigInteger pathId) {
         return pathologyRepository.getOne(pathId);
+    }
+
+
+
+    public Versions getLatestCdeVersionByPathologyName(String pathologyName){
+        Pathology pathology = getPathologyByName(pathologyName);
+        Versions latestCdeVersion = null;
+        for(Versions v: pathology.getVersions()){
+            if(v.getCdevariables()!= null){
+                latestCdeVersion = v;
+            }
+        }
+        return latestCdeVersion;
+    }
+
+    public boolean isCdeVersionPrentInPathology(String pathologyName, String versionName){
+        Pathology pathology = getPathologyByName(pathologyName);
+        System.out.println("PathologyName: "+pathologyName+"Versionname: "+versionName);
+        for(Versions v : pathology.getVersions()){
+            if(v.getCdevariables() != null && v.getName().equals(versionName)){
+                return true;
+
+            }
+        }
+        return false;
+
     }
 
 }

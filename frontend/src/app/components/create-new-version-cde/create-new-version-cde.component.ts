@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {MatDialog} from "@angular/material";
+import {DeviceDetectorService} from "ngx-device-detector";
+import {stringify} from "querystring";
 
 @Component({
   selector: 'app-create-new-version-cde',
@@ -41,13 +43,15 @@ export class CreateNewVersionCdeComponent implements OnInit {
   editVarMethodology: string;
 
 
-
-
-  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {
+  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog,private router: Router) {
   }
 
   ngOnInit() {
-    this.hospitalService.getLatestCDEVersion().subscribe(cde=>{this.latestCDEVersion = cde});
+    //this.hospitalService.getLatestCDEVersion().subscribe(cde=>{this.latestCDEVersion = cde});
+
+    this.route.params.switchMap((params: Params) => this.hospitalService.getLatestCdeVersionByPathologyName(params['pathology_name'])).subscribe(cde => {
+     this.latestCDEVersion = cde;
+    });
   }
 
 
@@ -59,6 +63,21 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
   saveNewVersion(): void {
     this.createNewVersionName();
+
+    this.route.params.switchMap((params: Params) => this.hospitalService.createNewVersionCde(params['pathology_name'],this.versionName,
+      this.latestCDEVersion)).subscribe(
+      data => {
+        window.alert("Version created successfully.");
+        //this.location.back();
+      },
+      error => {
+        if (error.status == '401') {
+          alert("You need to be logged in to complete this action.");
+        } else {
+          alert("An error has occurred.");
+        }
+      });
+    /*
     this.hospitalService.createNewVersionCde(this.versionName, this.latestCDEVersion).subscribe(
       data => {
         window.alert("Version created successfully.");
@@ -71,7 +90,7 @@ export class CreateNewVersionCdeComponent implements OnInit {
           alert("An error has occurred.");
         }
       });
-
+*/
   };
 
   goBack() {

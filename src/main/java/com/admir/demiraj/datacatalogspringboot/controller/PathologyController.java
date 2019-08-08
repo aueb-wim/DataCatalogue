@@ -41,4 +41,10 @@ public class PathologyController {
         return pathologyDAO.getPathologyById(pathId);
     }
 
+    @GetMapping("/allPathologies/{pathology_name}/latest_cde_version")
+    public Versions getLatetsCdeVersionByPathologyName(@PathVariable("pathology_name") String pathologyName){
+
+        return pathologyDAO.getLatestCdeVersionByPathologyName(pathologyName);
+    }
+
 }

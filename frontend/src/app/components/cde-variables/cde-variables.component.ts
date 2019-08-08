@@ -71,27 +71,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
     });
 
-/*
-    this.hospitalService.getAllCdeVersions().subscribe(allVersions => {
-      this.allCdeVersions = allVersions;
-      let lastVersion = allVersions[allVersions.length-1];
-      this.currentVersion = lastVersion;
-      this.currentJsonMetadata = lastVersion['jsonString'];
-      this.currentVersionId = +lastVersion['version_id'];
-      this.currentVersionName = lastVersion['name'];
-      //this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
-      this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
-      this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
-      this.currentVersionIndex = allVersions.length-1;
 
-      this.versionOptions = this.arrayIterationByVersionName(allVersions);
-     // this.jsonVisualizable = lastVersion['jsonStringVisualizable'];
-
-    });
-   // this.hospitalService.getjsonStringVisualizableByVersionId(this.currentVersionId).subscribe(json => {
-   //   this.jsonVisualizable = json
-  //  });
-*/
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -227,7 +207,8 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
    // window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
 
     //test
-    window.location.href = this.location.path() + '/new-cde-version';
+    //window.location.href = this.location.path() + '/new-cde-version';
+    window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName;
 
 
   }
