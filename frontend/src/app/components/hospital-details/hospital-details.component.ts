@@ -274,6 +274,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
   newVersionUrl(){
 
-      this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
+      //this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
+    window.location.href = this.location.path() + '/new-version';
   }
 }

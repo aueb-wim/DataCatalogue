@@ -77,4 +77,9 @@ public class PathologyDAO {
 
     }
 
+    public String getPathologyNameById(BigInteger pathId){
+        Pathology pathology = getPathologyById(pathId);
+        return pathology.getName();
+    }
+
 }

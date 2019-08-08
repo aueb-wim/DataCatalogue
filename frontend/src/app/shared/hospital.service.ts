@@ -42,6 +42,10 @@ export class HospitalService {
     return this.http.get('//195.251.252.222:2442/pathology/allPathologies/'+pathology_id,{headers:this.headers});
 
   }
+  getPathologyNameById(pathology_id: number):Observable<any>{
+    return this.http.get('//195.251.252.222:2442/pathology/allPathologies/'+pathology_id+'/name',{headers:this.headers});
+
+  }
 
   getLatestCdeVersionByPathologyName(pathology_name: string){
     return this.http.get('//195.251.252.222:2442/pathology/allPathologies/'+pathology_name+'/latest_cde_version',{headers:this.headers});

@@ -16,12 +16,14 @@ const routes: Routes = [
   {path:'pathologies', component: PathologiesComponent},
   {path:'pathologies/:pathology_id', component: HospitalsComponent},
   {path:'pathologies/:pathology_id/hospitals/:hospital_id', component: HospitalDetailsComponent},
+  {path:'pathologies/:pathology_id/hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
+  {path:'pathologies/:pathology_id/hospitals/:hospital_id/new-version/:upload_file', component: FullUploadComponent},
+
   //{path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/all', component: AllVariablesComponent},
   {path:'hospitals/about', component: AboutComponent},
 
-  {path:'hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
-  {path:'hospitals/:hospital_id/new-version/:upload_file', component: FullUploadComponent},
+
   {path:'hospitals/cde-variables/new-cde-version/:pathology_name/:upload_file', component: FullUploadComponent},
   {path:'hospitals/cde-variables/new-cde-version/:pathology_name', component: CreateNewVersionCdeComponent},
 

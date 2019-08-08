@@ -48,6 +48,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
 
   latestCDEVersion:any;
   versionName: string;
+  pathologyName:string;
   functions: Array<any>;
 
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {
@@ -88,7 +89,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
                 }
               }
             }
-            version['variables'][i]['mapFunction'] = mappingFunctions
+            version['variables'][i]['mapFunction'] = mappingFunctions;
             version['variables'][i]['mapCDE'] = mappingCDEs;
           }
           //version['variables'][0]['ok'] = "hey";
@@ -105,6 +106,14 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
       });
 
     this.hospitalService.getLatestCDEVersion().subscribe(cde=>{this.latestCDEVersion = cde});
+
+///////////////////////////////////////////////
+
+    this.route.params
+      .switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id']))
+      .subscribe(path => {
+       console.log('Path name: '+path['name']);
+        this.pathologyName = path['name']});
 
   }
 
@@ -137,6 +146,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   }
 
   uploadFile() {
+    console.log(this.sampleFileName);
     window.location.href = this.location.path() + '/' + this.sampleFileName;
   }
 
@@ -144,7 +154,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   createSampleFileName() {
     var oldName = parseInt(this.versionToUpdate.name.replace('v', ''));
     oldName = oldName + 1;
-    this.sampleFileName = this.hospital.name + "_" + "v" + oldName.toString() + ".xlsx";
+    this.sampleFileName = this.pathologyName+'_'+this.hospital.name + "_" + "v" + oldName.toString() + ".xlsx";
   }
 
   createNewVersionName() {

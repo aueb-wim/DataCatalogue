@@ -36,7 +36,8 @@
       "/report/uploadAllReports",
       "/pathology/allPathologies",
       "/pathology/allPathologies//latest_cde_version",
-      "/pathology/allPathologies/"
+      "/pathology/allPathologies/",
+      "/pathology/allPathologies//name"
     ],
     target: "http://195.251.252.222:2443",
     secure: false

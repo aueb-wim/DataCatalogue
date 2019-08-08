@@ -41,10 +41,18 @@ public class PathologyController {
         return pathologyDAO.getPathologyById(pathId);
     }
 
+    @GetMapping("/allPathologies/{pathology_id}/name")
+    public String getPathologyNameById(@PathVariable("pathology_id") Long pathologyId){
+        BigInteger pathId = BigInteger.valueOf(pathologyId);
+        return pathologyDAO.getPathologyNameById(pathId);
+    }
+
     @GetMapping("/allPathologies/{pathology_name}/latest_cde_version")
     public Versions getLatetsCdeVersionByPathologyName(@PathVariable("pathology_name") String pathologyName){
 
         return pathologyDAO.getLatestCdeVersionByPathologyName(pathologyName);
     }
+
+
 
 }
