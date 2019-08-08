@@ -68,6 +68,8 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
       this.pathologyOptions = this.arrayIterationByPathologyName(allPathologies);
 
+      ///////////
+      this.downloadName = currentPathology['name']+'_'+this.downloadName;
 
     });
 
@@ -255,7 +257,10 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
     this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
+
     this.searchTermVar = '';
+    this.downloadName = this.currentPathologyName+'_'+this.downloadName;
+
 
   }
 

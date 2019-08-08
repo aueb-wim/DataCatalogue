@@ -52,11 +52,21 @@ export class CreateNewVersionCdeComponent implements OnInit {
     this.route.params.switchMap((params: Params) => this.hospitalService.getLatestCdeVersionByPathologyName(params['pathology_name'])).subscribe(cde => {
      this.latestCDEVersion = cde;
     });
+
+
+    this.route.params.subscribe(params=>
+      this.createSampleFileName(params['pathology_name']));
+
+
   }
 
 
   ngAfterViewInit(): void {
-    this.createSampleFileName();
+    //this.createSampleFileName(this.params['pathology_name']);
+    this.route.params.subscribe(params=>
+      this.createSampleFileName(params['pathology_name']));
+
+
 
   }
 
@@ -104,10 +114,12 @@ export class CreateNewVersionCdeComponent implements OnInit {
   }
 
 
-  createSampleFileName() {
+  createSampleFileName(pathologyName) {
+
+
     var oldName = parseInt(this.latestCDEVersion.name.replace('v', ''));
     oldName = oldName + 1;
-    this.sampleFileName = "cdes_v" + oldName.toString() + ".xlsx";
+    this.sampleFileName = pathologyName+"_cdes_v" + oldName.toString() + ".xlsx";
   }
 
   createNewVersionName() {
