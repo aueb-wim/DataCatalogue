@@ -42,6 +42,15 @@ export class HospitalService {
     return this.http.get('//195.251.252.222:2442/pathology/allPathologies/'+pathology_id,{headers:this.headers});
 
   }
+
+  createNewPathology (pathology_name: string): Observable<any> {
+    return this.http.post<any>('//195.251.252.222:2442/pathology/newPathology', pathology_name,{headers:this.headers});
+  }
+
+  deletePathology (pathology_name: string): Observable<any> {
+    return this.http.post<any>('//195.251.252.222:2442/pathology/deletePathology', pathology_name,{headers:this.headers});
+  }
+
   getPathologyNameById(pathology_id: number):Observable<any>{
     return this.http.get('//195.251.252.222:2442/pathology/allPathologies/'+pathology_id+'/name',{headers:this.headers});
 

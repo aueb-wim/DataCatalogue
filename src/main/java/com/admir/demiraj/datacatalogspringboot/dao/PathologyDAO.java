@@ -27,7 +27,7 @@ public class PathologyDAO {
     public Pathology getPathologyByName(String pathologyName){
         List<Pathology> pathologies = findAll();
         for(Pathology p : pathologies){
-            if(p.getName().equals(pathologyName)){
+            if(p.getName().toLowerCase().equals(pathologyName)){
                 return p;
             }
 
@@ -80,6 +80,18 @@ public class PathologyDAO {
     public String getPathologyNameById(BigInteger pathId){
         Pathology pathology = getPathologyById(pathId);
         return pathology.getName();
+    }
+
+    public void createNewPathologyByName(String pathologyName){
+        Pathology pathology = new Pathology();
+        pathology.setName(pathologyName);
+        pathologyRepository.save(pathology);
+    }
+
+    public void deletePathologyByName(String pathologyName){
+        Pathology pathology = getPathologyByName(pathologyName);
+        pathologyRepository.delete(pathology);
+
     }
 
 }

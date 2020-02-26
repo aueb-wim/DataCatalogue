@@ -3,6 +3,7 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.PathologyDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.Pathology;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,23 @@ public class PathologyController {
         return pathologyDAO.getLatestCdeVersionByPathologyName(pathologyName);
     }
 
+    @PostMapping(value = "/newPathology")
+    public void create2(@RequestBody String pathologyName){
+        //JSONArray jr = new JSONArray(ver);
+       // String hospitalName = jr.getString(0);
+        //return "ok";
+        pathologyDAO.createNewPathologyByName(pathologyName);
 
+    }
+
+    @PostMapping(value = "/deletePathology")
+    public void deletePathologyByName(@RequestBody String pathologyName){
+        //JSONArray jr = new JSONArray(ver);
+        // String hospitalName = jr.getString(0);
+        //return "ok";
+        System.out.println("Received pathology to delete:"+pathologyName);
+        pathologyDAO.deletePathologyByName(pathologyName);
+
+    }
 
 }
