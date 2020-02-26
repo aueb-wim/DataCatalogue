@@ -2,6 +2,8 @@ package com.admir.demiraj.datacatalogspringboot.resources;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -45,7 +47,7 @@ public class Pathology {
     private String name;
 
 
-
+    //@OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy="pathology",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Hospitals> hospitals = new ArrayList<>();
