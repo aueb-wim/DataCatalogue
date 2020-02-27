@@ -129,7 +129,7 @@ public class PathologyDAO {
         for(Versions version:versions){
             List<CDEVariables> cdeVariables = version.getCdevariables();
             cdeVariablesRepository.deleteInBatch(cdeVariables);
-            
+
         }
         //Delete pathology
         versionsRepository.deleteInBatch(versions);
