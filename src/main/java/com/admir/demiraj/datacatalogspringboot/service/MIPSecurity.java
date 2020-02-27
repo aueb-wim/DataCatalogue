@@ -94,7 +94,8 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "//mapping/getsample").permitAll()
 				.anyRequest().authenticated()
                         .and().logout().logoutSuccessUrl("/").permitAll()
-                        .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://195.251.252.222:2443/login"))
+                        .and().exceptionHandling().authenticationEntryPoint(/*new CustomLoginUrlAuthenticationEntryPoint("http://195.251.252.222:2443/login")*/
+                new CustomLoginUrlAuthenticationEntryPoint("http://195.251.252.222:2447/login"))
 			.and().csrf().csrfTokenRepository(csrfTokenRepository())
 			.and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
 			;
