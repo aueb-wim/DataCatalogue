@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
@@ -47,6 +50,7 @@ public class Hospitals {
     @JsonManagedReference
     private List<Variables> variables = new ArrayList<>();
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
    // @JoinColumn(name = "pathology_id", nullable = true)
     @JsonBackReference

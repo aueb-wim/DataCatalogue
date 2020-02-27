@@ -23,7 +23,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   currentVersionName;
   currentVersion;
   currentJsonMetadata;
-  downloadName = "cdes_";
+  downloadName ;
   searchTermVar: string;
   searchTermCategory: string;
   disabled = false;
@@ -69,7 +69,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
       this.pathologyOptions = this.arrayIterationByPathologyName(allPathologies);
 
       ///////////
-      this.downloadName = currentPathology['name']+'_'+this.downloadName;
+      this.downloadName = currentPathology['name']+'_cdes_';
 
     });
 
@@ -233,11 +233,14 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public pathologySelected(option: IOption): void {
-    this.currentPathologyName = option.label;
-    this.currentPathologyId = +option.value;
+    //this.currentPathologyName = option.label;
+    //this.currentPathologyId = +option.value;
     this.currentPathologyIndex = this.pathologyOptions.indexOf(option)-1;
 
     let lastPathology = this.allPathologies[this.currentPathologyIndex];
+    this.currentPathologyName='';
+    this.currentPathologyName = lastPathology['name'];
+    this.currentPathologyId = +lastPathology['pathology_id'];
     this.currentPathology = lastPathology;
 
     ///////////////////////////////////////////////////////////////////////////
@@ -259,12 +262,13 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
 
     this.searchTermVar = '';
-    this.downloadName = this.currentPathologyName+'_'+this.downloadName;
+    this.downloadName = this.currentPathologyName+'_cdes_';
 
 
   }
 
   public versionDeselected(option: IOption): void {
+
 
   }
   public pathologyDeselected(option: IOption): void {

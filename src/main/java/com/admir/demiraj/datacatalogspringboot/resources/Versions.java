@@ -60,12 +60,12 @@ public class Versions implements Serializable{
     @JsonManagedReference("batchReportsVersion")
     private List<BatchReport> batchReports;
     
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "versions")//,cascade = {CascadeType.PERSIST,CascadeType.MERGE}
     //@JsonManagedReference("variablesVersion")
     @JsonIgnoreProperties
     private List<Variables> variables = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "versions")
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "versions")//,cascade = {CascadeType.PERSIST,CascadeType.MERGE}
     @JsonManagedReference("cdevariablesVersion")
     private List<CDEVariables> cdevariables = new ArrayList<>();
 

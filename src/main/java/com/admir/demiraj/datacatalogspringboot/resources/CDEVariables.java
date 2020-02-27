@@ -97,7 +97,7 @@ public class CDEVariables implements Serializable {
     private String methodology;
 
     @JsonBackReference("versionsCde")
-    @ManyToMany(fetch = FetchType.LAZY,cascade =  {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY)//,cascade =  {CascadeType.PERSIST,CascadeType.MERGE}
     @JoinTable(name = "cdevariables_versions",joinColumns = { @JoinColumn(name = "cdevariable_id") },inverseJoinColumns = { @JoinColumn(name = "version_id") })
     private List<Versions> versions = new ArrayList<>();
 
