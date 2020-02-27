@@ -39,7 +39,7 @@
       "/pathology/allPathologies/",
       "/pathology/allPathologies//name"
     ],
-    target: "http://195.251.252.222:2443",
+    target: "http://195.251.252.222:2447",
     secure: false
   }
 ];

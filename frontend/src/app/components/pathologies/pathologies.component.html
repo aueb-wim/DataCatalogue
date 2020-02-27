@@ -1,5 +1,5 @@
 
-<h1><i class="fa fa-braille"> Pathologies</i></h1>
+<h1><i class="fa fa-braille"> Medical Conditions</i></h1>
 <div>
   <!--
   <mat-card  class="thumbnail" routerLink="/hospitals/all">
@@ -17,7 +17,7 @@
       <mat-card-title>{{pathology.name | uppercase}}</mat-card-title>
       <mat-card-subtitle></mat-card-subtitle>
       <mat-card-content></mat-card-content>
-      <img mat-card-md-image="pathology_image" src="assets/images/path1.jpeg">
+      <img mat-card-md-image="pathology_image" src="{{pathology.image_path}}">
       <mat-card-actions></mat-card-actions>
       <mat-card-footer></mat-card-footer>
     </mat-card>
