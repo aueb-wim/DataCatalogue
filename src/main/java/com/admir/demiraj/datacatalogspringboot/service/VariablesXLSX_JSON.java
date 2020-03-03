@@ -184,6 +184,7 @@ public class VariablesXLSX_JSON
     }
     public Node createTree3( List<CDEVariables> cdeVars)
     {
+        System.out.println("~~~~~~~~~******** This is me runnin for creating the hierarchy tree when parsin CDEs ********~~~~~~~~~");
         //############# same as in createJSONMetadataWithCDEs() ##########
         List<Variables> varsThatRCdes = new ArrayList<>();
         for (CDEVariables cde : cdeVars){
@@ -191,7 +192,7 @@ public class VariablesXLSX_JSON
         }
         List<Variables> xlsxVars = new ArrayList<>();
         xlsxVars.addAll(varsThatRCdes);
-        Node root = new Node("root",null,null);
+        Node root = new Node("root_is_no_longer_called_root",null,new Variables());
         Iterator<Variables> it = xlsxVars.iterator();
         while (it.hasNext())
             addPathNodes(it.next(), root);
@@ -202,9 +203,9 @@ public class VariablesXLSX_JSON
     {
         String thisConceptPath = nextVar.getConceptPath();
         System.out.println("variable name: "+nextVar.getName()+" variable concept path: "+nextVar.getConceptPath());
-        if (thisConceptPath==null || thisConceptPath.contains("null") || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/") || thisConceptPath.trim().equals("/root") || thisConceptPath.trim().equals("/root/"))
+        if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/") /*|| thisConceptPath.trim().equals("/root") || thisConceptPath.trim().equals("/root/")*/)
         {
-            thisConceptPath="/root/"+nextVar.getCode();
+            thisConceptPath=root.getName()+nextVar.getCode();
             nextVar.setConceptPath(thisConceptPath);
         }
 
@@ -212,6 +213,9 @@ public class VariablesXLSX_JSON
         thisConceptPath = thisConceptPath.endsWith("/") ? thisConceptPath.substring(0,thisConceptPath.length()-1) : thisConceptPath;
 
         String[] conceptPath = thisConceptPath.split("/");
+        if (root.getCode().equals("root_is_no_longer_called_root"))
+            root.setCode(conceptPath[0]);
+
         Node parent = root;
         for (int i=0; i<conceptPath.length; i++)
         {
@@ -391,14 +395,22 @@ public class VariablesXLSX_JSON
         public String getParentCode()
         {   //return this.parent!=null ? this.parent.name : ""; //all these getters were like this.. returning "" when there was no value.. but things changed..
             return this.parent!=null ? this.parent.code : null; }//..so now returning null instead (default behaviour)
+        public String getCode()
+        {   return this.code;}
+        public void setCode(String code)
+        {   this.code=code;}
         public String getCsvFile()
         {   return this.var.getCsvFile()!=null ? this.var.getCsvFile() : null;}
         public String getName()
         {   return this.var.getName()!=null ? this.var.getName() : null;}
+        public void setName(String name)
+        {   this.var.setName(name);}
         public String getValues()
         {   return this.var.getValues()!=null ? this.var.getValues() : null;}
         public String getType()
         {   return this.var.getType()!=null ? this.var.getType() : null;}
+        public void setType(String type)
+        {   this.var.setType(type);}
         public String getUnit()
         {   return this.var.getUnit()!=null ? this.var.getUnit() : null;}
         public String getCanBeNull()
@@ -485,10 +497,16 @@ public class VariablesXLSX_JSON
             {
                 if (this.getDescription()!=null) varNode.put("description", this.getDescription());
                 if (this.getName()!=null) varNode.put("label", this.getName());
+                else if (!isLeaf)
+                {
+                    String label = this.code;
+                    if (label.substring(0,1).matches("[a-z]"))
+                        label=label.substring(0,1).toUpperCase()+label.substring(1);
+                    varNode.put("label", label);//new instruction: if it is a group, it HAS to have a label... won't leave it without one... So just put code's value beginning with an Uppercase..
+                }
                 if (this.getMethodology()!=null) varNode.put("methodology", this.getMethodology());
                 if (this.getType()!=null)
                 {
-                    varNode.put("type", this.getType());
                     boolean isInt = false;
                     if (this.getType().toLowerCase().trim().equals("int") || this.getType().toLowerCase().trim().equals("integer"))
                     {
@@ -497,8 +515,9 @@ public class VariablesXLSX_JSON
                     }
                     else if (this.getType().toLowerCase().trim().equals("real") || this.getType().toLowerCase().trim().equals("numeric"))
                         varNode.put("sql_type", "real");
-                    else if ((this.getType().equals("polynominal")||this.getType().equals("binominal")||this.getType().equals("nominal")))
+                    else if ((this.getType().equals("polynominal")||this.getType().equals("multinominal")||this.getType().equals("binominal")||this.getType().equals("nominal")))
                     {
+                        this.setType("multinominal");//we want all these variations of the multinominal type to become 'multinominal' in the end...
                         isCategorical = true;
                         if (this.getValues()==null)
                             throw new InvalidParameterException("Variable "+this.code+" is of polynominal type but does not have information about its values...");
@@ -550,10 +569,10 @@ public class VariablesXLSX_JSON
                             int top = Integer.parseInt(matcher.group(2));
                             varNode.put("minValue", bottom);
                             varNode.put("maxValue", top);
-                            if (isInt)
-                            {
-                                int int_range = top-bottom;
-                                if (++int_range <= 31)
+                           /* if (isInt)    //Back in the day... Someone, someday, said: "I got an idea! If for an integer variable we have less than 31 possible values
+                            {           // /(due to range constrains) lets consider it to be categorical!".
+                                int int_range = top-bottom;//Nowadays we do not want that... But don't delete it, keep it in comments cause u never know...
+                                if (++int_range <= 31)//Someone, someday, might ask it again...
                                 {
                                     isCategorical = true;
                                     JSONArray enumArray = new JSONArray();
@@ -567,9 +586,10 @@ public class VariablesXLSX_JSON
                                         enumArray.put(enumm);
                                     }
                                 }
-                            }
+                            }*/
                         }
                     }
+                    varNode.put("type", this.getType());
                 }
 
                 if (this.getUnit()!=null) varNode.put("units", this.getUnit());

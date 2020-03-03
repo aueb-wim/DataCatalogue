@@ -46,8 +46,11 @@ public class Pathology {
     @Column(length = 1024)
     private String name;
 
+    private String image_path;
 
     //@OnDelete(action = OnDeleteAction.CASCADE)
+    private String description;
+
     @OneToMany(mappedBy="pathology",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Hospitals> hospitals = new ArrayList<>();
@@ -57,6 +60,8 @@ public class Pathology {
     @JsonManagedReference
     private List<Versions> versions = new ArrayList<>();
 
+    /////////////////////////////////////////////////////
+
     public String getName() {
         return name;
     }
@@ -64,6 +69,14 @@ public class Pathology {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getImage_path() { return this.image_path; }
+
+    public void setImage_path(String image_path) { this.image_path = image_path; }
+
+    public String getDescription() { return this.description; }
+
+    public void setDescription(String desc) { this.description = desc; }
 
     public List<Hospitals> getHospitals() {
         return hospitals;
