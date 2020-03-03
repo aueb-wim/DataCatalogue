@@ -1,7 +1,6 @@
 <p>
   To be displayed guide about the Data - Catalogue
 </p>
-
-<button  *ngIf="userName=='Admir Demiraj'" (click)="cdeReadExcel()">cde read excel</button>
-<button  *ngIf="userName=='Admir Demiraj'" (click)="hospitalReadExcel()">hospital read excel</button>
-<button  *ngIf="userName=='Admir Demiraj'" (click)="uploadAllReports()">upload reports</button>
+<button  *ngIf="dataManager" (click)="cdeReadExcel()">cde read excel</button>
+<button  *ngIf="dataManager" (click)="hospitalReadExcel()">hospital read excel</button>
+<button  *ngIf="dataManager" (click)="uploadAllReports()">upload reports</button>

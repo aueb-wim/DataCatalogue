@@ -40,6 +40,7 @@ export class SearchBarComponent implements OnInit {
       }
     });
   }
+
   cdeReadExcel(){
     this.hospitalService.cdeReadExcel().subscribe();
   }

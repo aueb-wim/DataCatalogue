@@ -14,21 +14,43 @@
 
 package com.admir.demiraj.datacatalogspringboot.service;
 
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CompositeFilter;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
@@ -39,27 +61,56 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.security.Principal;
-import java.util.Arrays;
+import java.util.*;
+
+
 
 
 @Configuration
-@EnableOAuth2Sso
+//@EnableOAuth2Sso
 @RestController
 @EnableWebSecurity
+@EnableOAuth2Client
 public class MIPSecurity extends WebSecurityConfigurerAdapter{
 
-	@RequestMapping("/user")
-	public Principal user(Principal principal) {
-		return principal;
-	}
-         
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
 
-		http.antMatcher("/**")
-			.authorizeRequests()
-				.antMatchers("/", "/login**","/token","/user","/logout","/home", "/login",
+    @RequestMapping("/user")
+    public Principal user(Principal principal) {
+        return principal;
+    }
+
+    @RequestMapping("/userRoles")
+    public Collection userRoles(Authentication auth) {
+        //Authentication auth = securityContextHolder.getContext().getAuthentication();
+        System.out.println("user roles are: "+auth.getAuthorities());
+        Collection collection = auth.getAuthorities();
+        return collection;
+    }
+
+    @Autowired
+    @Qualifier("oauth2ClientContext")
+    OAuth2ClientContext oauth2ClientContext;
+
+
+    @Bean
+    public FilterRegistrationBean oauth2ClientFilterRegistration(
+            OAuth2ClientContextFilter filter) {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(filter);
+        registration.setOrder(-100);
+        return registration;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        //http.addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class);
+
+        http.antMatcher("/**")
+                .authorizeRequests()
+                //.antMatchers("/", "/login/keycloak", "/login**","/token","/user","/logout","/home", "/login",
+                .antMatchers("/", "/login", "/login**","/token","/logout","/home", "/login",
                         "/pathology/allPathologies",
                         "/pathology/allPathologies/*",
                         "/pathology/allPathologies/**/name",
@@ -92,14 +143,86 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "/report/getBatchReport/*",
                         "/report/getVariableReport/*",
                         "//mapping/getsample").permitAll()
-				.anyRequest().authenticated()
-                        .and().logout().logoutSuccessUrl("/").permitAll()
-                        .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://195.251.252.222:2443/login"))
-			.and().csrf().csrfTokenRepository(csrfTokenRepository())
-			.and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
-			;
-	}
 
+                .anyRequest().hasRole("Data Manager")
+                .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://195.251.252.222:2443/login"))
+                .and().csrf().csrfTokenRepository(csrfTokenRepository())
+                .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+                .logout()
+                .logoutSuccessUrl("http://195.251.252.222:2442")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
+
+
+    }
+    private Filter ssoFilter() {
+        CompositeFilter filter = new CompositeFilter();
+        List<Filter> filters = new ArrayList<>();
+        System.out.println("client resources"+keycloak().client);
+        filters.add(ssoFilter(keycloak(), "/login"));
+        filter.setFilters(filters);
+        return filter;
+    }
+    //
+    private Filter ssoFilter(ClientResources client, String path) {
+        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
+        System.out.println("client is:"+client.getClient());
+
+        OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
+        filter.setRestTemplate(template);
+        UserInfoTokenServices tokenServices = new UserInfoTokenServices(
+                client.getResource().getUserInfoUri(), client.getClient().getClientId());
+        tokenServices.setRestTemplate(template);
+        filter.setTokenServices(tokenServices);
+        filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("http://195.251.252.222:2442/pathologies"));//<--- NEW
+        return filter;
+    }
+
+    @Bean
+    @ConfigurationProperties("keycloak")
+    public ClientResources keycloak() {
+        return new ClientResources();
+    }
+
+    class ClientResources {
+
+        @NestedConfigurationProperty
+        private BaseOAuth2ProtectedResourceDetails client = new AuthorizationCodeResourceDetails();
+
+        @NestedConfigurationProperty
+        private ResourceServerProperties resource = new ResourceServerProperties();
+
+        public BaseOAuth2ProtectedResourceDetails getClient() {
+            return client;
+        }
+
+        public ResourceServerProperties getResource() {
+            return resource;
+        }
+    }
+
+    /*
+    public void logout() {
+        ClientResources client = new ClientResources();
+        UserActionLogging.LogAction("refresh token ", this.oauth2ClientContext.getAccessToken().getRefreshToken().getValue());
+        RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, String> formParams = new LinkedMultiValueMap<>();
+        formParams.add("client_id", client.getClient().getClientId());
+        formParams.add("client_secret", client.getClient().getClientSecret());
+        formParams.add("refresh_token", this.oauth2ClientContext.getAccessToken().getRefreshToken().getValue());
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+
+        UserActionLogging.LogAction("logoutUri is ", "http://195.251.252.222:2443");
+        RequestEntity<MultiValueMap<String, String>> requestEntity =
+                new RequestEntity<>(formParams, httpHeaders, HttpMethod.POST,
+                        URI.create("http://195.251.252.222:2443"));
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+    }
+*/
 
 
     @Bean
@@ -114,21 +237,28 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
         return source;
     }
 
+
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
+    }
+
+
+
     private Filter csrfHeaderFilter() {
         return new OncePerRequestFilter() {
             @Override
             protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain filterChain) throws ServletException, IOException {
-
-System.out.println("URL DETAILS: "+request.getRequestURL()+" token name: "+CsrfToken.class.getName());
                 CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
                 if (csrf != null) {
+
                     Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
-                    System.out.println("cookie is :"+cookie);
                     String token = csrf.getToken();
-                    System.out.println("token is  :"+token);
-                    System.out.println("response header names :"+response);
+
                     if (cookie == null || token != null && !token.equals(cookie.getValue())) {
+
                         cookie = new Cookie("XSRF-TOKEN", token);
                         cookie.setPath("/");
                         response.addCookie(cookie);
@@ -139,12 +269,37 @@ System.out.println("URL DETAILS: "+request.getRequestURL()+" token name: "+CsrfT
         };
     }
 
-    private CsrfTokenRepository csrfTokenRepository() {
-        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-        repository.setHeaderName("X-XSRF-TOKEN");
-        return repository;
+
+    @Bean
+    public AuthoritiesExtractor keycloakAuthoritiesExtractor() {
+        return new KeycloakAuthoritiesExtractor();
+    }
+    public class KeycloakAuthoritiesExtractor
+            implements AuthoritiesExtractor {
+
+        @Override
+        public List<GrantedAuthority> extractAuthorities
+                (Map<String, Object> map) {
+            return AuthorityUtils
+                    .commaSeparatedStringToAuthorityList(asAuthorities(map));
+        }
+
+        private String asAuthorities(Map<String, Object> map) {
+            List<String> authorities = new ArrayList<>();
+            List<LinkedHashMap<String, String>> authz;
+            authz = (List<LinkedHashMap<String, String>>) map.get("authorities");
+            for (LinkedHashMap<String, String> entry : authz) {
+                authorities.add(entry.get("authority"));
+            }
+            return String.join(",", authorities);
+        }
     }
 
+    @Bean(name="hbpResource")
+    @ConfigurationProperties("hbp.resource")
+    public ResourceServerProperties hbpResource() {
+        return new ResourceServerProperties();
+    }
 
 
 }

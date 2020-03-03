@@ -77,6 +77,10 @@ export class HospitalService {
     return this.http.get('/user',{headers:this.headers});
   }
 
+  getUserRoles():Observable<any>{
+    return this.http.get('/userRoles',{headers:this.headers});
+  }
+
   hospitalReadExcel():Observable<any> {
     return this.http.get('//195.251.252.222:2442/hospital/readExcel',{headers:this.headers});
   }

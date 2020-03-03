@@ -10,26 +10,20 @@ export class AboutComponent implements OnInit {
   userName:string;
   loggedIn:boolean;
   user:any;
+  userRoles:any;
+  dataManager:boolean;
   @Input('loggedIn2')loggedIn2:boolean;
   @Input('userName2')userName2:string;
 
   constructor(private hospitalService:HospitalService) {
+    this.getUserRoles();
     this.checkIfLoggedIn();
+
   }
 
   ngOnInit() {
   }
-  login(){
-    // this.hospitalService.login().subscribe();
-    window.location.href ="/login";
-    this.hospitalService.getUser().subscribe(user=>{
-      if(user!=null){
-        this.loggedIn = true;
-        this.userName = user['name'];
-        this.user = user;
-      }
-    });
-  }
+
   cdeReadExcel(){
     this.hospitalService.cdeReadExcel().subscribe();
   }
@@ -39,13 +33,29 @@ export class AboutComponent implements OnInit {
   uploadAllReports(){
     this.hospitalService.uploadAllReports().subscribe();
   }
+  getUserRoles(){
+    this.hospitalService.getUserRoles().subscribe(userRoles=>{
+      if(userRoles!=null){
+      this.userRoles = userRoles;
+        for(let role of userRoles){
+          if(role.authority.toString() === "ROLE_Data Manager"){
+            this.dataManager = true;
+          }
+        }
+      }
+    });
+  }
   checkIfLoggedIn(){
     this.hospitalService.getUser().subscribe(user=>{
       if(user!=null){
         this.loggedIn = true;
         this.userName = user['name'];
         this.user = user;
+        //this.getUserRoles();
+
       }
     });
   }
+
+
 }
