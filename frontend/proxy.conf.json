@@ -16,6 +16,12 @@
     "secure": false,
     "logLevel": "debug"
   },
+  "/userRoles": {
+    "target": "http://195.251.252.222:2443",
+    "secure": false,
+    "logLevel": "debug"
+  },
+
   "/logout": {
     "target": "http://195.251.252.222:2443",
     "secure": false,
