@@ -13,7 +13,7 @@ export class HospitalService {
   //customMap:Array<any> = new Array<any>();
   //private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private headers = new HttpHeaders({'X-Requested-With':'XMLHttpRequest'});
-  private frontend_ip = '//195.251.252.222:2446';
+  private frontend_ip = '//195.251.252.222:2442';
 
   constructor(private http: HttpClient) { }
 
