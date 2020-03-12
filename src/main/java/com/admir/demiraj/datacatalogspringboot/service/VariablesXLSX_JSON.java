@@ -43,12 +43,13 @@ public class VariablesXLSX_JSON
     private CDEVariableDAO cdeVariableDAO;
     @Autowired
     private VersionDAO versionDAO;
+    private String PATHOLOGY_CODE="";//we keepin the code of the pathology here (we might use it in the concept-paths)
 
     /**
      * @param file: the path of the input XLSX file
      * @return the tree of the variables
      */
-    public Node loadXLSXInMemory(String file)
+  /*  public Node loadXLSXInMemory(String file)
     {
         //private Set<Variables> JSONcodes;
         List<Variables> XLSXcodes=null;
@@ -63,14 +64,14 @@ public class VariablesXLSX_JSON
         Node testTree = createTree(XLSXcodes);
         return testTree;
     }
-
+*/
     /**
      * Reads all variables (and categories -optional-) from an xlsx file (has to be structured as expected).
      * Creates Variables (AND Categories -optional-) instances. Adds them in a Hashset.
      * @param ff
      * @return A HashSet with all Variables
      */
-
+/*
     public List<Variables> Read_xlsx(String ff) throws IOException
     {
         List<Variables> xlsxVars = new ArrayList<>();//<Variables>
@@ -105,10 +106,10 @@ public class VariablesXLSX_JSON
                 {   newVar.setCode(cell.getStringCellValue()); }
                 else if (cell.getColumnIndex() == 3)//type
                 {   newVar.setType(cell.getStringCellValue()); }
-                /*else if (cell.getColumnIndex() == 4)//sql_type
-                    newVar.setSql_type(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 5)//isCategorical
-                    newVar.setIsCategorical(cell.getStringCellValue());*/
+                //else if (cell.getColumnIndex() == 4)//sql_type
+                //    newVar.setSql_type(cell.getStringCellValue());
+                //else if (cell.getColumnIndex() == 5)//isCategorical
+                //    newVar.setIsCategorical(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 4)//values
                     newVar.setValues(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 5)//unit
@@ -130,6 +131,7 @@ public class VariablesXLSX_JSON
         System.out.println("********* Total of "+xlsxVars.size()+" XLSX elements **********");
         return xlsxVars;
     }
+    */
     /**
      *
      * @param xlsxVars: Set of the Variables parsed from the input XLSX
@@ -155,7 +157,7 @@ public class VariablesXLSX_JSON
      */
     public Node createTree(List<Variables> xlsxVars)
     {
-        Node root = new Node("root",null,null);
+        Node root = new Node("root_is_no_longer_called_root",null,null);//initializing the code of the root node so as to change it with the pathology code
         Iterator<Variables> it = xlsxVars.iterator();
         while (it.hasNext())
             addPathNodes(it.next(), root);
@@ -176,7 +178,7 @@ public class VariablesXLSX_JSON
         }
         xlsxVars.addAll(varsThatRCdes);//to the xlsxVars add the Variables that actually are the CDEs
         //###################### ################## ################## ###
-        Node root = new Node("root",null,null);
+        Node root = new Node("root_is_no_longer_called_root",null,null);//initializing the code of the root node so as to change it with the pathology code
         Iterator<Variables> it = xlsxVars.iterator();
         while (it.hasNext())
             addPathNodes(it.next(), root);
@@ -192,7 +194,7 @@ public class VariablesXLSX_JSON
         }
         List<Variables> xlsxVars = new ArrayList<>();
         xlsxVars.addAll(varsThatRCdes);
-        Node root = new Node("root_is_no_longer_called_root",null,new Variables());
+        Node root = new Node("root_is_no_longer_called_root",null,new Variables());//initializing the code of the root node so as to change it with the pathology code
         Iterator<Variables> it = xlsxVars.iterator();
         while (it.hasNext())
             addPathNodes(it.next(), root);
@@ -205,7 +207,8 @@ public class VariablesXLSX_JSON
         System.out.println("variable name: "+nextVar.getName()+" variable concept path: "+nextVar.getConceptPath());
         if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/") /*|| thisConceptPath.trim().equals("/root") || thisConceptPath.trim().equals("/root/")*/)
         {
-            thisConceptPath=root.getName()+nextVar.getCode();
+            //thisConceptPath=root.getName()+nextVar.getCode();
+            thisConceptPath="/"+PATHOLOGY_CODE+"/"+nextVar.getCode();
             nextVar.setConceptPath(thisConceptPath);
         }
 
@@ -214,7 +217,11 @@ public class VariablesXLSX_JSON
 
         String[] conceptPath = thisConceptPath.split("/");
         if (root.getCode().equals("root_is_no_longer_called_root"))
+        {
             root.setCode(conceptPath[0]);
+            PATHOLOGY_CODE = conceptPath[0];//we store the code of the pathology to have it for later...
+            System.out.println("~~~~~~******* We are talking about " + PATHOLOGY_CODE + "*******~~~~~~");
+        }
 
         Node parent = root;
         for (int i=0; i<conceptPath.length; i++)
@@ -236,10 +243,10 @@ public class VariablesXLSX_JSON
                     node2Add = new Node(conceptPath[i], parent, nextVar);
                 } else//it s an intermediate node
                 {
-                    String conceptPathUntiNow = "";
+                    String conceptPathUntilNow = "";
                     for (int ii=0; ii<=i; ii++)
-                        conceptPathUntiNow += "/"+conceptPath[ii];
-                    Variables newInterCat = new Variables(null,nextVar.getCsvFile(),null,null,null,null,null,null,conceptPath[i],conceptPathUntiNow,null);
+                        conceptPathUntilNow += "/"+conceptPath[ii];
+                    Variables newInterCat = new Variables(null,nextVar.getCsvFile(),null,null,null,null,null,null,conceptPath[i],conceptPathUntilNow,null);
                     node2Add = new Node(conceptPath[i], parent, newInterCat);
                 }
                 addNode(node2Add);
@@ -252,7 +259,7 @@ public class VariablesXLSX_JSON
         if (node.parent.children == null)
             node.parent.children = new ArrayList<>();
         node.parent.children.add(node);
-       // System.out.println("---$$$$$ Added "+node.code+" under "+node.parent.code+" which has concept_path: "+node.var.getConceptPath()+" $$$$$---");
+        // System.out.println("---$$$$$ Added "+node.code+" under "+node.parent.code+" which has concept_path: "+node.var.getConceptPath()+" $$$$$---");
     }
 
     public Node findNodeByCode(String NodeCode,Node node)
@@ -382,9 +389,9 @@ public class VariablesXLSX_JSON
 
     public class Node
     {/**
-    * structure for the Nodes (both intermediate and leaves) in the Variables Tree
-    */
-        protected String code;
+     * structure for the Nodes (both intermediate and leaves) in the Variables Tree
+     */
+    protected String code;
         protected Node parent;
         protected Variables var;//contains name and all the rest...
         protected List<Node> children;//if a leaf then null
@@ -615,4 +622,3 @@ public class VariablesXLSX_JSON
 
 
 }
-

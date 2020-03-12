@@ -76,6 +76,7 @@ public class VariablesXLSX_JSON_tests
     public void tearDown() {
     }
 
+    /*
     @Test
     public void testVariablesXLSX_JSON_v1_1()
     {
@@ -128,6 +129,7 @@ public class VariablesXLSX_JSON_tests
 
 
     }
+    */
     /*@Test
     public void testVariablesXLSX_JSON_cdes_newColumns()
     {
@@ -167,7 +169,7 @@ public class VariablesXLSX_JSON_tests
         JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
         System.out.println(testJSONMeta.toString());
         System.out.println("--------- --------- --------- --------- ---------");
-    }*/
+    }
     @Test
     public void testVariablesXLSX_JSON_Niguarda()
     {
@@ -203,6 +205,7 @@ public class VariablesXLSX_JSON_tests
         enumCode = enumCode.endsWith("\"") ? enumCode.substring(0,enumCode.length()-1) : enumCode;
         Assert.assertEquals("EDSD",enumCode);
     }
+    */
     /*@Test
     public void testVariablesXLSX_JSON_withDAOCDEs()
     {
