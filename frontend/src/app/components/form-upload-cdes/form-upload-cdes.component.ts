@@ -1,16 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
-import {HospitalService} from "../../shared/hospital.service";
 import {Observable} from "rxjs";
-
+import {HospitalService} from "../../shared/hospital.service";
+import {HttpEventType, HttpResponse} from "@angular/common/http";
 
 @Component({
-  selector: 'form-upload',
-  templateUrl: './form-upload.component.html',
-  styleUrls: ['./form-upload.component.css']
+  selector: 'app-form-upload-cdes',
+  templateUrl: './form-upload-cdes.component.html',
+  styleUrls: ['./form-upload-cdes.component.css']
 })
-export class FormUploadComponent implements OnInit {
-
+export class FormUploadCdesComponent implements OnInit {
   @Input("sampleNameVersion") sampleNameVersion;
   @Input("cdeInstructions") cdeInstructions;
   selectedFiles: FileList;
@@ -53,8 +51,8 @@ export class FormUploadComponent implements OnInit {
       .subscribe(
         data=>{
           console.log("sample data is: "+data);
-           window.open("http://195.251.252.222:2442/mapping/getsample/"+this.sampleNameVersion);
-           console.log('XLSX template downloaded...');
+          window.open("http://195.251.252.222:2442/mapping/getsample/"+this.sampleNameVersion);
+          console.log('XLSX template downloaded...');
         },
         error => {
           if(error.status=='401'){
@@ -67,4 +65,5 @@ export class FormUploadComponent implements OnInit {
 
 
   }
+
 }

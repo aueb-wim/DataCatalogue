@@ -69,7 +69,7 @@ public class Variables implements Serializable{
     @Column
     private String csvFile;
 
-    @Column(length = 500)
+    @Column(length = 2000)
     private String values;
 
     @Column(length = 500)

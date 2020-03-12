@@ -8,7 +8,7 @@
     <a class="notes">
 
       <br>
-      !NOTE: the name of the uploaded file should be in the following format: "pathology name"_"hospital name"_"version number".xlsx (e.g. demencia_Plovdiv_v2.xlsx).
+      !NOTE: the name of the uploaded file should be in the following format: "pathology name"_cdes_"version number".xlsx (e.g. demencia_cdes_v1.xlsx).
       <br>
       !NOTE: all the columns described below should be present in the uploaded file.
       <br>
@@ -35,14 +35,7 @@
     <br><b>9. comments: </b>     Comments about the variable’s nature.
     <br><b>10. conceptPath:</b>    The variable’s concept path. Example (for ApoE4): /root/genetic/polymorphism/apoe4.
     <br><b>11. methodology:</b>   The methodology the variable has come from. Example (for rs10498633_T): lren-nmm-volumes.
-    <br><b>12. mapFunction: </b> The function that transforms the variable’s value into the value of its corresponding CDE. Use a simple way to express values transformations.
-    Example (for Handedness): 1->'R' 2->'L'
-    When value stays the same fill in with "stays the same". When more than one CDEs are generated from the variable’s value, separate the corresponding functions with commas and enclose each function definition in brackets ‘[]’.
-    Example (for DATA_NASCITA):
-    [DATA_ESAME-DATA_NASCITA years],
-    [DATA_ESAME-DATA_NASCITA rest of the months], [(DATA_ESAME-DATA_NASCITA) corresponds to one of the groups: {{"{“-50y”},{”50-59y”},{”60-69y”},{”70-79y”},{”+80y”}"}}]
-    <br><b>13. mapCDE:</b> The corresponding CDE's code. Use commas to separate the CDEs when the variable has more than one correspondings.
-    Example (for DATA_NASCITA): subjectageyears, subjectage, agegroup
+
     <br>
   </a>
 

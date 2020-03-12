@@ -6,6 +6,7 @@ import {HospitalDetailsComponent} from "./components/hospital-details/hospital-d
 import {AllVariablesComponent} from "./components/all-variables/all-variables.component";
 import {CreateNewVersionComponent} from "./components/create-new-version/create-new-version.component";
 import {FullUploadComponent} from "./components/full-upload/full-upload.component";
+import {FullUploadCdesComponent} from "./components/full-upload-cdes/full-upload-cdes.component";
 import {CreateNewVersionCdeComponent} from "./components/create-new-version-cde/create-new-version-cde.component"
 import {AboutComponent} from "./components/about/about.component"
 import {PathologiesComponent} from "./components/pathologies/pathologies.component"
@@ -24,7 +25,7 @@ const routes: Routes = [
   {path:'hospitals/about', component: AboutComponent},
 
 
-  {path:'hospitals/cde-variables/new-cde-version/:pathology_name/:upload_file', component: FullUploadComponent},
+  {path:'hospitals/cde-variables/new-cde-version/:pathology_name/:upload_file', component: FullUploadCdesComponent},
   {path:'hospitals/cde-variables/new-cde-version/:pathology_name', component: CreateNewVersionCdeComponent},
 
 ];

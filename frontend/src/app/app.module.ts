@@ -40,6 +40,8 @@ import { CreateNewVersionCdeComponent } from './components/create-new-version-cd
 import { CategoryFilterPipe } from './components/category-filter.pipe';
 import { AboutComponent } from './components/about/about.component';
 import { PathologiesComponent } from './components/pathologies/pathologies.component';
+import { FullUploadCdesComponent } from './components/full-upload-cdes/full-upload-cdes.component';
+import { FormUploadCdesComponent } from './components/form-upload-cdes/form-upload-cdes.component';
 
 
 @Injectable()
@@ -80,6 +82,8 @@ export class XhrInterceptor implements HttpInterceptor {
     CategoryFilterPipe,
     AboutComponent,
     PathologiesComponent,
+    FullUploadCdesComponent,
+    FormUploadCdesComponent,
 
   ],
   imports: [
