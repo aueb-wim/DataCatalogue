@@ -13,7 +13,8 @@ export class HospitalService {
   //customMap:Array<any> = new Array<any>();
   //private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private headers = new HttpHeaders({'X-Requested-With':'XMLHttpRequest'});
-  private frontend_ip = '//195.251.252.222:2442';
+  private frontend_ip = 'http://localhost:4200';
+  //private frontend_ip = 'http://172.28.1.2:8086';
 
   constructor(private http: HttpClient) { }
 
@@ -44,11 +45,11 @@ export class HospitalService {
   }
 
   createNewPathology (pathology_name: string): Observable<any> {
-    return this.http.post<any>('//195.251.252.222:2442/pathology/newPathology', pathology_name,{headers:this.headers});
+    return this.http.post<any>(this.frontend_ip +'/pathology/newPathology', pathology_name,{headers:this.headers});
   }
 
   deletePathology (pathology_name: string): Observable<any> {
-    return this.http.post<any>('//195.251.252.222:2442/pathology/deletePathology', pathology_name,{headers:this.headers});
+    return this.http.post<any>(this.frontend_ip +'/pathology/deletePathology', pathology_name,{headers:this.headers});
   }
 
   getPathologyNameById(pathology_id: number):Observable<any>{

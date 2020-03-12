@@ -1,0 +1,47 @@
+version: "3"
+# Common network
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 195.251.252.0/24
+        
+
+services:
+# Postgres container
+  postgres:
+    build: .
+    container_name: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+#    expose:
+#      - 5432
+    ports:
+      - 5432:5432
+    environment:
+         - POSTGRES_PASSWORD= 'andy'
+         - POSTGRES_USER= 'password'
+         - POSTGRES_DB= 'datacatalog'
+    restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 195.251.252.2
+
+# Spring boot app container
+  datacatalogue:
+    build: .
+    container_name: datacatalogue
+#    expose:
+#      - 2443
+    ports:
+      - 2443:2443
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    networks:
+      default:
+        ipv4_address: 195.251.252.3
+
+volumes:
+  postgres-data:

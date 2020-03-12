@@ -1,39 +1,39 @@
 {
   "/login": {
-    "target": "http://195.251.252.222:2443",
+    "target": "http://172.28.1.2:8086",
     "secure": false,
     "logLevel": "debug"
   },
 
   "/home": {
-    "target": "http://195.251.252.222:2443",
+    "target": "http://172.28.1.2:8086",
     "secure": false,
     "logLevel": "debug"
   },
 
   "/user": {
-    "target": "http://195.251.252.222:2443",
+    "target": "http://172.28.1.2:8086",
     "secure": false,
     "logLevel": "debug"
   },
   "/userRoles": {
-    "target": "http://195.251.252.222:2443",
+    "target": "http://172.28.1.2:8086",
     "secure": false,
     "logLevel": "debug"
   },
 
   "/logout": {
-    "target": "http://195.251.252.222:2443",
+    "target": "http://172.28.1.2:8086",
     "secure": false,
     "logLevel": "debug"
   },
   "/hospital/readExcel": {
-    "target": "http://195.251.252.222:2443",
+    "target": "http://172.28.1.2:8086",
     "secure": false,
     "logLevel": "debug"
   },
   "/CDE/readExcel": {
-    "target": "http://195.251.252.222:2443",
+    "target": "http://172.28.1.2:8086",
     "secure": false,
     "logLevel": "debug"
   }

@@ -42,7 +42,7 @@
       "/pathology/deletePathology"
 
     ],
-    target: "http://195.251.252.222:2443",
+    target: "http://172.28.1.2:8086",
     secure: false
   }
 ];

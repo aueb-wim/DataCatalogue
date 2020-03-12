@@ -75,7 +75,7 @@ public class VariablesXLSX_JSON_tests
     @After
     public void tearDown() {
     }
-
+    /*
     @Test
     public void testVariablesXLSX_JSON_v1_1()
     {
@@ -127,7 +127,7 @@ public class VariablesXLSX_JSON_tests
         System.out.println(testJSONMeta.toString());
 
 
-    }
+    }*/
     /*@Test
     public void testVariablesXLSX_JSON_cdes_newColumns()
     {
@@ -167,7 +167,7 @@ public class VariablesXLSX_JSON_tests
         JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
         System.out.println(testJSONMeta.toString());
         System.out.println("--------- --------- --------- --------- ---------");
-    }*/
+    }
     @Test
     public void testVariablesXLSX_JSON_Niguarda()
     {
@@ -191,6 +191,7 @@ public class VariablesXLSX_JSON_tests
         JSONObject testJSONMeta = xlsx_json.createJSONMetadata(testTree);
         System.out.println(testJSONMeta.toString());
     }
+    */
     @Test
     public void testQuotesRemoval()
     {

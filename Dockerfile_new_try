@@ -1,0 +1,10 @@
+FROM openjdk:8-alpine as builder
+WORKDIR /app
+COPY . /app
+RUN ./maven sudo mvn package
+
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+CMD ["java", "-Djava.security.egd=file:/dev/urandom", "-Djava.awt.headless=true", "-jar", "app.jar"]
+COPY --from=builder /app/build/libs/*.jar /app/app.jar
+

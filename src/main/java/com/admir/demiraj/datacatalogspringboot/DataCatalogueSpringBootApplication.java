@@ -3,17 +3,24 @@ package com.admir.demiraj.datacatalogspringboot;
 import java.text.ParseException;
 import com.admir.demiraj.datacatalogspringboot.service.StorageService;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
 import javax.annotation.Resource;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @EnableJpaAuditing
 @RestController
+@EnableWebMvc
+@Configuration
 public class DataCatalogueSpringBootApplication extends SpringBootServletInitializer {
 
 

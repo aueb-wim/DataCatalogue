@@ -46,6 +46,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -79,6 +80,11 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
     @RequestMapping("/user")
     public Principal user(Principal principal) {
         return principal;
+    }
+
+    @RequestMapping("/test")
+    public String test() {
+        return "WORKING.........";
     }
 
     @RequestMapping("/userRoles")
@@ -146,15 +152,16 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
 
 
                 .anyRequest().hasRole("Data Manager")
-                .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://195.251.252.222:2443/login"))
+                .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("/login"))
                 .and().csrf().csrfTokenRepository(csrfTokenRepository())
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
                 .logout()
-                .logoutSuccessUrl("http://195.251.252.222:2442")
+                .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
-
+                 //login-->"http://172.28.1.2:8086/login"
+        //logout --> http://172.28.1.3:4200
 
     }
     private Filter ssoFilter() {
@@ -176,8 +183,9 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                 client.getResource().getUserInfoUri(), client.getClient().getClientId());
         tokenServices.setRestTemplate(template);
         filter.setTokenServices(tokenServices);
-        filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("http://195.251.252.222:2442/pathologies"));//<--- NEW
+        filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler());//<--- NEW
         return filter;
+        //"http://172.28.1.3:4200/pathologies"
     }
 
     @Bean
@@ -229,7 +237,7 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("*","http://172.28.1.3:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token","x-requested-with","X-Requested-With","XMLHttpRequest"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
@@ -265,6 +273,8 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         response.addCookie(cookie);
                     }
                 }
+                System.out.println("Received request from:"+request.getRequestURL()+request);
+                System.out.println("Responce headers are:"+response.getHeaders("Origin")+response);
                 filterChain.doFilter(request, response);
             }
         };
@@ -303,4 +313,10 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
     }
 
 
+    ////////////////////extra addition for docker
+
+    @Bean
+    public RequestContextListener requestContextListener() {
+        return new RequestContextListener();
+    }
 }
