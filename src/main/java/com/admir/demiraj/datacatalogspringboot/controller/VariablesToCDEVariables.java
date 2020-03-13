@@ -13,7 +13,10 @@ import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.Functions;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,9 +62,9 @@ public class VariablesToCDEVariables {
 
     /** Method that handle the upload of multipart file (excel file in our case)*/
     @PostMapping("/post")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        String message = "";
-        try {
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) throws FileNotFoundException, IOException {
+        String message = "File Uploaded Successfully";
+
             storageService.store(file);
             files.add(file.getOriginalFilename());
 
@@ -74,10 +77,7 @@ public class VariablesToCDEVariables {
             }
 
             return ResponseEntity.status(HttpStatus.OK).body(message);
-        } catch (Exception e) {
-            message = "FAIL to upload " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
-        }
+
     }
 
     /** Method that provides a link for each file the user has uploaded*/
@@ -93,7 +93,7 @@ public class VariablesToCDEVariables {
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) throws MalformedURLException {
         Resource file = storageService.loadFile(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,  "attachment; filename=\"" + file.getFilename() + "\"")

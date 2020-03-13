@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.admir.demiraj.datacatalogspringboot.exceptionHandlers.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -32,21 +33,64 @@ public class StorageService {
     private final Path batchReportLocation = Paths.get(FOLDER_BATCH_REPORTS);
     private final Path variableReportLocation = Paths.get(FOLDER_VARIABLE_REPORTS);
 
-    public void store(MultipartFile file) {
-        try {
+    public void store(MultipartFile file) throws IOException{
+
+            // Validating that the file isn't empty
+            if(file.isEmpty()){
+                throw new CustomException("This file is empty.", "The file must contain the appropriate columns and at " +
+                        "least one line of data ", "Fill in the appropriate fields. ");
+            }
+
+            // Validating that the file isn't already saved
+            if(Files.exists(this.cdeLocation)){
+                throw new CustomException("This file already exists.", "We cannot use the same version name twice for a " +
+                        "single pathology ", "Please create a new version");
+            }
+
+            // Validating that the name is ok
+            String fileName = file.getOriginalFilename();
+
+
+            if(fileName.contains("cde")){
+                String[] parts = fileName.split("_");
+                if(parts[1].equals("cdes")){
+                    throw new CustomException("Invalid file name.", "The middle component of file name should be <cdes> " +
+                            "separated with underscore from the other components", "Please provide a file name that complied with the format: " +
+                            "<pathology>_cdes_<version>");
+
+                }else if (Character.compare(parts[2].charAt(0),'v')==0){
+                    throw new CustomException("Invalid file name.", "We use the letter <v> to define a version and it should be directly after the underscore" ,
+                            "Please provide a file name that complied with the format: <pathology>_cdes_<version>");
+
+                }else if (Character.isDigit(parts[2].charAt(1)) && Character.compare(parts[2].charAt(1),'0')==0){
+                    throw new CustomException("Invalid file name.", "The version number cannot start with zero",
+                            "Please provide a file name that complied with the format: <pathology>_cdes_<version>");
+
+                }
+
+            }else{
+                String[] parts = fileName.split("_");
+                if (Character.compare(parts[1].charAt(0),'v')==0){
+                    throw new CustomException("Invalid file name.", "We use the letter <v> to define a version and it should be directly after the underscore" ,
+                            "Please provide a file name that complied with the format: <pathology>_cdes_<version>");
+
+                }else if (Character.isDigit(parts[1].charAt(1)) && Character.compare(parts[1].charAt(1),'0')==0){
+                    throw new CustomException("Invalid file name.", "The version number cannot start with zero",
+                            "Please provide a file name that complied with the format: <pathology>_cdes_<version>");
+
+                }
+
+            }
             if(file.getOriginalFilename().contains("cde")){
                 Files.copy(file.getInputStream(), this.cdeLocation.resolve(file.getOriginalFilename()));
             }else{
                 Files.copy(file.getInputStream(), this.variableLocation.resolve(file.getOriginalFilename()));
             }
 
-        } catch (Exception e) {
-            throw new RuntimeException("FAIL!");
-        }
     }
 
-    public Resource loadFile(String filename) {
-        try {
+    public Resource loadFile(String filename) throws MalformedURLException {
+
             Path file = variableLocation.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
@@ -54,9 +98,7 @@ public class StorageService {
             } else {
                 throw new RuntimeException("FAIL!");
             }
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("FAIL!");
-        }
+
     }
 
 

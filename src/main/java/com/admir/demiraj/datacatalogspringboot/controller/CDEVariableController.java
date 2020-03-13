@@ -13,12 +13,21 @@ import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
+import com.admir.demiraj.datacatalogspringboot.exceptionHandlers.ApiError;
 import com.admir.demiraj.datacatalogspringboot.service.UploadCdes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
+
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -40,8 +49,10 @@ public class CDEVariableController {
         this.uploadCdes = uploadCdes;
     }
 
+
+
     @GetMapping("/readExcel")
-    public void readExcel(){
+    public void readExcel() throws IOException,FileNotFoundException,Exception{
         uploadCdes.readExcelFile();
     }
 
