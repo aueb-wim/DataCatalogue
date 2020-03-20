@@ -39,6 +39,9 @@ public class CustomMapperCDEs {
 
 
     public void mapCdeVersion(JSONArray jr){
+        // the filePath is used in order to move a file in the error folder in a case an error occurs. In this case no
+        // file exists since we create a version from the GUI, so we just add an empty filePath and no move should be made
+        String filePath = "";
         String pathologyName = jr.getString(0);
         String versionName = jr.getString(1);
         JSONObject versionJsonObject = jr.getJSONObject(2);
@@ -53,6 +56,7 @@ public class CustomMapperCDEs {
                     List<CDEVariables> cdeVariables = customMappings(version, versionJsonObject);
                     System.out.println("Retrieving node from file");
                     //VariablesXLSX_JSON.Node node = variablesXLSX_json.createTree(filePath);
+                    variablesXLSX_json.version = version;
                     VariablesXLSX_JSON.Node node = variablesXLSX_json.createTree3(cdeVariables);
                     System.out.println("Retrieving jsonString from file");
                     version.setJsonString(variablesXLSX_json.createJSONMetadata(node).toString());
@@ -101,10 +105,12 @@ public class CustomMapperCDEs {
            CDEVariables newVar2 = cdeVariableDAO.compareVariableAttributes(newVar);
 if(newVar2 == null){
     cdeVariableDAO.saveVersionToCDEVariable(newVar, version);
+    versionDAO.saveVersion(version);
     cdeVariableDAO.save(newVar);
     xlsxVars.add(newVar);
 }else{
     cdeVariableDAO.saveVersionToCDEVariable(newVar2, version);
+    versionDAO.saveVersion(version);
     cdeVariableDAO.save(newVar);
     xlsxVars.add(newVar2);
 }

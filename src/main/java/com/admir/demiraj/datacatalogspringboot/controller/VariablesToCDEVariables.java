@@ -61,22 +61,32 @@ public class VariablesToCDEVariables {
     List<String> files = new ArrayList<String>();
 
     /** Method that handle the upload of multipart file (excel file in our case)*/
-    @PostMapping("/post")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) throws FileNotFoundException, IOException {
-        String message = "File Uploaded Successfully";
-
-            storageService.store(file);
-            files.add(file.getOriginalFilename());
-
-            message = "You successfully uploaded " + file.getOriginalFilename() + "!";
-
-            if(file.getOriginalFilename().contains("cde")){
-                uploadCdes.readExcelFile();
-            }else{
-                uploadVariables.readExcelFile();
-            }
-
+    @PostMapping("/postCDE")
+    public ResponseEntity<String> handleFileUploadCDE(@RequestParam("file") MultipartFile file) throws FileNotFoundException, IOException {
+        String message = "CDE File Uploaded Successfully";
+            System.out.println(message);
+            storageService.store(file,true);
+            String fileName = file.getOriginalFilename();
+            files.add(fileName);
+            uploadCdes.readSingleExcelFile(fileName);
             return ResponseEntity.status(HttpStatus.OK).body(message);
+
+    }
+
+     ////!NOTE CHANGE THIS TO GET A SINGLE FILE
+    /** Method that handle the upload of multipart file (excel file in our case)*/
+    @PostMapping("/postVariable")
+    public ResponseEntity<String> handleFileUploadVariable(@RequestParam("file") MultipartFile file) throws FileNotFoundException, IOException {
+        String message = "Variable File Uploaded Successfully";
+        System.out.println(message);
+        storageService.store(file,false);
+        System.out.println("Store finished");
+        String fileName = file.getOriginalFilename();
+        files.add(fileName);
+        uploadVariables.readSingleExcelFile(fileName);
+        System.out.println("Upload finished");
+        //uploadVariables.readExcelFile();
+        return ResponseEntity.status(HttpStatus.OK).body(message);
 
     }
 

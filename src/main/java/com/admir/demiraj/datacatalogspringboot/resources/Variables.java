@@ -262,4 +262,10 @@ public class Variables implements Serializable{
     public void setVariableReports(List<VariableReport> variableReports) {
         this.variableReports = variableReports;
     }
+
+    @Override
+    public String toString() {
+        String res = "CSVFile: "+this.getCsvFile()+"Name: "+ this.getName()+" Code: "+this.getCode()+" Type: "+this.getType()+" ConceptPath: "+this.getConceptPath();
+        return res;
+    }
 }

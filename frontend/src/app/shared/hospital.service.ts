@@ -188,13 +188,13 @@ export class HospitalService {
   }
 
   ///////////////////////////UPLOAD RELATED
-  pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
+  pushFileToStorageCDE(file: File): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
 
     formdata.append('file', file);
 
 
-    const req = new HttpRequest('POST', this.frontend_ip + '/mapping/post', formdata, {
+    const req = new HttpRequest('POST', this.frontend_ip + '/mapping/postCDE', formdata, {
 
       reportProgress: true,
       responseType: 'text'
@@ -202,6 +202,22 @@ export class HospitalService {
 
     return this.http.request(req);
   }
+
+  pushFileToStorageVariable(file: File): Observable<HttpEvent<{}>> {
+    const formdata: FormData = new FormData();
+
+    formdata.append('file', file);
+
+
+    const req = new HttpRequest('POST', this.frontend_ip + '/mapping/postVariable', formdata, {
+
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
+  }
+
 
   getFiles(): Observable<any> {
 

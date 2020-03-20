@@ -26,7 +26,9 @@ public class HospitalDAO {
     @Autowired
     private HospitalsRepository hospitalsRepository;
 
-
+    public List<Hospitals> getAllHospitals(){
+        return hospitalsRepository.findAll();
+    }
     public Hospitals save(Hospitals hosp){
         return hospitalsRepository.save(hosp);
     }

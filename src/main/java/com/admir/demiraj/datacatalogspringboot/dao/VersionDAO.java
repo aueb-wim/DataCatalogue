@@ -5,11 +5,8 @@
  */
 package com.admir.demiraj.datacatalogspringboot.dao;
 
-import com.admir.demiraj.datacatalogspringboot.repository.HospitalsRepository;
-import com.admir.demiraj.datacatalogspringboot.repository.VersionsRepository;
-import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
-import com.admir.demiraj.datacatalogspringboot.resources.Variables;
-import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import com.admir.demiraj.datacatalogspringboot.repository.*;
+import com.admir.demiraj.datacatalogspringboot.resources.*;
 import jdk.nashorn.internal.runtime.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +29,15 @@ public class VersionDAO {
 
     @Autowired
     HospitalDAO hospitalDAO;
+
+    @Autowired
+    VariablesRepository variablesRepository;
+
+    @Autowired
+    VariableReportRepository variableReportRepository;
+
+    @Autowired
+    CDEVariablesRepository cdeVariablesRepository;
 
     public List<Versions> getAllCdeVersions() {
 
@@ -186,7 +192,63 @@ public class VersionDAO {
         return false;
     }
 
+
+    public void deleteVersion(Hospitals currentHospital,Versions currentVersion){
+        try {
+
+
+            List<Variables> variablesInVersion = currentVersion.getVariables();
+
+            List<String> versionNamesInHosp = getAllVersionNamesByHospitalName(currentHospital.getName());
+            List<Variables> variablesInHospital = currentHospital.getVariables();
+            System.out.println("all var names in hosp" + versionNamesInHosp.toString());
+            for (Variables varInVersion : variablesInVersion) {
+                System.out.println("comparing var in version: " + varInVersion.getName());
+                if (versionNamesInHosp.contains(varInVersion.getName())) {
+                    System.out.println("Contains works");
+                    variablesInHospital.remove(varInVersion);
+                }
+            }
+
+            currentHospital.setVariables(variablesInHospital);
+            hospitalDAO.save(currentHospital);
+
+            for (Variables var : variablesInVersion) {
+                List<VariableReport> variableReports = var.getVariableReports();
+                variableReportRepository.deleteInBatch(variableReports);
+            }
+            variablesRepository.deleteInBatch(variablesInVersion);
+
+
+            List<Versions> versions2Delete = new ArrayList<>();
+            versions2Delete.add(currentVersion);
+            saveVersion(currentVersion);
+            versionsRepository.deleteInBatch(versions2Delete);
+
+            System.out.println("Curent version id:" + currentVersion.getVersion_id());
+
+
+            System.out.println("Trying to get deleted version: " + versionsRepository.findById(currentVersion.getVersion_id()));
+
+        }catch (Exception e){
+            System.out.println("Error when trying to delete version: "+e);
+        }
+    }
+
+    public void deleteVersion(Versions currentVersion){
+        List<CDEVariables> CDEVariablesInVersion = currentVersion.getCdevariables();
+        cdeVariablesRepository.deleteInBatch(CDEVariablesInVersion);
+        List<Versions> versions2Delete =new ArrayList<>();
+        versions2Delete.add(currentVersion);
+        saveVersion(currentVersion);
+        versionsRepository.deleteInBatch(versions2Delete);
+
+    }
+
+
+
     public List<String> getAllVersionNamesByHospitalName(String hospitalName){
+        System.out.println("hospital name:"+hospitalName);
         List<String> allVersionNames = new ArrayList<>();
         Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
         List<Variables> variablesInHospital = currentHospital.getVariables();

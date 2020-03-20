@@ -135,7 +135,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
         if (error.status == '401') {
           alert("You need to be logged in to complete this action.");
         } else {
-          alert("An error has occurred.");
+          alert("Error Occurred:\n"+error.error);
         }
       });
 
@@ -168,6 +168,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
     let newVar = Object.assign(Object.create(this.versionToUpdate.variables[this.versionToUpdate.variables.length - 1]));
     //var newVar: VariableOject={};
     if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
+      this.checkIfTypeIsNull(this.newVarType) && this.checkIfConceptPathIsNull(this.newVarConceptPath)&&
       this.checkIfMappingFunctionIsValid(this.newVarMapFunction) && this.checkIfMappingCDEIsValid(this.newVarMapCDE)) {
 
       newVar.csvFile = this.ifNullEmptyElseTheSame(this.newVarFile);
@@ -241,10 +242,10 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   checkIfCoceprPathIsValid(conceptPath) {
     if (conceptPath == null || conceptPath == 'undefined' || conceptPath == "") {
       return true;
-    } else if (conceptPath.startsWith("/root")) {
+    } else if (conceptPath.startsWith("/"+this.pathologyName)) {
       return true;
     } else {
-      alert("Invalid concept path. It should start with: /root\nAll empty concept paths are mapped to /root");
+      alert("Invalid concept path. It should start with: /"+this.pathologyName);
       return false;
     }
   }
@@ -254,6 +255,24 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
       return true;
     } else {
       alert("Code cannot be null.");
+      return false;
+    }
+  }
+
+  checkIfTypeIsNull(type) {
+    if (type != null && type != "") {
+      return true;
+    } else {
+      alert("Type cannot be null.");
+      return false;
+    }
+  }
+
+  checkIfConceptPathIsNull(conceptPath) {
+    if (conceptPath != null && conceptPath != "") {
+      return true;
+    } else {
+      alert("Concept Path cannot be null.");
       return false;
     }
   }

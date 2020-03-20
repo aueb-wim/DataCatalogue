@@ -1,8 +1,9 @@
 package com.admir.demiraj.datacatalogspringboot.service;
 
-import antlr.StringUtils;
 import com.admir.demiraj.datacatalogspringboot.dao.*;
+import com.admir.demiraj.datacatalogspringboot.exceptionHandlers.CustomException;
 import com.admir.demiraj.datacatalogspringboot.resources.*;
+import io.micrometer.core.instrument.util.StringUtils;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -18,6 +19,11 @@ import java.util.regex.Pattern;
 public class UploadVariables {
 
     private static final String FOLDER_NAME = System.getProperty("user.dir") + "/src/main/resources/data/variables/";
+    private static final String[] properColumnsNames = {"csvFile","name","code","type","values","unit","canBeNull",
+            "description","comments","conceptPath","methodology","mapFunction","mapCDE"};
+
+
+
 
     @Autowired
     private HospitalDAO hospitalDAO;
@@ -40,6 +46,48 @@ public class UploadVariables {
     @Autowired
     private PathologyDAO pathologyDAO;
 
+    @Autowired
+    private StorageService storageService;
+
+    @Autowired
+    private UploadCdes uploadCdes;
+
+
+    public void readSingleExcelFile(String fileName){
+        String filePath = FOLDER_NAME + fileName;
+        String[] parts = fileName.split("_");
+        String pathologyName = parts[0];
+        String hospitalName = parts[1];
+        String[] parts2 = parts[2].toString().split("\\.");
+        String versionName = parts2[0];
+        Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
+        //The hospital exists
+        if (currentHospital != null) {
+            System.out.println("The hospital exists");
+            //The version is present at hospital
+            if (versionDAO.isVersionNameInHospital(versionName, hospitalName)) {
+
+                throw new CustomException("The version : " + versionName + " is already present at : " + hospitalName,
+                        "We cannot have the same version twice in the same hospital","Please create a new version");
+                //System.out.println("The version : " + versionName + " is already present at : " + hospitalName);
+               // System.out.println("The file : " + fileName + " won't be saved");
+                //The version isn't present at hospital
+            } else {
+                createVersion(versionName, filePath, currentHospital, pathologyName);
+            }
+
+
+            //The hospital doesn't exist
+        } else {
+            //generateConceptPathFromMapping(filePath);
+            Hospitals createdHospital = new Hospitals(hospitalName);
+            hospitalDAO.save(createdHospital);//////check this
+            createVersion(versionName, filePath, createdHospital,pathologyName);
+
+        }
+
+
+    }
 
     public void readExcelFile() {
         File folder = new File(FOLDER_NAME);
@@ -49,36 +97,10 @@ public class UploadVariables {
             if (listOfFiles[i].isFile()) {
                 //Split the file name in hospital_name and version_name
                 String fileName = listOfFiles[i].getName();
-                String filePath = FOLDER_NAME + fileName;
-                String[] parts = fileName.split("_");
-                String pathologyName = parts[0];
-                String hospitalName = parts[1];
-                String[] parts2 = parts[2].toString().split("\\.");
-                String versionName = parts2[0];
-                Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
-                //The hospital exists
-                if (currentHospital != null) {
-                    System.out.println("The hospital exists");
-                    //The version is present at hospital
-                    if (versionDAO.isVersionNameInHospital(versionName, hospitalName)) {
-                        System.out.println("The version : " + versionName + " is already present at : " + hospitalName);
-                        System.out.println("The file : " + listOfFiles[i].getName() + " won't be saved");
-                        //The version isn't present at hospital
-                    } else {
-                        createVersion(versionName, filePath, currentHospital, pathologyName);
-                    }
+                readSingleExcelFile(fileName);
 
-
-                    //The hospital doesn't exist
-                } else {
-                    //generateConceptPathFromMapping(filePath);
-                    Hospitals createdHospital = new Hospitals(hospitalName);
-                    //hospitalDAO.save(createdHospital);//////check this
-                    createVersion(versionName, filePath, createdHospital,pathologyName);
-
-                }
-            }
         }
+    }
     }
 
 
@@ -110,6 +132,10 @@ public class UploadVariables {
 
 
 // allvar contains all local variables. allvar3 contains only the variables that are not mapped to cdes
+        variablesXLSX_json.version = version;
+        variablesXLSX_json.harmonizedVersion = harmonizedVersion;
+        variablesXLSX_json.hospital = currentHospital;
+        variablesXLSX_json.filePath = filePath;
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
         System.out.println("Retrieving jsonStringMetadata from file");
         //Select last Version of the CDEs : TO BE CHANGED!!! We have to parameterize the version it takes ********
@@ -141,12 +167,101 @@ public class UploadVariables {
     }
 
 
+    public void validataMapFunctionMapCDE(String variableCode, String mapFunction, String mapCDE, String conceptPath,
+                                          String filePath, Versions currentVersion, Versions harmonizedVersion, Hospitals currentHospital){
+
+
+
+         System.out.println("Concept PAth: "+conceptPath+"mapFunc: ##"+mapFunction+"## mapCDE: ##"+mapCDE+"##");
+        // If the map function and map cde are not given then the conceptPath is mandatory
+        if(eitherEmptyOrNull(mapFunction) && eitherEmptyOrNull(mapCDE)){
+            if(eitherEmptyOrNull(conceptPath)){
+                storageService.moveFileToErrorFiles(filePath);
+                versionDAO.deleteVersion( currentHospital,  currentVersion);
+                //versionDAO.deleteVersion( currentHospital,  currentVersion);
+                throwExceptioAndDelete("Empty conceptPath found for variable: \""+variableCode+"\"","The conceptPath" +
+                        "cannot be empty, unless we have defined mapFunction and mapCDE for a particular variable","Either provide a" +
+                        "conceptPath or a Map Function and Map Cde",currentHospital,currentVersion,harmonizedVersion,filePath);
+                //throw new CustomException("Empty conceptPath found for variable: \""+variableCode+"\"","The conceptPath" +
+                //        "cannot be empty, unless we have defined mapFunction and mapCDE for a particular variable","Either provide a" +
+               //         "conceptPath or a Map Function and Map Cde");
+            }
+
+
+        }
+        // Only the map cde is provided
+        if(eitherEmptyOrNull(mapFunction)  && neitherEmptyNorNull(mapCDE)){
+            storageService.moveFileToErrorFiles(filePath);
+            versionDAO.deleteVersion( currentHospital,  currentVersion);
+            throwExceptioAndDelete("The mapCDE is provided for the variable:  \""+variableCode+mapFunction+"\", while the mapFunction " +
+                            "is missing","Both mapFunction and mapCDE should be provided for a proper mapping.","",currentHospital,currentVersion,harmonizedVersion,filePath);
+            //throw new CustomException("The mapCDE is provided for the variable:  \""+variableCode+mapFunction+"\", while the mapFunction " +
+            //        "is missing","Both mapFunction and mapCDE should be provided for a proper mapping.","");
+        }
+        // Only the map function is provided
+        if(eitherEmptyOrNull(mapCDE)  && neitherEmptyNorNull(mapFunction)){
+            storageService.moveFileToErrorFiles(filePath);
+            versionDAO.deleteVersion( currentHospital,  currentVersion);
+            throwExceptioAndDelete("The mapFunction is provided for the variable:  \""+variableCode+"\", while the mapCDE " +
+                    "is missing","Both mapFunction and mapCDE should be provided for a proper mapping.","",currentHospital,currentVersion,harmonizedVersion,filePath);
+
+
+        }
+
+        // Both mapFunction and mapCDE are provided
+        if(neitherEmptyNorNull(mapCDE) && neitherEmptyNorNull(mapFunction)){
+
+            if(mapFunction.contains(",") && !mapFunction.contains("[") && !mapFunction.contains("]")){
+                storageService.moveFileToErrorFiles(filePath);
+                versionDAO.deleteVersion( currentHospital,  currentVersion);
+                throwExceptioAndDelete("In the variable:  \""+variableCode+"\", the user is trying to provide multiple " +
+                                "mapFunctions, since we have commas(,) but no square brackets([]) were found to separate them","",
+                        "The proper format for mapping to multiple CDEs is: [mapFunction1],[mapFunction2] --> mapCDE1,mapCDE2",currentHospital,currentVersion,harmonizedVersion,filePath);
+
+
+
+            }
+
+            // check that we are mapping to multiple CDEs
+            if(mapFunction.contains("]") && mapFunction.contains("[") && mapFunction.contains(",") && mapCDE.contains(",")){
+                Pattern p = Pattern.compile("\\[(.*?)\\]");
+                Matcher m = p.matcher(mapFunction);
+                mapCDE = mapCDE.replaceAll("\\s+", "");
+                String[] cc12Parts = mapCDE.split(",");
+
+
+                int numOfMapFunctionsFound = 0;
+                while (m.find())
+                    numOfMapFunctionsFound++;
+
+                int numOfMapCDEsFound = cc12Parts.length;
+
+                if(numOfMapFunctionsFound != numOfMapCDEsFound){
+                    storageService.moveFileToErrorFiles(filePath);
+                    versionDAO.deleteVersion( currentHospital,  currentVersion);
+                    throwExceptioAndDelete("The variable:  \""+variableCode+"\", has: "+numOfMapFunctionsFound+" mapFunctions " +
+                                    "and "+numOfMapCDEsFound+" mapCDEs","",
+                            "The proper format for mapping to multiple CDEs is: [mapFunction1],[mapFunction2] --> mapCDE1,mapCDE2",currentHospital,currentVersion,harmonizedVersion,filePath);
+
+                    //throw new CustomException("The variable:  \""+variableCode+"\", has: "+numOfMapFunctionsFound+" mapFunctions " +
+                    //        "and "+numOfMapCDEsFound+" mapCDEs","",
+                     //       "The proper format for mapping to multiple CDEs is: [mapFunction1],[mapFunction2] --> mapCDE1,mapCDE2");
+                }
+            }
+
+        }
+
+        //
+
+    }
+
     /**
      * Method that reads each cell of the excel file and saves their values in a new variable. Each row is referring to
      * a new variable and each column to a variable attribute. After the mapping, we save the variable and all connected
      * tables. Finally, we return a list with all variables found.
      */
     public Map<String,List<Variables>> Read_xlsx(String ff, Versions version, Hospitals hospital, Versions harmonizedVersion, String pathologyName) throws IOException {
+        final DataFormatter df = new DataFormatter();
         List<Variables> xlsxVars = new ArrayList<>();//<Variables>
         List<Variables> xlsxHarmonizedVars = new ArrayList<>();//<harmonizedVariables>
         FileInputStream fis = null;
@@ -158,33 +273,74 @@ public class UploadVariables {
             System.err.println("Smthing went wrong.........");
         }
         Sheet sheet = workbook.getSheetAt(0);
+        //// Delete rows that have all columns empty
+        //deleteEmptyExcelRows(sheet);
+
         Iterator rowIterator = sheet.iterator();
         while (rowIterator.hasNext()) {
             Row row = (Row) rowIterator.next();
-            if (row.getRowNum() == 0)
+            // validate that the column names are as required
+
+
+            if (row.getRowNum() == 0){
+                uploadCdes.validateColumnNames(row,ff,properColumnsNames);
                 continue;//first row has column names
+            }
+
             Iterator cellIterator = row.cellIterator();
             Variables newVar = new Variables();
             String mapFunction = null; // keep the value of the mapping function if it is not present
             boolean isVariableSaved = false; //check if the variable is saved during the cell iteration
-            while (cellIterator.hasNext()) {
-                Cell cell = (Cell) cellIterator.next();
+            Cell cell = null;
+            //while (cellIterator.hasNext()) {
+
+
+            for (int i=0;i<properColumnsNames.length;i++){
+                try {
+                    cell = row.getCell(i);
+                    System.out.println("Cell value is: "+cell.getStringCellValue()+" cell index:"+cell.getColumnIndex());
+                }catch (NullPointerException e) {
+
+                    cell = new CustomCell();
+                    ((CustomCell) cell).setColumnIndex(i);
+                    cell.setCellValue("");
+                    System.out.println("Cell value is: "+cell.getStringCellValue()+" cell index:"+cell.getColumnIndex());
+                }
+
+                //Cell cell = (Cell) cellIterator.next();
+
+                String cc9 = "";
                 if (cell.getColumnIndex() == 0) //
                 {
                     newVar.setCsvFile(cell.getStringCellValue());
                 } else if (cell.getColumnIndex() == 1)
                     newVar.setName(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 2){
-                    if(cell.getStringCellValue()==null || cell.getStringCellValue().isEmpty()){
-                        break;
+                    if( eitherEmptyOrNull(cell.getStringCellValue())){
+
+                        //throw new CustomException("There are variables that have the field code empty.","Code cannot" +
+                        //        " be empty","Please provide code for all the variables");
+
+                        throwExceptioAndDelete("There variable at row: "+row.getRowNum()+" has the field code empty.","Code cannot" +
+                                " be empty","Please provide code for all the variables",hospital,version,harmonizedVersion,ff);
                     }else{
                         newVar.setCode(cell.getStringCellValue());
+
                     }
 
                 }
 
-                else if (cell.getColumnIndex() == 3)
-                    newVar.setType(cell.getStringCellValue());
+                else if (cell.getColumnIndex() == 3) {
+
+                    if(cell.getStringCellValue()==null || cell.getStringCellValue().isEmpty()){
+                        throwExceptioAndDelete("The variable with code: "+newVar.getCode()+" has no type","Type cannot" +
+                                " be empty","Please provide type for all the variables",hospital,version,harmonizedVersion,ff);
+                    }else{
+                        newVar.setType(cell.getStringCellValue());
+                    }
+
+
+                }
                 else if (cell.getColumnIndex() == 4)
                     newVar.setValues(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 5)
@@ -195,16 +351,17 @@ public class UploadVariables {
                     newVar.setDescription(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 8)
                     newVar.setComments(cell.getStringCellValue());
-                else if (cell.getColumnIndex() == 9)
+                else if (cell.getColumnIndex() == 9){
                     newVar.setConceptPath(cell.getStringCellValue());
+                    cc9 = cell.getStringCellValue();}
                 else if (cell.getColumnIndex() == 10)
                     newVar.setMethodology(cell.getStringCellValue());
                 else if (cell.getColumnIndex() == 11) {
-                    String cc11 = cell.getStringCellValue();
-                    if (cc11 != null) {
-                        mapFunction = cc11;
+                    if (cell.getStringCellValue() != null) {
+                        mapFunction = cell.getStringCellValue();
                     } // keep the cell value only if the cell has value
                 } else if (cell.getColumnIndex() == 12) {
+
 
                     String cc12 = cell.getStringCellValue();
                     //System.out.println("THE c12 CELL CONTAINS: " + cc12);
@@ -212,6 +369,10 @@ public class UploadVariables {
                     cc12 = cc12.replaceAll("\\s+","");
                     System.out.println("THE c12 CELL CONTAINS: " + cc12);
                     if (!cc12.equals("")) {
+
+                        // Method that validates if the fields are proper in mapFunction, mapCDE
+                        validataMapFunctionMapCDE(newVar.getCode(), mapFunction, cc12, newVar.getConceptPath(),ff,version,harmonizedVersion, hospital);
+
                         if (cc12.contains(",")) {
                             System.out.println("MAPPING TO MULTIPLE");
                             newVar = mappingToMultipleCdes(cc12, mapFunction, newVar, version, hospital);
@@ -222,6 +383,7 @@ public class UploadVariables {
                             isVariableSaved = true;
                         }
                     } else {//cell is empty
+                        validataMapFunctionMapCDE(newVar.getCode(), mapFunction, cc12, newVar.getConceptPath(),ff,version,harmonizedVersion, hospital);
                         variableDAO.saveVersionToVariable(newVar, harmonizedVersion);
                         variableDAO.saveVersionToVariable(newVar, version);
 
@@ -264,9 +426,7 @@ public class UploadVariables {
                 //System.out.println("Variable: "+newVar.getVariable_id()+newVar.getCode()+" is not saved.");
                 variableDAO.saveVersionToVariable(newVar, harmonizedVersion);
                 variableDAO.saveVersionToVariable(newVar, version);
-                //////////////////////////////
-                //variableDAO.saveVersionToVariable(newVar, harmonizedVersion);
-                /////////////////////////////////
+
                 List<Variables> hospVar = hospital.getVariables();
                 hospVar.add(newVar);
                 hospital.setVariables(hospVar);
@@ -498,4 +658,76 @@ public class UploadVariables {
         //versionDAO.saveVersion(harmonizedVersion);
         return harmonizedVersion;
     }
+
+    /** This is a method that checks whether all fields in a variable are empty. This in return means that the excel line
+     * is empty and thus we should not take further actions.*/
+    public boolean areAllVariablesFiledsEmpty(Variables variable){
+        if(eitherEmptyOrNull(variable.getCode()) && eitherEmptyOrNull(variable.getConceptPath()) &&
+                eitherEmptyOrNull(variable.getType()) && eitherEmptyOrNull(variable.getCsvFile())
+                && eitherEmptyOrNull(variable.getName()) && eitherEmptyOrNull(variable.getValues()) &&
+                eitherEmptyOrNull(variable.getUnit()) && eitherEmptyOrNull(variable.getCanBeNull()) &&
+                eitherEmptyOrNull(variable.getDescription()) && eitherEmptyOrNull(variable.getComments()) &&
+                eitherEmptyOrNull(variable.getMethodology())){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+    public static boolean eitherEmptyOrNull(String field) {
+        if (field == null || field.equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean neitherEmptyNorNull(String field) {
+        if (field != null && !field.equals("") && !field.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void throwExceptioAndDelete(String exceMessage,String exceDetails, String exceNextSteps,Hospitals hospital,
+                                       Versions version, Versions harmonizedVersion, String filePath){
+        storageService.moveFileToErrorFiles(filePath);
+        if(hospital==null){
+            versionDAO.deleteVersion(version);
+        }else {
+            versionDAO.deleteVersion(hospital,version);
+            versionDAO.deleteVersion(hospital,harmonizedVersion);
+        }
+        throw new CustomException(exceMessage, exceDetails, exceNextSteps);
+    }
+
+
+    public void deleteEmptyExcelRows(Sheet sheet){
+        for(int i = 0; i < sheet.getLastRowNum(); i++){
+            if(checkIfRowIsEmpty(sheet.getRow(i))){
+                sheet.shiftRows(i + 1, sheet.getLastRowNum(), -1);
+                i--;//Adjusts the sweep in accordance to a row removal
+            }
+        }
+
+    }
+
+        private boolean checkIfRowIsEmpty(Row row){
+            if (row == null) {
+                return true;
+            }
+            if (row.getLastCellNum() <= 0) {
+                return true;
+            }
+            for (int cellNum = row.getFirstCellNum(); cellNum < row.getLastCellNum(); cellNum++) {
+                Cell cell = row.getCell(cellNum);
+                if (cell != null && cell.getCellType() != Cell.CELL_TYPE_BLANK && StringUtils.isNotBlank(cell.toString())) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
 }
