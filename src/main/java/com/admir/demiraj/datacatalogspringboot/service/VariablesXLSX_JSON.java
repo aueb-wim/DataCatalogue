@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 
 import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
+import com.admir.demiraj.datacatalogspringboot.exceptionHandlers.CustomException;
 import com.admir.demiraj.datacatalogspringboot.resources.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.EncryptedDocumentException;
@@ -43,7 +44,14 @@ public class VariablesXLSX_JSON
     private CDEVariableDAO cdeVariableDAO;
     @Autowired
     private VersionDAO versionDAO;
+    @Autowired
+    private StorageService storageService;
     private String PATHOLOGY_CODE="";//we keepin the code of the pathology here (we might use it in the concept-paths)
+
+    public String filePath = "";
+    public Versions version = null;
+    public Versions harmonizedVersion = null;
+    public Hospitals hospital = null;
 
     /**
      * @param file: the path of the input XLSX file
@@ -157,7 +165,9 @@ public class VariablesXLSX_JSON
      */
     public Node createTree(List<Variables> xlsxVars)
     {
-        Node root = new Node("root_is_no_longer_called_root",null,null);//initializing the code of the root node so as to change it with the pathology code
+        Variables rootInitializer = new Variables();
+        rootInitializer.setCode("root_is_no_longer_called_root");
+        Node root = new Node("root_is_no_longer_called_root",null,rootInitializer);//initializing the code of the root node so as to change it with the pathology code
         Iterator<Variables> it = xlsxVars.iterator();
         while (it.hasNext())
             addPathNodes(it.next(), root);
@@ -178,7 +188,9 @@ public class VariablesXLSX_JSON
         }
         xlsxVars.addAll(varsThatRCdes);//to the xlsxVars add the Variables that actually are the CDEs
         //###################### ################## ################## ###
-        Node root = new Node("root_is_no_longer_called_root",null,null);//initializing the code of the root node so as to change it with the pathology code
+        Variables rootInitializer = new Variables();
+        rootInitializer.setCode("root_is_no_longer_called_root");
+        Node root = new Node("root_is_no_longer_called_root",null,rootInitializer);//initializing the code of the root node so as to change it with the pathology code
         Iterator<Variables> it = xlsxVars.iterator();
         while (it.hasNext())
             addPathNodes(it.next(), root);
@@ -194,21 +206,34 @@ public class VariablesXLSX_JSON
         }
         List<Variables> xlsxVars = new ArrayList<>();
         xlsxVars.addAll(varsThatRCdes);
-        Node root = new Node("root_is_no_longer_called_root",null,new Variables());//initializing the code of the root node so as to change it with the pathology code
+        Variables rootInitializer = new Variables();
+        rootInitializer.setCode("root_is_no_longer_called_root");
+        rootInitializer.setConceptPath("root_is_no_longer_called_root");
+        Node root = new Node(rootInitializer.getCode(),null, rootInitializer);//initializing the code of the root node so as to change it with the pathology code
         Iterator<Variables> it = xlsxVars.iterator();
         while (it.hasNext())
-            addPathNodes(it.next(), root);
+        {
+            Variables next = it.next();
+            System.out.println("~~~ Let's do::::"+next.toString());
+            addPathNodes(next, root);
+        }
         return root;
     }
 
     private void addPathNodes(Variables nextVar, Node root)
     {
         String thisConceptPath = nextVar.getConceptPath();
+
+
         System.out.println("variable name: "+nextVar.getName()+" variable concept path: "+nextVar.getConceptPath());
         if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/") /*|| thisConceptPath.trim().equals("/root") || thisConceptPath.trim().equals("/root/")*/)
         {
             //thisConceptPath=root.getName()+nextVar.getCode();
-            thisConceptPath="/"+PATHOLOGY_CODE+"/"+nextVar.getCode();
+            System.out.println("---> this variable has NULL conceptPath!!!.....<---");
+            if (PATHOLOGY_CODE.equals(""))
+                thisConceptPath="/root/"+nextVar.getCode();
+            else
+                thisConceptPath="/"+PATHOLOGY_CODE+"/"+nextVar.getCode();
             nextVar.setConceptPath(thisConceptPath);
         }
 
@@ -219,8 +244,24 @@ public class VariablesXLSX_JSON
         if (root.getCode().equals("root_is_no_longer_called_root"))
         {
             root.setCode(conceptPath[0]);
+            //root.setConceptPath(conceptPath[0]);//------ ***** TO-DO: CHECK DATABASE IF THERE IS SUCH A PATHOLOGY <-------- *********
             PATHOLOGY_CODE = conceptPath[0];//we store the code of the pathology to have it for later...
             System.out.println("~~~~~~******* We are talking about " + PATHOLOGY_CODE + "*******~~~~~~");
+            if (thisConceptPath.startsWith("/root/"))
+            {
+                thisConceptPath.replaceFirst("/root/", "/"+PATHOLOGY_CODE+"/");
+                thisConceptPath = thisConceptPath.substring(0,1).equals("/") ? thisConceptPath.substring(1, thisConceptPath.length()) : thisConceptPath;
+                thisConceptPath = thisConceptPath.endsWith("/") ? thisConceptPath.substring(0,thisConceptPath.length()-1) : thisConceptPath;
+
+                conceptPath = thisConceptPath.split("/");
+            }
+        }
+        else
+        {
+            if (!PATHOLOGY_CODE.equals(conceptPath[0])){
+                throwExceptioAndDelete("Problem with conceptPath", "ConceptPath "+thisConceptPath+" has root Node \""+conceptPath[0]+"\" while until now the pathology was \""+PATHOLOGY_CODE+"\"", "Please have the same root Node in all conceptPaths");
+            }
+
         }
 
         Node parent = root;
@@ -240,6 +281,12 @@ public class VariablesXLSX_JSON
                 parent = findNodeByCode(conceptPath[i - 1], root);//find the parent
                 if (i == conceptPath.length - 1)//last one therefore it s a leaf
                 {
+                    if (!(conceptPath[i].toLowerCase()).equals(nextVar.getCode().toLowerCase()))//conceptPath has to end with the code of the variable... If not, it is considered to be an inconsistency
+                    {
+
+                        System.out.println("ConceptPath.toLowerCase: ##"+conceptPath[i].toLowerCase()+"##------ Code.toLowerCase: ##"+nextVar.getCode().toLowerCase()+"##");
+                        throwExceptioAndDelete("Problem: ConceptPath has to end with the Code...", "Variable with code "+nextVar.getCode() + " has inconsistent ConceptPath.", "Please fix this!");
+                    }
                     node2Add = new Node(conceptPath[i], parent, nextVar);
                 } else//it s an intermediate node
                 {
@@ -426,8 +473,16 @@ public class VariablesXLSX_JSON
         {   return this.var.getDescription()!=null ? this.var.getDescription() : null;}
         public String getComments()
         {   return this.var.getComments()!=null ? this.var.getComments() : null;}
+        /*public String getConceptPath()
+        {   return this.var.getConceptPath()!=null ? this.var.getConceptPath() : null;}*/
         public String getConceptPath()
-        {   return this.var.getConceptPath()!=null ? this.var.getConceptPath() : null;}
+        {   if (this.var != null)
+                return this.var.getConceptPath()!=null ? this.var.getConceptPath() : null;
+            else //there is no var inside... (ex this happens in the initializer root node)
+                return this.code;
+        }
+        /*public void setConceptPath(String conceptP)
+        {   this.var.setConceptPath(conceptP);}*/
         public String getMethodology()
         {   return this.var.getMethodology()!=null ? this.var.getMethodology() : null;}
         public String getIsCategorical()
@@ -526,54 +581,35 @@ public class VariablesXLSX_JSON
                     {
                         this.setType("multinominal");//we want all these variations of the multinominal type to become 'multinominal' in the end...
                         isCategorical = true;
-                        if (this.getValues()==null)
-                            throw new InvalidParameterException("Variable "+this.code+" is of polynominal type but does not have information about its values...");
-                        //have 2 present the Values in an enumeration list
-                        JSONArray enumArray = new JSONArray();
-                        varNode.put("enumerations", enumArray);
-                        Pattern pattern = Pattern.compile("\\{([^}]*)\\s?,\\s?([^}]*)}");
-                        Matcher matcher = pattern.matcher(this.getValues());
-                        boolean isPolInt = true;//check if it is int so as to put "sql_type":"int" or not...
-                        int countEnums=0;
-                        String enumCode=null; String enumLabel=null; JSONObject enumm=null;
-                        while (matcher.find())
-                        {//put code and label of the enumeration option
-                            enumCode = matcher.group(1).trim();
-                            enumCode = (enumCode.substring(0,1).equals("\"")||enumCode.substring(0,1).equals("“")||enumCode.substring(0,1).equals("”")) ? enumCode.substring(1,enumCode.length()) : enumCode;
-                            enumCode = (enumCode.endsWith("\"")||enumCode.endsWith("”")||enumCode.endsWith("“")) ? enumCode.substring(0,enumCode.length()-1) : enumCode;
-                            enumLabel = matcher.group(2).trim();
-                            enumLabel = (enumLabel.substring(0,1).equals("\"")||enumLabel.substring(0,1).equals("”")||enumLabel.substring(0,1).equals("“")) ? enumLabel.substring(1,enumLabel.length()) : enumLabel;
-                            enumLabel = (enumLabel.endsWith("\"")||enumLabel.endsWith("”")||enumLabel.endsWith("“")) ? enumLabel.substring(0,enumLabel.length()-1) : enumLabel;
-                            enumm = new JSONObject();
-                            countEnums++;
-                            try {
-                                int one = Integer.parseInt(enumCode);
-                                int two = Integer.parseInt(enumLabel);
-                            }catch (NumberFormatException nfe)
-                            {   isPolInt = false;}
-                            enumm.put("code", enumCode);
-                            enumm.put("label", enumLabel);
-                            enumArray.put(enumm);
-                        }
-                        if (countEnums==0)
-                            throw new InvalidParameterException("Variable "+this.code+" has polynominal type but its value is not written correctly...");
-                        /*if (isPolInt)
-                        {
-                            varNode.put("sql_type", "int");
-                            enumm.put("code", Integer.parseInt(enumCode));
-                            enumm.put("label", Integer.parseInt(enumLabel));
-                        }*/
 
+                        JSONArray enumArray = findEnumerationWithRegex(varNode, true);
+                        int countEnums = enumArray.length();
+
+                        if (countEnums==0)
+                            throwExceptioAndDelete("Problem with polynominal variable", "Variable "+this.code+" has polynominal type but its value is not written correctly (eg: {“M”,”Male”},{”F”,”Female”})...", "Please try again!");
                     }
 
-                    if (this.getValues()!=null && !isCategorical)
+                    if (this.getValues()!=null && !this.getValues().equals("") && !isCategorical)
                     {
+                        JSONArray testEnumArray = findEnumerationWithRegex(varNode, false);
+                        if (testEnumArray.length() != 0) {
+                            throwExceptioAndDelete("Problem with a variable.", "Variable " + this.code + " has enumeration but is NOT declared as polynominal/multinominal..!!", "Please pay attention and try again!");
+                        }
                         Pattern pattern = Pattern.compile("([0-9\\.,]*)\\s?-\\s?([0-9\\.,]*)");
                         Matcher matcher = pattern.matcher(this.getValues());
                         if (matcher.find())//got values with range
                         {
-                            int bottom = Integer.parseInt(matcher.group(1));
-                            int top = Integer.parseInt(matcher.group(2));
+                            String bottom;
+                            String top;
+                            if (varNode.get("sql_type").equals("text")){
+                                throwExceptioAndDelete("Problem with a variable.", "Variable "+this.code+" has non numerical type but has a range of values...!", "Please try again.");
+
+                            }
+
+                            bottom = matcher.group(1);
+                            top = matcher.group(2);
+
+
                             varNode.put("minValue", bottom);
                             varNode.put("maxValue", top);
                            /* if (isInt)    //Back in the day... Someone, someday, said: "I got an idea! If for an integer variable we have less than 31 possible values
@@ -595,6 +631,11 @@ public class VariablesXLSX_JSON
                                 }
                             }*/
                         }
+                        else
+                        {
+                            System.out.println("$$$$ Problematic Values value: ##"+this.getValues()+"##");
+                            throwExceptioAndDelete("Problem with Values column.", "Variable "+this.code+" has something in column Values that is not a range (eg: 1-10).", "Please try again!");
+                        }
                     }
                     varNode.put("type", this.getType());
                 }
@@ -604,6 +645,37 @@ public class VariablesXLSX_JSON
                 if (isLeaf)
                     varNode.put("isCategorical", isCategorical);
             }
+        }
+
+        private JSONArray findEnumerationWithRegex(JSONObject varNode, boolean isCategorical)
+        {
+            if (isCategorical && this.getValues()==null) {
+                throwExceptioAndDelete("Problem with polynominal variable", "Variable " + this.code + " is of polynominal type but does not have information about its values...", "Please try again!");
+            }
+                //have 2 present the Values in an enumeration list
+            JSONArray enumArray = new JSONArray();
+            varNode.put("enumerations", enumArray);
+            Pattern pattern = Pattern.compile("\\{([^}]*)\\s?,\\s?([^}]*)}");
+            Matcher matcher = pattern.matcher(this.getValues());
+            //boolean isPolInt = true;//check if it is int so as to put "sql_type":"int" or not...
+            int countEnums=0;
+            String enumCode=null; String enumLabel=null; JSONObject enumm=null;
+            while (matcher.find())
+            {//put code and label of the enumeration option
+                enumCode = matcher.group(1).trim();
+                enumCode = (enumCode.substring(0,1).equals("\"")||enumCode.substring(0,1).equals("“")||enumCode.substring(0,1).equals("”")) ? enumCode.substring(1,enumCode.length()) : enumCode;
+                enumCode = (enumCode.endsWith("\"")||enumCode.endsWith("”")||enumCode.endsWith("“")) ? enumCode.substring(0,enumCode.length()-1) : enumCode;
+                enumLabel = matcher.group(2).trim();
+                enumLabel = (enumLabel.substring(0,1).equals("\"")||enumLabel.substring(0,1).equals("”")||enumLabel.substring(0,1).equals("“")) ? enumLabel.substring(1,enumLabel.length()) : enumLabel;
+                enumLabel = (enumLabel.endsWith("\"")||enumLabel.endsWith("”")||enumLabel.endsWith("“")) ? enumLabel.substring(0,enumLabel.length()-1) : enumLabel;
+                enumm = new JSONObject();
+                countEnums++;
+
+                enumm.put("code", enumCode);
+                enumm.put("label", enumLabel);
+                enumArray.put(enumm);
+            }
+            return enumArray;
         }
 
         public String toString()
@@ -620,5 +692,18 @@ public class VariablesXLSX_JSON
         }
     }
 
+
+public void throwExceptioAndDelete(String exceMessage,String exceDetails, String exceNextSteps){
+    storageService.moveFileToErrorFiles(this.filePath);
+    if(this.hospital==null){
+        // delete cde version
+        versionDAO.deleteVersion(this.version);
+    }else {
+        // delete variables version
+        versionDAO.deleteVersion(this.hospital,this.version);
+        versionDAO.deleteVersion(this.hospital,this.harmonizedVersion);
+    }
+    throw new CustomException(exceMessage, exceDetails, exceNextSteps);
+    }
 
 }

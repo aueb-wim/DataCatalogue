@@ -90,7 +90,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     if (!(this.deviceInfo['browser'] == "Chrome" || this.deviceInfo['browser'] == "MS-Edge") || !this.deviceService.isDesktop()) {
       window.alert("Currently the application is available for Google " +
         "Chrome and Microsoft Edge browsers on Desktop Devices.");
-      this.enabled = "inactive";
+      //this.enabled = "inactive";
     }
 
   }
@@ -210,7 +210,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
     //test
     //window.location.href = this.location.path() + '/new-cde-version';
-    window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName;
+    window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName.toLowerCase( );
 
 
   }

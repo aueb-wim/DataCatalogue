@@ -43,7 +43,8 @@ export class AboutComponent implements OnInit {
           }
         }
       }
-    });
+    },error1 => console.log("Error Occurred:\n"+error1.error))
+      //alert("Error Occurred:\n"+error1.error));
   }
   checkIfLoggedIn(){
     this.hospitalService.getUser().subscribe(user=>{

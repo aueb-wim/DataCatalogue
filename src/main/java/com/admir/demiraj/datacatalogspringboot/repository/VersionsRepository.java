@@ -6,10 +6,13 @@
 package com.admir.demiraj.datacatalogspringboot.repository;
 
 
+import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  *

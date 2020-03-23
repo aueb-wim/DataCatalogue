@@ -42,6 +42,8 @@ export class CreateNewVersionCdeComponent implements OnInit {
   editVarConceptPath: string;
   editVarMethodology: string;
 
+  pathologyName:string;
+
 
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog,private router: Router) {
   }
@@ -56,6 +58,10 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
     this.route.params.subscribe(params=>
       this.createSampleFileName(params['pathology_name']));
+
+
+    this.route.params.subscribe(params=>
+      this.pathologyName = params['pathology_name']);
 
 
   }
@@ -84,7 +90,7 @@ export class CreateNewVersionCdeComponent implements OnInit {
         if (error.status == '401') {
           alert("You need to be logged in to complete this action.");
         } else {
-          alert("An error has occurred.");
+          alert("An error has occurred."+error);
         }
       });
     /*
@@ -132,7 +138,8 @@ export class CreateNewVersionCdeComponent implements OnInit {
   addNewVariable() {
     let newVar = Object.assign(Object.create(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length - 1]));
     //var newVar: VariableOject={};
-    if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode)) {
+    if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
+      this.checkIfConceptPathIsNull(this.newVarConceptPath) && this.checkIfTypeIsNull(this.newVarType)) {
 
       newVar.csvFile = this.ifNullEmptyElseTheSame(this.newVarFile);
       newVar.name = this.ifNullEmptyElseTheSame(this.newVarName);
@@ -167,10 +174,10 @@ export class CreateNewVersionCdeComponent implements OnInit {
   checkIfCoceprPathIsValid(conceptPath) {
     if (conceptPath == null || conceptPath == 'undefined' || conceptPath == "") {
       return true;
-    } else if (conceptPath.startsWith("/root")) {
+    } else if (conceptPath.startsWith("/"+this.pathologyName)) {
       return true;
     } else {
-      alert("Invalid concept path. It should start with: /root\nAll empty concept paths are mapped to /root");
+      alert("Invalid concept path. It should start with: /"+this.pathologyName);
       return false;
     }
   }
@@ -192,6 +199,23 @@ export class CreateNewVersionCdeComponent implements OnInit {
     }
   }
 
+  checkIfTypeIsNull(type) {
+    if (type != null && type != "") {
+      return true;
+    } else {
+      alert("Type cannot be null.");
+      return false;
+    }
+  }
+
+  checkIfConceptPathIsNull(conceptPath) {
+    if (conceptPath != null && conceptPath != "") {
+      return true;
+    } else {
+      alert("Concept Path cannot be null.");
+      return false;
+    }
+  }
   toggleEdit() {
     this.disabledInput = !this.disabledInput;
   }

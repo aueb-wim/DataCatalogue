@@ -73,6 +73,7 @@ public class CustomMapper {
     }
 
     public void createVersion(String versionName, Hospitals currentHospital, JSONObject versionObject) {
+        String filePath = "";
         //generateConceptPathFromMapping(filePath);
         Versions version = new Versions(versionName);
         Versions harmonizedVersion = new Versions(versionName+"-harmonized");
@@ -95,6 +96,9 @@ public class CustomMapper {
             System.out.println("allvar2 contains: "+var.getCode());
         }
         System.out.println("allvar1 size: "+allVar.size()+"allvar2 size: "+allVar2.size());
+
+        variablesXLSX_json.hospital = currentHospital;
+        variablesXLSX_json.version = version;
 
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
         //Select last Version of the CDEs : TO BE CHANGED!!! We have to parameterize the version it takes ********

@@ -152,6 +152,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public final ResponseEntity<Object> handleCustomExceptions(CustomException ex) {
+
         CustomExceptionSchema exceptionResponse =
                 new CustomExceptionSchema(
                         ex.getMessage(), ex.getDetails(), ex.getNextActions());
