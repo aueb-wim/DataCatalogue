@@ -97,6 +97,7 @@ public class UploadVariables {
             if (listOfFiles[i].isFile()) {
                 //Split the file name in hospital_name and version_name
                 String fileName = listOfFiles[i].getName();
+                System.out.println("THE CURRENT FILE NAME IS: "+fileName);
                 readSingleExcelFile(fileName);
 
         }
@@ -115,6 +116,7 @@ public class UploadVariables {
         try {
             map = Read_xlsx(filePath, version, currentHospital, harmonizedVersion, pathologyName);
             allVar =  map.get("variables");
+
             allVar3 =  map.get("hvariables");
         } catch (FileNotFoundException fnfe) {
             System.err.println("Xlsx not found...!!!");
@@ -132,16 +134,27 @@ public class UploadVariables {
 
 
 // allvar contains all local variables. allvar3 contains only the variables that are not mapped to cdes
+        variablesXLSX_json.PATHOLOGY_CODE = "";
         variablesXLSX_json.version = version;
         variablesXLSX_json.harmonizedVersion = harmonizedVersion;
         variablesXLSX_json.hospital = currentHospital;
         variablesXLSX_json.filePath = filePath;
+        System.out.println("Create tree");
+        for(Variables var:allVar){
+            System.out.println("variable code:"+var.getCode()+" concepta path:"+var.getConceptPath());
+        }
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
         System.out.println("Retrieving jsonStringMetadata from file");
         //Select last Version of the CDEs : TO BE CHANGED!!! We have to parameterize the version it takes ********
-        Versions lastVersion = versionDAO.getLastCdeVersion();
+
+        //Versions lastVersion = versionDAO.getLastCdeVersion();
+        Versions lastVersion = pathologyDAO.getLatestCdeVersionByPathologyName(pathologyName); //!NOTE CHANGED THIS
+
         List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
         //******** ********* ********* **** TO BE CHANGED!!! ******** ********* ********* ********* ******** ***
+        for(CDEVariables cdevar:cdeVars){
+            System.out.println("CDE VARS CODE: "+cdevar.getCode());
+        }
         version.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
         System.out.println("Retrieving jsonStringVisualizable from file");
         version.setJsonStringVisualizable(variablesXLSX_json.createJSONVisualization(testTree).toString());
@@ -154,6 +167,10 @@ public class UploadVariables {
            for(CDEVariables cdevar : versionDAO.getLastCdeVersion().getCdevariables()){
                cdevar.setVersions2(harmonizedVersion);
                cdeVariables.add(cdevar);
+           }
+           System.out.println("Create tree2");
+           for(Variables var:allVar){
+               System.out.println("variable code:"+var.getCode()+" concepta path:"+var.getConceptPath());
            }
            VariablesXLSX_JSON.Node testTree2 = variablesXLSX_json.createTree2(allVar, cdeVars);
            harmonizedVersion.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());
@@ -375,11 +392,11 @@ public class UploadVariables {
 
                         if (cc12.contains(",")) {
                             System.out.println("MAPPING TO MULTIPLE");
-                            newVar = mappingToMultipleCdes(cc12, mapFunction, newVar, version, hospital);
+                            newVar = mappingToMultipleCdes(cc12, mapFunction, newVar, version, hospital,pathologyName);
                             isVariableSaved = true;
                         } else {
                             System.out.println("MAPPING TO SINGLE");
-                            newVar = mappingToSingleCde(cc12, mapFunction, newVar, version, hospital);
+                            newVar = mappingToSingleCde(cc12, mapFunction, newVar, version, hospital,pathologyName);
                             isVariableSaved = true;
                         }
                     } else {//cell is empty
@@ -474,7 +491,7 @@ public class UploadVariables {
      * Method that maps a single variable to multiple CDEs. First extract from the file all mapping functions and mapping
      * CDEs. Then search in the database for the CDEs. Finally, link all tables and save them.
      */
-    public Variables mappingToMultipleCdes(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
+    public Variables mappingToMultipleCdes(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital, String pathologyName) {
         System.out.println("MAPPING TO MULTIPLE CDEs");
         Pattern p = Pattern.compile("\\[(.*?)\\]");
         Matcher m = p.matcher(cc11);
@@ -490,7 +507,9 @@ public class UploadVariables {
         List<Functions> allFunctions = new ArrayList<>();
         List<CDEVariables> allCdeVariables = new ArrayList<>();
         for (int i = 0; i < cc11Parts.size(); i++) {
-            CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12Parts[i]);
+            //CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12Parts[i]);
+            CDEVariables cde = cdeVariableDAO.getCDEVariableByCodeAndPathologyName(cc12Parts[i],pathologyName);
+
             if (cde != null) {
                 //System.out.println("The cdevariable has been retrieved " + cde + "and has concept path of:" + cde.getConceptPath());
                 Functions functions = new Functions();
@@ -504,7 +523,10 @@ public class UploadVariables {
             String cpath = allCdeVariables.get(0).getConceptPath();////////////////////////////one
             cpath = cpath.substring(0, cpath.lastIndexOf("/")) + "/" + newVar.getCode();
             newVar.setConceptPath(cpath);
-            newVar = variableDAO.compareVariables(newVar, cc11Parts, cc12Parts);
+
+            // !NOTE REMOVED THIS
+            //newVar = variableDAO.compareVariables(newVar, cc11Parts, cc12Parts);
+
             List<Versions> currentVersions = newVar.getVersions();
             currentVersions.add(version);
             newVar.setVersions(currentVersions);
@@ -540,7 +562,8 @@ public class UploadVariables {
             }
         } else {//no cdes were found
             System.out.println("The cdevariable with name: " + cc12 + "does no exist.We cannot create a mapping function");
-            newVar = variableDAO.compareVariables(newVar,cc11Parts,cc12Parts);
+            //!NOTE i REMOVED THIS
+            //newVar = variableDAO.compareVariables(newVar,cc11Parts,cc12Parts);
             List<Versions> currentVersions = newVar.getVersions();
             currentVersions.add(version);
             newVar.setVersions(currentVersions);
@@ -561,7 +584,8 @@ public class UploadVariables {
      * Method that maps a variable to a CDEs. First extract from the file the mapping function and the mapping
      * CDE. Then search in the database for the CDE. Finally, link all tables and save them.
      */
-    public Variables mappingToSingleCde(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital) {
+    public Variables mappingToSingleCde(String cc12, String cc11, Variables newVar, Versions version, Hospitals hospital,
+                                        String pathologyName) {
         System.out.println("MAPPING TO A SINGLE CDE");
         //Since we have a single mapping we should create the LIst containing only one element
         List<String> cc11Parts = new ArrayList<>();
@@ -571,13 +595,15 @@ public class UploadVariables {
         ////////////////////////////////////////////
         ////////////////////////////////////////////
 
-        CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12);
+        //CDEVariables cde = cdeVariableDAO.getCDEVariableByCode(cc12);
+        CDEVariables cde = cdeVariableDAO.getCDEVariableByCodeAndPathologyName(cc12,pathologyName);
         if (cde != null) { //the cde variable exists
             System.out.println("The cdevariable has been retrieved and has concept path of:" + cde.getConceptPath());
             Functions functions = new Functions();
 
+            //!NOTE i REMOVED THIS
+            //newVar = variableDAO.compareVariables(newVar, cc11Parts,cc12Parts);
 
-            newVar = variableDAO.compareVariables(newVar, cc11Parts,cc12Parts);
             List<Variables> allVariables = new ArrayList<>();
             List<Functions> allFunctions = new ArrayList<>();
             List<CDEVariables> allCdeVariables = new ArrayList<>();
@@ -623,7 +649,7 @@ public class UploadVariables {
 
         } else {
             System.out.println("newVar before comparison: " + newVar.getCode());
-            newVar = variableDAO.compareVariables(newVar,cc11Parts,cc12Parts);
+            //newVar = variableDAO.compareVariables(newVar,cc11Parts,cc12Parts);
             System.out.println("newVar after comparison: " + newVar.getCode());
             List<Versions> currentVersions = newVar.getVersions();
             currentVersions.add(version);

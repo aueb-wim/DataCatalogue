@@ -46,7 +46,7 @@ public class VariablesXLSX_JSON
     private VersionDAO versionDAO;
     @Autowired
     private StorageService storageService;
-    private String PATHOLOGY_CODE="";//we keepin the code of the pathology here (we might use it in the concept-paths)
+    public String PATHOLOGY_CODE="";//we keepin the code of the pathology here (we might use it in the concept-paths)
 
     public String filePath = "";
     public Versions version = null;
@@ -171,6 +171,8 @@ public class VariablesXLSX_JSON
         Iterator<Variables> it = xlsxVars.iterator();
         while (it.hasNext())
             addPathNodes(it.next(), root);
+
+        System.out.println("Finished create tree");
         return root;
     }
     /**
@@ -223,9 +225,10 @@ public class VariablesXLSX_JSON
     private void addPathNodes(Variables nextVar, Node root)
     {
         String thisConceptPath = nextVar.getConceptPath();
+        System.out.println("code is"+nextVar.getCode()+"add path notes concept path"+thisConceptPath);
 
 
-        System.out.println("variable name: "+nextVar.getName()+" variable concept path: "+nextVar.getConceptPath());
+        //System.out.println("variable name: "+nextVar.getName()+" variable concept path: "+nextVar.getConceptPath());
         if (thisConceptPath==null || thisConceptPath.trim().equals("") || thisConceptPath.trim().equals("/") /*|| thisConceptPath.trim().equals("/root") || thisConceptPath.trim().equals("/root/")*/)
         {
             //thisConceptPath=root.getName()+nextVar.getCode();
@@ -246,7 +249,7 @@ public class VariablesXLSX_JSON
             root.setCode(conceptPath[0]);
             //root.setConceptPath(conceptPath[0]);//------ ***** TO-DO: CHECK DATABASE IF THERE IS SUCH A PATHOLOGY <-------- *********
             PATHOLOGY_CODE = conceptPath[0];//we store the code of the pathology to have it for later...
-            System.out.println("~~~~~~******* We are talking about " + PATHOLOGY_CODE + "*******~~~~~~");
+            System.out.println("~~~~~~******* We are talking about " + PATHOLOGY_CODE + "*******~~~~~~ concept path: "+thisConceptPath);
             if (thisConceptPath.startsWith("/root/"))
             {
                 thisConceptPath.replaceFirst("/root/", "/"+PATHOLOGY_CODE+"/");
