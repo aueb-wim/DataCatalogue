@@ -45,9 +45,10 @@ public class CustomMapper {
 
 
     public void mapVersion(JSONArray jr) {
-        String hospitalName = jr.getString(0);
-        String versionName = jr.getString(1);
-        JSONObject version = jr.getJSONObject(2);
+        String pathologyName = jr.getString(0);
+        String hospitalName = jr.getString(1);
+        String versionName = jr.getString(2);
+        JSONObject version = jr.getJSONObject(3);
 
         Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
         //The hospital exists
@@ -59,7 +60,7 @@ public class CustomMapper {
                 System.out.println("The version : " + versionName + " is already present at : " + hospitalName + " and won't be saved");
                 //The version isn't present at hospital
             } else {
-                createVersion(versionName, currentHospital, version);
+                createVersion(versionName, currentHospital, version, pathologyName);
             }
 
 
@@ -72,7 +73,7 @@ public class CustomMapper {
        // System.out.println("Jo IS: " + version.getJSONArray("variables").getJSONObject(0).get("code"));
     }
 
-    public void createVersion(String versionName, Hospitals currentHospital, JSONObject versionObject) {
+    public void createVersion(String versionName, Hospitals currentHospital, JSONObject versionObject, String pathologyName) {
         String filePath = "";
         //generateConceptPathFromMapping(filePath);
         Versions version = new Versions(versionName);
@@ -81,7 +82,7 @@ public class CustomMapper {
         List<Variables> allVar = new ArrayList<>();
         List<Variables> allVar3 = new ArrayList<>();
         Map<String, List<Variables>> map;
-        map = customMappings(version, currentHospital, versionObject, harmonizedVersion);
+        map = customMappings(version, currentHospital, versionObject, harmonizedVersion,pathologyName);
         allVar =  map.get("variables");
         allVar3 =  map.get("hvariables");
 
@@ -125,7 +126,8 @@ public class CustomMapper {
 
     }
 
-    public Map<String,List<Variables>> customMappings(Versions version, Hospitals currentHospital, JSONObject versionObject, Versions harmonizedVersion) {
+    public Map<String,List<Variables>> customMappings(Versions version, Hospitals currentHospital, JSONObject versionObject,
+                                                      Versions harmonizedVersion, String pathologyName) {
         List<Variables> xlsxVars = new ArrayList<>();
         List<Variables> xlsxHarmonizedVars = new ArrayList<>();//<harmonizedVariables>
         //String mapFunction = null;
@@ -154,11 +156,11 @@ public class CustomMapper {
             && variableJsonObject.get("mapCDE") != null) {
                 if (variableJsonObject.get("mapCDE").toString().contains(",")) {
 
-                    newVar = uploadVariables.mappingToMultipleCdes(variableJsonObject.get("mapCDE").toString(), variableJsonObject.get("mapFunction").toString(), newVar, version, currentHospital);
+                    newVar = uploadVariables.mappingToMultipleCdes(variableJsonObject.get("mapCDE").toString(), variableJsonObject.get("mapFunction").toString(), newVar, version, currentHospital,pathologyName);
 
                 } else {
 
-                    newVar = uploadVariables.mappingToSingleCde(variableJsonObject.get("mapCDE").toString(), variableJsonObject.get("mapFunction").toString(), newVar, version, currentHospital);
+                    newVar = uploadVariables.mappingToSingleCde(variableJsonObject.get("mapCDE").toString(), variableJsonObject.get("mapFunction").toString(), newVar, version, currentHospital,pathologyName);
                     System.out.println("newVar after mapping to single: "+newVar.getCode());
                 }
             } else {//cell is empty

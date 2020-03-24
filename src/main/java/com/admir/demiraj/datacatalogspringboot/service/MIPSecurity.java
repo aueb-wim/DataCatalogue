@@ -146,12 +146,12 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
 
 
                 //.anyRequest().hasRole("Data Manager")
-                .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://195.251.252.222:2443/login"))
+                .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://192.168.1.25:8086/login"))
                 .and().csrf().csrfTokenRepository(csrfTokenRepository())
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
                 .logout()
-                .logoutSuccessUrl("http://195.251.252.222:2442")
+                .logoutSuccessUrl("http://localhost:4200")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 
@@ -176,7 +176,7 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                 client.getResource().getUserInfoUri(), client.getClient().getClientId());
         tokenServices.setRestTemplate(template);
         filter.setTokenServices(tokenServices);
-        filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("http://195.251.252.222:2442/pathologies"));//<--- NEW
+        filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("http://localhost:4200/pathologies"));//<--- NEW
         return filter;
     }
 

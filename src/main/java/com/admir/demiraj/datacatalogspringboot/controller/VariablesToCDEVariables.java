@@ -82,6 +82,7 @@ public class VariablesToCDEVariables {
         storageService.store(file,false);
         System.out.println("Store finished");
         String fileName = file.getOriginalFilename();
+        System.out.println("filename when uploading file is: "+fileName);
         files.add(fileName);
         uploadVariables.readSingleExcelFile(fileName);
         System.out.println("Upload finished");

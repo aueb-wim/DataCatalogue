@@ -13,7 +13,8 @@ export class HospitalService {
   //customMap:Array<any> = new Array<any>();
   //private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
   private headers = new HttpHeaders({'X-Requested-With':'XMLHttpRequest'});
-  private frontend_ip = '//195.251.252.222:2442';
+  //private frontend_ip = '//195.251.252.222:2442';
+  private frontend_ip = '';
 
   constructor(private http: HttpClient) { }
 
@@ -44,11 +45,11 @@ export class HospitalService {
   }
 
   createNewPathology (pathology_name: string): Observable<any> {
-    return this.http.post<any>('//195.251.252.222:2442/pathology/newPathology', pathology_name,{headers:this.headers});
+    return this.http.post<any>(this.frontend_ip +'/pathology/newPathology', pathology_name,{headers:this.headers});
   }
 
   deletePathology (pathology_name: string): Observable<any> {
-    return this.http.post<any>('//195.251.252.222:2442/pathology/deletePathology', pathology_name,{headers:this.headers});
+    return this.http.post<any>(this.frontend_ip +'/pathology/deletePathology', pathology_name,{headers:this.headers});
   }
 
   getPathologyNameById(pathology_id: number):Observable<any>{
@@ -179,8 +180,8 @@ export class HospitalService {
     return this.http.request(req);
   }
 
-  createNewVersion (hospitalName: string, versionName: string, version: any): Observable<any> {
-    return this.http.post<any>(this.frontend_ip + '/versions/newVersion', [hospitalName,versionName,version],{headers:this.headers});
+  createNewVersion (pathologyName: string, hospitalName: string, versionName: string, version: any): Observable<any> {
+    return this.http.post<any>(this.frontend_ip + '/versions/newVersion', [pathologyName,hospitalName,versionName,version],{headers:this.headers});
   }
 
   createNewVersionCde(pathologyName:string,versionName:string, version: any):Observable<any> {

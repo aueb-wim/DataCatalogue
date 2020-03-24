@@ -126,7 +126,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
 
   saveNewVersion(): void {
     this.createNewVersionName();
-    this.hospitalService.createNewVersion(this.hospital["name"], this.versionName, this.versionToUpdate).subscribe(
+    this.hospitalService.createNewVersion(this.pathologyName,this.hospital["name"], this.versionName, this.versionToUpdate).subscribe(
       data => {
         window.alert("Version created successfully.");
         this.location.back();
