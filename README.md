@@ -2,7 +2,7 @@
 
 # HBP-MIP DataCatalogue
 ## Overview
-This tool is a component developed for the [Human Brain Project Medical Informatics Platform](https://www.humanbrainproject.eu/en/medicine/medical-informatics-platform/) (HBP-MIP). Data Catalogue of HBP SGA2 T8.5.2 is an end-to-end platform, created with the latest technologies and tasked with versioning the meta-data of the hospital variables and the Common Data Elements (CDEs). It utilizes a global schema for the collection of the meta-data and provides information about the mappings of the variables to CDEs. DataCatalogue is currently being hosted [here](http://195.251.252.222:2442/hospitals/).
+This tool is a component developed for the [Human Brain Project Medical Informatics Platform](https://www.humanbrainproject.eu/en/medicine/medical-informatics-platform/) (HBP-MIP). Data Catalogue of HBP SGA2 T8.5.2 is an end-to-end platform, created with the latest technologies and tasked with versioning the meta-data of the hospital variables and the Common Data Elements (CDEs). It utilizes a global schema for the collection of the meta-data and provides information about the mappings of the variables to CDEs. DataCatalogue is currently being hosted [here](http://195.251.252.222:2448/hospitals/).
 
 ## Potential Users
 The potential users of the tool are first of all the researchers that prior to executing experiments through the Portal of the MIP may want to investigate what type of information is available in each hospital. Moreover, the tool aims at facilitating the collaboration between the authorized hospital personnel and the development team of MIP.
