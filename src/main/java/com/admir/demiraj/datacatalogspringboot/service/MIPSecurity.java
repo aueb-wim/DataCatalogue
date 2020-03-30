@@ -24,13 +24,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
@@ -41,11 +42,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -69,7 +67,6 @@ import java.util.*;
 
 
 @Configuration
-//@EnableOAuth2Sso
 @RestController
 @EnableWebSecurity
 @EnableOAuth2Client
@@ -82,12 +79,31 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
     }
 
     @RequestMapping("/userRoles")
-    public Collection userRoles(Authentication auth) {
+    public Collection userRoles(Authentication auth) throws NoSuchFieldException {
         //Authentication auth = securityContextHolder.getContext().getAuthentication();
         System.out.println("user roles are: "+auth.getAuthorities());
+        System.out.println("user principal are: "+auth.getPrincipal().getClass().getField("groups"));
+        System.out.println("user details are: "+auth.getDetails().toString());
+        System.out.println("user credentials are: "+auth.getCredentials());
+        //System.out.println("user filed groups "+auth.getClass().getField("groups"));
+        //System.out.println("auth class resource groups"+auth.getClass().getResource("groups"));
+        //System.out.println("auth class resource groups"+auth.getClass().getResource("preferred_username"));
+        System.out.println("auth class resource groups"+auth);
+
+        //User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //String name = user.getUsername();
+        //System.out.println("user and username: "+user.toString()+name);
+        //User activeUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //System.out.println("active user password: "+activeUser.getPassword());
+
+
+
+
+
         Collection collection = auth.getAuthorities();
         return collection;
     }
+
 
     @Autowired
     @Qualifier("oauth2ClientContext")
@@ -145,7 +161,7 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "//mapping/getsample").permitAll()
 
 
-                //.anyRequest().hasRole("Data Manager")
+                .anyRequest().hasRole("Data Manager")
                 .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://192.168.1.25:8086/login"))
                 .and().csrf().csrfTokenRepository(csrfTokenRepository())
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
@@ -168,12 +184,11 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
     //
     private Filter ssoFilter(ClientResources client, String path) {
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
-        System.out.println("client is:"+client.getClient());
-
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
         filter.setRestTemplate(template);
         UserInfoTokenServices tokenServices = new UserInfoTokenServices(
                 client.getResource().getUserInfoUri(), client.getClient().getClientId());
+        System.out.println("token type is: "+client.getResource().getTokenType());
         tokenServices.setRestTemplate(template);
         filter.setTokenServices(tokenServices);
         filter.setAuthenticationSuccessHandler(new SimpleUrlAuthenticationSuccessHandler("http://localhost:4200/pathologies"));//<--- NEW

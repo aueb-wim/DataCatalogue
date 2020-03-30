@@ -12,6 +12,7 @@ import {Location} from '@angular/common';
 export class HospitalsComponent implements OnInit,AfterViewInit {
 
   hospitals: Array<any>;
+  emptyPathology = true;
   pathologies:Array<any>;
   deviceInfo = null;
   currentLocation;
@@ -24,13 +25,22 @@ export class HospitalsComponent implements OnInit,AfterViewInit {
 
   ngOnInit() {
 this.currentLocation = this.router.url;
-console.log(this.currentLocation);
+//console.log(this.currentLocation);
     //this.hospitalService.getAllHospitalsAndVariables().subscribe(data => {
     //  this.hospitals = data;
     //});
 
     this.route.params.switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id'])).subscribe(path => {
-          this.hospitals = path['hospitals']
+      this.hospitals = path['hospitals'];
+      // validate that a pathology has no cde variables
+      for (let obj of path['versions']) {
+        if(obj['cdevariables'] != null){
+          this.emptyPathology = false;
+          return;
+        }
+      }
+
+
     });
   }
 
