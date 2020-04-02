@@ -27,6 +27,9 @@ const routes: Routes = [
 
   {path:'hospitals/cde-variables/new-cde-version/:pathology_name/:upload_file', component: FullUploadCdesComponent},
   {path:'hospitals/cde-variables/new-cde-version/:pathology_name', component: CreateNewVersionCdeComponent},
+   // add cde version from empty pathology
+  {path:'pathologies/:pathology_id/new-cde-version/:pathology_name/:upload_file', component: FullUploadCdesComponent},
+  {path:'pathologies/:pathology_id/new-cde-version/:pathology_name', component: CreateNewVersionCdeComponent},
 
 ];
 

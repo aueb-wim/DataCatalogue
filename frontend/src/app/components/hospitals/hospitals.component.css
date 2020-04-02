@@ -47,3 +47,21 @@ mat-form-field{
   alignment: center;
   font-family:Helvetica;
 }
+
+.newVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.newVersion:hover{
+  background-color: #AFBEC5;
+  font-family:Helvetica;
+}
+
+.uploadFileBtn{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.uploadFileBtn:hover{
+  background-color: tan;
+  font-family:Helvetica;
+}

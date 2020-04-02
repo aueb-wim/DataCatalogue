@@ -12,7 +12,10 @@ import {Location} from '@angular/common';
 export class HospitalsComponent implements OnInit,AfterViewInit {
 
   hospitals: Array<any>;
+
   emptyPathology = true;
+  currentPathologyName:string;
+  sampleFileName:string;
   pathologies:Array<any>;
   deviceInfo = null;
   currentLocation;
@@ -32,6 +35,8 @@ this.currentLocation = this.router.url;
 
     this.route.params.switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id'])).subscribe(path => {
       this.hospitals = path['hospitals'];
+      this.currentPathologyName = path['name'];
+      this.createSampleFileName(path['name']);
       // validate that a pathology has no cde variables
       for (let obj of path['versions']) {
         if(obj['cdevariables'] != null){
@@ -54,6 +59,23 @@ ngAfterViewInit(){
     this.enabled = "inactive";
   }
 }
+
+
+  newVersionUrl(){
+    console.log( "--current location-"+this.location.path());
+    window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName.toLowerCase( );
+
+  }
+
+  uploadFile() {
+    window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName+'/' + this.sampleFileName;
+    // works
+    // window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
+  }
+
+  createSampleFileName(pathologyName) {
+    this.sampleFileName = pathologyName+"_cdes_v1"  + ".xlsx";
+  }
 
   epicFunction() {
     /** We have a lot of information about the device in case we want to customize components.*/

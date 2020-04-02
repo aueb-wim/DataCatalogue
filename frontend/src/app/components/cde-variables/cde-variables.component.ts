@@ -55,6 +55,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
       this.allCdeVersions = allVersions;
       let lastVersion = allVersions[allVersions.length-1];
+      console.log("last version is:"+lastVersion+' all versions are: '+allVersions);
       this.currentVersion = lastVersion;
       this.currentJsonMetadata = lastVersion['jsonString'];
       this.currentVersionId = +lastVersion['version_id'];
@@ -62,6 +63,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
       //this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
       this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
       this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
+      console.log('all versions length:'+ allVersions.length);
       this.currentVersionIndex = allVersions.length-1;
 
       this.versionOptions = this.arrayIterationByVersionName(allVersions);
@@ -77,7 +79,9 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-   // if (changes['currentVersionId']) {
+
+
+    // if (changes['currentVersionId']) {
     //  this.hospitalService.getJsonStringByVersionId(this.currentVersionId).subscribe(json => {
     //    this.jsonMetadata = json
     //  });
@@ -142,6 +146,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   public arrayIterationByVersionName(originalArray) {
     //empty the array first
     //this.versionOptions.length = 0;
+    console.log("called itteration by version name");
     let finalArray: Array<IOption> = [{label: '', value: ''}];
     for (let obj of originalArray) {
       finalArray.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
@@ -189,6 +194,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
       }
     }
+    console.log("final array: "+finalArray);
     return finalArray;
   }
   categorySelected(option: IOption) {
@@ -243,11 +249,16 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     this.currentPathologyId = +lastPathology['pathology_id'];
     this.currentPathology = lastPathology;
 
+
     ///////////////////////////////////////////////////////////////////////////
     let allVersions = lastPathology['versions'];
+    // VALIDATE THAT IT IS A CDE VERSION
     this.allCdeVersions  = allVersions;
-
+    this.currentVersionIndex = allVersions.length-1;
+    console.log("initial all versions length:"+allVersions.length);
+    console.log("initial all versions are:"+allVersions);
     let lastVersion = allVersions[allVersions.length-1];
+    console.log("last version in pathologyselected: "+lastVersion);
     this.currentVersion = lastVersion;
 
 
@@ -256,9 +267,15 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     this.versionOptions = this.arrayIterationByVersionName(allVersions);
     console.log('Console Options version:',this.versionOptions);
     this.currentJsonMetadata = lastVersion['jsonString'];
+    console.log('this.currentJsonMetadata ',this.currentJsonMetadata);
 
 
     this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
+    console.log('this.variableOptions ',this.variableOptions+' last version: '+lastVersion +' cdevariables: '+lastVersion['cdevariables']+
+      ' current version index: '+this.currentVersionIndex);
+
+    console.log(' cde var of version of current index: '+allVersions[this.currentVersionIndex]['cdevariables']);
+
     this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
 
     this.searchTermVar = '';

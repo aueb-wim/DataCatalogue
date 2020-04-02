@@ -79,6 +79,16 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
   saveNewVersion(): void {
     this.createNewVersionName();
+    // remove sample variable before saving (get last variable and check if it is has 'sample' as code)
+    console.log("last cde version code: " + this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length-1].code);
+    if(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length-1].code === 'sample'){
+      console.log("equality works");
+      this.latestCDEVersion.cdevariables.splice(this.latestCDEVersion.cdevariables.length-1, 1);
+    }
+
+
+
+
 
     this.route.params.switchMap((params: Params) => this.hospitalService.createNewVersionCde(params['pathology_name'],this.versionName,
       this.latestCDEVersion)).subscribe(
@@ -136,7 +146,8 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
 
   addNewVariable() {
-    let newVar = Object.assign(Object.create(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length - 1]));
+  let newVar = Object.assign(Object.create(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length - 1]));
+
     //var newVar: VariableOject={};
     if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
       this.checkIfConceptPathIsNull(this.newVarConceptPath) && this.checkIfTypeIsNull(this.newVarType)) {
@@ -221,7 +232,13 @@ export class CreateNewVersionCdeComponent implements OnInit {
   }
 
   deleteVariable(currentIndex) {
-    this.latestCDEVersion.cdevariables.splice(currentIndex, 1);
+    // the last cde variable is always the sample one so no actions are to be taken
+    if(currentIndex==this.latestCDEVersion.cdevariables.length-1){
+      alert("Sample Variable Cannot be Deleted")
+    }else{
+      this.latestCDEVersion.cdevariables.splice(currentIndex, 1);
+    }
+
   }
 
   change(element, value) {
@@ -251,6 +268,9 @@ export class CreateNewVersionCdeComponent implements OnInit {
   }
 
   saveVariable(currentIndex) {
+    if(currentIndex==this.latestCDEVersion.cdevariables.length-1){
+      alert("Sample Variable Cannot be Changed")
+    }else{
     if (this.editVarName != null) {
       this.latestCDEVersion.cdevariables[currentIndex].name = this.editVarName;
       this.editVarName = null;
@@ -296,5 +316,6 @@ export class CreateNewVersionCdeComponent implements OnInit {
       this.editVarMethodology = null;
     }
 
+  }
   }
 }
