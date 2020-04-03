@@ -12,6 +12,8 @@
       "/CDE/allCdeVersions",
       "/hospitals/hosp",
       "/hospitals/allWithUniqueVariables",
+      "/hospitals/newHospital",
+      "/hospitals/deleteHospital",
       "/versions/allVersionsPerHospital",
       "/versions/latestVersionIdByHospId",
       "/versions/getLatestVersionByHospitalId",

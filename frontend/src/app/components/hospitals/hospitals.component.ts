@@ -12,7 +12,8 @@ import {Location} from '@angular/common';
 export class HospitalsComponent implements OnInit,AfterViewInit {
 
   hospitals: Array<any>;
-
+  hospitalName: string;
+  hospitalNameToDelete:string;
   emptyPathology = true;
   currentPathologyName:string;
   sampleFileName:string;
@@ -89,6 +90,95 @@ ngAfterViewInit(){
     console.log(isMobile);  // returns if the device is a mobile device (android / iPhone / windows-phone etc)
     console.log(isTablet);  // returns if the device us a tablet (iPad etc)
     console.log(isDesktopDevice); // returns if the app is running on a Desktop browser.
+
+
+  }
+  saveNewHospital(): void {
+    let hospitalExists = false;
+    for (let hosp of this.hospitals) {
+      if (hosp.name.toLowerCase() === this.hospitalName.toLowerCase()) {
+        hospitalExists = true;
+        break;
+      }
+    }
+
+    if (hospitalExists) {
+      alert("The hospital" + this.hospitalName.toLowerCase() + " already exists");
+    } else {
+
+
+      this.hospitalService.createNewHospital(this.hospitalName.toLowerCase(),this.currentPathologyName.toLowerCase()).subscribe(
+        data => {
+          window.alert("Hospital created successfully.");
+          this.route.params.switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id'])).subscribe(path => {
+            this.hospitals = path['hospitals'];
+            this.currentPathologyName = path['name'];
+            this.createSampleFileName(path['name']);
+            // validate that a pathology has no cde variables
+            for (let obj of path['versions']) {
+              if(obj['cdevariables'] != null){
+                this.emptyPathology = false;
+                return;
+              }
+            }
+
+
+          });
+          //this.location.back();
+        },
+        error => {
+          if (error.status == '401') {
+            alert("You need to be logged in to complete this action.");
+          } else {
+            alert("An error has occurred.");
+          }
+        });
+
+
+    }
+  }
+
+  deleteHospital():void{
+    let hospitalExists = false;
+    for (let hosp of this.hospitals) {
+      if (hosp.name.toLowerCase() === this.hospitalNameToDelete.toLowerCase()) {
+        hospitalExists = true;
+        break;
+      }
+    }
+
+    if (!hospitalExists) {
+      alert("The hospital " + this.hospitalNameToDelete + " does not exist");
+    } else {
+
+
+      this.hospitalService.deleteHospital(this.hospitalNameToDelete.toLowerCase()).subscribe(
+        data => {
+          window.alert("Hospital was deleted");
+          this.route.params.switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id'])).subscribe(path => {
+            this.hospitals = path['hospitals'];
+            this.currentPathologyName = path['name'];
+            this.createSampleFileName(path['name']);
+            // validate that a pathology has no cde variables
+            for (let obj of path['versions']) {
+              if(obj['cdevariables'] != null){
+                this.emptyPathology = false;
+                return;
+              }
+            }
+
+
+          });
+          //this.location.back();
+        },
+        error => {
+          if (error.status == '401') {
+            alert("You need to be logged in to complete this action.");
+          } else {
+            alert("An error has occurred.");
+          }
+        });
+    }
 
 
   }
