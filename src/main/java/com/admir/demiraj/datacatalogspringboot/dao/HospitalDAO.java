@@ -97,6 +97,10 @@ public class HospitalDAO {
         return null;
    }
 
+
+   public Hospitals getHospitalById(BigInteger hospId){
+        return hospitalsRepository.getOne(hospId);
+   }
     /** We need to delete not only the hospital but also everything else that is related to it*/
     public void deleteHospitalByName(String hospitalName){
         //Every action related to the hospital deletion

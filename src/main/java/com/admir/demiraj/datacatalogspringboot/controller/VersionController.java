@@ -3,6 +3,7 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
+import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import com.admir.demiraj.datacatalogspringboot.service.CustomMapper;
@@ -150,5 +151,27 @@ public class VersionController {
         //return "ok";
     }
 
+    @GetMapping(value = "/deleteCDEVersion/{version_id}")
+    public void deleteCDEVersion(@PathVariable(value ="version_id") Long versionId){
+
+            BigInteger verId = BigInteger.valueOf(versionId);
+            Versions versionToDelete = versionDAO.getVersionById(verId);
+            // This is used only for CDEVersions
+            versionDAO.deleteVersion(versionToDelete);
+    }
+
+
+    @GetMapping(value = "/deleteVariableVersion/{hospital_id}/{version_id}")
+    public void deleteVariableVersion(@PathVariable(value ="hospital_id") Long hospitalId,@PathVariable(value ="version_id") Long versionId){
+        // Get versionBYid
+        BigInteger verId = BigInteger.valueOf(versionId);
+        Versions versionToDelete = versionDAO.getVersionById(verId);
+        // Get hospital by id
+        BigInteger hospId = BigInteger.valueOf(hospitalId);
+        Hospitals hospitalToDelete = hospitalDAO.getHospitalById(hospId);
+        // This is used only for Variable Versions
+        versionDAO.deleteVersion(hospitalToDelete,versionToDelete);
+
+    }
 
 }
