@@ -228,7 +228,7 @@ public class VersionDAO {
             System.out.println("Curent version id:" + currentVersion.getVersion_id());
 
 
-            System.out.println("Trying to get deleted version: " + versionsRepository.findById(currentVersion.getVersion_id()));
+            //System.out.println("Trying to get deleted version: " + versionsRepository.findById(currentVersion.getVersion_id()));
 
         }catch (Exception e){
             System.out.println("Error when trying to delete version: "+e);

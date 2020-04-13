@@ -4,9 +4,6 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by mirco on 12.02.16.
- */
 public class CORSFilter implements Filter {
 
     @Override

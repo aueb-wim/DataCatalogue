@@ -44,7 +44,7 @@ public class PathologyDAO {
     public Pathology getPathologyByName(String pathologyName){
         List<Pathology> pathologies = findAll();
         for(Pathology p : pathologies){
-            if(p.getName().toLowerCase().equals(pathologyName)){
+            if(p.getName().toLowerCase().equals(pathologyName.toLowerCase())){
                 return p;
             }
 

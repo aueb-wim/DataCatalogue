@@ -3,6 +3,7 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
+import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
 import com.admir.demiraj.datacatalogspringboot.service.CustomMapper;
 import com.admir.demiraj.datacatalogspringboot.service.CustomMapperCDEs;
@@ -75,6 +76,35 @@ public class VersionController {
     public Versions  getLatestVersionByHospital(@PathVariable(value = "hospital_id") Long hospitalId){
         BigInteger hId = BigInteger.valueOf(hospitalId);
         List<Versions> allVersionsByHospitalId = versionDAO.getAllVersionsByHospitalId(hId);
+        // if the hospital has no versions then return a single version with a sample variable
+        if(allVersionsByHospitalId.isEmpty()){
+            // Create new empty cde version in case it is not found
+            Versions latestVersion = new Versions();
+            // This is not an official version - once we make changes to it, it will be saved as version v1
+            latestVersion.setName("v0");
+            // Default values in cde variable
+            Variables variable = new Variables();
+            variable.setCode("sample");
+            List<Variables> variablesList = new ArrayList<>();
+            variablesList.add(variable);
+            // Default values in version
+            latestVersion.setVariables(variablesList);
+            // Add the newly created version to the empty list in order to return a sample version instead of an empty array
+            allVersionsByHospitalId.add(latestVersion);
+            System.out.println("Returning sample version with variables: "+latestVersion.getVariables());
+        }else{
+            // Since we do have at least one hospital version get the latest one
+            Versions latestVersion = allVersionsByHospitalId.get(allVersionsByHospitalId.size()-1);
+            // Update the list of variables of the hospital version with a sample variable added at the end
+            List<Variables> variablesList = latestVersion.getVariables();
+            Variables variable = new Variables();
+            variable.setCode("sample");
+            variablesList.add(variable);
+            latestVersion.setVariables(variablesList);
+            // Add the latest version to the list in order to be returned
+            allVersionsByHospitalId.add(latestVersion);
+            System.out.println("Returning version: "+allVersionsByHospitalId.get(allVersionsByHospitalId.size()-1).getName());
+        }
         return allVersionsByHospitalId.get(allVersionsByHospitalId.size()-1);
     }
 

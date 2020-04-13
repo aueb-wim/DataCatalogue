@@ -4,6 +4,7 @@ import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
+import com.admir.demiraj.datacatalogspringboot.exceptionHandlers.CustomException;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
@@ -43,11 +44,35 @@ public class CustomMapper {
 
 
 
-
+    public void throwExceptionOnNull(JSONArray jr){
+        // for all possible indexes
+        for(int i=0;i<4;i++){
+            if(i==0 && jr.get(i)==null){
+                throw new CustomException("The pathology name provided to create a new version is null.",
+                        "A version cannot be created without a pathology name","Please ensure that the pathology name is not null.");
+            }else if(i==1 && jr.get(i)==null){
+                throw new CustomException("The hospitalName name provided to create a new version is null.",
+                        "A version cannot be created without a hospitalName name","Please ensure that the hospitalName name is not null.");
+            }else if(i==2 && jr.get(i)==null){
+                throw new CustomException("The versionName name provided to create a new version is null.",
+                        "A version cannot be created without a versionName name","Please ensure that the versionName name is not null.");
+            }else if(i==3 && jr.get(i)==null){
+                throw new CustomException("The version is null.",
+                        "A version cannot be empty","Please ensure that the version is not null.");
+            }
+        }
+    }
     public void mapVersion(JSONArray jr) {
-        String pathologyName = jr.getString(0);
-        String hospitalName = jr.getString(1);
-        String versionName = jr.getString(2);
+        throwExceptionOnNull(jr);
+        System.out.println("at index 0 we have :"+jr.get(0));
+        // the elements below should not be null
+
+        //String pathologyName = jr.getString(0);
+        String pathologyName = jr.get(0).toString();
+        //String hospitalName = jr.getString(1);
+        String hospitalName = jr.get(1).toString();
+        //String versionName = jr.getString(2);
+        String versionName = jr.get(2).toString();
         JSONObject version = jr.getJSONObject(3);
 
         Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
@@ -152,7 +177,7 @@ public class CustomMapper {
             newVar.setMethodology(variableJsonObject.get("methodology").toString());
 
 
-            if (variableJsonObject.get("mapCDE").toString() != "" && !variableJsonObject.get("mapCDE").toString().isEmpty()
+            if (variableJsonObject.has("mapCDE") && variableJsonObject.get("mapCDE").toString() != "" && !variableJsonObject.get("mapCDE").toString().isEmpty()
             && variableJsonObject.get("mapCDE") != null) {
                 if (variableJsonObject.get("mapCDE").toString().contains(",")) {
 
