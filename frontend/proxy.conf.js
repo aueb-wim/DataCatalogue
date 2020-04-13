@@ -24,6 +24,8 @@
       "/versions/newVersion",
       "versions/newVersionCde",
       "/versions/latestCDEVersion",
+      "/versions/deleteVariableVersion",
+      "/versions/deleteCDEVersion",
       "/hospitals/hosp",
       "/hospitals/name",
       "/mapping/functions/",

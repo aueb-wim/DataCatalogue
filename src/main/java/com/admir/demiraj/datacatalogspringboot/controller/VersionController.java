@@ -161,13 +161,13 @@ public class VersionController {
     }
 
 
-    @GetMapping(value = "/deleteVariableVersion/{hospital_id}/{version_id}")
-    public void deleteVariableVersion(@PathVariable(value ="hospital_id") Long hospitalId,@PathVariable(value ="version_id") Long versionId){
-        // Get versionBYid
-        BigInteger verId = BigInteger.valueOf(versionId);
+    @GetMapping(value = "/deleteVariableVersion")
+    public void deleteVariableVersion(@RequestParam String hospitalId, @RequestParam String versionId){
+        // VersionId is given as string and casted ti bigInteger.Get versionBYid
+        BigInteger verId = new BigInteger(versionId);
         Versions versionToDelete = versionDAO.getVersionById(verId);
-        // Get hospital by id
-        BigInteger hospId = BigInteger.valueOf(hospitalId);
+        // HospitalId is given as string and casted ti bigInteger.Get hospital by id
+        BigInteger hospId = new BigInteger(hospitalId);
         Hospitals hospitalToDelete = hospitalDAO.getHospitalById(hospId);
         // This is used only for Variable Versions
         versionDAO.deleteVersion(hospitalToDelete,versionToDelete);

@@ -301,4 +301,22 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
 
+ // Delete a CDEVersion
+  deleteCurrentCDEVersion():void{
+      this.hospitalService.deleteCDEVersion(this.currentVersionId).subscribe(
+        data => {
+          window.alert("Version "+this.currentVersionName+" with id: "+this.currentVersionId+" was deleted");
+          window.location.reload();
+        },
+        error => {
+          if (error.status == '401') {
+            alert("You need to be logged in to complete this action.");
+          } else {
+            alert("An error has occurred.");
+          }
+        });
+    }
+
+
+
 }
