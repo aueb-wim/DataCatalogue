@@ -128,11 +128,8 @@ export class HospitalService {
   }
 
   deleteVaribaleVersion(hospitalId: string, versionId: string): Observable<any>{
-    let params = new HttpParams()
-      .set('hospitalId',hospitalId)
-      .set('versionId', versionId)
 
-    return this.http.post<any>(this.frontend_ip +'/versions/deleteVariableVersion', params, {headers:this.headers});
+    return this.http.get(this.frontend_ip +'/versions/deleteVariableVersion/'+hospitalId+'/'+versionId, {headers:this.headers});
   }
 
   deleteCDEVersion(versionId: string):Observable<any>{

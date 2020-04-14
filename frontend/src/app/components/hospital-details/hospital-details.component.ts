@@ -46,6 +46,8 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   currentVersion;
   currentJsonMetadata;
 
+  editable:true;
+
   downloadName = "variables_";
   searchTermVar: string = "";
   searchTermCategory: string="";
@@ -277,4 +279,24 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
       //this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
     window.location.href = this.location.path() + '/new-version';
   }
+
+
+  // Delete a VariableVersion
+  deleteCurrentVariableVersion():void{
+    this.hospitalService.deleteVaribaleVersion(this.hospital.hospital_id,this.currentVersionId.toString()).subscribe(
+      data => {
+        window.alert("Version "+this.currentVersionName+" with id: "+this.currentVersionId+" was deleted");
+        window.location.reload();
+      },
+      error => {
+        if (error.status == '401') {
+          alert("You need to be logged in to complete this action.");
+        } else {
+          //alert("An error has occurred: "+error.error);
+
+          window.alert("Error Occurred:\n"+error.error.message+"\n"+error.error.details+"\n"+error.error.nextActions);
+        }
+      });
+  }
+
 }

@@ -15,6 +15,11 @@
   font-family:Helvetica;
   font-size: small;
 }
+
+.fa-trash{
+  font-size: 20px;
+}
+
 h1{
   font-size: xx-large;
   color: #2196F3;
@@ -46,6 +51,15 @@ position: absolute;
 .fa-plus{
   color: #71a436;
   font-size: 20px;
+}
+
+.deleteVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.deleteVersion:hover{
+  background-color: #ff4136;
+  font-family:Helvetica;
 }
 
 .newVersion{
