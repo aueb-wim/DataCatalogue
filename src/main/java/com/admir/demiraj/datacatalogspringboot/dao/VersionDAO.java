@@ -7,16 +7,17 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 
 import com.admir.demiraj.datacatalogspringboot.repository.*;
 import com.admir.demiraj.datacatalogspringboot.resources.*;
+import com.admir.demiraj.datacatalogspringboot.service.CustomDictionary;
+import javassist.compiler.ast.Variable;
 import jdk.nashorn.internal.runtime.Version;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.management.Query;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author root
@@ -38,6 +39,9 @@ public class VersionDAO {
 
     @Autowired
     CDEVariablesRepository cdeVariablesRepository;
+
+    @Autowired
+    FunctionsRepository functionsRepository;
 
     public List<Versions> getAllCdeVersions() {
 
@@ -235,6 +239,29 @@ public class VersionDAO {
         }
     }
 
+    public CustomDictionary hospitalsAndVersionsMappingToCDEVersion(Versions CDEVersion){
+
+        // All cde variables in a version
+        List<CDEVariables> CDEVariables = CDEVersion.getCdevariables();
+
+        CustomDictionary customDictionary = new CustomDictionary();
+        // In order a cde variable to be related with a variable (mapping) there should be a function that contains it.
+        List<Functions> allFunctions = functionsRepository.findAll();
+        for(Functions function:allFunctions){
+            List<CDEVariables> cdeVariablesInFunction = function.getCdeVariables();
+            for(CDEVariables cdeVar: CDEVariables){
+                if(cdeVariablesInFunction.contains(cdeVar)){
+                          for(Variables var: function.getVariables()){
+                              // A single variable id belongs to only one method
+                              customDictionary.put(var.getHospital().getName(),var.getVersions());
+                          }
+                }
+            }
+
+        }
+        System.out.println("all the keys in the custom dictionary :"+customDictionary.concatenateAllKeysToSingleString());
+      return customDictionary;
+    }
     public void deleteVersion(Versions currentVersion){
         List<CDEVariables> CDEVariablesInVersion = currentVersion.getCdevariables();
         cdeVariablesRepository.deleteInBatch(CDEVariablesInVersion);

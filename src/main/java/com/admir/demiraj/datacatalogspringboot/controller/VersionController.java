@@ -2,13 +2,13 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 
 import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
-import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
+import com.admir.demiraj.datacatalogspringboot.exceptionHandlers.CustomException;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
+import com.admir.demiraj.datacatalogspringboot.service.CustomDictionary;
 import com.admir.demiraj.datacatalogspringboot.service.CustomMapper;
 import com.admir.demiraj.datacatalogspringboot.service.CustomMapperCDEs;
-import jdk.nashorn.internal.runtime.Version;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 
 
@@ -156,6 +155,15 @@ public class VersionController {
 
             BigInteger verId = BigInteger.valueOf(versionId);
             Versions versionToDelete = versionDAO.getVersionById(verId);
+            // Validate that there is no hospital that
+            CustomDictionary customDictionary = versionDAO.hospitalsAndVersionsMappingToCDEVersion(versionToDelete);
+            if(!customDictionary.isEmpty()){
+                System.out.println("Throwing exceptions because of hospitals:"+customDictionary.concatenateAllKeysToSingleString());
+                throw new CustomException("Cannot delete this version because there are other versions associated with it.",
+                        "The associated versions belong to the hospitals: "+customDictionary.concatenateAllKeysToSingleString(),
+                        "Please delete them in order order to delete " +
+                        "this version");
+            }
             // This is used only for CDEVersions
             versionDAO.deleteVersion(versionToDelete);
     }

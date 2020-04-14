@@ -4,6 +4,7 @@ import {IOption} from "ng-select";
 import {DeviceDetectorService} from "ngx-device-detector";
 import {Location} from "@angular/common";
 import {Router} from "@angular/router";
+import {errorObject} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'app-cde-variables',
@@ -312,7 +313,9 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
           if (error.status == '401') {
             alert("You need to be logged in to complete this action.");
           } else {
-            alert("An error has occurred.");
+            //alert("An error has occurred: "+error.error);
+
+            window.alert("Error Occurred:\n"+error.error.message+"\n"+error.error.details+"\n"+error.error.nextActions);
           }
         });
     }
