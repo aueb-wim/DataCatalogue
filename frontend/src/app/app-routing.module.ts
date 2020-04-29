@@ -10,6 +10,8 @@ import {FullUploadCdesComponent} from "./components/full-upload-cdes/full-upload
 import {CreateNewVersionCdeComponent} from "./components/create-new-version-cde/create-new-version-cde.component"
 import {AboutComponent} from "./components/about/about.component"
 import {PathologiesComponent} from "./components/pathologies/pathologies.component"
+import {EditVariableVersionComponent} from "./components/edit-variable-version/edit-variable-version.component";
+import {EditCdeVersionComponent} from "./components/edit-cde-version/edit-cde-version.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'pathologies', pathMatch: 'full' },
@@ -23,6 +25,10 @@ const routes: Routes = [
   //{path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/all', component: AllVariablesComponent},
   {path:'hospitals/about', component: AboutComponent},
+
+  // edit an existing version
+  {path:'pathologies/:pathology_id/hospitals/:hospital_id/edit-version/:version_id', component: EditVariableVersionComponent},
+  {path:'hospitals/cde-variables/:pathology_name/edit-cde-version/:version_id', component: EditCdeVersionComponent},
 
 
   {path:'hospitals/cde-variables/new-cde-version/:pathology_name/:upload_file', component: FullUploadCdesComponent},

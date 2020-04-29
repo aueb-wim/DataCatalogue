@@ -77,6 +77,9 @@ export class HospitalService {
     return this.http.get( this.frontend_ip + '/pathology/allPathologies/'+pathology_name+'/latest_cde_version',{headers:this.headers});
   }
 
+  getLatestCdeVersionByPathologyId(pathology_id: number){
+    return this.http.get( this.frontend_ip + '/pathology/allPathologies/pathId/'+pathology_id+'/latest_cde_version',{headers:this.headers});
+  }
 
   getAllCdeVersions():Observable<any> {
     return this.http.get(this.frontend_ip + '/CDE/allCdeVersions',{headers:this.headers});

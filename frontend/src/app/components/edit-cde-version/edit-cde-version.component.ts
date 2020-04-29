@@ -2,17 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Location} from "@angular/common";
-import {MatDialog} from "@angular/material";
-import {DeviceDetectorService} from "ngx-device-detector";
-import {stringify} from "querystring";
 
 @Component({
-  selector: 'app-create-new-version-cde',
-  templateUrl: './create-new-version-cde.component.html',
-  styleUrls: ['./create-new-version-cde.component.css']
+  selector: 'app-edit-cde-version',
+  templateUrl: './edit-cde-version.component.html',
+  styleUrls: ['./edit-cde-version.component.css']
 })
-export class CreateNewVersionCdeComponent implements OnInit {
-
+export class EditCdeVersionComponent implements OnInit {
   sampleFileName: string;
   disabledInput: boolean;
   latestCDEVersion:any;
@@ -45,15 +41,20 @@ export class CreateNewVersionCdeComponent implements OnInit {
   pathologyName:string;
 
 
-  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog,private router: Router) {
+  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, private router: Router) {
   }
 
   ngOnInit() {
     //this.hospitalService.getLatestCDEVersion().subscribe(cde=>{this.latestCDEVersion = cde});
 
-    this.route.params.switchMap((params: Params) => this.hospitalService.getLatestCdeVersionByPathologyName(params['pathology_name'])).subscribe(cde => {
-     this.latestCDEVersion = cde;
-    });
+    //this.route.params.switchMap((params: Params) => this.hospitalService.getLatestCdeVersionByPathologyName(params['pathology_name'])).subscribe(cde => {
+   //   this.latestCDEVersion = cde;
+  //  });
+    this.route.params
+      .switchMap((params: Params) => this.hospitalService.getVersionById(+params['version_id']))
+      .subscribe(cdeVersion => {
+        this.latestCDEVersion = cdeVersion;
+        this.versionName = cdeVersion['name'];});
 
 
     this.route.params.subscribe(params=>
@@ -77,8 +78,8 @@ export class CreateNewVersionCdeComponent implements OnInit {
   }
 
 
-  saveNewVersion(): void {
-    this.createNewVersionName();
+  saveChanges(): void {
+    //this.createNewVersionName();
     // remove sample variable before saving (get last variable and check if it is has 'sample' as code)
     console.log("last cde version code: " + this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length-1].code);
     if(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length-1].code === 'sample'){
@@ -93,7 +94,7 @@ export class CreateNewVersionCdeComponent implements OnInit {
     this.route.params.switchMap((params: Params) => this.hospitalService.createNewVersionCde(params['pathology_name'],this.versionName,
       this.latestCDEVersion)).subscribe(
       data => {
-        window.alert("Version created successfully.");
+        alert("Version updated successfully.");
         //this.location.back();
       },
       error => {
@@ -125,8 +126,8 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
   uploadFile() {
     window.location.href = this.location.path() + '/' + this.sampleFileName;
-      // works
-     // window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
+    // works
+    // window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
   }
 
 
@@ -146,7 +147,11 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
 
   addNewVariable() {
-  let newVar = Object.assign(Object.create(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length - 1]));
+    console.log('inside add new variable');
+    console.log('latestCDEVersion'+this.latestCDEVersion);
+    console.log('latestCDEVersion.cdevariables'+this.latestCDEVersion.cdevariables);
+    console.log('latestCDEVersion.cdevariables'+this.latestCDEVersion.cdevariables.length);
+    let newVar = Object.assign(Object.create(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length - 1]));
 
     //var newVar: VariableOject={};
     if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
@@ -238,7 +243,7 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
   deleteVariable(currentIndex) {
     // the last cde variable is always the sample one so no actions are to be taken
-    if(currentIndex==this.latestCDEVersion.cdevariables.length-1 && this.latestCDEVersion.cdevariables[currentIndex].code=='sample'){
+    if(currentIndex==this.latestCDEVersion.cdevariables.length-1 && this.latestCDEVersion.cdevariables[currentIndex].code==='sample'){
       alert("Sample Variable Cannot be Deleted")
     }else{
       this.latestCDEVersion.cdevariables.splice(currentIndex, 1);
@@ -276,51 +281,51 @@ export class CreateNewVersionCdeComponent implements OnInit {
     if(currentIndex==this.latestCDEVersion.cdevariables.length-1 && this.latestCDEVersion.cdevariables[currentIndex].code=='sample'){
       alert("Sample Variable Cannot be Changed")
     }else{
-    if (this.editVarName != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].name = this.editVarName;
-      this.editVarName = null;
-    }
-    if (this.editVarCode != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].code = this.editVarCode;
-      this.editVarCode = null;
-    }
-    if (this.editVarFile != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].csvFile = this.editVarFile;
-      this.editVarFile = null;
-    }
-    if (this.editVarType != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].type = this.editVarType;
-      this.editVarType = null;
-    }
-    if (this.editVarValues != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].values = this.editVarValues;
-      this.editVarValues = null;
-    }
-    if (this.editVarUnit != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].unit = this.editVarUnit;
-      this.editVarUnit = null;
-    }
-    if (this.editVarCanBeNull != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].canBeNull = this.editVarCanBeNull;
-      this.editVarCanBeNull = null;
-    }
-    if (this.editVarDescription != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].description = this.editVarDescription;
-      this.editVarDescription = null;
-    }
-    if (this.editVarComments != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].comments = this.editVarComments;
-      this.editVarComments = null;
-    }
-    if (this.editVarConceptPath != null && this.checkIfCoceprPathIsValid(this.editVarConceptPath)) {
-      this.latestCDEVersion.cdevariables[currentIndex].conceptPath = this.editVarConceptPath;
-      this.editVarConceptPath = null;
-    }
-    if (this.editVarMethodology != null) {
-      this.latestCDEVersion.cdevariables[currentIndex].methodology = this.editVarMethodology;
-      this.editVarMethodology = null;
-    }
+      if (this.editVarName != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].name = this.editVarName;
+        this.editVarName = null;
+      }
+      if (this.editVarCode != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].code = this.editVarCode;
+        this.editVarCode = null;
+      }
+      if (this.editVarFile != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].csvFile = this.editVarFile;
+        this.editVarFile = null;
+      }
+      if (this.editVarType != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].type = this.editVarType;
+        this.editVarType = null;
+      }
+      if (this.editVarValues != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].values = this.editVarValues;
+        this.editVarValues = null;
+      }
+      if (this.editVarUnit != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].unit = this.editVarUnit;
+        this.editVarUnit = null;
+      }
+      if (this.editVarCanBeNull != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].canBeNull = this.editVarCanBeNull;
+        this.editVarCanBeNull = null;
+      }
+      if (this.editVarDescription != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].description = this.editVarDescription;
+        this.editVarDescription = null;
+      }
+      if (this.editVarComments != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].comments = this.editVarComments;
+        this.editVarComments = null;
+      }
+      if (this.editVarConceptPath != null && this.checkIfCoceprPathIsValid(this.editVarConceptPath)) {
+        this.latestCDEVersion.cdevariables[currentIndex].conceptPath = this.editVarConceptPath;
+        this.editVarConceptPath = null;
+      }
+      if (this.editVarMethodology != null) {
+        this.latestCDEVersion.cdevariables[currentIndex].methodology = this.editVarMethodology;
+        this.editVarMethodology = null;
+      }
 
-  }
+    }
   }
 }

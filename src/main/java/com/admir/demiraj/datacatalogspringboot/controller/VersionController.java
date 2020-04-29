@@ -72,6 +72,7 @@ public class VersionController {
         return allVersionsByHospitalId.get(allVersionsByHospitalId.size()-1).getVersion_id();
     }
 
+
     @GetMapping("/getLatestVersionByHospitalId/{hospital_id}")
     public Versions  getLatestVersionByHospital(@PathVariable(value = "hospital_id") Long hospitalId){
         BigInteger hId = BigInteger.valueOf(hospitalId);
@@ -156,6 +157,7 @@ public class VersionController {
             BigInteger verId = BigInteger.valueOf(versionId);
             Versions versionToDelete = versionDAO.getVersionById(verId);
             // Validate that there is no hospital that
+           //NOTE REMOVE COMMENTS
             CustomDictionary customDictionary = versionDAO.hospitalsAndVersionsMappingToCDEVersion(versionToDelete);
             if(!customDictionary.isEmpty()){
                 System.out.println("Throwing exceptions because of hospitals:"+customDictionary.concatenateAllKeysToSingleString());
@@ -181,5 +183,6 @@ public class VersionController {
         versionDAO.deleteVersion(hospitalToDelete,versionToDelete);
 
     }
+
 
 }

@@ -71,6 +71,15 @@ position: absolute;
   font-family:Helvetica;
 }
 
+.editVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.editVersion:hover{
+  background-color: #007FBB;
+  font-family:Helvetica;
+}
+
 .backBtn:hover{
   background-color: darksalmon;
   font-family:Helvetica;
@@ -81,3 +90,6 @@ position: absolute;
 }
 
 
+.fa-edit{
+  font-size: 20px;
+}

@@ -1,9 +1,9 @@
 <button class="backBtn" (click)="goBack()"><i class="fa fa-arrow-left"></i></button>
-<button class="editModeBtn" [ngClass]="{'enabledDataBtn': disabledInput == false }" (click)="toggleEdit()"><i class="fa fa-edit"></i></button>
-<button class="saveVersionBtn" (click)="saveNewVersion()"><i class="fa fa-save"></i></button>
-<button class="uploadFileBtn" (click)="uploadFile()"><i class="fa fa-upload"></i></button>
+<!--<button class="editModeBtn" [ngClass]="{'enabledDataBtn': disabledInput == false }" (click)="toggleEdit()"><i class="fa fa-edit"></i></button>-->
+<button class="saveVersionBtn" (click)="saveChanges()"><i class="fa fa-save"></i></button>
+<!--<button class="uploadFileBtn" (click)="uploadFile()"><i class="fa fa-upload"></i></button>-->
 
-<h1><i class="fa fa-folder-o">New CDE Version ({{pathologyName}})</i></h1>
+<h1><i class="fa fa-folder-o">Edit CDE Version ({{pathologyName}}-{{versionName}})</i></h1>
 <mat-accordion multi="false">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -46,4 +46,5 @@
     <button mat-raised-button class="saveVariable" (click)="saveVariable(i)">Save</button>
   </mat-expansion-panel>
 </mat-accordion>
+
 

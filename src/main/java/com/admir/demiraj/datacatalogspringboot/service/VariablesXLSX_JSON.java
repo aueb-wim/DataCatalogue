@@ -52,6 +52,8 @@ public class VariablesXLSX_JSON
     public Versions version = null;
     public Versions harmonizedVersion = null;
     public Hospitals hospital = null;
+    // If we are on edit mode we shouldn't delete a version in case of an error
+    public boolean editMode = false;
 
     /**
      * @param file: the path of the input XLSX file
@@ -698,11 +700,14 @@ public class VariablesXLSX_JSON
 
 public void throwExceptioAndDelete(String exceMessage,String exceDetails, String exceNextSteps){
     storageService.moveFileToErrorFiles(this.filePath);
-    if(this.hospital==null){
+    // We should delete versions with errors only when we are not on edit mode
+    if(this.hospital==null && !editMode){
         // delete cde version
+        System.out.println("Deleting CDEVersion");
         versionDAO.deleteVersion(this.version);
-    }else {
+    }else if(!editMode){
         // delete variables version
+        System.out.println("Deleting variable version both normal and harmonized");
         versionDAO.deleteVersion(this.hospital,this.version);
         versionDAO.deleteVersion(this.hospital,this.harmonizedVersion);
     }

@@ -42,6 +42,8 @@ import { AboutComponent } from './components/about/about.component';
 import { PathologiesComponent } from './components/pathologies/pathologies.component';
 import { FullUploadCdesComponent } from './components/full-upload-cdes/full-upload-cdes.component';
 import { FormUploadCdesComponent } from './components/form-upload-cdes/form-upload-cdes.component';
+import { EditVariableVersionComponent } from './components/edit-variable-version/edit-variable-version.component';
+import { EditCdeVersionComponent } from './components/edit-cde-version/edit-cde-version.component';
 
 
 @Injectable()
@@ -84,6 +86,8 @@ export class XhrInterceptor implements HttpInterceptor {
     PathologiesComponent,
     FullUploadCdesComponent,
     FormUploadCdesComponent,
+    EditVariableVersionComponent,
+    EditCdeVersionComponent,
 
   ],
   imports: [

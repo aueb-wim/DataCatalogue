@@ -67,6 +67,7 @@ public class CustomDictionary extends Dictionary {
         return hashtable.remove(key);
     }
 
+    //! NOTE REMOVE COMMENTS
     public String concatenateAllKeysToSingleString(){
         String allKeys= "";
         Enumeration enu = hashtable.keys();

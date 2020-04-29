@@ -280,6 +280,17 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     window.location.href = this.location.path() + '/new-version';
   }
 
+  editVersionUrl(){
+
+    //this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
+    if(this.currentVersionName.includes('harmonized')){
+      alert("Only normal versions can be edited not the harmonized ones. New harmonized versions are produced when a " +
+        "normal version is changed");
+    }else {
+      window.location.href = this.location.path() + '/edit-version/' + this.currentVersionId;
+    }
+  }
+
 
   // Delete a VariableVersion
   deleteCurrentVariableVersion():void{

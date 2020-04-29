@@ -64,7 +64,7 @@ import java.security.Principal;
 import java.util.*;
 
 
-
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
 @RestController
@@ -80,26 +80,6 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
 
     @RequestMapping("/userRoles")
     public Collection userRoles(Authentication auth) throws NoSuchFieldException {
-        //Authentication auth = securityContextHolder.getContext().getAuthentication();
-        System.out.println("user roles are: "+auth.getAuthorities());
-        System.out.println("user principal are: "+auth.getPrincipal().getClass().getField("groups"));
-        System.out.println("user details are: "+auth.getDetails().toString());
-        System.out.println("user credentials are: "+auth.getCredentials());
-        //System.out.println("user filed groups "+auth.getClass().getField("groups"));
-        //System.out.println("auth class resource groups"+auth.getClass().getResource("groups"));
-        //System.out.println("auth class resource groups"+auth.getClass().getResource("preferred_username"));
-        System.out.println("auth class resource groups"+auth);
-
-        //User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //String name = user.getUsername();
-        //System.out.println("user and username: "+user.toString()+name);
-        //User activeUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //System.out.println("active user password: "+activeUser.getPassword());
-
-
-
-
-
         Collection collection = auth.getAuthorities();
         return collection;
     }
@@ -160,8 +140,8 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "/report/getVariableReport/*",
                         "//mapping/getsample").permitAll()
 
-
-                .anyRequest().hasRole("Data Manager")
+                //NOTE ADD THIS SINCE IT IS BEING REMOVED ONLY FOR TESTING
+                //.anyRequest().hasRole("Data Manager")
                 .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://192.168.1.25:8086/login"))
                 .and().csrf().csrfTokenRepository(csrfTokenRepository())
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)

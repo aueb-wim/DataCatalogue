@@ -48,7 +48,18 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit() {
     this.hospitalService.getAllPathologies().subscribe(allPathologies=>{
       this.allPathologies = allPathologies;
-      let currentPathology = allPathologies[0];
+      // the current pathology is the one that should be displayed first. We should select a pathology that has at least one version
+      let nonEmptyPathologyIndex = 0;
+      for(let path of allPathologies){
+        if(path['versions'] === undefined || path['versions'].length == 0){
+          nonEmptyPathologyIndex ++;
+        }else{
+          break;
+        }
+      }
+      let currentPathology = allPathologies[nonEmptyPathologyIndex];
+
+      //let currentPathology = allPathologies[0]
       this.currentPathology = currentPathology;
       this.currentPathologyName = currentPathology['name'];
       this.currentPathologyId = currentPathology['pathology_id'];
@@ -301,6 +312,11 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
   }
 
+  editVersionUrl(){
+
+    //this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
+    window.location.href = this.location.path() + '/'+this.currentPathologyName+'/edit-cde-version/'+this.currentVersionId;
+  }
 
  // Delete a CDEVersion
   deleteCurrentCDEVersion():void{

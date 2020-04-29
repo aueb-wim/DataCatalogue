@@ -1,18 +1,14 @@
-import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Location} from "@angular/common";
-import {MatDialog} from "@angular/material";
-
-
 
 @Component({
-  selector: 'app-create-new-version',
-  templateUrl: './create-new-version.component.html',
-  styleUrls: ['./create-new-version.component.css']
+  selector: 'app-edit-variable-version',
+  templateUrl: './edit-variable-version.component.html',
+  styleUrls: ['./edit-variable-version.component.css']
 })
-export class CreateNewVersionComponent implements OnInit, AfterViewInit {
-
+export class EditVariableVersionComponent implements OnInit {
   versionToUpdate: any;
   hospital: any;
   sampleFileName: string;
@@ -51,14 +47,17 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   pathologyName:string;
   functions: Array<any>;
 
-  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {
+
+
+  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) {
   }
 
   ngOnInit() {
     this.route.params
-      .switchMap((params: Params) => this.hospitalService.getLatestVersionByHospitalId(+params['hospital_id']))
+      .switchMap((params: Params) => this.hospitalService.getVersionById(+params['version_id']))
       .subscribe(version => {
         console.log("version variables initial",version['variables']);
+        this.versionName = version['name'];
         // validate that the version is valid (valid means that it has at least one variable -- excluding the sample)
         let isSampleVersion = true;
         for(let varia in version['variables']){
@@ -121,14 +120,21 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
         this.hospital = h
       });
 
-    this.hospitalService.getLatestCDEVersion().subscribe(cde=>{this.latestCDEVersion = cde});
+    // !NOTE REPLACING THIS
+    //this.hospitalService.getLatestCDEVersion().subscribe(cde=>{this.latestCDEVersion = cde});
+    this.route.params
+      .switchMap((params: Params) => this.hospitalService.getLatestCdeVersionByPathologyId(params['pathology_id']))
+      .subscribe(cde=>{this.latestCDEVersion = cde
+      });
+
+
 
 ///////////////////////////////////////////////
 
     this.route.params
       .switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id']))
       .subscribe(path => {
-       console.log('Path name: '+path['name']);
+        console.log('Path name: '+path['name']);
         this.createSampleFileName(path['name']);
         this.pathologyName = path['name']});
 
@@ -141,39 +147,35 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   }
 
 
-  saveNewVersion(): void {
+  saveChanges(): void {
     // remove sample variable before creating a version
     if(this.versionToUpdate.variables[this.versionToUpdate.variables.length-1].code === 'sample'){
-      console.log("equality works");
       this.versionToUpdate.variables.splice(this.versionToUpdate.variables.length-1, 1);
     }
 
-    this.createNewVersionName();
+    //this.createNewVersionName();
     console.log("this.pathologyName,this.hospital[\"name\"], this.versionName, this.versionToUpdate :"+this.pathologyName,
       this.hospital["name"], this.versionName, this.versionToUpdate);
     this.hospitalService.createNewVersion(this.pathologyName,this.hospital["name"], this.versionName, this.versionToUpdate).subscribe(
       data => {
-        window.alert("Version created successfully.");
+        window.alert("Version updated successfully.");
         this.location.back();
       },
       error => {
         if (error.status == '401') {
           alert("You need to be logged in to complete this action.");
         } else {
-          alert("Error Occurred:\n"+error.error.message+"\n"+error.error.details+"\n"+error.error.nextActions);
+          alert("Error Occurred:\n"+error.error);
         }
       });
-this.goBack();
+
   };
 
   goBack() {
     this.location.back();
   }
 
-  uploadFile() {
-    console.log('Uploading file--: '+this.sampleFileName);
-    window.location.href = this.location.path() + '/' + this.sampleFileName;
-  }
+
 
 
   createSampleFileName(pathologyName) {
@@ -182,11 +184,7 @@ this.goBack();
     this.sampleFileName = pathologyName+'_'+this.hospital.name + "_" + "v" + oldName.toString() + ".xlsx";
   }
 
-  createNewVersionName() {
-    var oldName = parseInt(this.versionToUpdate.name.replace('v', ''));
-    oldName = oldName + 1;
-    this.versionName = "v" + oldName.toString();
-  }
+
 
 
   addNewVariable() {
@@ -195,8 +193,9 @@ this.goBack();
     console.log('newvar created:'+newVar);
     //var newVar: VariableOject={};
     if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
-      this.checkIfTypeIsNullAndWithinValues(this.newVarType) && this.checkIfConceptPathIsNull(this.newVarConceptPath)&&
-      this.checkIfMappingFunctionIsValid(this.newVarMapFunction) && this.checkIfMappingCDEIsValid(this.newVarMapCDE)) {
+      this.checkIfTypeIsNull(this.newVarType) && this.checkIfConceptPathIsNull(this.newVarConceptPath)&&
+      this.checkIfMappingFunctionIsValid(this.newVarMapFunction) && this.checkIfMappingCDEIsValid(this.newVarMapCDE)
+    && this.checkIfConceptPathEndsWithCode(this.newVarConceptPath,this.newVarCode)) {
 
       newVar.csvFile = this.ifNullEmptyElseTheSame(this.newVarFile);
       newVar.name = this.ifNullEmptyElseTheSame(this.newVarName);
@@ -253,16 +252,16 @@ this.goBack();
 
   checkIfMappingCDEIsValid(mappingCde){
     if(mappingCde != null && mappingCde != ''){
-    var cdes = mappingCde.split(",");
-    for(let cde of cdes){
-      for(let cdevariable of this.latestCDEVersion['cdevariables']){
-      if(cdevariable['code'] == cde){
-        return true;
+      var cdes = mappingCde.split(",");
+      for(let cde of cdes){
+        for(let cdevariable of this.latestCDEVersion['cdevariables']){
+          if(cdevariable['code'] == cde){
+            return true;
+          }
+        }
       }
-      }
-    }
-    alert("The cdeVariable is not valid.");
-    return false;
+      alert("The cdeVariable is not valid.");
+      return false;
     }else{
       return true;
     }
@@ -278,6 +277,15 @@ this.goBack();
     }
   }
 
+  checkIfConceptPathEndsWithCode(conceptPath, code){
+    // change this
+    if( !conceptPath.endsWith(code)){
+      alert('Concept path should always end with the variable code')
+      return false;
+    }else{
+      return true;
+    }
+  }
   checkIfCodeIsNull(code) {
     if (code != null && code != "") {
       return true;
@@ -288,16 +296,12 @@ this.goBack();
   }
 
 
-  checkIfTypeIsNullAndWithinValues(type) {
-
-    if (type == null && type == "") {
+  checkIfTypeIsNull(type) {
+    if (type != null && type != "") {
+      return true;
+    } else {
       alert("Type cannot be null.");
       return false;
-    } else if(!['int', 'polynominal', 'multinominal','binominal','nominal','real','text'].includes(type)){
-      alert("Type takes of of the following values: 'int', 'polynominal', 'multinominal','binominal','nominal','real','text'");
-      return false;
-    }else {
-      return true;
     }
   }
 
@@ -323,7 +327,7 @@ this.goBack();
   }
 
   deleteVariable(currentIndex) {
-    if(currentIndex==this.versionToUpdate.variables.length-1 && this.versionToUpdate.variables[currentIndex].code==='sample'){
+    if(currentIndex==this.versionToUpdate.variables.length-1 && this.versionToUpdate.variables[currentIndex].name  == 'sample'){
       alert("Sample Variable Cannot be Deleted")
     }else{
       this.versionToUpdate.variables.splice(currentIndex, 1);
@@ -362,9 +366,10 @@ this.goBack();
   }
 
   saveVariable(currentIndex) {
-    if (currentIndex == this.versionToUpdate.variables.length - 1 && this.versionToUpdate.variables[currentIndex].code==='sample') {
+    if (currentIndex == this.versionToUpdate.variables.length - 1 && this.versionToUpdate.variables[currentIndex].name  == 'sample') {
       alert("Sample Variable Cannot be Changed")
-    } else {
+    }
+    else if(this.checkIfConceptPathEndsWithCode(this.newVarConceptPath,this.newVarCode)){
       if (this.editVarName != null) {
         this.versionToUpdate.variables[currentIndex].name = this.editVarName;
         this.editVarName = null;
@@ -422,9 +427,3 @@ this.goBack();
   }
 
 }
-
-interface VariableOject {
-  //[key: string]: any
-  [s: string]: string;
-}
-

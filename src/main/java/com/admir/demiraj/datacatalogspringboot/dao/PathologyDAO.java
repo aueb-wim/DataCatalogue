@@ -69,7 +69,6 @@ public class PathologyDAO {
     }
 
 
-
     public Versions getLatestCdeVersionByPathologyName(String pathologyName){
         Pathology pathology = getPathologyByName(pathologyName);
         Versions latestCdeVersion = null;
