@@ -129,10 +129,12 @@ public class CustomMapper {
 
             versionDAO.deleteVariablesFromHospitalVersion(currentHospital, version);
             versionDAO.deleteVariablesFromHospitalVersion(currentHospital, harmonizedVersion);
+            versionDAO.removeCdeVariablesFromHarmonizedVersion(harmonizedVersion);
 
         }else {
            version = new Versions(versionName);
            harmonizedVersion = new Versions(versionName + "-harmonized");
+
         }
         System.out.println("Saving Version");
         List<Variables> allVar = new ArrayList<>();

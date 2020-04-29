@@ -231,7 +231,13 @@ public class VersionDAO {
             System.out.println("The versions provided is null and thus we cannot delete ts variables");
         }
     }
-
+    /** In the case of a harmonized version that also has cde variables we have to remove the link between them.
+     * We cannot delete the cde variables because we need */
+    public void removeCdeVariablesFromHarmonizedVersion(Versions harmonizedVersion){
+        List<CDEVariables> emptyList = new ArrayList<>();
+        harmonizedVersion.setCdevariables(emptyList);
+        saveVersion(harmonizedVersion);
+    }
     public void deleteVersion(Hospitals currentHospital,Versions currentVersion){
         //try {
 
