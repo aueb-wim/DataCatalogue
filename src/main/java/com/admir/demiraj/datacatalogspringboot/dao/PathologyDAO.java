@@ -55,7 +55,7 @@ public class PathologyDAO {
     public boolean isPathologyPresent(String pathologyName){
         List<Pathology> pathologies = findAll();
         for(Pathology p : pathologies){
-            if(p.getName().equals(pathologyName)){
+            if(p.getName().toLowerCase().equals(pathologyName.toLowerCase())){
                 return true;
             }
 
