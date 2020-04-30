@@ -195,7 +195,7 @@ export class EditVariableVersionComponent implements OnInit {
     if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
       this.checkIfTypeIsNull(this.newVarType) && this.checkIfConceptPathIsNull(this.newVarConceptPath)&&
       this.checkIfMappingFunctionIsValid(this.newVarMapFunction) && this.checkIfMappingCDEIsValid(this.newVarMapCDE)
-    && this.checkIfConceptPathEndsWithCode(this.newVarConceptPath,this.newVarCode)) {
+    && this.checkIfConceptPathEndsWithCode(this.newVarConceptPath,this.newVarConceptPath, this.newVarCode,this.newVarCode)) {
 
       newVar.csvFile = this.ifNullEmptyElseTheSame(this.newVarFile);
       newVar.name = this.ifNullEmptyElseTheSame(this.newVarName);
@@ -277,15 +277,43 @@ export class EditVariableVersionComponent implements OnInit {
     }
   }
 
-  checkIfConceptPathEndsWithCode(conceptPath, code){
-    // change this
-    if( !conceptPath.endsWith(code)){
+  /** We need to check whether only the code changed and validate with the already existing concept path or whether both of
+   * them changed and thus we need to validate the current code with the current concept path. The same process should be
+   * done for the concept path*/
+  checkIfConceptPathEndsWithCode(currentConceptPath,existingConceptPath, currentCode,existingCode){
+    console.log('provided values for currentConceptPath,existingConceptPath, currentCode,existingCode',
+      currentConceptPath,existingConceptPath, currentCode,existingCode);
+
+    if(this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && !this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case1');
+      return this.checkIfStringEndsWithSecondString(existingConceptPath,currentCode);
+    }else if(!this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case2');
+      return this.checkIfStringEndsWithSecondString(currentConceptPath,existingCode);
+    }else if(!this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && !this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case3');
+      return this.checkIfStringEndsWithSecondString(currentConceptPath,currentCode);
+    }else{
+      return true;
+    }
+  }
+
+  checkIfVariableIsNullEmptyOrUndefined(variable){
+    if(variable===null || variable===undefined || variable===''){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  checkIfStringEndsWithSecondString(conceptPath,code){
+    if(!conceptPath.endsWith(code)){
       alert('Concept path should always end with the variable code')
       return false;
     }else{
       return true;
     }
   }
+
   checkIfCodeIsNull(code) {
     if (code != null && code != "") {
       return true;
@@ -369,7 +397,9 @@ export class EditVariableVersionComponent implements OnInit {
     if (currentIndex == this.versionToUpdate.variables.length - 1 && this.versionToUpdate.variables[currentIndex].name  == 'sample') {
       alert("Sample Variable Cannot be Changed")
     }
-    else if(this.checkIfConceptPathEndsWithCode(this.newVarConceptPath,this.newVarCode)){
+    else if(this.checkIfConceptPathEndsWithCode(this.editVarConceptPath,this.versionToUpdate.variables[currentIndex].conceptPath,
+      this.editVarCode,this.versionToUpdate.variables[currentIndex].code)){
+
       if (this.editVarName != null) {
         this.versionToUpdate.variables[currentIndex].name = this.editVarName;
         this.editVarName = null;

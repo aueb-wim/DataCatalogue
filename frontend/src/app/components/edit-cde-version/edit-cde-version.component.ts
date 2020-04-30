@@ -155,7 +155,8 @@ export class EditCdeVersionComponent implements OnInit {
 
     //var newVar: VariableOject={};
     if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
-      this.checkIfConceptPathIsNull(this.newVarConceptPath) && this.checkIfTypeIsNullAndWithinValues(this.newVarType)) {
+      this.checkIfConceptPathIsNull(this.newVarConceptPath) && this.checkIfTypeIsNullAndWithinValues(this.newVarType)
+      && this.checkIfConceptPathEndsWithCode(this.newVarConceptPath,this.newVarConceptPath, this.newVarCode,this.newVarCode)) {
 
       newVar.csvFile = this.ifNullEmptyElseTheSame(this.newVarFile);
       newVar.name = this.ifNullEmptyElseTheSame(this.newVarName);
@@ -240,7 +241,42 @@ export class EditCdeVersionComponent implements OnInit {
   toggleEdit() {
     this.disabledInput = !this.disabledInput;
   }
+  /** We need to check whether only the code changed and validate with the already existing concept path or whether both of
+   * them changed and thus we need to validate the current code with the current concept path. The same process should be
+   * done for the concept path*/
+  checkIfConceptPathEndsWithCode(currentConceptPath,existingConceptPath, currentCode,existingCode){
+    console.log('provided values for currentConceptPath,existingConceptPath, currentCode,existingCode',
+      currentConceptPath,existingConceptPath, currentCode,existingCode);
 
+    if(this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && !this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case1');
+      return this.checkIfStringEndsWithSecondString(existingConceptPath,currentCode);
+    }else if(!this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case2');
+      return this.checkIfStringEndsWithSecondString(currentConceptPath,existingCode);
+    }else if(!this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && !this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case3');
+      return this.checkIfStringEndsWithSecondString(currentConceptPath,currentCode);
+    }else{
+      return true;
+    }
+  }
+
+  checkIfVariableIsNullEmptyOrUndefined(variable){
+    if(variable===null || variable===undefined || variable===''){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  checkIfStringEndsWithSecondString(conceptPath,code){
+    if(!conceptPath.endsWith(code)){
+      alert('Concept path should always end with the variable code')
+      return false;
+    }else{
+      return true;
+    }
+  }
   deleteVariable(currentIndex) {
     // the last cde variable is always the sample one so no actions are to be taken
     if(currentIndex==this.latestCDEVersion.cdevariables.length-1 && this.latestCDEVersion.cdevariables[currentIndex].code==='sample'){
@@ -280,7 +316,8 @@ export class EditCdeVersionComponent implements OnInit {
   saveVariable(currentIndex) {
     if(currentIndex==this.latestCDEVersion.cdevariables.length-1 && this.latestCDEVersion.cdevariables[currentIndex].code=='sample'){
       alert("Sample Variable Cannot be Changed")
-    }else{
+    }else if(this.checkIfConceptPathEndsWithCode(this.editVarConceptPath,this.latestCDEVersion.cdevariables[currentIndex].conceptPath,
+      this.editVarCode,this.latestCDEVersion.cdevariables[currentIndex].code)){
       if (this.editVarName != null) {
         this.latestCDEVersion.cdevariables[currentIndex].name = this.editVarName;
         this.editVarName = null;
