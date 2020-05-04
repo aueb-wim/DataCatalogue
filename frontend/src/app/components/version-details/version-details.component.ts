@@ -22,6 +22,7 @@ export class VersionDetailsComponent implements OnInit,OnChanges {
   //version:any;
   //jsonMetadata:any;
   disabledInput:boolean;
+  editable:true;
 
 
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location) { }
