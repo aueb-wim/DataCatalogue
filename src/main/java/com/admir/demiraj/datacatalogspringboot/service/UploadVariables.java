@@ -141,7 +141,7 @@ public class UploadVariables {
         variablesXLSX_json.filePath = filePath;
         System.out.println("Create tree");
         for(Variables var:allVar){
-            System.out.println("variable code:"+var.getCode()+" concepta path:"+var.getConceptPath());
+            System.out.println("variable code:"+var.getCode()+" concept path:"+var.getConceptPath());
         }
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
         System.out.println("Retrieving jsonStringMetadata from file");
@@ -170,7 +170,7 @@ public class UploadVariables {
            }
            System.out.println("Create tree2");
            for(Variables var:allVar){
-               System.out.println("variable code:"+var.getCode()+" concepta path:"+var.getConceptPath());
+               System.out.println("variable code:"+var.getCode()+" concept path:"+var.getConceptPath());
            }
            VariablesXLSX_JSON.Node testTree2 = variablesXLSX_json.createTree2(allVar, cdeVars);
            harmonizedVersion.setJsonString(variablesXLSX_json.createJSONMetadataWithCDEs(allVar, cdeVars).toString());

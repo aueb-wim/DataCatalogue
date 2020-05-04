@@ -584,21 +584,21 @@ public class VariablesXLSX_JSON
                         varNode.put("sql_type", "real");
                     else if ((this.getType().equals("polynominal")||this.getType().equals("multinominal")||this.getType().equals("binominal")||this.getType().equals("nominal")))
                     {
-                        this.setType("multinominal");//we want all these variations of the multinominal type to become 'multinominal' in the end...
+                        this.setType("nominal");//we want all these variations of the multinominal type to become 'nominal' in the end...
                         isCategorical = true;
 
                         JSONArray enumArray = findEnumerationWithRegex(varNode, true);
                         int countEnums = enumArray.length();
 
                         if (countEnums==0)
-                            throwExceptioAndDelete("Problem with polynominal variable", "Variable "+this.code+" has polynominal type but its value is not written correctly (eg: {“M”,”Male”},{”F”,”Female”})...", "Please try again!");
+                            throwExceptioAndDelete("Problem with nominal variable", "Variable "+this.code+" has nominal type but its value is not written correctly (eg: {“M”,”Male”},{”F”,”Female”})...", "Please try again!");
                     }
 
                     if (this.getValues()!=null && !this.getValues().equals("") && !isCategorical)
                     {
                         JSONArray testEnumArray = findEnumerationWithRegex(varNode, false);
                         if (testEnumArray.length() != 0) {
-                            throwExceptioAndDelete("Problem with a variable.", "Variable " + this.code + " has enumeration but is NOT declared as polynominal/multinominal..!!", "Please pay attention and try again!");
+                            throwExceptioAndDelete("Problem with a variable.", "Variable " + this.code + " has enumeration but is NOT declared as nominal..!!", "Please pay attention and try again!");
                         }
                         Pattern pattern = Pattern.compile("([0-9\\.,]*)\\s?-\\s?([0-9\\.,]*)");
                         Matcher matcher = pattern.matcher(this.getValues());
@@ -655,7 +655,7 @@ public class VariablesXLSX_JSON
         private JSONArray findEnumerationWithRegex(JSONObject varNode, boolean isCategorical)
         {
             if (isCategorical && this.getValues()==null) {
-                throwExceptioAndDelete("Problem with polynominal variable", "Variable " + this.code + " is of polynominal type but does not have information about its values...", "Please try again!");
+                throwExceptioAndDelete("Problem with nominal variable", "Variable " + this.code + " is of nominal type but does not have information about its values...", "Please try again!");
             }
                 //have 2 present the Values in an enumeration list
             JSONArray enumArray = new JSONArray();
