@@ -53,7 +53,11 @@ public class PathologyController {
         return pathologyDAO.getLatestCdeVersionByPathologyName(pathologyName);
     }
 
-
+    @GetMapping("/allPathologies/pathId/{pathology_id}/latest_cde_version")
+    public Versions getLatetsCdeVersionByPathologyId(@PathVariable("pathology_id") Long pathologyId){
+        BigInteger pathId = BigInteger.valueOf(pathologyId);
+        return pathologyDAO.getLatestCdeVersionByPathologyId(pathId);
+    }
 
     @PostMapping(value = "/newPathology")
     public void create2(@RequestBody String pathologyName){

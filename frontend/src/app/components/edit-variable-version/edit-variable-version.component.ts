@@ -136,14 +136,21 @@ export class EditVariableVersionComponent implements OnInit {
       .subscribe(path => {
         console.log('Path name: '+path['name']);
         this.createSampleFileName(path['name']);
-        this.pathologyName = path['name']});
+        this.pathologyName = path['name'];
+      });
 
   }
 
 
   ngAfterViewInit(): void {
     //this.createSampleFileName();
-
+    this.route.params
+      .switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id']))
+      .subscribe(path => {
+        console.log('Path name: '+path['name']);
+        this.createSampleFileName(path['name']);
+        this.pathologyName = path['name'];
+      });
   }
 
 

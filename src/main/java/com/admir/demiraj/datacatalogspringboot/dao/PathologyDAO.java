@@ -68,9 +68,7 @@ public class PathologyDAO {
         return pathologyRepository.getOne(pathId);
     }
 
-
-    public Versions getLatestCdeVersionByPathologyName(String pathologyName){
-        Pathology pathology = getPathologyByName(pathologyName);
+    public Versions getLatestCdeVersionByPathology(Pathology pathology){
         Versions latestCdeVersion = null;
 
         for(Versions v: pathology.getVersions()){
@@ -103,6 +101,17 @@ public class PathologyDAO {
 
         return latestCdeVersion;
     }
+    public Versions getLatestCdeVersionByPathologyId(BigInteger pathId){
+        Pathology pathology = getPathologyById(pathId);
+        return getLatestCdeVersionByPathology(pathology);
+
+    }
+
+    public Versions getLatestCdeVersionByPathologyName(String pathologyName){
+        Pathology pathology = getPathologyByName(pathologyName);
+        return getLatestCdeVersionByPathology(pathology);
+    }
+
 
     public boolean isCdeVersionPrentInPathology(String pathologyName, String versionName){
         Pathology pathology = getPathologyByName(pathologyName);

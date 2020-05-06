@@ -41,13 +41,14 @@
       "/report/uploadAllReports",
       "/pathology/allPathologies",
       "/pathology/allPathologies//latest_cde_version",
+      "/pathology/allPathologies/pathId//latest_cde_version",
       "/pathology/allPathologies/",
       "/pathology/allPathologies//name",
       "/pathology/newPathology",
       "/pathology/deletePathology"
 
     ],
-    target: "http://192.168.1.29:8086",
+    target: "http://172.16.10.138:8086",
     secure: false
   }
 ];

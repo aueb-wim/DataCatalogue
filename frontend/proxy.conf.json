@@ -1,39 +1,39 @@
 {
   "/login": {
-    "target": "http://192.168.1.29:8086",
+    "target": "http://172.16.10.138:8086",
     "secure": false,
     "logLevel": "debug"
   },
 
   "/home": {
-    "target": "http://192.168.1.29:8086",
+    "target": "http://172.16.10.138:8086",
     "secure": false,
     "logLevel": "debug"
   },
 
   "/user": {
-    "target": "http://192.168.1.29:8086",
+    "target": "http://172.16.10.138:8086",
     "secure": false,
     "logLevel": "debug"
   },
   "/userRoles": {
-    "target": "http://192.168.1.29:8086",
+    "target": "http://172.16.10.138:8086",
     "secure": false,
     "logLevel": "debug"
   },
 
   "/logout": {
-    "target": "http://192.168.1.29:8086",
+    "target": "http://172.16.10.138:8086",
     "secure": false,
     "logLevel": "debug"
   },
   "/hospital/readExcel": {
-    "target": "http://192.168.1.29:8086",
+    "target": "http://172.16.10.138:8086",
     "secure": false,
     "logLevel": "debug"
   },
   "/CDE/readExcel": {
-    "target": "http://192.168.1.29:8086",
+    "target": "http://172.16.10.138:8086",
     "secure": false,
     "logLevel": "debug"
   }
