@@ -38,7 +38,7 @@ export class AboutComponent implements OnInit {
       if(userRoles!=null){
       this.userRoles = userRoles;
         for(let role of userRoles){
-          if(role.authority.toString() === "ROLE_Data Manager"){
+          if(role.authority.toString() === "ROLE_dc_admin"){
             this.dataManager = true;
           }
         }

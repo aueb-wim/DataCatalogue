@@ -141,8 +141,8 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "//mapping/getsample").permitAll()
 
                 //NOTE ADD THIS SINCE IT IS BEING REMOVED ONLY FOR TESTING
-                //.anyRequest().hasRole("Data Manager")
-                .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://192.168.1.25:8086/login"))
+                .anyRequest().hasRole("dc_admin")
+                .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://localhost:8086/login"))
                 .and().csrf().csrfTokenRepository(csrfTokenRepository())
                 .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
