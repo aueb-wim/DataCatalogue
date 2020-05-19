@@ -52,6 +52,22 @@ export class HospitalService {
     return this.http.post<any>(this.frontend_ip +'/pathology/deletePathology', pathology_name,{headers:this.headers});
   }
 
+  createNewHospital2 (hospital_name: string, pathology_name: string): Observable<any> {
+    return this.http.post<any>(this.frontend_ip +'/hospitals/newHospital', [hospital_name, pathology_name], {headers:this.headers});
+  }
+
+  createNewHospital (hospitalName: string, pathologyName: string): Observable<any> {
+    let params = new HttpParams()
+      .set('hospitalName',hospitalName)
+      .set('pathologyName', pathologyName)
+
+    return this.http.post<any>(this.frontend_ip +'/hospitals/newHospital', params, {headers:this.headers});
+  }
+
+  deleteHospital (hospital_name: string): Observable<any> {
+    return this.http.post<any>(this.frontend_ip +'/hospitals/deleteHospital', hospital_name,{headers:this.headers});
+  }
+
   getPathologyNameById(pathology_id: number):Observable<any>{
     return this.http.get(this.frontend_ip + '/pathology/allPathologies/'+pathology_id+'/name',{headers:this.headers});
 
@@ -61,6 +77,9 @@ export class HospitalService {
     return this.http.get( this.frontend_ip + '/pathology/allPathologies/'+pathology_name+'/latest_cde_version',{headers:this.headers});
   }
 
+  getLatestCdeVersionByPathologyId(pathology_id: number){
+    return this.http.get( this.frontend_ip + '/pathology/allPathologies/pathId/'+pathology_id+'/latest_cde_version',{headers:this.headers});
+  }
 
   getAllCdeVersions():Observable<any> {
     return this.http.get(this.frontend_ip + '/CDE/allCdeVersions',{headers:this.headers});
@@ -109,6 +128,15 @@ export class HospitalService {
   getVersionsByHospitalId(hospital_id: number):Observable<any>{
     return this.http.get(this.frontend_ip + '/versions/allVersionsPerHospital/'+hospital_id,{headers:this.headers});
 
+  }
+
+  deleteVaribaleVersion(hospitalId: string, versionId: string): Observable<any>{
+
+    return this.http.get(this.frontend_ip +'/versions/deleteVariableVersion/'+hospitalId+'/'+versionId, {headers:this.headers});
+  }
+
+  deleteCDEVersion(versionId: string):Observable<any>{
+    return this.http.get(this.frontend_ip + '/versions/deleteCDEVersion/'+versionId,{headers:this.headers});
   }
 
   getlatestVersionIdByHospId(hospital_id: number):Observable<any>{

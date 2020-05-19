@@ -2,7 +2,7 @@
 
 # HBP-MIP DataCatalogue
 ## Overview
-This tool is a component developed for the [Human Brain Project Medical Informatics Platform](https://www.humanbrainproject.eu/en/medicine/medical-informatics-platform/) (HBP-MIP). Data Catalogue of HBP SGA2 T8.5.2 is an end-to-end platform, created with the latest technologies and tasked with versioning the meta-data of the hospital variables and the Common Data Elements (CDEs). It utilizes a global schema for the collection of the meta-data and provides information about the mappings of the variables to CDEs. DataCatalogue is currently being hosted [here](http://195.251.252.222:2442/hospitals/).
+This tool is a component developed for the [Human Brain Project Medical Informatics Platform](https://www.humanbrainproject.eu/en/medicine/medical-informatics-platform/) (HBP-MIP). Data Catalogue of HBP SGA2 T8.5.2 is an end-to-end platform, created with the latest technologies and tasked with versioning the meta-data of the hospital variables and the Common Data Elements (CDEs). It utilizes a global schema for the collection of the meta-data and provides information about the mappings of the variables to CDEs. DataCatalogue is currently being hosted [here](http://195.251.252.222:2448/hospitals/).
 
 ## Potential Users
 The potential users of the tool are first of all the researchers that prior to executing experiments through the Portal of the MIP may want to investigate what type of information is available in each hospital. Moreover, the tool aims at facilitating the collaboration between the authorized hospital personnel and the development team of MIP.
@@ -14,19 +14,20 @@ The user can perform a set of actions without being logged in.
 Hospital Meta-Data:
 -   View the meta-data of all hospitals combined [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l1.png)
 -   View the meta-data of each specific hospital [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
--   Select the current or any previous version of the hospital meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   Select the current or any previous version of any hospital meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
 -   Search meta-data based on their category or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
 -   View details about the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
--   Download the json that contains the meta-data that will be used in the MIP Local Node [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   Download the json that contains the meta-data that will be used in the MIP Local Node concerning a specific hospital [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
 -   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l3.png)
 -   View / Download / Index  the results of the Quality Control Tool for the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l4.png)
 -   View the graphical representation of how variables should be mapped to CDEs and using which rule [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l5.png)
 
 Common Data Elements (CDEs):
--   Select the current or any previous version of the CDE meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
+-   View all medical conditions
+-   Select the current or any previous version of the CDEs meta-data of a specific medical condition [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
 -   Search meta-data based on their category or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
 -   View details about the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
--   Download the json that contains the meta-data that will be used in the MIP Federated Node [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
+-   Download the json that contains the meta-data that will be used in the MIP Federated Node for a specific medical condition [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
 -   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l7.png)
 
 ### Management Mode (Login required)

@@ -1,0 +1,128 @@
+
+h1{
+  font-size: xx-large;
+  color: #2196F3;
+  margin-left: 40%;
+  font-family:Helvetica;
+}
+
+
+mat-expansion-panel{
+  margin-top: 10px;
+}
+
+/deep/.mat-tab-label.mat-tab-label-active {
+  min-width: 25px !important;
+  padding: 5px;
+  background-color: transparent;
+  color: blue;
+  font-weight: 400;
+  font-size: large;
+  font-family:Helvetica;
+
+}
+
+
+
+.mat-expansion-panel-header-title{
+  font-weight: bold;
+  font-size: medium;
+  color: green;
+
+  display: table;
+  table-layout: fixed;
+  font-family:Helvetica;
+  font-size: small;
+}
+
+input.vDetails:disabled{
+  border: none;
+  background: none;
+  font-family:Helvetica;
+}
+
+.enabledDataBtn{
+  background-color: #5c707a;
+  font-family:Helvetica;
+}
+
+.editModeBtn2{
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  border-radius: 10%;
+  width: 3vw;
+  height: 2vw;
+  font-family:Helvetica;
+}
+.editModeBtn{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.editModeBtn:hover{
+  background-color: #666666;
+  font-family:Helvetica;
+}
+.backBtn{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.backBtn:hover{
+  background-color: darksalmon;
+  font-family:Helvetica;
+}
+.fa-edit{
+  font-size: 20px;
+}
+
+.fa-arrow-left{
+  font-size: 20px;
+}
+
+.saveVersionBtn{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.saveVersionBtn:hover{
+  background-color: #428bca;
+  font-family:Helvetica;
+
+}
+
+.fa-save{
+  font-size: 20px;
+}
+
+
+.panelHeader{
+  width: 45vw;
+  font-family:Helvetica;
+}
+
+.variableCode{
+  font-family:Helvetica;
+
+}
+
+.deleteBtn{
+
+  position: relative;
+  border-radius: 30%;
+  background-color: #D44950;
+  color: black;
+  font-family:Helvetica;
+
+}
+
+.deleteBtn:hover{
+  background-color: #B52E31;
+  font-family:Helvetica;
+}
+
+mat-accordion mat-expansion-panel p input{
+  font-family:Helvetica;
+  font-size: small;
+}
+mat-accordion mat-expansion-panel p{
+  font-family:Helvetica;
+  font-size: small;
+}

@@ -52,6 +52,8 @@ public class VariablesXLSX_JSON
     public Versions version = null;
     public Versions harmonizedVersion = null;
     public Hospitals hospital = null;
+    // If we are on edit mode we shouldn't delete a version in case of an error
+    public boolean editMode = false;
 
     /**
      * @param file: the path of the input XLSX file
@@ -582,21 +584,21 @@ public class VariablesXLSX_JSON
                         varNode.put("sql_type", "real");
                     else if ((this.getType().equals("polynominal")||this.getType().equals("multinominal")||this.getType().equals("binominal")||this.getType().equals("nominal")))
                     {
-                        this.setType("multinominal");//we want all these variations of the multinominal type to become 'multinominal' in the end...
+                        this.setType("nominal");//we want all these variations of the multinominal type to become 'nominal' in the end...
                         isCategorical = true;
 
                         JSONArray enumArray = findEnumerationWithRegex(varNode, true);
                         int countEnums = enumArray.length();
 
                         if (countEnums==0)
-                            throwExceptioAndDelete("Problem with polynominal variable", "Variable "+this.code+" has polynominal type but its value is not written correctly (eg: {“M”,”Male”},{”F”,”Female”})...", "Please try again!");
+                            throwExceptioAndDelete("Problem with nominal variable", "Variable "+this.code+" has nominal type but its value is not written correctly (eg: {“M”,”Male”},{”F”,”Female”})...", "Please try again!");
                     }
 
                     if (this.getValues()!=null && !this.getValues().equals("") && !isCategorical)
                     {
                         JSONArray testEnumArray = findEnumerationWithRegex(varNode, false);
                         if (testEnumArray.length() != 0) {
-                            throwExceptioAndDelete("Problem with a variable.", "Variable " + this.code + " has enumeration but is NOT declared as polynominal/multinominal..!!", "Please pay attention and try again!");
+                            throwExceptioAndDelete("Problem with a variable.", "Variable " + this.code + " has enumeration but is NOT declared as nominal..!!", "Please pay attention and try again!");
                         }
                         Pattern pattern = Pattern.compile("([0-9\\.,]*)\\s?-\\s?([0-9\\.,]*)");
                         Matcher matcher = pattern.matcher(this.getValues());
@@ -653,7 +655,7 @@ public class VariablesXLSX_JSON
         private JSONArray findEnumerationWithRegex(JSONObject varNode, boolean isCategorical)
         {
             if (isCategorical && this.getValues()==null) {
-                throwExceptioAndDelete("Problem with polynominal variable", "Variable " + this.code + " is of polynominal type but does not have information about its values...", "Please try again!");
+                throwExceptioAndDelete("Problem with nominal variable", "Variable " + this.code + " is of nominal type but does not have information about its values...", "Please try again!");
             }
                 //have 2 present the Values in an enumeration list
             JSONArray enumArray = new JSONArray();
@@ -698,11 +700,14 @@ public class VariablesXLSX_JSON
 
 public void throwExceptioAndDelete(String exceMessage,String exceDetails, String exceNextSteps){
     storageService.moveFileToErrorFiles(this.filePath);
-    if(this.hospital==null){
+    // We should delete versions with errors only when we are not on edit mode
+    if(this.hospital==null && !editMode){
         // delete cde version
+        System.out.println("Deleting CDEVersion");
         versionDAO.deleteVersion(this.version);
-    }else {
+    }else if(!editMode){
         // delete variables version
+        System.out.println("Deleting variable version both normal and harmonized");
         versionDAO.deleteVersion(this.hospital,this.version);
         versionDAO.deleteVersion(this.hospital,this.harmonizedVersion);
     }

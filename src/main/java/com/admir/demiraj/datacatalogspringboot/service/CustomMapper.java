@@ -1,9 +1,7 @@
 package com.admir.demiraj.datacatalogspringboot.service;
 
-import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
-import com.admir.demiraj.datacatalogspringboot.dao.HospitalDAO;
-import com.admir.demiraj.datacatalogspringboot.dao.VariableDAO;
-import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
+import com.admir.demiraj.datacatalogspringboot.dao.*;
+import com.admir.demiraj.datacatalogspringboot.exceptionHandlers.CustomException;
 import com.admir.demiraj.datacatalogspringboot.resources.CDEVariables;
 import com.admir.demiraj.datacatalogspringboot.resources.Hospitals;
 import com.admir.demiraj.datacatalogspringboot.resources.Variables;
@@ -14,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,14 +39,41 @@ public class CustomMapper {
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
 
+    @Autowired
+    private PathologyDAO pathologyDAO;
 
 
 
-
+    public void throwExceptionOnNull(JSONArray jr){}
+    public void throwExceptionOnNull2(JSONArray jr){
+        // for all possible indexes
+        for(int i=0;i<4;i++){
+            if(i==0 && jr.get(i)==null){
+                throw new CustomException("The pathology name provided to create a new version is null.",
+                        "A version cannot be created without a pathology name","Please ensure that the pathology name is not null.");
+            }else if(i==1 && jr.get(i)==null){
+                throw new CustomException("The hospitalName name provided to create a new version is null.",
+                        "A version cannot be created without a hospitalName name","Please ensure that the hospitalName name is not null.");
+            }else if(i==2 && jr.get(i)==null){
+                throw new CustomException("The versionName name provided to create a new version is null.",
+                        "A version cannot be created without a versionName name","Please ensure that the versionName name is not null.");
+            }else if(i==3 && jr.get(i)==null){
+                throw new CustomException("The version is null.",
+                        "A version cannot be empty","Please ensure that the version is not null.");
+            }
+        }
+    }
     public void mapVersion(JSONArray jr) {
-        String pathologyName = jr.getString(0);
-        String hospitalName = jr.getString(1);
-        String versionName = jr.getString(2);
+        throwExceptionOnNull(jr);
+        System.out.println("at index 0 we have :"+jr.get(0));
+        // the elements below should not be null
+
+        //String pathologyName = jr.getString(0);
+        String pathologyName = jr.get(0).toString();
+        //String hospitalName = jr.getString(1);
+        String hospitalName = jr.get(1).toString();
+        //String versionName = jr.getString(2);
+        String versionName = jr.get(2).toString();
         JSONObject version = jr.getJSONObject(3);
 
         Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
@@ -59,8 +85,11 @@ public class CustomMapper {
                 // NOTE !! PERHAPS WE WANT TO UPDATE A VERSION THAT ALREADY EXISTS
                 System.out.println("The version : " + versionName + " is already present at : " + hospitalName + " and won't be saved");
                 //The version isn't present at hospital
+                boolean updatePrevious = true;
+                createVersion(versionName, currentHospital, version, pathologyName,updatePrevious);
             } else {
-                createVersion(versionName, currentHospital, version, pathologyName);
+                boolean updatePrevious = false;
+                createVersion(versionName, currentHospital, version, pathologyName,updatePrevious);
             }
 
 
@@ -73,11 +102,40 @@ public class CustomMapper {
        // System.out.println("Jo IS: " + version.getJSONArray("variables").getJSONObject(0).get("code"));
     }
 
-    public void createVersion(String versionName, Hospitals currentHospital, JSONObject versionObject, String pathologyName) {
+
+    public void updateExistingVariableVersion(JSONObject versionObject){
+         Versions versionToUpdate = versionDAO.getVersionById(versionObject.getBigInteger("version_id"));
+
+         //We can only change the variables in a version (mappings and jsonVisualizable are affected)
+
+
+
+    }
+
+    public void createVersion(String versionName, Hospitals currentHospital, JSONObject versionObject,
+                              String pathologyName, boolean updatePrevious) {
         String filePath = "";
-        //generateConceptPathFromMapping(filePath);
-        Versions version = new Versions(versionName);
-        Versions harmonizedVersion = new Versions(versionName+"-harmonized");
+        Versions version;
+        Versions harmonizedVersion;
+        // If we want to update a previous version we just need to load them initially and make all the changes needed
+        // to their fields (that means we should also produce a new json array)
+        if(updatePrevious){
+            // delete previous variables from version and add the newly provided ones
+            version = versionDAO.getVersionById(versionObject.getBigInteger("version_id"));
+
+            System.out.println("looking for hospital  and version: "+currentHospital.getName()+versionObject.getString("name")+"-harmonized");
+            harmonizedVersion = versionDAO.getVersionByHospitalNameAndVersionName(currentHospital.getName(),
+                    versionObject.getString("name")+"-harmonized");
+
+            versionDAO.deleteVariablesFromHospitalVersion(currentHospital, version);
+            versionDAO.deleteVariablesFromHospitalVersion(currentHospital, harmonizedVersion);
+            versionDAO.removeCdeVariablesFromHarmonizedVersion(harmonizedVersion);
+
+        }else {
+           version = new Versions(versionName);
+           harmonizedVersion = new Versions(versionName + "-harmonized");
+
+        }
         System.out.println("Saving Version");
         List<Variables> allVar = new ArrayList<>();
         List<Variables> allVar3 = new ArrayList<>();
@@ -100,10 +158,14 @@ public class CustomMapper {
 
         variablesXLSX_json.hospital = currentHospital;
         variablesXLSX_json.version = version;
+        // Edit mode decides whether we should delete a version after an error or not
+        variablesXLSX_json.editMode = updatePrevious;
 
         VariablesXLSX_JSON.Node testTree = variablesXLSX_json.createTree(allVar);
         //Select last Version of the CDEs : TO BE CHANGED!!! We have to parameterize the version it takes ********
-        Versions lastVersion = versionDAO.getLastCdeVersion();
+        //Versions lastVersion = versionDAO.getLastCdeVersion();
+        Versions lastVersion = pathologyDAO.getLatestCdeVersionByPathologyName(pathologyName);
+
         System.out.println("cde variables found : "+ cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id()).size());
         List<CDEVariables> cdeVars = cdeVariableDAO.findCDEVariablesByVersionId(lastVersion.getVersion_id());
         //******** ********* ********* **** TO BE CHANGED!!! ******** ********* ********* ********* ******** ***
@@ -113,7 +175,7 @@ public class CustomMapper {
         versionDAO.saveVersion(version);
 
         List<CDEVariables> cdeVariables = new ArrayList<>();
-        for(CDEVariables cdevar : versionDAO.getLastCdeVersion().getCdevariables()){
+        for(CDEVariables cdevar : pathologyDAO.getLatestCdeVersionByPathologyName(pathologyName).getCdevariables()){
             cdevar.setVersions2(harmonizedVersion);
             cdeVariables.add(cdevar);
         }
@@ -152,7 +214,7 @@ public class CustomMapper {
             newVar.setMethodology(variableJsonObject.get("methodology").toString());
 
 
-            if (variableJsonObject.get("mapCDE").toString() != "" && !variableJsonObject.get("mapCDE").toString().isEmpty()
+            if (variableJsonObject.has("mapCDE") && variableJsonObject.get("mapCDE").toString() != "" && !variableJsonObject.get("mapCDE").toString().isEmpty()
             && variableJsonObject.get("mapCDE") != null) {
                 if (variableJsonObject.get("mapCDE").toString().contains(",")) {
 

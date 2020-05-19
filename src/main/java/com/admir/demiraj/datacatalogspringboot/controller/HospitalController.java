@@ -12,6 +12,8 @@ import java.math.BigInteger;
 import java.util.List;
 import javax.validation.Valid;
 
+import org.json.JSONArray;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,5 +54,31 @@ public class HospitalController {
     @PostMapping("/hosp")
     public Hospitals createHospital(@Valid @RequestBody Hospitals hosp){
         return hospitalDAO.save(hosp);
+    }
+
+
+    @PostMapping(value = "/newHospital2")
+    public void createHospitalByName2(@RequestBody String hospitalAndPathologyName){
+        System.out.println("receive hosp to save: "+hospitalAndPathologyName);
+        JSONArray jr = new JSONArray("["+hospitalAndPathologyName+"]");
+        String hospitalName = jr.getString(0);
+        System.out.println(" hosp name: "+hospitalName);
+        String pathologyName = jr.getString(1);
+        System.out.println("path name: "+pathologyName);
+        hospitalDAO.createNewHospitalByName(hospitalAndPathologyName,hospitalAndPathologyName);
+
+    }
+
+    @PostMapping(value = "/newHospital")
+    public void createHospitalByName(@RequestParam String hospitalName, @RequestParam String pathologyName){
+        System.out.println("receive hosp to save: "+hospitalName+pathologyName);
+        hospitalDAO.createNewHospitalByName(hospitalName,pathologyName);
+
+    }
+
+    @PostMapping(value = "/deleteHospital")
+    public void deleteHospitalByName(@RequestBody String hospitalName){
+        hospitalDAO.deleteHospitalByName(hospitalName);
+
     }
 }

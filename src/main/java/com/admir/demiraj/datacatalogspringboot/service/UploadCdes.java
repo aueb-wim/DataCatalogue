@@ -66,7 +66,7 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
            pathology = pathologyDAO.getPathologyByName(pathologyName);
        }else{
            System.out.println("Greating pathology : " + pathologyName);
-           pathology = new Pathology(pathologyName);
+           pathology = new Pathology(pathologyName.toLowerCase());
        }
 
 

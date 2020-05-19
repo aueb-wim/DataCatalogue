@@ -47,3 +47,94 @@ mat-form-field{
   alignment: center;
   font-family:Helvetica;
 }
+
+.newVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.newVersion:hover{
+  background-color: #AFBEC5;
+  font-family:Helvetica;
+}
+
+.uploadFileBtn{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.uploadFileBtn:hover{
+  background-color: tan;
+  font-family:Helvetica;
+}
+
+
+.CreateDeleteHospitals{
+  display: inline-flex;
+}
+
+.CreateDeleteHospitals mat-card mat-card-title{
+  font-family:Helvetica;
+  font-size: 15px;
+  color: #428bca;
+}
+
+.CreateDeleteHospitals mat-card mat-card-footer .createHospital{
+  box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+  background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+  background-color:#79bbff;
+  border-radius:29px;
+  border:1px solid #84bbf3;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Helvetica;
+  font-size:14px;
+  font-weight:bold;
+  padding:3px 2px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #528ecc;
+}
+
+.CreateDeleteHospitals mat-card mat-card-footer .deleteHospital{
+  box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+  background:linear-gradient(to bottom, #D44950 5%, #B52E31 100%);
+  background-color:#D44950;
+  border-radius:29px;
+  border:1px solid #D44950;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Helvetica;
+  font-size:14px;
+  font-weight:bold;
+  padding:3px 2px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #528ecc;
+}
+
+
+.CreateDeleteHospitals mat-card mat-card-footer .deleteHospital:hover {
+  background:linear-gradient(to bottom, #B52E31 5%, #D44950 100%);
+  background-color:#D44950;
+}
+.CreateDeleteHospitals mat-card mat-card-footer .deleteHospital:active {
+  position:relative;
+  top:1px;
+}
+
+.CreateDeleteHospitals mat-card mat-card-footer .createHospital:hover {
+  background:linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
+  background-color:#378de5;
+}
+.CreateDeleteHospitals mat-card mat-card-footer .createHospital:active {
+  position:relative;
+  top:1px;
+}
+
+.CreateDeleteHospitals mat-card mat-card-footer input{
+  margin-top: 10px;
+  text-align: center;
+  font-family:Helvetica;
+  font-size:14px;
+  font-weight:bold;
+
+}

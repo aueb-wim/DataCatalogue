@@ -15,6 +15,11 @@
   font-family:Helvetica;
   font-size: small;
 }
+
+.fa-trash{
+  font-size: 20px;
+}
+
 h1{
   font-size: xx-large;
   color: #2196F3;
@@ -48,12 +53,30 @@ position: absolute;
   font-size: 20px;
 }
 
+.deleteVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.deleteVersion:hover{
+  background-color: #ff4136;
+  font-family:Helvetica;
+}
+
 .newVersion{
   margin-left: 2px;
   font-family:Helvetica;
 }
 .newVersion:hover{
   background-color: #AFBEC5;
+  font-family:Helvetica;
+}
+
+.editVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.editVersion:hover{
+  background-color: #007FBB;
   font-family:Helvetica;
 }
 
@@ -67,3 +90,6 @@ position: absolute;
 }
 
 
+.fa-edit{
+  font-size: 20px;
+}

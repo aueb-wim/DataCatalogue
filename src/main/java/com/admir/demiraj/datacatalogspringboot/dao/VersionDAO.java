@@ -7,16 +7,17 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 
 import com.admir.demiraj.datacatalogspringboot.repository.*;
 import com.admir.demiraj.datacatalogspringboot.resources.*;
+import com.admir.demiraj.datacatalogspringboot.service.CustomDictionary;
+import javassist.compiler.ast.Variable;
 import jdk.nashorn.internal.runtime.Version;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.management.Query;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author root
@@ -38,6 +39,9 @@ public class VersionDAO {
 
     @Autowired
     CDEVariablesRepository cdeVariablesRepository;
+
+    @Autowired
+    FunctionsRepository functionsRepository;
 
     public List<Versions> getAllCdeVersions() {
 
@@ -170,13 +174,16 @@ public class VersionDAO {
         List<Versions> allVersions = versionsRepository.findAll();
         List<Versions> versionsByHospitalName = new ArrayList<>();
         BigInteger hospitalId = hospitalDAO.getHospitalIdByName(hospitalName);
+        System.out.println("hospital id by name: "+hospitalId);
         for (Versions version : allVersions) {
             if (!version.getVariables().isEmpty()) {
+                System.out.println("var1 and var2r hospital id: "+version.getVariables().get(0).getHospital().getHospital_id());
                 if (version.getVariables().get(0).getHospital().getHospital_id().compareTo(hospitalId) == 0) {
                     versionsByHospitalName.add(version);
                 }
             }
         }
+        System.out.println("Size of the versions found in hospital: "+hospitalName+versionsByHospitalName.size());
         return versionsByHospitalName;
     }
 
@@ -191,12 +198,50 @@ public class VersionDAO {
         }
         return false;
     }
+    /** This is used to delete all the variables from a variable version and save it as an empty version.
+     * It is a better alternative to deleting the whole version when updating versions*/
+    public void deleteVariablesFromHospitalVersion(Hospitals currentHospital,Versions currentVersion){
+        if(currentVersion != null){
+            List<Variables> variablesInVersion = currentVersion.getVariables();
 
+            List<String> versionNamesInHosp = getAllVersionNamesByHospitalName(currentHospital.getName());
+            List<Variables> variablesInHospital = currentHospital.getVariables();
+            System.out.println("all var names in hosp" + versionNamesInHosp.toString());
+            for (Variables varInVersion : variablesInVersion) {
+                System.out.println("comparing var in version: " + varInVersion.getName());
+                if (versionNamesInHosp.contains(varInVersion.getName())) {
+                    System.out.println("Contains works");
+                    variablesInHospital.remove(varInVersion);
+                }
+            }
 
+            currentHospital.setVariables(variablesInHospital);
+            hospitalDAO.save(currentHospital);
+
+            for (Variables var : variablesInVersion) {
+                List<VariableReport> variableReports = var.getVariableReports();
+                variableReportRepository.deleteInBatch(variableReports);
+            }
+            variablesRepository.deleteInBatch(variablesInVersion);
+
+            // Finally save the empty version
+            saveVersion(currentVersion);
+
+        }else{
+            System.out.println("The versions provided is null and thus we cannot delete ts variables");
+        }
+    }
+    /** In the case of a harmonized version that also has cde variables we have to remove the link between them.
+     * We cannot delete the cde variables because we need */
+    public void removeCdeVariablesFromHarmonizedVersion(Versions harmonizedVersion){
+        List<CDEVariables> emptyList = new ArrayList<>();
+        harmonizedVersion.setCdevariables(emptyList);
+        saveVersion(harmonizedVersion);
+    }
     public void deleteVersion(Hospitals currentHospital,Versions currentVersion){
-        try {
+        //try {
 
-
+            if(currentVersion != null){
             List<Variables> variablesInVersion = currentVersion.getVariables();
 
             List<String> versionNamesInHosp = getAllVersionNamesByHospitalName(currentHospital.getName());
@@ -228,13 +273,42 @@ public class VersionDAO {
             System.out.println("Curent version id:" + currentVersion.getVersion_id());
 
 
-            System.out.println("Trying to get deleted version: " + versionsRepository.findById(currentVersion.getVersion_id()));
+            //System.out.println("Trying to get deleted version: " + versionsRepository.findById(currentVersion.getVersion_id()));
 
-        }catch (Exception e){
-            System.out.println("Error when trying to delete version: "+e);
-        }
+      //  }catch (Exception e){
+      //      System.out.println("Error when trying to delete version: "+e);
+       // }
+    }else{
+              System.out.println("The versions provided is null and thus it won't be deleted");
+            }
     }
 
+    public CustomDictionary hospitalsAndVersionsMappingToCDEVersion(Versions CDEVersion){
+
+        // All cde variables in a version
+        List<CDEVariables> CDEVariables = CDEVersion.getCdevariables();
+
+        CustomDictionary customDictionary = new CustomDictionary();
+        // In order a cde variable to be related with a variable (mapping) there should be a function that contains it.
+        List<Functions> allFunctions = functionsRepository.findAll();
+        for(Functions function:allFunctions){
+            List<CDEVariables> cdeVariablesInFunction = function.getCdeVariables();
+            for(CDEVariables cdeVar: CDEVariables){
+                if(cdeVariablesInFunction.contains(cdeVar)){
+                          for(Variables var: function.getVariables()){
+                              // A single variable id belongs to only one method
+                              customDictionary.put(var.getHospital().getName(),var.getVersions());
+                          }
+                }
+            }
+
+        }
+        //System.out.println("all the keys in the custom dictionary :"+customDictionary.concatenateAllKeysToSingleString());
+      return customDictionary;
+    }
+
+
+    // Only for cde variables
     public void deleteVersion(Versions currentVersion){
         List<CDEVariables> CDEVariablesInVersion = currentVersion.getCdevariables();
         cdeVariablesRepository.deleteInBatch(CDEVariablesInVersion);
@@ -245,6 +319,13 @@ public class VersionDAO {
 
     }
 
+    // Delete delete cde variables from version
+    public void deleteCdeVariablesFromVersion(Versions currentVersion){
+        List<CDEVariables> CDEVariablesInVersion = currentVersion.getCdevariables();
+        cdeVariablesRepository.deleteInBatch(CDEVariablesInVersion);
+        saveVersion(currentVersion);
+
+    }
 
 
     public List<String> getAllVersionNamesByHospitalName(String hospitalName){
@@ -263,6 +344,22 @@ public class VersionDAO {
         }
         return allVersionNames;
     }
+
+    public Versions getVersionByHospitalNameAndVersionName(String hospitalName,String versionName){
+        System.out.println("Trying to get hospital and version: "+hospitalName+versionName);
+        List<Versions> allVersions = getAllVersionByHospitalName(hospitalName);
+        System.out.println("allversions size:"+allVersions.size());
+        System.out.println("allversions 0:"+allVersions.get(0).getName());
+
+        for(Versions ver:allVersions){
+            System.out.println("Version name for hospital:  "+ver.getName());
+            if(ver.getName().equals(versionName)){
+                return ver;
+            }
+        }
+        return null;
+    }
+
     public Versions getVersionById(BigInteger verId) {
         return versionsRepository.getOne(verId);
     }

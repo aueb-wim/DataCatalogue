@@ -1,51 +1,14 @@
 <h1><i class="fa fa-hospital-o">Hospitals</i></h1>
 
-<!--
-<div>
+<h5 *ngIf="emptyPathology"> This pathology has no cde variables. You should add cde variables before adding hospital
+  variables. Add cde variables via the interface or upload a file with cde variables</h5>
+<button *ngIf="emptyPathology" class="newVersion" (click)="newVersionUrl()">
+  <i class="fa fa-plus"></i>
+</button>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Personal data
-      </mat-panel-title>
-      <mat-panel-description>
-        Type your name and age
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+<button *ngIf="emptyPathology" class="uploadFileBtn" (click)="uploadFile()"><i class="fa fa-upload"></i></button>
 
-    <mat-form-field>
-      <mat-label>First name</mat-label>
-      <input matInput>
-    </mat-form-field>
 
-    <mat-form-field>
-      <mat-label>Age</mat-label>
-      <input matInput type="number" min="1">
-    </mat-form-field>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Personal data
-      </mat-panel-title>
-      <mat-panel-description>
-        Type your name and age
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <mat-form-field>
-      <mat-label>First name</mat-label>
-      <input matInput>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Age</mat-label>
-      <input matInput type="number" min="1">
-    </mat-form-field>
-  </mat-expansion-panel>
-</div>
--->
 <div ngClass="{{enabled}}">
 <!--  <mat-card  class="thumbnail" routerLink="/hospitals/all">
     <mat-card-title>AllHospitals</mat-card-title>
@@ -76,5 +39,41 @@
   </mat-card>
 
 </div>
+  <div *ngIf="!emptyPathology" class="CreateDeleteHospitals">
+
+
+    <mat-card>
+      <mat-card-title>CREATE NEW HOSPITAL</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+      <mat-card-content></mat-card-content>
+      <img mat-card-md-image="hospital_image" src="assets/images/plus2.png" >
+      <mat-card-actions></mat-card-actions>
+      <mat-card-footer>
+
+
+
+        <input matInput placeholder="Hospital Name" [(ngModel)]="hospitalName">
+        <p><button mat-raised-button class="createHospital" (click)="saveNewHospital()">create</button></p>
+
+      </mat-card-footer>
+    </mat-card>
+
+    <mat-card >
+      <mat-card-title>DELETE HOSPITAL</mat-card-title>
+      <mat-card-subtitle></mat-card-subtitle>
+      <mat-card-content></mat-card-content>
+      <img mat-card-md-image="hospital_image" src="assets/images/redx.png" >
+      <mat-card-actions></mat-card-actions>
+      <mat-card-footer>
+
+
+
+        <input matInput placeholder="Hospital Name" [(ngModel)]="hospitalNameToDelete">
+        <p><button mat-raised-button class="deleteHospital" (click)="deleteHospital()">delete</button></p>
+
+      </mat-card-footer>
+    </mat-card>
+  </div>
 
 </div>
+

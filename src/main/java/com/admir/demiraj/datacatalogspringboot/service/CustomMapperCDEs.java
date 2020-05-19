@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,16 +48,26 @@ public class CustomMapperCDEs {
         JSONObject versionJsonObject = jr.getJSONObject(2);
 
         //The cdeversion already exists
+        Versions version;
+        // Edit mode decides whether we should delete a version when an error occurs. We don't want to delete a version
+        // that already exists and it just happens to have some issue when updating it.
+        Boolean editMode = false;
                 if(pathologyDAO.isCdeVersionPrentInPathology(pathologyName,versionName)){
-                    System.out.println("This version already exists");
-                    //The cdeversion does not exist
-                }else{
+                   // If the version already exists. Then delete the cde variables within the version and we change the new fields.
+                     version = versionDAO.getVersionById(versionJsonObject.getBigInteger("version_id"));
+                     versionDAO.deleteCdeVariablesFromVersion(version);
+                    editMode = true;
 
-                    Versions version = new Versions(versionName);
+                }else{
+                    version = new Versions(versionName);
+                }
+
+                    //Versions version = new Versions(versionName);
                     List<CDEVariables> cdeVariables = customMappings(version, versionJsonObject);
                     System.out.println("Retrieving node from file");
                     //VariablesXLSX_JSON.Node node = variablesXLSX_json.createTree(filePath);
                     variablesXLSX_json.version = version;
+                    variablesXLSX_json.editMode = editMode;
                     VariablesXLSX_JSON.Node node = variablesXLSX_json.createTree3(cdeVariables);
                     System.out.println("Retrieving jsonString from file");
                     version.setJsonString(variablesXLSX_json.createJSONMetadata(node).toString());
@@ -73,7 +84,7 @@ public class CustomMapperCDEs {
                     version.setPathology(pathology);
                     versionDAO.saveVersion(version);
 
-                }
+
 
     }
 

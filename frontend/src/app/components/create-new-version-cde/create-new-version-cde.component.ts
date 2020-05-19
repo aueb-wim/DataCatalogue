@@ -79,6 +79,16 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
   saveNewVersion(): void {
     this.createNewVersionName();
+    // remove sample variable before saving (get last variable and check if it is has 'sample' as code)
+    console.log("last cde version code: " + this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length-1].code);
+    if(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length-1].code === 'sample'){
+      console.log("equality works");
+      this.latestCDEVersion.cdevariables.splice(this.latestCDEVersion.cdevariables.length-1, 1);
+    }
+
+
+
+
 
     this.route.params.switchMap((params: Params) => this.hospitalService.createNewVersionCde(params['pathology_name'],this.versionName,
       this.latestCDEVersion)).subscribe(
@@ -90,7 +100,7 @@ export class CreateNewVersionCdeComponent implements OnInit {
         if (error.status == '401') {
           alert("You need to be logged in to complete this action.");
         } else {
-          alert("An error has occurred."+error);
+          alert("An error has occurred.\n"+error.error);
         }
       });
     /*
@@ -136,10 +146,12 @@ export class CreateNewVersionCdeComponent implements OnInit {
 
 
   addNewVariable() {
-    let newVar = Object.assign(Object.create(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length - 1]));
+  let newVar = Object.assign(Object.create(this.latestCDEVersion.cdevariables[this.latestCDEVersion.cdevariables.length - 1]));
+
     //var newVar: VariableOject={};
     if (this.checkIfCoceprPathIsValid(this.newVarConceptPath) && this.checkIfCodeIsNull(this.newVarCode) &&
-      this.checkIfConceptPathIsNull(this.newVarConceptPath) && this.checkIfTypeIsNull(this.newVarType)) {
+      this.checkIfConceptPathIsNull(this.newVarConceptPath) && this.checkIfTypeIsNullAndWithinValues(this.newVarType)
+      && this.checkIfConceptPathEndsWithCode(this.newVarConceptPath,this.newVarConceptPath, this.newVarCode,this.newVarCode)) {
 
       newVar.csvFile = this.ifNullEmptyElseTheSame(this.newVarFile);
       newVar.name = this.ifNullEmptyElseTheSame(this.newVarName);
@@ -199,12 +211,17 @@ export class CreateNewVersionCdeComponent implements OnInit {
     }
   }
 
-  checkIfTypeIsNull(type) {
-    if (type != null && type != "") {
-      return true;
-    } else {
+  checkIfTypeIsNullAndWithinValues(type) {
+    console.log('inside type check');
+    if (type == null && type == "") {
       alert("Type cannot be null.");
       return false;
+    } else if(!['int', 'polynominal', 'multinominal','binominal','nominal','real','text'].includes(type)){
+      console.log('finished type check');
+      alert("Type takes of of the following values: 'int', 'polynominal', 'multinominal','binominal','nominal','real','text'");
+      return false;
+    }else {
+      return true;
     }
   }
 
@@ -216,12 +233,55 @@ export class CreateNewVersionCdeComponent implements OnInit {
       return false;
     }
   }
+
+  /** We need to check whether only the code changed and validate with the already existing concept path or whether both of
+   * them changed and thus we need to validate the current code with the current concept path. The same process should be
+   * done for the concept path*/
+  checkIfConceptPathEndsWithCode(currentConceptPath,existingConceptPath, currentCode,existingCode){
+    console.log('provided values for currentConceptPath,existingConceptPath, currentCode,existingCode',
+      currentConceptPath,existingConceptPath, currentCode,existingCode);
+
+    if(this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && !this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case1');
+      return this.checkIfStringEndsWithSecondString(existingConceptPath,currentCode);
+    }else if(!this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case2');
+      return this.checkIfStringEndsWithSecondString(currentConceptPath,existingCode);
+    }else if(!this.checkIfVariableIsNullEmptyOrUndefined(currentConceptPath) && !this.checkIfVariableIsNullEmptyOrUndefined(currentCode)){
+      console.log('case3');
+      return this.checkIfStringEndsWithSecondString(currentConceptPath,currentCode);
+    }else{
+      return true;
+    }
+  }
+
+  checkIfVariableIsNullEmptyOrUndefined(variable){
+    if(variable===null || variable===undefined || variable===''){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  checkIfStringEndsWithSecondString(conceptPath,code){
+    if(!conceptPath.endsWith(code)){
+      alert('Concept path should always end with the variable code')
+      return false;
+    }else{
+      return true;
+    }
+  }
   toggleEdit() {
     this.disabledInput = !this.disabledInput;
   }
 
   deleteVariable(currentIndex) {
-    this.latestCDEVersion.cdevariables.splice(currentIndex, 1);
+    // the last cde variable is always the sample one so no actions are to be taken
+    if(currentIndex==this.latestCDEVersion.cdevariables.length-1 && this.latestCDEVersion.cdevariables[currentIndex].code=='sample'){
+      alert("Sample Variable Cannot be Deleted")
+    }else{
+      this.latestCDEVersion.cdevariables.splice(currentIndex, 1);
+    }
+
   }
 
   change(element, value) {
@@ -251,6 +311,10 @@ export class CreateNewVersionCdeComponent implements OnInit {
   }
 
   saveVariable(currentIndex) {
+    if(currentIndex==this.latestCDEVersion.cdevariables.length-1 && this.latestCDEVersion.cdevariables[currentIndex].code=='sample'){
+      alert("Sample Variable Cannot be Changed")
+    }else if (this.checkIfConceptPathEndsWithCode(this.editVarConceptPath,this.latestCDEVersion.cdevariables[currentIndex].conceptPath,
+      this.editVarCode,this.latestCDEVersion.cdevariables[currentIndex].code)){
     if (this.editVarName != null) {
       this.latestCDEVersion.cdevariables[currentIndex].name = this.editVarName;
       this.editVarName = null;
@@ -296,5 +360,6 @@ export class CreateNewVersionCdeComponent implements OnInit {
       this.editVarMethodology = null;
     }
 
+  }
   }
 }

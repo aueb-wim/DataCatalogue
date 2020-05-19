@@ -29,6 +29,9 @@ div{
   color: #71a436;
   font-size: 20px;
 }
+.fa-trash{
+  font-size: 20px;
+}
 
 .newVersion{
   margin-left: 2px;
@@ -38,9 +41,25 @@ div{
   background-color: #AFBEC5;
   font-family:Helvetica;
 }
+.editVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.editVersion:hover{
+  background-color: #007FBB;
+  font-family:Helvetica;
+}
+.deleteVersion{
+  margin-left: 2px;
+  font-family:Helvetica;
+}
+.deleteVersion:hover{
+  background-color: #ff4136;
+  font-family:Helvetica;
+}
 
 .backBtn:hover{
-  background-color: darksalmon;
+  background-color: #31708f;
   font-family:Helvetica;
 }
 
@@ -64,4 +83,7 @@ div{
 .pathologySelect{
   font-family:Helvetica;
   font-size: small;
+}
+.fa-edit{
+  font-size: 20px;
 }

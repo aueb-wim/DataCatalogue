@@ -12,6 +12,8 @@
       "/CDE/allCdeVersions",
       "/hospitals/hosp",
       "/hospitals/allWithUniqueVariables",
+      "/hospitals/newHospital",
+      "/hospitals/deleteHospital",
       "/versions/allVersionsPerHospital",
       "/versions/latestVersionIdByHospId",
       "/versions/getLatestVersionByHospitalId",
@@ -22,6 +24,8 @@
       "/versions/newVersion",
       "versions/newVersionCde",
       "/versions/latestCDEVersion",
+      "/versions/deleteVariableVersion",
+      "/versions/deleteCDEVersion",
       "/hospitals/hosp",
       "/hospitals/name",
       "/mapping/functions/",
@@ -37,13 +41,14 @@
       "/report/uploadAllReports",
       "/pathology/allPathologies",
       "/pathology/allPathologies//latest_cde_version",
+      "/pathology/allPathologies/pathId//latest_cde_version",
       "/pathology/allPathologies/",
       "/pathology/allPathologies//name",
       "/pathology/newPathology",
       "/pathology/deletePathology"
 
     ],
-    target: "http://192.168.1.25:8086",
+    target: "http://172.16.10.138:8086",
     secure: false
   }
 ];

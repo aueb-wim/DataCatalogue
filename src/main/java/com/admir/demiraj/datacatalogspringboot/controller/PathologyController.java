@@ -3,7 +3,6 @@ package com.admir.demiraj.datacatalogspringboot.controller;
 import com.admir.demiraj.datacatalogspringboot.dao.PathologyDAO;
 import com.admir.demiraj.datacatalogspringboot.resources.Pathology;
 import com.admir.demiraj.datacatalogspringboot.resources.Versions;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +51,12 @@ public class PathologyController {
     public Versions getLatetsCdeVersionByPathologyName(@PathVariable("pathology_name") String pathologyName){
 
         return pathologyDAO.getLatestCdeVersionByPathologyName(pathologyName);
+    }
+
+    @GetMapping("/allPathologies/pathId/{pathology_id}/latest_cde_version")
+    public Versions getLatetsCdeVersionByPathologyId(@PathVariable("pathology_id") Long pathologyId){
+        BigInteger pathId = BigInteger.valueOf(pathologyId);
+        return pathologyDAO.getLatestCdeVersionByPathologyId(pathId);
     }
 
     @PostMapping(value = "/newPathology")

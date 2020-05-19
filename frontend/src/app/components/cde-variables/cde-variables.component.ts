@@ -4,6 +4,7 @@ import {IOption} from "ng-select";
 import {DeviceDetectorService} from "ngx-device-detector";
 import {Location} from "@angular/common";
 import {Router} from "@angular/router";
+import {errorObject} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'app-cde-variables',
@@ -47,7 +48,18 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit() {
     this.hospitalService.getAllPathologies().subscribe(allPathologies=>{
       this.allPathologies = allPathologies;
-      let currentPathology = allPathologies[0];
+      // the current pathology is the one that should be displayed first. We should select a pathology that has at least one version
+      let nonEmptyPathologyIndex = 0;
+      for(let path of allPathologies){
+        if(path['versions'] === undefined || path['versions'].length == 0){
+          nonEmptyPathologyIndex ++;
+        }else{
+          break;
+        }
+      }
+      let currentPathology = allPathologies[nonEmptyPathologyIndex];
+
+      //let currentPathology = allPathologies[0]
       this.currentPathology = currentPathology;
       this.currentPathologyName = currentPathology['name'];
       this.currentPathologyId = currentPathology['pathology_id'];
@@ -55,6 +67,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
       this.allCdeVersions = allVersions;
       let lastVersion = allVersions[allVersions.length-1];
+      console.log("last version is:"+lastVersion+' all versions are: '+allVersions);
       this.currentVersion = lastVersion;
       this.currentJsonMetadata = lastVersion['jsonString'];
       this.currentVersionId = +lastVersion['version_id'];
@@ -62,6 +75,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
       //this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
       this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
       this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
+      console.log('all versions length:'+ allVersions.length);
       this.currentVersionIndex = allVersions.length-1;
 
       this.versionOptions = this.arrayIterationByVersionName(allVersions);
@@ -77,7 +91,9 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-   // if (changes['currentVersionId']) {
+
+
+    // if (changes['currentVersionId']) {
     //  this.hospitalService.getJsonStringByVersionId(this.currentVersionId).subscribe(json => {
     //    this.jsonMetadata = json
     //  });
@@ -142,6 +158,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   public arrayIterationByVersionName(originalArray) {
     //empty the array first
     //this.versionOptions.length = 0;
+    console.log("called itteration by version name");
     let finalArray: Array<IOption> = [{label: '', value: ''}];
     for (let obj of originalArray) {
       finalArray.push({label: obj['name'].toLowerCase().toString(), value: obj['version_id'].toString()});
@@ -189,6 +206,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
       }
     }
+    console.log("final array: "+finalArray);
     return finalArray;
   }
   categorySelected(option: IOption) {
@@ -243,11 +261,16 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     this.currentPathologyId = +lastPathology['pathology_id'];
     this.currentPathology = lastPathology;
 
+
     ///////////////////////////////////////////////////////////////////////////
     let allVersions = lastPathology['versions'];
+    // VALIDATE THAT IT IS A CDE VERSION
     this.allCdeVersions  = allVersions;
-
+    this.currentVersionIndex = allVersions.length-1;
+    console.log("initial all versions length:"+allVersions.length);
+    console.log("initial all versions are:"+allVersions);
     let lastVersion = allVersions[allVersions.length-1];
+    console.log("last version in pathologyselected: "+lastVersion);
     this.currentVersion = lastVersion;
 
 
@@ -256,9 +279,15 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
     this.versionOptions = this.arrayIterationByVersionName(allVersions);
     console.log('Console Options version:',this.versionOptions);
     this.currentJsonMetadata = lastVersion['jsonString'];
+    console.log('this.currentJsonMetadata ',this.currentJsonMetadata);
 
 
     this.variableOptions = this.arrayIterationByLabel(lastVersion['cdevariables']);
+    console.log('this.variableOptions ',this.variableOptions+' last version: '+lastVersion +' cdevariables: '+lastVersion['cdevariables']+
+      ' current version index: '+this.currentVersionIndex);
+
+    console.log(' cde var of version of current index: '+allVersions[this.currentVersionIndex]['cdevariables']);
+
     this.categoryOptions = this.arrayIterationCategoryOptions(lastVersion['cdevariables']);
 
     this.searchTermVar = '';
@@ -282,6 +311,31 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   public pathologyFilterInputChanged(option: IOption): void {
 
   }
+
+  editVersionUrl(){
+
+    //this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
+    window.location.href = this.location.path() + '/'+this.currentPathologyName+'/edit-cde-version/'+this.currentVersionId;
+  }
+
+ // Delete a CDEVersion
+  deleteCurrentCDEVersion():void{
+      this.hospitalService.deleteCDEVersion(this.currentVersionId).subscribe(
+        data => {
+          window.alert("Version "+this.currentVersionName+" with id: "+this.currentVersionId+" was deleted");
+          window.location.reload();
+        },
+        error => {
+          if (error.status == '401') {
+            alert("You need to be logged in to complete this action.");
+          } else {
+            //alert("An error has occurred: "+error.error);
+
+            window.alert("Error Occurred:\n"+error.error.message+"\n"+error.error.details+"\n"+error.error.nextActions);
+          }
+        });
+    }
+
 
 
 }
