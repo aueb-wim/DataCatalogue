@@ -29,8 +29,8 @@ export class SearchBarComponent implements OnInit {
     this.selectedItem = newValue;
   }
 
-
-  login(){
+  // login2 works fine and should be restored when keycloak is up again
+  login2(){
    // this.hospitalService.login().subscribe();
     this.router.navigateByUrl('/login');
     this.hospitalService.getUser().subscribe(user=>{
@@ -41,7 +41,9 @@ export class SearchBarComponent implements OnInit {
       }
     });
   }
-
+ login(){
+    alert('Login is currently unavailable.');
+ }
   cdeReadExcel(){
     this.hospitalService.cdeReadExcel().subscribe();
   }
