@@ -277,7 +277,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   newVersionUrl(){
 
       //this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
-    window.location.href = this.location.path() + '/new-version';
+    this.router.navigateByUrl(this.location.path() + '/new-version');
   }
 
   editVersionUrl(){
@@ -287,7 +287,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
       alert("Only normal versions can be edited not the harmonized ones. New harmonized versions are produced when a " +
         "normal version is changed");
     }else {
-      window.location.href = this.location.path() + '/edit-version/' + this.currentVersionId;
+      this.router.navigateByUrl( this.location.path() + '/edit-version/' + this.currentVersionId);
     }
   }
 

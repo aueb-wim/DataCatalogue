@@ -33,7 +33,7 @@ import { AllVariablesComponent } from './components/all-variables/all-variables.
 import { ReportsComponent } from './components/reports/reports.component';
 import { CreateNewVersionComponent } from './components/create-new-version/create-new-version.component';
 import { HttpModule } from '@angular/http';
-import { RouterModule }   from '@angular/router';
+import {RouterModule, ROUTES} from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { FullUploadComponent } from './components/full-upload/full-upload.component';
 import { CreateNewVersionCdeComponent } from './components/create-new-version-cde/create-new-version-cde.component';
@@ -44,6 +44,7 @@ import { FullUploadCdesComponent } from './components/full-upload-cdes/full-uplo
 import { FormUploadCdesComponent } from './components/form-upload-cdes/form-upload-cdes.component';
 import { EditVariableVersionComponent } from './components/edit-variable-version/edit-variable-version.component';
 import { EditCdeVersionComponent } from './components/edit-cde-version/edit-cde-version.component';
+import {RouterScroller} from "@angular/router/src/router_scroller";
 
 
 @Injectable()
@@ -120,8 +121,9 @@ export class XhrInterceptor implements HttpInterceptor {
     SelectModule,
     HttpModule,
     RouterModule,
+    //RouterModule.forRoot(routes,{useHash:true}),
     OAuthModule.forRoot(),
-    DeviceDetectorModule.forRoot()
+    DeviceDetectorModule.forRoot(),
   ],
 
   providers: [HospitalService, LogService, D3Service, { provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true }],

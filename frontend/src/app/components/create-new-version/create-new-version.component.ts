@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {MatDialog} from "@angular/material";
 
@@ -51,7 +51,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   pathologyName:string;
   functions: Array<any>;
 
-  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog) {
+  constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog,private router: Router) {
   }
 
   ngOnInit() {
@@ -172,7 +172,7 @@ this.goBack();
 
   uploadFile() {
     console.log('Uploading file--: '+this.sampleFileName);
-    window.location.href = this.location.path() + '/' + this.sampleFileName;
+    this.router.navigateByUrl(this.location.path() + '/' + this.sampleFileName);
   }
 
 

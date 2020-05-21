@@ -64,12 +64,17 @@ ngAfterViewInit(){
 
   newVersionUrl(){
     console.log( "--current location-"+this.location.path());
-    window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName.toLowerCase( );
+
+    //window.location.href = 'datacatalogue'+this.location.path() + '/new-cde-version/'+this.currentPathologyName.toLowerCase( );
+    this.router.navigateByUrl(this.location.path() + '/new-cde-version/'+this.currentPathologyName.toLowerCase( ));
+    //this.location.go( this.location.path() + '/new-cde-version/'+this.currentPathologyName.toLowerCase( ));
 
   }
 
   uploadFile() {
-    window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName+'/' + this.sampleFileName;
+    //window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName+'/' + this.sampleFileName;
+    this.router.navigateByUrl(this.location.path() + '/new-cde-version/'+this.currentPathologyName+'/' + this.sampleFileName);
+
     // works
     // window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
   }

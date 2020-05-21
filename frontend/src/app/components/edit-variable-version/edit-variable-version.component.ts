@@ -60,13 +60,18 @@ export class EditVariableVersionComponent implements OnInit {
         this.versionName = version['name'];
         // validate that the version is valid (valid means that it has at least one variable -- excluding the sample)
         let isSampleVersion = true;
-        for(let varia in version['variables']){
+        console.log('version[variables]: '+version['variables']);
+        for(let varia of version['variables']){
+          console.log('checking if sample: '+varia['code']);
+          console.log('varia '+varia);
           if(varia['code'] != null && varia['code']!= 'sample'){
             isSampleVersion = false;
-            return;
+            break;
           }
         }
+
         if(!isSampleVersion) {
+          console.log("before getting functions -- >");
           this.hospitalService.getFunctionsByVariableVersionId(version['version_id']).subscribe(functions => {
             console.log("version id is  -- >", version['version_id']);
             for (let i in version['variables']) {
@@ -98,6 +103,7 @@ export class EditVariableVersionComponent implements OnInit {
                   }
                 }
               }
+              console.log('mapping functions: '+mappingFunctions);
               version['variables'][i]['mapFunction'] = mappingFunctions;
               version['variables'][i]['mapCDE'] = mappingCDEs;
             }
@@ -135,7 +141,7 @@ export class EditVariableVersionComponent implements OnInit {
       .switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id']))
       .subscribe(path => {
         console.log('Path name: '+path['name']);
-        this.createSampleFileName(path['name']);
+        //this.createSampleFileName(path['name']);
         this.pathologyName = path['name'];
       });
 
@@ -148,7 +154,7 @@ export class EditVariableVersionComponent implements OnInit {
       .switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id']))
       .subscribe(path => {
         console.log('Path name: '+path['name']);
-        this.createSampleFileName(path['name']);
+        //this.createSampleFileName(path['name']);
         this.pathologyName = path['name'];
       });
   }
@@ -186,6 +192,7 @@ export class EditVariableVersionComponent implements OnInit {
 
 
   createSampleFileName(pathologyName) {
+
     var oldName = parseInt(this.versionToUpdate.name.replace('v', ''));
     oldName = oldName + 1;
     this.sampleFileName = pathologyName+'_'+this.hospital.name + "_" + "v" + oldName.toString() + ".xlsx";

@@ -254,7 +254,7 @@ export class HospitalService {
   }
   //////////////////////////////////////// GET SAMPLE FILE
   getSample(sampleVersion:string):Observable<any>{
-    return this.http.get(this.frontend_ip + '/mapping/getsample/'+sampleVersion,{headers:this.headers});
+    return this.http.get(this.frontend_ip + '/mapping/getsample/'+sampleVersion,{headers:this.headers,responseType: 'blob'});
   }
   getBatchReport(filename:string):Observable<any>{
     return this.http.get(this.frontend_ip + '/report/getBatchReport/'+filename + '.csv',{headers:this.headers});

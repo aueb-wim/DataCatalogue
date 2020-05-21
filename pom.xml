@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-      <version>LATEST</version>
+        <version>LATEST</version>
 
         <relativePath/> <!-- lookup parent from repository <version>2.0.4.RELEASE</version>-->
     </parent>
@@ -25,34 +25,28 @@
         <java.version>1.8</java.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-
-            <!--
-            <dependency>
-                <groupId>io.spring.platform</groupId>
-                <artifactId>platform-bom</artifactId>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            -->
-            <!--
-            <dependency>
-
-                <groupId>org.springframework.cloud</groupId>
-
-                <artifactId>spring-cloud-dependencies</artifactId>
-
-                <version>${spring-cloud.version}</version>
-
-                <type>pom</type>
-
-                <scope>import</scope>
-
-            </dependency>
-            -->
-        </dependencies>
-    </dependencyManagement>
+    <!--    <dependencyManagement>
+            <dependencies>
+    -->
+    <!--
+    <dependency>
+        <groupId>io.spring.platform</groupId>
+        <artifactId>platform-bom</artifactId>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+    -->
+    <!--
+    <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+    </dependency>
+    -->
+    <!--        </dependencies>
+        </dependencyManagement>-->
 
     <dependencies>
 
@@ -86,13 +80,14 @@
             <version>1.0.6.RELEASE</version>
             <type>pom</type>
         </dependency>
-<!--
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        -->
+        <!--
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+                    <version>LATEST</version>
+                </dependency>
+                -->
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
@@ -163,6 +158,12 @@
             <artifactId>keycloak-spring-security-adapter</artifactId>
             <version>9.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -170,10 +171,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-              </plugin>
+            </plugin>
 
-          </plugins>
-      </build>
+        </plugins>
+    </build>
 
 
-  </project>
+</project>

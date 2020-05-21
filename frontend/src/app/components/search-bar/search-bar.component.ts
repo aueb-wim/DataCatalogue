@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search-bar',
@@ -15,7 +16,7 @@ export class SearchBarComponent implements OnInit {
   @Input('loggedIn2')loggedIn2:boolean;
   @Input('userName2')userName2:string;
 
-  constructor(private hospitalService:HospitalService) {
+  constructor(private hospitalService:HospitalService,private router: Router) {
     this.checkIfLoggedIn();
   }
 
@@ -31,7 +32,7 @@ export class SearchBarComponent implements OnInit {
 
   login(){
    // this.hospitalService.login().subscribe();
-    window.location.href ="/login";
+    this.router.navigateByUrl('/login');
     this.hospitalService.getUser().subscribe(user=>{
       if(user!=null){
         this.loggedIn = true;

@@ -228,7 +228,8 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
     //test
     //window.location.href = this.location.path() + '/new-cde-version';
-    window.location.href = this.location.path() + '/new-cde-version/'+this.currentPathologyName.toLowerCase( );
+
+    this.router.navigateByUrl(this.location.path() + '/new-cde-version/'+this.currentPathologyName.toLowerCase( ));
 
 
   }
@@ -315,7 +316,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
   editVersionUrl(){
 
     //this.router.navigateByUrl('/hospitals/'+this.hospital['hospital_id']+'/new-version');
-    window.location.href = this.location.path() + '/'+this.currentPathologyName+'/edit-cde-version/'+this.currentVersionId;
+    this.router.navigateByUrl( this.location.path() + '/'+this.currentPathologyName+'/edit-cde-version/'+this.currentVersionId);
   }
 
  // Delete a CDEVersion

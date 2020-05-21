@@ -1,0 +1,2 @@
+name_of_file,date_qc_ran,qctool_version,total_variables,total_rows,rows with only id,rows with no id,rows with all columns filled,number of variables with 100% records filled in,number of variables with 80-99.99% records filled in,number of variables with 60-79.99% records filled in,number of variables with 40-59.99% records filled in,number of variables with 20-39.99% records filled in,number of variables with 0-19.99% records filled in
+ktn_mu_plovdiv_template.csv,2018-11-03 12:34:59.983147,0.0.2,32,138,0,0,0,1,2,2,9,17,1
