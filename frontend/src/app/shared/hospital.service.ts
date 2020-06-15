@@ -84,21 +84,21 @@ export class HospitalService {
   getAllCdeVersions():Observable<any> {
     return this.http.get(this.frontend_ip + '/CDE/allCdeVersions',{headers:this.headers});
   }
-/*
+
   login():Observable<any>{
-    return this.http.post('/login',{headers:this.headers});
-  }*/
+    return this.http.post(this.frontend_ip +'/login',{headers:this.headers});
+  }
 
   logout():Observable<any>{
-    return this.http.post(this.frontend_ip + '/logout',{headers:this.headers});
+    return this.http.post(this.frontend_ip + '/perform_logout',{headers:this.headers});
   }
 
   getUser():Observable<any>{
-    return this.http.get('/user',{headers:this.headers});
+    return this.http.get(this.frontend_ip +'/user',{headers:this.headers});
   }
 
   getUserRoles():Observable<any>{
-    return this.http.get('/userRoles',{headers:this.headers});
+    return this.http.get(this.frontend_ip +'/userRoles',{headers:this.headers});
   }
 
   hospitalReadExcel():Observable<any> {
