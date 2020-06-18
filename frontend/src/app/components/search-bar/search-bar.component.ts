@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HospitalService} from "../../shared/hospital.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search-bar',
@@ -15,7 +16,7 @@ export class SearchBarComponent implements OnInit {
   @Input('loggedIn2')loggedIn2:boolean;
   @Input('userName2')userName2:string;
 
-  constructor(private hospitalService:HospitalService) {
+  constructor(private hospitalService:HospitalService,private router: Router) {
     this.checkIfLoggedIn();
   }
 
@@ -28,17 +29,39 @@ export class SearchBarComponent implements OnInit {
     this.selectedItem = newValue;
   }
 
-
+  // login2 works fine and should be restored when keycloak is up again
   login(){
+    //CHANGE THIS TO CONTAINER NAME
+    location.href = '/login';
+    //this.router.navigateByUrl('/login');
+    return;
+  }
+  login3(){
+
    // this.hospitalService.login().subscribe();
-    window.location.href ="/login";
+    //this.router.navigateByUrl('/login');
+    /*
+    this.hospitalService.login().subscribe(result=>{
+
+      },error1 => {
+      alert(error1.message);
+      }
+    );
+    */
+    //window.open('/login');
+    window.location.href = '/login';
+
+    //document.location.href = '/login',true;
     this.hospitalService.getUser().subscribe(user=>{
       if(user!=null){
         this.loggedIn = true;
         this.userName = user['name'];
         this.user = user;
+        console.log('user is logged in as: ',user['name']);
       }
     });
+
+    return false;
   }
 
   cdeReadExcel(){
@@ -59,12 +82,27 @@ export class SearchBarComponent implements OnInit {
       }
     });
   }
-  logout(){
+  logout2(){
     this.hospitalService.logout().subscribe();
     //window.location.href ="http://195.251.252.222:2442/logout";
     this.user = null;
     this.userName = null;
     this.loggedIn = false;
-    window.location.reload();
+    //window.location.reload();
   }
+  logout(){
+    this.hospitalService.logout().subscribe();
+    this.user = null;
+    this.userName = null;
+    this.loggedIn = false;
+    //window.location.reload();
+  }
+/*
+  logout() {
+    this.http.post('logout', {}).finally(() => {
+      this.app.authenticated = false;
+      this.router.navigateByUrl('/login');
+    }).subscribe();
+  }
+*/
 }

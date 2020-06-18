@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { HttpClient, HttpResponse, HttpEventType } from '@angular/common/http';
 import {HospitalService} from "../../shared/hospital.service";
 import {Observable} from "rxjs";
+import { saveAs } from 'file-saver';
 
 
 @Component({
@@ -55,7 +56,8 @@ export class FormUploadComponent implements OnInit {
       .subscribe(
         data=>{
           console.log("sample data is: "+data);
-           window.open("http://195.251.252.222:2442/mapping/getsample/"+this.sampleNameVersion);
+          saveAs(new Blob([data], {type: 'application/vnd.ms-excel' }),this.sampleNameVersion+ '.xlsx');
+
            console.log('XLSX template downloaded...');
         },
         error => {
@@ -63,8 +65,8 @@ export class FormUploadComponent implements OnInit {
             alert("You need to be logged in to complete this action.");
           }else{
             //alert("You need to be logged in to complete this action2.");
-            window.open("http://195.251.252.222:2442/mapping/getsample/"+this.sampleNameVersion);
-            console.log('XLSX template downloaded...');
+            alert("alert"+error.status);
+
           }});
 
 

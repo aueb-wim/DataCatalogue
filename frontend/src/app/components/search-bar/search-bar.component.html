@@ -12,19 +12,15 @@
     <li>
       <a [ngClass]="{'ac': selectedItem == 4}" (click)="listClick($event, 4)" href="/hospitals/about">About</a>
     </li>
-
     <button *ngIf="!loggedIn" (click)="login()">login</button>
     <button *ngIf="loggedIn" (click)="logout()">{{userName}}</button>
+
+
+
   </ul>
 
 
 </nav>
 
-<!--
-<button  *ngIf="userName=='Admir Demiraj'" (click)="cdeReadExcel()">cde read excel</button>
-<button  *ngIf="userName=='Admir Demiraj'" (click)="hospitalReadExcel()">hospital read excel</button>
-<button  *ngIf="userName=='Admir Demiraj'" (click)="uploadAllReports()">upload reports</button>
-
--->
 
 

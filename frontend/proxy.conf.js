@@ -45,7 +45,8 @@
       "/pathology/allPathologies/",
       "/pathology/allPathologies//name",
       "/pathology/newPathology",
-      "/pathology/deletePathology"
+      "/pathology/deletePathology",
+      "/perform_logout"
 
     ],
     target: "http://172.16.10.138:8086",

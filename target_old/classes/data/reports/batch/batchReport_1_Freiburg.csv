@@ -1,0 +1,2 @@
+name_of_file,date_qc_ran,qctool_version,total_variables,total_rows,rows_only_id,rows_no_id,rows_complete,#_100%,#_80-99.99%,#_60-79.99%,#_40-59.99%,#_20-39.99%,#_0-19.99%
+hbp.csv,2019-04-16 09:29:17,0.1.2,16,116,0,0,36,8,5,2,1,0,0

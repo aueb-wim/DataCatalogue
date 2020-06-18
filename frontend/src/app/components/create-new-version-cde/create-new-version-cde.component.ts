@@ -124,7 +124,7 @@ export class CreateNewVersionCdeComponent implements OnInit {
   }
 
   uploadFile() {
-    window.location.href = this.location.path() + '/' + this.sampleFileName;
+    this.router.navigateByUrl(this.location.path() + '/' + this.sampleFileName);
       // works
      // window.location.href = this.location.path() + '/new-version/' + this.downloadName+this.currentVersionName+'.xlsx';
   }

@@ -1,0 +1,95 @@
+# To change this license header, choose License Headers in Project Properties.
+# To change this template file, choose Tools | Templates
+# and open the template in the editor.
+
+
+###########  MYSQL ###############
+
+# Show or not log for each sql query
+#spring.jpa.show-sql = true
+
+# Hibernate ddl auto (create, create-drop, update)
+#spring.jpa.hibernate.ddl-auto = update
+#spring.jpa.hibernate.ddl-auto = create-drop
+
+# Naming strategy
+#spring.jpa.hibernate.naming-strategy=org.hibernate.cfg.ImprovedNamingStrategy
+
+# Use spring.jpa.properties.* for Hibernate native properties (the prefix is
+# stripped before adding them to the entity manager)
+
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+#spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+
+
+
+###########  POSTGRES ###############
+spring.datasource.url=jdbc:postgresql://localhost:5432/datacatalog #NAME OF THE POSTGRES DB (using jdbc driver) <--- EDIT IF OTHER
+spring.datasource.username=........                                #NAME OF DB USER                             <--- FILL IN
+spring.datasource.password=........                                #PASS OF DB USER                             <--- FILL IN
+server.port=8086                                                   #                                            <--- EDIT IF OTHER
+server.address=.............                                       #SERVER IP                                   <---
+#server.address=localhost
+#server.address=195.251.252.222
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.dbcp2.test-while-idle=true
+spring.datasource.dbcp2.validation-query=SELECT 1
+spring.datasource.platform=postgres
+spring.jpa.show-sql = true
+#spring.jpa.hibernate.ddl-auto = update
+spring.jpa.hibernate.ddl-auto = update
+spring.datasource.hikari.auto-commit=false
+# Naming strategy
+spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+spring.jpa.hibernate.naming.physical-strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+
+# Allows Hibernate to generate SQL optimized for a particular DBMS
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# Enables the transmission of multipart files and the allowed sizes
+sping.servlet.multipart.enabled=true
+spring.servlet.multipart.maxFileSize=500KB
+spring.servlet.multipart.maxRequestSize=500KB
+
+###########################################################
+###########################################################
+
+###########################################################
+###########################################################
+
+
+
+
+
+###################### LOGIN VIA MIP PLATFORM #################  *** PUT YOUR TOKEN HERE ***
+security.oauth2.client.client-id=5787edc1-81b4-49cd-ad53-0261af1d79ae
+security.oauth2.client.client-secret=AJFsbGvqZW-0sEEnG1-5zwH1FnFU8zn6jokCSvqmaMktGEClwHtPTbivj_ANZEVo_1MTC7CqcJJx214ntlFAcMg
+security.oauth2.client.accessTokenUri=https://services.humanbrainproject.eu/oidc/token
+security.oauth2.client.userAuthorizationUri=https://services.humanbrainproject.eu/oidc/authorize
+security.oauth2.client.authenticationScheme=query
+security.oauth2.client.clientAuthenticationScheme=form
+security.oauth2.client.scope=openid profile
+security.oauth2.resource.userInfoUri=https://services.humanbrainproject.eu/oidc/userinfo
+#security.oauth2.client.pre-established-redirect-uri=http://195.251.252.222:2443/login
+security.oauth2.client.useCurrentUri=true
+#security.oauth2.sso.login-path=http://195.251.252.222:2442/login
+#security.oauth2.client.registered-redirect-uri=http://195.251.252.222:2442/login
+logging.level.org.springframework.security=DEBUG
+spring.resources.chain.enabled=true
+
+#######################33333
+#server.servlet.session.cookie.name=APPSESSIONID
+#server.servlet.context-path=/datacatalogspringboot
+
+
+##################################################333333333
+#spring.application.name=book
+#ribbon.eureka.enabled=false
+
+#zuul.routes.path=/login/**
+#zuul.routes.url=https://services.humanbrainproject.eu/oidc/authorize
+#zuul.add-host-header=true
+#zuul.routes.stripPrefix=true
+
+#zuul.routes.user.path=/user/**:
+#zuul.routes.user.url=https://services.humanbrainproject.eu/oidc/userinfo

@@ -2,3 +2,7 @@
 @import '~angular-tree-component/dist/angular-tree-component.css';
 @import 'assets/css/glyphicons.css';
 @import 'assets/css/prettify-angulario.css';
+
+body {
+  background-color: white;
+}
