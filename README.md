@@ -11,20 +11,14 @@ Data Catalogue (DC) is a component of the [Medical Informatics Platform](https:/
 
 ## Users
 The user of DC is the researcher who, prior to executing experiments with the MIP, needs to investigate the included Medical Conditions along with their semantics as well as what type of information is available in each hospital.
+
 Another user is the data provider / manager of a hospital that has joined the MIP. The data provider / manager has to define and manage the metadata of her hospital data.
+
 Lastly, the MIP portal itself is a DC user as it uses its REST API to get the latest CDEs versions.
 
 ## User Guide
 ### Informative Features (No login required)
 The user can perform a set of actions without being logged in.
-
-Hospital Meta-Data:
--   View the meta-data of all hospitals combined [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l1.png)
--   View the versions of the meta-data of each hospital and search with category and/or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
--   Download the JSON that contains the meta-data of the hospital local data model [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
--   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l3.png)
--   View / Download / Index  the results of the Quality Control Tool for the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l4.png)
--   View the graphical representation of how variables are mapped to CDEs and using which rule [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l5.png)
 
 Common Data Elements (CDEs):
 -   View all medical conditions [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/DCMedicalConditions.png)
@@ -33,6 +27,14 @@ Common Data Elements (CDEs):
 -   View details about the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/CDEsVersion.png)
 -   Download the JSON that contains the meta-data that will be used in the MIP Federated Node for a specific medical condition [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/CDEsVersion.png)
 -   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/CDEsTree.png)
+
+Hospital Meta-Data:
+-   View the meta-data of all hospitals combined [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l1.png)
+-   View the versions of the meta-data of each hospital and search with category and/or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   Download the JSON that contains the meta-data of the hospital local data model [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l3.png)
+-   View / Download / Index  the results of the Quality Control Tool for the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l4.png)
+-   View the graphical representation of how variables are mapped to CDEs and using which rule [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l5.png)
 
 ### Management Features (Login required)
 Data Catalogue uses a keycloak instance setup for the MIP in order to authorize users. The extra actions that the user can do after being logged in are the following:
