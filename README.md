@@ -2,39 +2,46 @@
 
 # HBP-MIP DataCatalogue
 ## Overview
-This tool is a component developed for the [Human Brain Project Medical Informatics Platform](https://www.humanbrainproject.eu/en/medicine/medical-informatics-platform/) (HBP-MIP). Data Catalogue of HBP SGA2 T8.5.2 is an end-to-end platform, created with the latest technologies and tasked with versioning the meta-data of the hospital variables and the Common Data Elements (CDEs). It utilizes a global schema for the collection of the meta-data and provides information about the mappings of the variables to CDEs. DataCatalogue is currently being hosted [here](http://195.251.252.222:2448/hospitals/).
+Data Catalogue (DC) is a component of the [Medical Informatics Platform](https://mip.ebrains.eu/) (MIP) for the [Human Brain Project](https://www.humanbrainproject.eu/). Initially, it was designed and tasked to be the single source of truth of metadata descriptions for data residing in hospitals that have joined the MIP. In the course of things, additional needs have been recognized; therefore DC ended up supporting the following:
+* Presentation of the Medical Conditions to which data refer in the MIP.
+* Presentation and visualisation of the Common Data Elements (CDEs) data models for the Medical Conditions in the MIP.
+* Presentation and visualisation of the hospital local data models that have been mapped and harmonized to the CDE data models.
+* Management (create, edit, delete) of the above (global and local) data models with version control by authorized accounts. Data models are defined via DC's GUI or are imported in XLSX format.
+* Generation of metadata files in JSON format according to MIP's specifications.
 
-## Potential Users
-The potential users of the tool are first of all the researchers that prior to executing experiments through the Portal of the MIP may want to investigate what type of information is available in each hospital. Moreover, the tool aims at facilitating the collaboration between the authorized hospital personnel and the development team of MIP.
+## Users
+The user of DC is the researcher who, prior to executing experiments with the MIP, needs to investigate the included Medical Conditions along with their semantics as well as what type of information is available in each hospital.
+
+Another user is the data provider / manager of a hospital that has joined the MIP. The data provider / manager has to define and manage the metadata of her hospital data.
+
+Lastly, the MIP portal itself is a DC user as it uses its REST API to get the latest CDEs versions.
 
 ## User Guide
-### Informative Mode (No login required)
+### Informative Features (No login required)
 The user can perform a set of actions without being logged in.
+
+Common Data Elements (CDEs):
+-   View all medical conditions [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/DCMedicalConditions.png)
+-   Select the current or any previous version of the CDEs meta-data of a specific medical condition [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/CDEsVersion.png)
+-   Search CDEs meta-data based on variables' category or code for a medical condition version [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/CDEsVersion.png)
+-   View details about the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/CDEsVersion.png)
+-   Download the JSON that contains the meta-data that will be used in the MIP Federated Node for a specific medical condition [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/CDEsVersion.png)
+-   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/CDEsTree.png)
 
 Hospital Meta-Data:
 -   View the meta-data of all hospitals combined [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l1.png)
--   View the meta-data of each specific hospital [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
--   Select the current or any previous version of any hospital meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
--   Search meta-data based on their category or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
--   View details about the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
--   Download the json that contains the meta-data that will be used in the MIP Local Node concerning a specific hospital [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   View the versions of the meta-data of each hospital and search with category and/or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
+-   Download the JSON that contains the meta-data of the hospital local data model [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l2.png)
 -   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l3.png)
 -   View / Download / Index  the results of the Quality Control Tool for the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l4.png)
--   View the graphical representation of how variables should be mapped to CDEs and using which rule [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l5.png)
+-   View the graphical representation of how variables are mapped to CDEs and using which rule [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l5.png)
 
-Common Data Elements (CDEs):
--   View all medical conditions
--   Select the current or any previous version of the CDEs meta-data of a specific medical condition [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
--   Search meta-data based on their category or code [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
--   View details about the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
--   Download the json that contains the meta-data that will be used in the MIP Federated Node for a specific medical condition [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l6.png)
--   View the hierarchy of the meta-data in an indexable tree structure [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l7.png)
-
-### Management Mode (Login required)
-Data Catalogue utilizes the [OpenID](https://collab.humanbrainproject.eu/#/collab/54/nav/35256) protocol in order to authorize users in the Data Catalogue. The users can be authenticated via the MIP Portal and be automatically authorized (logged in) in Data Catalogue. The extra actions that the user can do after being logged in are the following: 
--   Create a new Variable/CDE meta-data version using the GUI [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l11.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_2.png), [step3](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_1.png)
--   Download a sample excel file that contains the schema of the meta-data that should be completed [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
--   Create a new Variable/CDE meta-data version by uploading an excel file [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
+### Management Features (Login required)
+Data Catalogue uses a keycloak instance setup for the MIP in order to authorize users. The extra actions that the user can do after being logged in are the following:
+-   Create a new medical condition
+-   Create/edit/delete a meta-data (for local hospital or for global CDE data model) version using the GUI [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l11.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_2.png), [step3](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_1.png)
+-   Download a template file that contains the schema of the meta-data that should be completed [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
+-   Create a meta-data (for local hospital or for global CDE data model) version Variable/CDE meta-data version by uploading an excel file using the given template [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
 
 ## Installing / Getting started
 ### General Architecture
@@ -52,32 +59,54 @@ Required installed packages:
 -   Typescript 2.9
 -   D3 5.7
 
-### Installation for developers
-
-In a terminal we run:
-
+### Installation
+Clone the repo:
 ```shell
 git clone https://github.com/aueb-wim/DataCatalogue.git
 ```
-
-We save the credentials that we use to login to PostgreSQL and the IP / port of the server at application.properties file in DataCatalogue:
+After loging in PostgreSQL shell we create an empty database named datacatalog:
+```shell
+create database datacatalog;
+```
+##### Backend
+Install Maven. In a terminal:
+```shell
+sudo apt install maven
+```
+Fill in the credentials that we use to login to PostgreSQL and the IP / port of the server at application.properties file in DataCatalogue:
 -   spring.datasource.username= yourUser
 -   spring.datasource.password= yourPassword
 -   server.port=8086
 -   server.address=172.16.10.138
 
-After loging in PostgreSQL shell we create an empty database named datacatalog:
+Change the URL of the Authentication Entry Point in service/MIPSecurity.java line 150 if necessary.
+Run spring boot:
 ```shell
-create database datacatalog;
+mvn spring-boot:run
 ```
-We open the DataCatalogue project with any IDE (Intelij recommended) and we run the class DataCatalogueSpringBootApplication, that will initiate the back end services.
+This will initiate the back end services.
+##### Frontend
+Need to have Angular and Angular CLI installed.
+Having Angular already installed, inside the frontend directory run:
+```shell
+npm install
+```
+To configure frontend, change the following files with the correct URLs:
+-   frontend/proxy.conf.js
+-   frontend/proxy.conf.json
+-   frontend/src/app/shared/hospital.service.ts
+-   frontend/src/app/components/form-upload.component.ts
+-   frontend/src/app/components/form-upload-cdes.component.ts
 
-Finally we initiate the frontend services using angular CLI:
+To initiate the frontend services, we use angular CLI:
 ``` shell 
 cd DataCatalogue/frontend
 ng serve --host 0.0.0.0
 ```
-
+### For developers
+Open the DataCatalogue project with any IDE (Intelij recommended).
+To run Spring boot, execute the class DataCatalogueSpringBootApplication.
+Frontend is initiated as said with ng serve.
 ## Authors
 
 -   Admir Demiraj - AUEB/RC Team
