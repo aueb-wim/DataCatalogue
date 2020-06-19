@@ -136,6 +136,7 @@ public class PathologyDAO {
         pathology.setName(pathologyName);
         pathologyRepository.save(pathology);
     }
+
     /** We need to delete not only the pathology but it order to be a full clear we need to delete and all the hospitals,
      * versions, variables and CDE variables and everything else that is related with those entities*/
     public void deletePathologyByName(String pathologyName){

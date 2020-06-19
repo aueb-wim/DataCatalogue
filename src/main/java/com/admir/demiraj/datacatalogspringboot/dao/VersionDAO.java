@@ -8,6 +8,7 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 import com.admir.demiraj.datacatalogspringboot.repository.*;
 import com.admir.demiraj.datacatalogspringboot.resources.*;
 import com.admir.demiraj.datacatalogspringboot.service.CustomDictionary;
+import com.admir.demiraj.datacatalogspringboot.service.StorageService;
 import javassist.compiler.ast.Variable;
 import jdk.nashorn.internal.runtime.Version;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
@@ -42,6 +43,12 @@ public class VersionDAO {
 
     @Autowired
     FunctionsRepository functionsRepository;
+
+    @Autowired
+    StorageService storageService;
+
+    @Autowired
+    PathologyDAO pathologyDAO;
 
     public List<Versions> getAllCdeVersions() {
 
@@ -232,16 +239,36 @@ public class VersionDAO {
         }
     }
     /** In the case of a harmonized version that also has cde variables we have to remove the link between them.
-     * We cannot delete the cde variables because we need */
+     * We cannot delete the cde variables because we need them*/
     public void removeCdeVariablesFromHarmonizedVersion(Versions harmonizedVersion){
         List<CDEVariables> emptyList = new ArrayList<>();
         harmonizedVersion.setCdevariables(emptyList);
         saveVersion(harmonizedVersion);
     }
     public void deleteVersion(Hospitals currentHospital,Versions currentVersion){
-        //try {
 
             if(currentVersion != null){
+                // Get all information needed to create the possible filename that a version might have been created from
+                try {
+                    String pathologyName = currentHospital.getPathology().getName();
+                    String hospitalName = currentHospital.getName();
+                    String versioName = currentVersion.getName().toLowerCase();
+
+                    // We also need to remove the file (if any) that was used for the creation of that version
+                    // Create possible file name
+                    String possibleFileName = pathologyName + "_" + hospitalName + "_" + versioName + ".xlsx";
+                    // Get the path of the file if it exists
+                    String filePath = storageService.getFilePathOfVersionIfPresent(possibleFileName, false);
+                    if (filePath != null) {
+                        // move version file if it is found
+                        storageService.moveFileToErrorFiles(filePath);
+                    } else {
+                        System.out.println("CDE FILE NOT FOUND: " + possibleFileName);
+                    }
+                }catch (Exception e){
+                    System.out.println("Unable to delete file.");
+                }
+
             List<Variables> variablesInVersion = currentVersion.getVariables();
 
             List<String> versionNamesInHosp = getAllVersionNamesByHospitalName(currentHospital.getName());
@@ -272,12 +299,6 @@ public class VersionDAO {
 
             System.out.println("Curent version id:" + currentVersion.getVersion_id());
 
-
-            //System.out.println("Trying to get deleted version: " + versionsRepository.findById(currentVersion.getVersion_id()));
-
-      //  }catch (Exception e){
-      //      System.out.println("Error when trying to delete version: "+e);
-       // }
     }else{
               System.out.println("The versions provided is null and thus it won't be deleted");
             }
@@ -310,6 +331,19 @@ public class VersionDAO {
 
     // Only for cde variables
     public void deleteVersion(Versions currentVersion){
+        // We also need to remove the file (if any) that was used for the creation of that version
+        // Create possible file name
+        String possibleFileName =  currentVersion.getPathology().getName().toLowerCase()+"_cdes_"+currentVersion.getName().toLowerCase()+".xlsx";
+        // Get the path of the file if it exists
+        String filePath = storageService.getFilePathOfVersionIfPresent(possibleFileName,true);
+        System.out.println("possibleFileName "+possibleFileName);
+        if(filePath!=null){
+            // move version file if it is found
+            storageService.moveFileToErrorFiles(filePath);
+        }else{
+            System.out.println("Filepath not found");
+        }
+
         List<CDEVariables> CDEVariablesInVersion = currentVersion.getCdevariables();
         cdeVariablesRepository.deleteInBatch(CDEVariablesInVersion);
         List<Versions> versions2Delete =new ArrayList<>();
@@ -318,6 +352,7 @@ public class VersionDAO {
         versionsRepository.deleteInBatch(versions2Delete);
 
     }
+
 
     // Delete delete cde variables from version
     public void deleteCdeVariablesFromVersion(Versions currentVersion){

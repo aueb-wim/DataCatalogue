@@ -37,6 +37,40 @@ public class StorageService {
     private final Path variableReportLocation = Paths.get(FOLDER_VARIABLE_REPORTS);
 
 
+    public boolean isFilePresent(String possibleFileName,boolean isCdeVersion){
+        if(isCdeVersion){
+            if(Files.exists(Paths.get(FOLDER_CDES+possibleFileName))){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            if(Files.exists(Paths.get(FOLDER_VARIABLES+possibleFileName))){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+
+    }
+
+    public String getFilePathOfVersionIfPresent(String possibleFileName,boolean isCdeVersion){
+
+        if(isCdeVersion){
+            if(Files.exists(Paths.get(FOLDER_CDES+possibleFileName))){
+                return FOLDER_CDES+possibleFileName;
+            }else{
+                return null;
+            }
+        }else{
+            if(Files.exists(Paths.get(FOLDER_VARIABLES+possibleFileName))){
+                return FOLDER_VARIABLES+possibleFileName;
+            }else{
+                return null;
+            }
+        }
+    }
     public void validateFileName(String location, String fileName, boolean CDEFile) throws CustomException{
         if(Files.exists(Paths.get(location+"/"+fileName))){
             System.out.println("File exists");

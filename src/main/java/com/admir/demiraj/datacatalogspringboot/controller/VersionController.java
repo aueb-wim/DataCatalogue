@@ -156,7 +156,7 @@ public class VersionController {
 
             BigInteger verId = BigInteger.valueOf(versionId);
             Versions versionToDelete = versionDAO.getVersionById(verId);
-            // Validate that there is no hospital that
+            // Validate that there is no hospital variables that map to that specific cde version
            //NOTE REMOVE COMMENTS
             CustomDictionary customDictionary = versionDAO.hospitalsAndVersionsMappingToCDEVersion(versionToDelete);
             if(!customDictionary.isEmpty()){

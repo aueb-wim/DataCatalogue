@@ -306,7 +306,7 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                     if (cookie == null || token != null && !token.equals(cookie.getValue())) {
 
                         cookie = new Cookie("XSRF-TOKEN", token);
-                        cookie.setPath("/datacatalogue/");
+                        cookie.setPath("/");
                         response.addCookie(cookie);
                         //added due to integration issues
                         cookie.setHttpOnly(false);
