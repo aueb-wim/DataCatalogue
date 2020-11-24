@@ -321,7 +321,7 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
 
  // Delete a CDEVersion
   deleteCurrentCDEVersion():void{
-      this.hospitalService.deleteCDEVersion(this.currentVersionId).subscribe(
+      this.hospitalService.deleteCDEVersion(this.currentPathologyName, this.currentVersionId).subscribe(
         data => {
           window.alert("Version "+this.currentVersionName+" with id: "+this.currentVersionId+" was deleted");
           //this.router.navigateByUrl(this.router.url);

@@ -20,7 +20,7 @@ const routes: Routes = [
   {path:'pathologies/:pathology_id', component: HospitalsComponent},
   {path:'pathologies/:pathology_id/hospitals/:hospital_id', component: HospitalDetailsComponent},
   {path:'pathologies/:pathology_id/hospitals/:hospital_id/new-version', component: CreateNewVersionComponent},
-  {path:'pathologies/:pathology_id/hospitals/:hospital_id/new-version/:upload_file', component: FullUploadComponent},
+  {path:'pathologies/:pathology_id/hospitals/:hospital_id/new-version/:pathology_name/:hospital_name/:upload_file', component: FullUploadComponent},
 
   //{path:'hospitals', component: HospitalsComponent},
   {path:'hospitals/all', component: AllVariablesComponent},

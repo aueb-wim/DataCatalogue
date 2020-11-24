@@ -157,7 +157,7 @@ ngAfterViewInit(){
     } else {
 
 
-      this.hospitalService.deleteHospital(this.hospitalNameToDelete.toLowerCase()).subscribe(
+      this.hospitalService.deleteHospital(this.hospitalNameToDelete.toLowerCase(),this.currentPathologyName.toLowerCase()).subscribe(
         data => {
           window.alert("Hospital was deleted");
           this.route.params.switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id'])).subscribe(path => {

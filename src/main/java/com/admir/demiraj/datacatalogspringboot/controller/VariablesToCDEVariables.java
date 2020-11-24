@@ -62,7 +62,7 @@ public class VariablesToCDEVariables {
     List<String> files = new ArrayList<String>();
 
     /** Method that handle the upload of multipart file (excel file in our case)*/
-    @PostMapping("/postCDE")
+    @PostMapping("/postCDE/{pathology_name}")
     public ResponseEntity<String> handleFileUploadCDE(@RequestParam("file") MultipartFile file) throws FileNotFoundException, IOException {
         String message = "CDE File Uploaded Successfully";
             System.out.println(message);
@@ -75,8 +75,9 @@ public class VariablesToCDEVariables {
     }
 
      ////!NOTE CHANGE THIS TO GET A SINGLE FILE
+    //changed
     /** Method that handle the upload of multipart file (excel file in our case)*/
-    @PostMapping("/postVariable")
+    @PostMapping("/postVariable/{hospital_name}/{pathology_name}")
     public ResponseEntity<String> handleFileUploadVariable(@RequestParam("file") MultipartFile file) throws FileNotFoundException, IOException {
         String message = "Variable File Uploaded Successfully";
         System.out.println(message);
