@@ -23,6 +23,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <!-- Integration Testing Property-->
+        <testcontainers.version>1.11.2</testcontainers.version>
     </properties>
 
     <!--    <dependencyManagement>
@@ -49,6 +51,19 @@
         </dependencyManagement>-->
 
     <dependencies>
+
+        <!--	Test Dependencies		-->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>1.10.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <!--	End of Test Dependencies		-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
