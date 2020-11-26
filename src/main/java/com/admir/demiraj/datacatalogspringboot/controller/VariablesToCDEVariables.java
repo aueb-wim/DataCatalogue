@@ -78,7 +78,9 @@ public class VariablesToCDEVariables {
     //changed
     /** Method that handle the upload of multipart file (excel file in our case)*/
     @PostMapping("/postVariable/{hospital_name}/{pathology_name}")
-    public ResponseEntity<String> handleFileUploadVariable(@RequestParam("file") MultipartFile file) throws FileNotFoundException, IOException {
+    public ResponseEntity<String> handleFileUploadVariable(@RequestParam("file") MultipartFile file,
+                                                           @PathVariable String pathology_name,
+                                                           @PathVariable String hospital_name) throws FileNotFoundException, IOException {
         String message = "Variable File Uploaded Successfully";
         System.out.println(message);
         storageService.store(file,false);
@@ -86,7 +88,7 @@ public class VariablesToCDEVariables {
         String fileName = file.getOriginalFilename();
         System.out.println("filename when uploading file is: "+fileName);
         files.add(fileName);
-        uploadVariables.readSingleExcelFile(fileName);
+        uploadVariables.readSingleExcelFile(fileName,pathology_name,hospital_name);
         System.out.println("Upload finished");
         //uploadVariables.readExcelFile();
         return ResponseEntity.status(HttpStatus.OK).body(message);

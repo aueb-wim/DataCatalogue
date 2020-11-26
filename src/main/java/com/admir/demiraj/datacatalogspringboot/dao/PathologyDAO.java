@@ -31,6 +31,12 @@ public class PathologyDAO {
     @Autowired
     CDEVariablesRepository cdeVariablesRepository;
 
+    @Autowired
+    VersionDAO versionDAO;
+
+    @Autowired
+    HospitalDAO hospitalDAO;
+
 
 
     public List<Pathology> findAll(){
@@ -70,22 +76,40 @@ public class PathologyDAO {
 
     public String getNextAvailableCdeVersionNameByPathologyName(String pathologyName){
         /** Check if we have any versions in the pathology and return the next available version name.
-         * If the pathology has no versions then return the first available version name 'v1'*/
+         * If the pathology has no versions then return the first available version name 'v1'. This is used only for cde
+         * versions*/
         Pathology pathology = getPathologyByName(pathologyName);
-        Versions latestCdeVersion = null;
+        Versions latestVersion = null;
 
         for(Versions v: pathology.getVersions()){
             if(v.getCdevariables()!= null){
-                latestCdeVersion = v;
+                latestVersion = v;
             }
         }
-        if (latestCdeVersion != null){
+        String nextAvailableVersionName = this.incrementVersionNumber(latestVersion);
+        return nextAvailableVersionName;
+
+    }
+
+    public String getNextAvailableVersionNameByHospitalName(String hospitalName){
+        /** Check if we have any versions in the pathology and return the next available version name.
+         * If the pathology has no versions then return the first available version name 'v1'. This is used only for
+         * variable versions*/
+        BigInteger hospId = hospitalDAO.getHospitalIdByName(hospitalName);
+        Versions latestVersion = versionDAO.getLatestVersionByHospitalId(hospId);
+        String nextAvailableVersionName = this.incrementVersionNumber(latestVersion);
+        return nextAvailableVersionName;
+
+    }
+
+    public String incrementVersionNumber(Versions version){
+        if (version != null && version.getName()!=null){
             // get the latest version number and increment by one
-            String latestCdeVersionName = latestCdeVersion.getName();
+            String latestCdeVersionName = version.getName();
             char versionNumberChar = latestCdeVersionName.charAt(1);
             int versionNumber = Character.getNumericValue(versionNumberChar); ;
             versionNumber = versionNumber+1;
-            String nextAvailableCdeVersionName = String.valueOf(latestCdeVersion.getName().charAt(0))+String.valueOf(versionNumber);
+            String nextAvailableCdeVersionName = String.valueOf(version.getName().charAt(0))+String.valueOf(versionNumber);
             System.out.println("nextAvailableCdeVersionName"+nextAvailableCdeVersionName);
             return nextAvailableCdeVersionName;
 
@@ -94,7 +118,6 @@ public class PathologyDAO {
         }
 
     }
-
     public Versions getLatestCdeVersionByPathology(Pathology pathology){
         Versions latestCdeVersion = null;
 

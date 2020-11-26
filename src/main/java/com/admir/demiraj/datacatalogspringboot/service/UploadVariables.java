@@ -53,13 +53,21 @@ public class UploadVariables {
     private UploadCdes uploadCdes;
 
 
-    public void readSingleExcelFile(String fileName){
+    public void readSingleExcelFile(String fileName, String pathologyName, String hospitalName){
+        /** If the pathologyName is provided find the next available versionName and create version with the information
+         * found in the file. If the pathology name is not provided get the pathologyName and version from existing files*/
+        String versionName;
+        if (pathologyName==null && hospitalName==null){
+            String[] parts = fileName.split("_");
+            pathologyName = parts[0];
+            hospitalName = parts[1];
+            String[] parts2 = parts[2].toString().split("\\.");
+            versionName = parts2[0];
+        }else{
+            versionName = pathologyDAO.getNextAvailableVersionNameByHospitalName(hospitalName);
+        }
         String filePath = FOLDER_NAME + fileName;
-        String[] parts = fileName.split("_");
-        String pathologyName = parts[0];
-        String hospitalName = parts[1];
-        String[] parts2 = parts[2].toString().split("\\.");
-        String versionName = parts2[0];
+
         Hospitals currentHospital = hospitalDAO.getHospitalByName(hospitalName);
         //The hospital exists
         if (currentHospital != null) {
@@ -90,6 +98,7 @@ public class UploadVariables {
     }
 
     public void readExcelFile() {
+        /** Create pathologies and versions based on existing files*/
         File folder = new File(FOLDER_NAME);
         // Get all the files from the folder
         File[] listOfFiles = folder.listFiles();
@@ -98,7 +107,7 @@ public class UploadVariables {
                 //Split the file name in hospital_name and version_name
                 String fileName = listOfFiles[i].getName();
                 System.out.println("THE CURRENT FILE NAME IS: "+fileName);
-                readSingleExcelFile(fileName);
+                readSingleExcelFile(fileName,null,null);
 
         }
     }
