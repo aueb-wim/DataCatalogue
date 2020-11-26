@@ -50,15 +50,28 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
 
 
 
-   public void readSingleExcelFile(String fileName) throws IOException,FileNotFoundException {
+   public void readSingleExcelFile(String fileName, String pathologyName) throws IOException,FileNotFoundException {
+       /** If the pathologyName is provided find the next available versionName and create version with the information
+        * found in the file. If the pathology name is not provided get the pathologyName and version from existing files*/
        String filePath = FOLDER_NAME + fileName;
        String[] parts = fileName.split("_");
 
+       String versionName;
+       if(pathologyName==null){
+           String[] parts2 = parts[2].toString().split("\\.");
+           versionName = parts2[0];
+           pathologyName = parts[0];
+       }else{
+           versionName = pathologyDAO.getNextAvailableCdeVersionNameByPathologyName(pathologyName);
+       }
 
-       String pathologyName = parts[0];
+
+       //String pathologyName = parts[0];
 
        String[] parts2 = parts[2].toString().split("\\.");
-       String versionName = parts2[0];
+       //String versionName = parts2[0];
+
+       System.out.println("creating pathology with version: "+versionName);
        Pathology pathology;
 
        if(pathologyDAO.isPathologyPresent(pathologyName)) {
@@ -144,7 +157,7 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
             if (listOfFiles[i].isFile()) {
                 //Split the file name in hospital_name and version_name
                 String fileName = listOfFiles[i].getName();
-                readSingleExcelFile(fileName);
+                readSingleExcelFile(fileName,null);
 
 
             }

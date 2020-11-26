@@ -63,13 +63,13 @@ public class VariablesToCDEVariables {
 
     /** Method that handle the upload of multipart file (excel file in our case)*/
     @PostMapping("/postCDE/{pathology_name}")
-    public ResponseEntity<String> handleFileUploadCDE(@RequestParam("file") MultipartFile file) throws FileNotFoundException, IOException {
+    public ResponseEntity<String> handleFileUploadCDE(@RequestParam("file") MultipartFile file,@PathVariable String pathology_name) throws FileNotFoundException, IOException {
         String message = "CDE File Uploaded Successfully";
             System.out.println(message);
             storageService.store(file,true);
             String fileName = file.getOriginalFilename();
             files.add(fileName);
-            uploadCdes.readSingleExcelFile(fileName);
+            uploadCdes.readSingleExcelFile(fileName,pathology_name);
             return ResponseEntity.status(HttpStatus.OK).body(message);
 
     }

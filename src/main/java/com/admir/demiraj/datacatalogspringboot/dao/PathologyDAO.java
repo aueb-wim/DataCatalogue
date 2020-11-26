@@ -68,6 +68,33 @@ public class PathologyDAO {
         return pathologyRepository.getOne(pathId);
     }
 
+    public String getNextAvailableCdeVersionNameByPathologyName(String pathologyName){
+        /** Check if we have any versions in the pathology and return the next available version name.
+         * If the pathology has no versions then return the first available version name 'v1'*/
+        Pathology pathology = getPathologyByName(pathologyName);
+        Versions latestCdeVersion = null;
+
+        for(Versions v: pathology.getVersions()){
+            if(v.getCdevariables()!= null){
+                latestCdeVersion = v;
+            }
+        }
+        if (latestCdeVersion != null){
+            // get the latest version number and increment by one
+            String latestCdeVersionName = latestCdeVersion.getName();
+            char versionNumberChar = latestCdeVersionName.charAt(1);
+            int versionNumber = Character.getNumericValue(versionNumberChar); ;
+            versionNumber = versionNumber+1;
+            String nextAvailableCdeVersionName = String.valueOf(latestCdeVersion.getName().charAt(0))+String.valueOf(versionNumber);
+            System.out.println("nextAvailableCdeVersionName"+nextAvailableCdeVersionName);
+            return nextAvailableCdeVersionName;
+
+        }else{
+            return "v1";
+        }
+
+    }
+
     public Versions getLatestCdeVersionByPathology(Pathology pathology){
         Versions latestCdeVersion = null;
 
