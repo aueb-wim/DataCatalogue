@@ -161,12 +161,14 @@ public class VersionDAO {
     }
 
     public Versions getLatestVersionByHospitalId(BigInteger hospitalId) {
+        /** Return the latest non-harmonized hospital version*/
         List<Versions> allVersions = versionsRepository.findAll();
         Versions latestVersionByHospitalId = new Versions();
         // Date now = new Date();
         for (Versions version : allVersions) {
             if (!version.getVariables().isEmpty()) {
-                if (version.getVariables().get(version.getVariables().size() - 1).getHospital().getHospital_id().compareTo(hospitalId) == 0) {
+                if (version.getVariables().get(version.getVariables().size() - 1).getHospital().getHospital_id().compareTo(hospitalId) == 0 &&
+                !version.getName().contains("harmonized")) {
                     latestVersionByHospitalId = version;
                     //now = version.getCreatedAt();
                 }

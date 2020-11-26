@@ -106,10 +106,12 @@ public class PathologyDAO {
         if (version != null && version.getName()!=null){
             // get the latest version number and increment by one
             String latestCdeVersionName = version.getName();
-            char versionNumberChar = latestCdeVersionName.charAt(1);
-            int versionNumber = Character.getNumericValue(versionNumberChar); ;
-            versionNumber = versionNumber+1;
-            String nextAvailableCdeVersionName = String.valueOf(version.getName().charAt(0))+String.valueOf(versionNumber);
+
+            String versionNumberString = latestCdeVersionName.substring(1, latestCdeVersionName.length());
+            int versionNumber = Integer.parseInt(versionNumberString);
+            versionNumber = versionNumber +1;
+
+            String nextAvailableCdeVersionName = "v"+String.valueOf(versionNumber);
             System.out.println("nextAvailableCdeVersionName"+nextAvailableCdeVersionName);
             return nextAvailableCdeVersionName;
 
