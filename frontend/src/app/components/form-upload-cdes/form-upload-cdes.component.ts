@@ -4,6 +4,7 @@ import {HospitalService} from "../../shared/hospital.service";
 import {HttpClient, HttpEventType, HttpResponse} from "@angular/common/http";
 //import {FileSaver,Blob} from 'angular-file-saver';
 import { saveAs } from 'file-saver';
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -18,21 +19,27 @@ export class FormUploadCdesComponent implements OnInit {
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
   sampleFile: Observable<string>;
+  pathologyName:string;
 
-  constructor(private hospitalService: HospitalService, private http: HttpClient) { }
+  constructor(private hospitalService: HospitalService, private http: HttpClient,private route: ActivatedRoute) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.params.subscribe(params=>
+      this.pathologyName = params['pathology_name']);
+  }
 
 
   selectFile(event) {
     this.selectedFiles = event.target.files;
   }
 
+
+
   upload() {
     this.progress.percentage = 0;
 
     this.currentFileUpload = this.selectedFiles.item(0);
-    this.hospitalService.pushFileToStorageCDE(this.currentFileUpload).subscribe(event => {
+    this.hospitalService.pushFileToStorageCDE(this.pathologyName, this.currentFileUpload).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress) {
         this.progress.percentage = Math.round(100 * event.loaded / event.total);
       } else if (event instanceof HttpResponse) {

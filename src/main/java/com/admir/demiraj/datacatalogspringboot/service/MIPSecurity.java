@@ -72,6 +72,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableOAuth2Client
 public class MIPSecurity extends WebSecurityConfigurerAdapter{
 
+    //@Autowired
+    //RoleBasedAuthendicator roleBasedAuthendicator;
+
+    @Autowired
+    RoleBasedAuthendicator roleBasedAuthendicator;
 
     @RequestMapping("/user")
     public Principal user(Principal principal) {
@@ -81,6 +86,10 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
     @RequestMapping("/userRoles")
     public Collection userRoles(Authentication auth) throws NoSuchFieldException {
         Collection collection = auth.getAuthorities();
+        System.out.println("auth authorities:: "+auth.getAuthorities());
+        System.out.println("auth details: "+auth.getDetails());
+        System.out.println("auth credentials: "+auth.getCredentials());
+        System.out.println("auth principal: "+auth.getPrincipal());
         return collection;
     }
 
@@ -99,14 +108,36 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
         return registration;
     }
 
+    public boolean checkauth(Authentication authentication){
+        return false;
+    }
+
+
+    public boolean checkUserHasAccessPathology(Authentication authentication, String pathology_name) {
+        // here you can check if the user has the correct role
+        // or implement more complex and custom authorization logic if necessary
+        System.out.println("Pathology authendication"+authentication.getAuthorities());
+
+        if(pathology_name.equals("dementia2")){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //http.addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class);
 
-        http.antMatcher("/**")
+        http
+                //.antMatcher("/**")
                 .authorizeRequests()
                 //.antMatchers("/", "/login/keycloak", "/login**","/token","/user","/logout","/home", "/login",
+<<<<<<< HEAD
                 .antMatchers("/", "/login", "/login**","/token","/logout","/home", "/login",
+=======
+                .antMatchers( "/login", "/login**","/token","/home","/perform_logout",
+>>>>>>> d76f52cf062005059fefa755102a03a672aa5d2d
                         "/pathology/allPathologies",
                         "/pathology/allPathologies/*",
                         "/pathology/allPathologies/**/name",
@@ -138,8 +169,44 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "//mapping/getallfiles",
                         "/report/getBatchReport/*",
                         "/report/getVariableReport/*",
+<<<<<<< HEAD
                         "//mapping/getsample").permitAll()
 
+=======
+                        "//mapping/getsample")
+
+                .permitAll()
+
+                .antMatchers("/pathology/deletePathology/{pathology_name}",
+                        "/pathology/newPathology/{pathology_name}",
+                        "/hospitals/newHospital/{hospital_name}/{pathology_name}",
+                        "/hospitals/deleteHospital/{hospital_name}/{pathology_name}",
+                        "/versions/deleteCDEVersion/{version_id}/{pathology_name}",
+                        "/versions/newVersionCde/{version_name}/{pathology_name}",
+                        "/mapping/postCDE/{pathology_name}",
+                        "/versions/newVersion/{hospital_name}/{pathology_name}",
+                        "/mapping/postVariable/{hospital_name}/{pathology_name}")
+                .access("hasAnyAuthority('ROLE_DC_CONTROL_'+#pathology_name,'ROLE_DC_ADMIN','ROLE_DC_HOSPITAL_'+#hospital_name)")
+                /*
+                .antMatchers(
+                        "/hospitals/newHospital/{hospital_name}/{pathology_name}",
+                        "/hospitals/deleteHospital/{hospital_name}/{pathology_name}",
+                        "/versions/newVersion/{hospital_name}/{pathology_name}",
+                        "/mapping/postVariable/{hospital_name}/{pathology_name}")
+                .access("hasAnyAuthority('ROLE_DC_HOSPITAL_'+#hospital_name,'ROLE_DC_ADMIN')")
+
+                */
+                .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://localhost:8086/login"))
+                .and().logout().addLogoutHandler(authLogoutHandler()).logoutSuccessUrl("/")
+                .logoutUrl("/perform_logout")
+                .and().logout().permitAll()
+                .and().csrf().ignoringAntMatchers("/perform_logout").csrfTokenRepository(csrfTokenRepository())
+
+
+                .and().addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+                /*
+>>>>>>> d76f52cf062005059fefa755102a03a672aa5d2d
                 //NOTE ADD THIS SINCE IT IS BEING REMOVED ONLY FOR TESTING
                 //.anyRequest().hasRole("Data Manager")
                 .and().exceptionHandling().authenticationEntryPoint(new CustomLoginUrlAuthenticationEntryPoint("http://192.168.1.8:8086/login"))

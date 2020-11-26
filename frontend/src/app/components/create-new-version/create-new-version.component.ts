@@ -49,6 +49,7 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
   latestCDEVersion:any;
   versionName: string;
   pathologyName:string;
+  hospitalName:string;
   functions: Array<any>;
 
   constructor(private hospitalService: HospitalService, private route: ActivatedRoute, private location: Location, public dialog: MatDialog,private router: Router) {
@@ -118,7 +119,9 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
     this.route.params
       .switchMap((params: Params) => this.hospitalService.getHospitalById(+params['hospital_id']))
       .subscribe(h => {
-        this.hospital = h
+        this.hospital = h;
+        this.hospitalName = h['name'];
+
       });
 
     this.hospitalService.getLatestCDEVersion().subscribe(cde=>{this.latestCDEVersion = cde});
@@ -172,7 +175,7 @@ this.goBack();
 
   uploadFile() {
     console.log('Uploading file--: '+this.sampleFileName);
-    this.router.navigateByUrl(this.location.path() + '/' + this.sampleFileName);
+    this.router.navigateByUrl(this.location.path() + '/'+this.pathologyName+'/' +this.hospitalName+'/'+ this.sampleFileName);
   }
 
 

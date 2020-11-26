@@ -69,14 +69,15 @@ public class HospitalController {
 
     }
 
-    @PostMapping(value = "/newHospital")
+    //Parameters were added to the url in order  the role based authendication to work with them
+    @PostMapping(value = "/newHospital/{hospital_name}/{pathology_name}")
     public void createHospitalByName(@RequestParam String hospitalName, @RequestParam String pathologyName){
         System.out.println("receive hosp to save: "+hospitalName+pathologyName);
         hospitalDAO.createNewHospitalByName(hospitalName,pathologyName);
 
     }
 
-    @PostMapping(value = "/deleteHospital")
+    @PostMapping(value = "/deleteHospital/{hospital_name}/{pathology_name}")
     public void deleteHospitalByName(@RequestBody String hospitalName){
         hospitalDAO.deleteHospitalByName(hospitalName);
 

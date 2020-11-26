@@ -137,21 +137,23 @@ public class VersionController {
         return "ok";
     }
 
-    @PostMapping(value = "/newVersion")
+
+    @PostMapping(value = "/newVersion/{hospital_name}/{pathology_name}")
     public void create2(@RequestBody String ver){
         JSONArray jr = new JSONArray(ver);
         customMapper.mapVersion(jr);
         //return "ok";
     }
 
-    @PostMapping(value = "/newVersionCde")
+    @PostMapping(value = "/newVersionCde/{version_name}/{pathology_name}")
     public void createCdeVersion(@RequestBody String ver){
         JSONArray jr = new JSONArray(ver);
         customMapperCDEs.mapCdeVersion(jr);
         //return "ok";
     }
 
-    @GetMapping(value = "/deleteCDEVersion/{version_id}")
+    //changed
+    @GetMapping(value = "/deleteCDEVersion/{version_id}/{pathology_name}")
     public void deleteCDEVersion(@PathVariable(value ="version_id") Long versionId){
 
             BigInteger verId = BigInteger.valueOf(versionId);

@@ -59,7 +59,7 @@ public class PathologyController {
         return pathologyDAO.getLatestCdeVersionByPathologyId(pathId);
     }
 
-    @PostMapping(value = "/newPathology")
+    @PostMapping(value = "/newPathology/{pathology_name}")
     public void create2(@RequestBody String pathologyName){
         //JSONArray jr = new JSONArray(ver);
        // String hospitalName = jr.getString(0);
@@ -68,7 +68,7 @@ public class PathologyController {
 
     }
 
-    @PostMapping(value = "/deletePathology")
+    @PostMapping(value = "/deletePathology/{pathology_name}")
     public void deletePathologyByName(@RequestBody String pathologyName){
         //JSONArray jr = new JSONArray(ver);
         // String hospitalName = jr.getString(0);
