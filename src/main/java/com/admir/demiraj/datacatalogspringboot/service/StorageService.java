@@ -57,15 +57,19 @@ public class StorageService {
     }
 
     public  void changeFileName(String oldName, String newName, boolean isCde){
-        if(isCde){
-            if(Files.exists(Paths.get(FOLDER_CDES+oldName))){
-                File oldFile = new File(FOLDER_CDES+oldName);
-                File newFile = new File(FOLDER_CDES+newName);
-                boolean success = oldFile.renameTo(newFile);
-                if(success){
-                    System.out.println("File has been renamed: " + oldName+"---->"+newName);
-                }
+        String properFolder;
+        if(isCde) {
+            properFolder = FOLDER_CDES;
+        }else{
+            properFolder = FOLDER_VARIABLES;
+        }
 
+        if(Files.exists(Paths.get(properFolder+oldName))){
+            File oldFile = new File(properFolder+oldName);
+            File newFile = new File(properFolder+newName);
+            boolean success = oldFile.renameTo(newFile);
+            if(success){
+                System.out.println("File has been renamed: " + oldName+"---->"+newName);
             }
         }
 

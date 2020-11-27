@@ -189,7 +189,10 @@ public class UploadVariables {
            versionDAO.saveVersion(harmonizedVersion);
 
        }
-
+       // change fileName so it matches the one that we have available in the database
+       String fileName = filePath.split("/")[filePath.split("/").length-1];
+       String hospitalName = currentHospital.getName();
+       storageService.changeFileName(fileName,pathologyName+"_"+hospitalName+"_"+versionName+".xlsx",false);
     }
 
 
