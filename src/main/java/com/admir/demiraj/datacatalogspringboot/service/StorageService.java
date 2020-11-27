@@ -1,5 +1,6 @@
 package com.admir.demiraj.datacatalogspringboot.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -52,6 +53,21 @@ public class StorageService {
             }
         }
 
+
+    }
+
+    public  void changeFileName(String oldName, String newName, boolean isCde){
+        if(isCde){
+            if(Files.exists(Paths.get(FOLDER_CDES+oldName))){
+                File oldFile = new File(FOLDER_CDES+oldName);
+                File newFile = new File(FOLDER_CDES+newName);
+                boolean success = oldFile.renameTo(newFile);
+                if(success){
+                    System.out.println("File has been renamed: " + oldName+"---->"+newName);
+                }
+
+            }
+        }
 
     }
 

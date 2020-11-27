@@ -136,7 +136,7 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
                cdeVariableDAO.save(cde);
            }
 
-
+        storageService.changeFileName(fileName,pathologyName+"_cdes_"+versionName+".xlsx",true);
 
 
 
