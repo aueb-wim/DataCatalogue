@@ -168,6 +168,10 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
       error => {
         if (error.status == '401') {
           alert("You need to be logged in to complete this action.");
+        }else if (error.status == '403'){
+          alert("You are not authorized to complete this action. Please validate that you have one of the following roles: " +
+            "ROLE_DC_CONTROL_"+this.pathologyName+" or ROLE_DC_HOSPITAL_"+ this.hospital["name"]);
+
         } else {
           alert("Error Occurred:\n"+error.error.message+"\n"+error.error.details+"\n"+error.error.nextActions);
         }

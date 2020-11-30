@@ -331,6 +331,9 @@ export class CdeVariablesComponent implements OnInit, OnChanges, AfterViewInit {
         error => {
           if (error.status == '401') {
             alert("You need to be logged in to complete this action.");
+          } else if (error.status == '403'){
+            alert("You are not authorized to complete this action. Please validate that you have the role: ROLE_DC_CONTROL_"+this.currentPathologyName );
+
           } else {
             //alert("An error has occurred: "+error.error);
 

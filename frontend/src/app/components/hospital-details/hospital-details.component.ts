@@ -302,6 +302,10 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
       error => {
         if (error.status == '401') {
           alert("You need to be logged in to complete this action.");
+        }else if (error.status == '403'){
+          alert("You are not authorized to complete this action. Please validate that you have one of the following roles: " +
+            "ROLE_DC_CONTROL_"+" or ROLE_DC_HOSPITAL_"+ this.currentHospitalName);
+
         } else {
           //alert("An error has occurred: "+error.error);
 

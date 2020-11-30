@@ -92,22 +92,13 @@ public class StorageService {
         }
     }
     public void validateFileName(String location, String fileName, boolean CDEFile) throws CustomException{
+
         if(Files.exists(Paths.get(location+"/"+fileName))){
             System.out.println("File exists");
             throw new CustomException("This file already exists.", "We cannot use the same version name twice for a " +
                     "single pathology ", "Please create a new version");
         }
 
-        if(Files.exists(Paths.get(location+"/"+fileName))){
-            throw new CustomException("This file already exists.", "We cannot use the same version name twice for a " +
-                    "single pathology ", "Please create a new version");
-        }
-
-        // Validating that the file isn't already saved
-        if(Files.exists(Paths.get(location+"/"+fileName))){
-            throw new CustomException("This file already exists.", "We cannot use the same version name twice for a " +
-                    "single pathology ", "Please create a new version");
-        }
 
         // Check that the name contains 2 underscores
         int numberOfUndescores = fileName.length() - fileName.replaceAll("_","").length();

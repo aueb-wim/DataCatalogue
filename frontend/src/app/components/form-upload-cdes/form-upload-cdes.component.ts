@@ -50,6 +50,9 @@ export class FormUploadCdesComponent implements OnInit {
     },error => {
       if(error.status=='401'){
         alert("You need to be logged in to complete this action.");
+      }else if (error.status == '403'){
+        alert("You are not authorized to complete this action. Please validate that you have the role: ROLE_DC_CONTROL_"+this.pathologyName );
+
       }else{
         //alert("You need to be logged in to complete this action2.");
         //alert("You need to be logged in to complete this action.");
