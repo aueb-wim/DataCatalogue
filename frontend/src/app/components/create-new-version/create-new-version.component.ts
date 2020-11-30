@@ -140,6 +140,12 @@ export class CreateNewVersionComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     //this.createSampleFileName();
+    this.route.params
+      .switchMap((params: Params) => this.hospitalService.getPathologyById(+params['pathology_id']))
+      .subscribe(path => {
+        console.log('Path name: '+path['name']);
+        this.createSampleFileName(path['name']);
+        this.pathologyName = path['name']});
 
   }
 

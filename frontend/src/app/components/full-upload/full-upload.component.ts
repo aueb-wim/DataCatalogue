@@ -19,6 +19,7 @@ pathologyName:string;
     this.hospitalName = this.route.snapshot.paramMap.get("hospital_name");
 
   }
+
   goBack(){
     this.location.back();
   }
