@@ -36,6 +36,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
   hospital: any;
   url = this.location.path();
   //currentVersionId = 4; /// be careful when changing the database , it should be assigned to an existing id
+  pathologyName:string;
 
   currentVersionId:number;
   currentVersionName:string;
@@ -92,6 +93,14 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
       this.currentHospitalName = hosp['name'];
       this.hospital = hosp
     });
+
+    this.route.params.switchMap((params: Params) => this.hospitalService.getPathologyNameById(+params['pathology_id'])).subscribe(pathName => {
+      this.pathologyName = pathName;
+
+    });
+
+
+
 
   }
 
@@ -294,7 +303,8 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
 
   // Delete a VariableVersion
   deleteCurrentVariableVersion():void{
-    this.hospitalService.deleteVaribaleVersion(this.hospital.hospital_id,this.currentVersionId.toString()).subscribe(
+    this.hospitalService.deleteVaribaleVersion(this.pathologyName, this.hospital.name, this.hospital.hospital_id,
+      this.currentVersionId.toString()).subscribe(
       data => {
         window.alert("Version "+this.currentVersionName+" with id: "+this.currentVersionId+" was deleted");
         window.location.reload();
@@ -304,7 +314,7 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
           alert("You need to be logged in to complete this action.");
         }else if (error.status == '403'){
           alert("You are not authorized to complete this action. Please validate that you have one of the following roles: " +
-            "ROLE_DC_CONTROL_"+" or ROLE_DC_HOSPITAL_"+ this.currentHospitalName);
+            "ROLE_DC_CONTROL_"+this.pathologyName+" or ROLE_DC_HOSPITAL_"+ this.currentHospitalName);
 
         } else {
           //alert("An error has occurred: "+error.error);

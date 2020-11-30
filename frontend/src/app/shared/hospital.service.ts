@@ -132,9 +132,10 @@ export class HospitalService {
 
   }
 
-  deleteVaribaleVersion( hospitalId: string, versionId: string): Observable<any>{
+  deleteVaribaleVersion( pathologName: string, hospitalName:string, hospitalId: string, versionId: string): Observable<any>{
 
-    return this.http.get(this.frontend_ip +'/versions/deleteVariableVersion/'+hospitalId+'/'+versionId, {headers:this.headers});
+    return this.http.get(this.frontend_ip +'/versions/deleteVariableVersion/'+pathologName+'/'+hospitalName+'/'
+      +hospitalId+'/'+versionId, {headers:this.headers});
   }
 
   //changed
