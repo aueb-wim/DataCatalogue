@@ -36,13 +36,19 @@ Hospital Meta-Data:
 -   View / Download / Index  the results of the Quality Control Tool for the meta-data [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l4.png)
 -   View the graphical representation of how variables are mapped to CDEs and using which rule [here](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l5.png)
 
-### Management Features (Login required)
-Data Catalogue uses a keycloak instance setup for the MIP in order to authorize users. The extra actions that the user can do after being logged in are the following:
--   Create a new medical condition
--   Create/edit/delete a meta-data (for local hospital or for global CDE data model) version using the GUI [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l11.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_2.png), [step3](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_1.png)
--   Download a template file that contains the schema of the meta-data that should be completed [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
--   Create a meta-data (for local hospital or for global CDE data model) version Variable/CDE meta-data version by uploading an excel file using the given template [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
+### Management Features (Login and appropriate role required)
+Data Catalogue uses a keycloak instance setup for the MIP in order to authorize users. There are 3 role types available 
+-   administrator - has access to everything
+-   pathology owner - has access to everything that is included in a pathology (cde_version,hospital,local_version)
+-   hospital owner - has access to everything that is included in a hospital (hospital,local version)
 
+The extra actions that the user can do with appropriate role are the following:
+-   Create a new medical condition **(administrator/pathology owner)**
+-   Create/delete hospital **(administrator/pathology owner/hospital owner)**
+-   Create/edit/delete a meta-data for global model using the GUI or uploading a file **(administrator/pathology owner)**
+-   Create/edit/delete a meta-data for local hospitaldata model version using the GUI or uploading a file **(administrator/pathology owner/hospital owner)**
+[step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l11.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_2.png), [step3](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_1.png) [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
+-   Download a template file that contains the schema of the meta-data that should be completed **(anyone logged in)** [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
 ## Installing / Getting started
 ### General Architecture
 ![architecture](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/architecture.png) 
