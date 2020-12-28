@@ -186,7 +186,7 @@ public class MIPSecurity extends WebSecurityConfigurerAdapter{
                         "/versions/newVersion/{hospital_name}/{pathology_name}",
                         "/mapping/postVariable/{hospital_name}/{pathology_name}",
                         "versions/deleteVariableVersion/{pathology_name}/{hospital_name}/{hospital_id}/{version_id}")
-                .access("hasAnyAuthority('ROLE_DC_CONTROL_'+#pathology_name,'ROLE_DC_ADMIN','ROLE_DC_HOSPITAL_'+#hospital_name)")
+                .access("hasAnyAuthority('DC_CONTROL_'+#pathology_name,'DC_ADMIN','DC_HOSPITAL_'+#hospital_name)")
                 /*
                 .antMatchers(
                         "/hospitals/newHospital/{hospital_name}/{pathology_name}",

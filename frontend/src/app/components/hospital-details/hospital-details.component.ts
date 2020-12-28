@@ -257,7 +257,6 @@ export class HospitalDetailsComponent implements OnInit, OnChanges, AfterViewIni
     this.searchTermVar = option.label;
   }
 
-
   public deselected(option: IOption): void {
     this.searchTermVar = "";
   }
