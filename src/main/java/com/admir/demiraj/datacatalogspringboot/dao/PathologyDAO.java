@@ -2,7 +2,7 @@ package com.admir.demiraj.datacatalogspringboot.dao;
 
 import com.admir.demiraj.datacatalogspringboot.repository.*;
 import com.admir.demiraj.datacatalogspringboot.resources.*;
-import javassist.compiler.ast.Variable;
+//import javassist.compiler.ast.Variable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -392,6 +392,7 @@ public class VariablesXLSX_JSON
         boolean isLeaf =  (root.children == null ? true : false);
         try {
             outerNode.put("label", "/");
+            outerNode.put("version", this.version.getName());
             root.fillJSONMetaObject(outerNode, isLeaf);
         }catch (InvalidParameterException ipe)
         {   System.err.println(ipe.getMessage());}
