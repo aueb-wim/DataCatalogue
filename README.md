@@ -1,4 +1,4 @@
-[![AUEB](https://img.shields.io/badge/AUEB-RC-red.svg)](https://www.aueb.gr/) [![License](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](https://github.com/HBPMedical/DataCatalogue/blob/master/LICENSE) [![CircleCI](https://circleci.com/gh/aueb-wim/DataCatalogue.svg?style=svg)](https://circleci.com/gh/aueb-wim/DataCatalogue)
+[![AUEB](https://img.shields.io/badge/AUEB-RC-red.svg)](https://www.aueb.gr/) [![License](https://img.shields.io/badge/license-AGPL--3.0-blue.svg)](https://github.com/HBPMedical/DataCatalogue/blob/master/LICENSE) [![Github Actions](https://github.com/aueb-wim/DataCatalogue/blob/master/.github/workflows/maven.yml/badge.svg)
 
 # HBP-MIP DataCatalogue
 ## Overview
