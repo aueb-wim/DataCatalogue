@@ -1,7 +1,11 @@
 package com.admir.demiraj.datacatalogspringboot.service;
 
 import com.admir.demiraj.datacatalogspringboot.service.UploadVariables;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.jupiter.api.Test;
 
 
 
