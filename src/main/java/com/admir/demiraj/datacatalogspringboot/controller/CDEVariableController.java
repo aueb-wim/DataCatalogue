@@ -52,7 +52,7 @@ public class CDEVariableController {
 
 
     @GetMapping("/readExcel")
-    public void readExcel() throws IOException,FileNotFoundException,Exception{
+    public void readExcel() throws IOException, FileNotFoundException, Exception{
         uploadCdes.readExcelFile();
     }
 

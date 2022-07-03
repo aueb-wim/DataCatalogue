@@ -1,4 +1,4 @@
-package com.admir.demiraj.datacatalogspringboot.controller;
+package com.admir.demiraj.datacatalogspringboot.service;
 
 import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.service.VariablesXLSX_JSON;
@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,7 +43,6 @@ public class VariablesXLSX_JSON_tests
     //@Mock private CDEVariableDAO variableDao;
     //@InjectMocks @Resource private static UploadCdes uploadCDEs = new UploadCdes();
 
-
     @BeforeClass
     public static void setUpClass() {
         //uploadCDEs.cdeVariableDAO = new CDEVariableDAO();
@@ -61,17 +61,13 @@ public class VariablesXLSX_JSON_tests
         uploadCDEs.readExcelSaveToVariabe(file_path, version2);
      */
     }
-
     @AfterClass
     public static void tearDownClass() {
     }
-
     //runs before every test...
     @Before
     public void setUp() {
-
     }
-
     @After
     public void tearDown() {
     }

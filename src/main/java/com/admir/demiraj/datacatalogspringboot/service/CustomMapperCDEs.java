@@ -113,18 +113,18 @@ public class CustomMapperCDEs {
             newVar.setConceptPath(variableJsonObject.get("conceptPath").toString());
 
             //check if the cde variable already exists and if yes retrieve it from the database
-           CDEVariables newVar2 = cdeVariableDAO.compareVariableAttributes(newVar);
-if(newVar2 == null){
-    cdeVariableDAO.saveVersionToCDEVariable(newVar, version);
-    versionDAO.saveVersion(version);
-    cdeVariableDAO.save(newVar);
-    xlsxVars.add(newVar);
-}else{
-    cdeVariableDAO.saveVersionToCDEVariable(newVar2, version);
-    versionDAO.saveVersion(version);
-    cdeVariableDAO.save(newVar);
-    xlsxVars.add(newVar2);
-}
+            CDEVariables newVar2 = cdeVariableDAO.compareVariableAttributes(newVar);
+            if (newVar2 == null) {
+                cdeVariableDAO.saveVersionToCDEVariable(newVar, version);
+                versionDAO.saveVersion(version);
+                cdeVariableDAO.save(newVar);
+                xlsxVars.add(newVar);
+            } else {
+                cdeVariableDAO.saveVersionToCDEVariable(newVar2, version);
+                versionDAO.saveVersion(version);
+                cdeVariableDAO.save(newVar);
+                xlsxVars.add(newVar2);
+            }
 
 
         }

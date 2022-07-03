@@ -10,7 +10,6 @@ import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
 import com.admir.demiraj.datacatalogspringboot.dao.CDEVariableDAO;
 import com.admir.demiraj.datacatalogspringboot.dao.VersionDAO;
 import com.admir.demiraj.datacatalogspringboot.exceptionHandlers.CustomException;
@@ -444,7 +443,7 @@ public class VariablesXLSX_JSON
     {/**
      * structure for the Nodes (both intermediate and leaves) in the Variables Tree
      */
-    protected String code;
+        protected String code;
         protected Node parent;
         protected Variables var;//contains name and all the rest...
         protected List<Node> children;//if a leaf then null
@@ -516,7 +515,6 @@ public class VariablesXLSX_JSON
                     cdes.add(s.getCdeVariables().get(0).getCode());//we said it makes no sense for Functions class to have a List of CDEs n not one CDE...
             return cdes;
         }
-
         /**
          * Function to fill in a JSONObject of the Visualisation JSON from the current Node's attributes
          * @param varNode
@@ -542,7 +540,6 @@ public class VariablesXLSX_JSON
                 if (this.getMethodology()!=null) varNode.put("methodology", this.getMethodology());
             }
         }
-
         /**
          * Function to fill in a JSONObject of the Metadata JSON from the current Node's attributes
          * @param varNode

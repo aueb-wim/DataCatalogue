@@ -31,7 +31,6 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
     @Autowired
     private CDEVariableDAO cdeVariableDAO;
 
-
     @Autowired
     private VersionDAO versionDAO;
 
@@ -48,9 +47,7 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
     private  StorageService storageService;
 
 
-
-
-   public void readSingleExcelFile(String fileName, String pathologyName) throws IOException,FileNotFoundException {
+   public void readSingleExcelFile(String fileName, String pathologyName) throws IOException, FileNotFoundException {
        /** If the pathologyName is provided find the next available versionName and create version with the information
         * found in the file. If the pathology name is not provided get the pathologyName and version from existing files*/
        String filePath = FOLDER_NAME + fileName;
@@ -98,7 +95,7 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
 
            Versions version = new Versions(versionName);
 
-           List<CDEVariables> cdeVariablesList = readExcelSaveToVariabe(filePath, version);
+           List<CDEVariables> cdeVariablesList = readExcelSaveToVariable(filePath, version);
 
            System.out.println("Retrieving node from file");
            //for(CDEVariables cde : cdeVariablesList){
@@ -137,12 +134,7 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
            }
 
         storageService.changeFileName(fileName,pathologyName+"_cdes_"+versionName+".xlsx",true);
-
-
-
        }
-
-
    }
 
 
@@ -197,7 +189,7 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
 
     }
 
-    public List<CDEVariables> readExcelSaveToVariabe(String filePath, Versions version) throws FileNotFoundException,IOException{
+    public List<CDEVariables> readExcelSaveToVariable(String filePath, Versions version) throws FileNotFoundException, IOException{
 
         FileInputStream excelFile = null;
         List<CDEVariables> cdeVariablesList = new ArrayList<>();
@@ -325,7 +317,7 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
 
     /** This is a method that checks whether all fields in a variable are empty. This in return means that the excel line
      * is empty and thus we should not take further actions.*/
-    public boolean areAllCDEVariablesFiledsEmpty(CDEVariables cdeVariable){
+    public boolean areAllCDEVariablesFieldsEmpty(CDEVariables cdeVariable){
        if(eitherEmptyOrNull(cdeVariable.getCode()) && eitherEmptyOrNull(cdeVariable.getConceptPath()) &&
                eitherEmptyOrNull(cdeVariable.getType()) && eitherEmptyOrNull(cdeVariable.getCsvFile())
        && eitherEmptyOrNull(cdeVariable.getName()) && eitherEmptyOrNull(cdeVariable.getValues()) &&
@@ -358,15 +350,16 @@ public class UploadCdes extends ResponseEntityExceptionHandler {
         if(cde.getType() != null){
             if(cde.getType().toLowerCase().trim().equals("polynominal") || cde.getType().toLowerCase().trim().equals("nominal")){
                 if(cde.getValues() != null){
-                if(cde.getValues().toLowerCase().trim().contains("{") && cde.getValues().toLowerCase().trim().contains("}") || cde.getValues().toLowerCase().trim().matches("^s*\\d{2,3}\\s*(?:-\\s*\\d{2,3}\\s*)$")){
-                    return "true";
-                }}
-        }
+                    if(cde.getValues().toLowerCase().trim().contains("{") && cde.getValues().toLowerCase().trim().contains("}") || cde.getValues().toLowerCase().trim().matches("^s*\\d{2,3}\\s*(?:-\\s*\\d{2,3}\\s*)$")){
+                        return "true";
+                    }
+                }
+            }
 
         return "false";
 
-}
-return null;
+        }
+        return null;
     }
 
     /**

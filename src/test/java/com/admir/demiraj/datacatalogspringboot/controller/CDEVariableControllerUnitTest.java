@@ -28,6 +28,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -35,19 +36,15 @@ import java.util.List;
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@SpringApplicationConfiguration(DataCatalogueSpringBootApplication.class)
 public class CDEVariableControllerUnitTest {
-
-    @Autowired
-    private MockMvc mvc;
-
-    @Mock
+    //@Mock
     //@InjectMocks
-    private UploadCdes uploadCdes;
+    //private UploadCdes uploadCdes;
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     @Mock
     //@InjectMocks
+    //@Autowired
     private CDEVariableController cdeVariableController;
-
 
     @Mock
     private CDEVariableDAO cdeVariableDAO;
@@ -56,14 +53,7 @@ public class CDEVariableControllerUnitTest {
     private CDEVariablesRepository cdeVariablesRepository;
 
     @Mock
-    private VersionDAO versionDAO;
-
-    @Mock
-    private FunctionsDAO functionsDAO;
-
-    @Mock
     private VariablesXLSX_JSON variablesXLSX_json;
-
 
 
     // set up our mocks before each test. Make Mockito acknowledge the @InjectMocks and the @Mocks annotations and that they should be pushed together.
@@ -77,22 +67,35 @@ public class CDEVariableControllerUnitTest {
    //when the method findOne is called -- then return the user u that we have predefined (this way we don't need a database to control our code)
     // when(userRepository.findOne(1l)).thenReturn(u);
 
-    // verify that the findOne method is being called. Fails is the findOne is called more than once. verify is used to see if mocked objects work properly
+    // verify that the findOne method is being called. Fails if the findOne is called more than once. verify is used to see if mocked objects work properly
     //verify(userRepository).findOne(1l);
 
     @Test
-    public void contextLoads() throws Exception {
+    public void dummy_test() throws Exception {
+        //String a = "Do nothing";
+        //assertNotNull("A cannot be null.", a);
+        //verify(uploadCdes).readExcelFile();
+        cdeVariableController.readExcel();
+        verify(cdeVariableController).readExcel();
     }
 
     /** Check that the method readExcelFile is being called*/
     @Test
-    public void readExcelTest(){
-        //verify(uploadCdes).readExcelFile();
-        //verify(cdeVariableController).readExcel();
+    public void readExcelTest() {
+        /*try {
+            verify(uploadCdes).readExcelFile();
+        } catch (IOException e)
+        {   System.err.println("Error when reading the excel file...");
+            throw new RuntimeException(e);}*/
+        try {cdeVariableController.readExcel();
+            verify(cdeVariableController).readExcel();
+        } catch (Exception e)
+        {   System.err.println("Error when reading the excel file via calling the Controller...");
+            throw new RuntimeException(e);}
     }
 
     @Test
-    public void allCdeVersionsTest(){
+    public void allCdeVersionsTest(){/*Not null does not mean it is not empty...*/
         List<Versions> cdeVersions = cdeVariableDAO.getAllCdeVersions();
 
         assertNotNull("CdeVersions list cannot be null.",cdeVersions);
@@ -101,7 +104,7 @@ public class CDEVariableControllerUnitTest {
         System.out.println("cde is: ");
 
         for(Versions cdeVersion: cdeVersions ){
-            assertThat("",cdeVersion.getName(),notNullValue());
+            assertThat("",cdeVersion.getName(), notNullValue());
             assertThat(cdeVersion.getName(),containsString("cderr"));
             //assertThat(cdeVersion.getName(),contains("cde"));
             //assertThat(cdeVersion.getName(),hasToString());
