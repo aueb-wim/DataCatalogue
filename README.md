@@ -50,7 +50,8 @@ The extra actions that the user can do with appropriate role are the following:
 [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l11.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_2.png), [step3](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l8_1.png) [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
 -   Download a template file that contains the schema of the meta-data that should be completed **(anyone logged in)** [step1](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l9.png), [step2](https://github.com/HBPMedical/DataCatalogue/blob/master/frontend/src/assets/images/l10.png)
 
-**Important Note:** Currently, Data Catalogue **does not** suport user logging out. So, in case the user confronts any log in issues, it is advised to close the web browser entirly and try to log in again, or open a private web session and try to log in from there.
+**Important Note:** Currently, Data Catalogue **does not** support user logging out. So, in case the user confronts any log in issues, it is advised to close the web browser entirely and try to log in again, or open a private web session and try to log in from there.
+
 
 ## Installing / Getting started
 ### General Architecture
