@@ -33,7 +33,7 @@
     "angular2-prettyjson": "^3.0.1",
     "compilers": "^1.2.0",
     "core-js": "^2.6.3",
-    "d3": "^5.7.0",
+    "d3": "^7.6.1",
     "d3-sankey": "^0.7.1",
     "font-awesome": "^4.7.0",
     "loader-runner": "^3.1.0",
