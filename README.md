@@ -126,7 +126,7 @@ Frontend is initiated as said with ng serve.
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgements
-
+This project/research received funding from the European Union’s Horizon 2020 Framework Programme for Research and Innovation under the Framework Partnership Agreement No. 650003 (HBP FPA). 
 This work is part of HBP SGA2 T8.5.2 .
 
 Special thanks to:
